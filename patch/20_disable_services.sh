@@ -13,4 +13,5 @@ echo "[*] Deleting unused config cmcc"
 rm -f $ROOTFS/etc/config/cmcc
 
 echo "[*] Removing cronjobs"
+shasum $ROOTFS/etc/crontabs/*
 rm -rf $ROOTFS/etc/crontabs/*
