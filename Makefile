@@ -16,7 +16,8 @@ patch:
 	@for PATCH in scripts/??_*.sh; do \
 		echo ">> $$PATCH"; \
 		ROOTFS=$(BUILD_DIR) sh $$PATCH; \
-	done
+		echo "----"; \
+	done | tee -a patch.log
 	@touch $(BUILD_DIR)/patched
 
 clean:

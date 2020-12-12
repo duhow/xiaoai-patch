@@ -1,5 +1,8 @@
 /mtd*
-/squashfs-root
+/squashfs-root*
+/include
 
 /test
 /release
+
+/*.log
