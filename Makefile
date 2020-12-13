@@ -13,7 +13,7 @@ build:
 	rm -f $(BUILD_DIR)/patched 2>/dev/null
 	mksquashfs $(BUILD_DIR) release/image-$(DATE) -comp xz -noappend -always-use-fragments
 	rm -f release/latest 2>/dev/null
-	ln -s release/image-$(DATE) release/latest
+	ln -s image-$(DATE) release/latest
 
 patch:
 	@for PATCH in scripts/??_*.sh; do \
@@ -24,7 +24,7 @@ patch:
 	@touch $(BUILD_DIR)/patched
 
 clean:
-	rm -rf $(BUILD_DIR)
+	rm -rf $(BUILD_DIR) 2>/dev/null
 
 $(BUILD_DIR): extract
 $(BUILD_DIR)/patched: patch
