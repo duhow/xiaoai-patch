@@ -1,6 +1,7 @@
 .DEFAULT_GOAL := help
 
-BUILD_DIR := squashfs-root
+BUILD_DIR = squashfs-root
+FILE = mtd4
 DATE := $(shell date +%y%m%d-%H%M)
 
 all: extract patch build
@@ -11,6 +12,8 @@ extract:
 build:
 	rm -f $(BUILD_DIR)/patched 2>/dev/null
 	mksquashfs $(BUILD_DIR) release/image-$(DATE) -comp xz -noappend -always-use-fragments
+	rm -f release/latest 2>/dev/null
+	ln -s release/image-$(DATE) release/latest
 
 patch:
 	@for PATCH in scripts/??_*.sh; do \
