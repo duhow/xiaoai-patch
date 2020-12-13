@@ -1,0 +1,6 @@
+#!/bin/sh
+
+SN=$(echo -n `uci -c /data/etc get binfo.binfo.sn` | tail -c -4)
+MODEL=$(uci -c /usr/share/mico get version.version.HARDWARE)
+
+echo $MODEL-$SN
