@@ -1,0 +1,18 @@
+#!/bin/sh
+
+if [ "$1" = "up" ]; then
+  VOL="3%+"
+elif [ "$1" = "down" ]; then 
+  VOL="4%-"
+elif [ ! -z "$1" ] && [ "$1" -ge 0 ] 2>/dev/null && [ "$1" -le 100 ]; then
+  VOL=$1
+  let VOL=VOL*255/100
+else
+  echo "Usage: $0 [up|down|NUMBER]"
+  return
+fi
+
+for SRC in bluetooth mysoftvol notifyvol; do
+  amixer set $SRC $VOL &>/dev/null &
+done
+aplay /usr/share/sound/volume.wav &>/dev/null &
