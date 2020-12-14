@@ -1,6 +1,8 @@
 /mtd*
 /squashfs-root*
 /include
+/include-*
+/sound
 
 /test
 /release
