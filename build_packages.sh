@@ -477,15 +477,7 @@ staging_to_target() {
         rm ${del_file}
     done
 
-    # copy mpd binary from staging
     prepare_clean_dir ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/bin
-    cp -p ${STAGING_DIR}/${INSTALL_PREFIX}/bin/mpd ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/bin
-    [[ ! $? -eq 0 ]] && return 1
-
-    if [[ "${NO_MPC}" != "true" ]]; then
-        cp -p ${STAGING_DIR}/${INSTALL_PREFIX}/bin/mpc ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/bin
-        [[ ! $? -eq 0 ]] && return 1
-    fi
 
     echo "cd ${old_dir}"
     cd ${old_dir}
@@ -493,13 +485,6 @@ staging_to_target() {
 
 misc_to_target() {
     echo_stage "Generating extra files..."
-
-    local s2t_bin_dir="${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/bin"
-    mkdir -p ${s2t_bin_dir}
-    
-    # switch mpd script
-    in_to_out ${WORKSPACE_DIR}/misc/systemd-switch-mpd.sh.in ${s2t_bin_dir}/systemd-switch-mpd.sh
-    chmod +x ${s2t_bin_dir}/systemd-switch-mpd.sh
 
     # create links for various config dirs
     echo_stage "Generating symbolic links..."
@@ -644,7 +629,7 @@ else
     fi
 fi
 if [[ -z "${MAKE_JOBS}" ]]; then
-    MAKE_JOBS=1
+  MAKE_JOBS=$(nproc)
 fi
 
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
@@ -685,7 +670,7 @@ mkdir -p ${STAGING_TO_TARGET_DIR}
 write_build_config
 [[ ! $? -eq 0 ]] && exit 1
 
-process_package "mpd"
+process_package "busybox"
 [[ ! $? -eq 0 ]] && exit 1
 
 

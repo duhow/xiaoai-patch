@@ -12,13 +12,17 @@ preconfigure_package() {
 
 configure_package() {
 	local arch_flags
-	arch_flags="--with-float=hard --with-fpu=vfp"
+	case ${BUILD_ARCH} in
+	"arm"|"armv7")
+		arch_flags="--with-float=hard --with-fpu=vfp"
+		;;
+	*)
+		arch_flags=""
+		;;
+	esac
 	
-	CC=${BUILD_CC} LDFLAGS=${BUILD_LDFLAGS} ${PACKAGE_SRC_DIR}/configure \
-		 --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} \
-		 --host=${BUILD_TARGET} --target=${BUILD_TARGET} \
-		 --disable-multilib ${arch_flags} --enable-languages=c,c++ \
-		 --disable-multilib --with-native-system-header-dir=${STAGING_DIR}/${INSTALL_PREFIX}/${BUILD_TARGET}
+	#CC=${BUILD_CC} LDFLAGS=${BUILD_LDFLAGS} CFLAGS=${BUILD_CFLAGS} ${PACKAGE_SRC_DIR}/configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} --target=${BUILD_TARGET} --disable-multilib ${arch_flags} --enable-languages=c,c++ --disable-multilib --with-native-system-header-dir=${STAGING_DIR}/${INSTALL_PREFIX}
+	CC=${BUILD_CC} LDFLAGS=${BUILD_LDFLAGS} ${PACKAGE_SRC_DIR}/configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} --target=${BUILD_TARGET} --disable-multilib ${arch_flags} --enable-languages=c --disable-multilib --with-native-system-header-dir=${STAGING_DIR}/${INSTALL_PREFIX}
 }
 
 make_package() {
