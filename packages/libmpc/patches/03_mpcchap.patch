@@ -1,0 +1,73 @@
+--- a/configure.in
++++ b/configure.in
+@@ -28,6 +28,12 @@
+ AC_SUBST([EXTRALIBS])
+ 
+ AC_ARG_ENABLE([mpcchap], [AS_HELP_STRING([--enable-mpcchap], [enable building mpcchap])])
++if test "x$enable_mpcchap" = xyes; then
++  PKG_CHECK_MODULES(LIBCUE, libcue)
++  AC_SUBST(LIBCUE_CFLAGS)
++  AC_SUBST(LIBCUE_LIBS)
++fi
++
+ AM_CONDITIONAL([MPC_CHAP], [test "x$enable_mpcchap" = xyes])
+ 
+ 
+--- a/mpcchap/Makefile.am
++++ b/mpcchap/Makefile.am
+@@ -4,7 +4,8 @@
+ 
+ common_sources = ../common/tags.c ../common/crc32.c
+ 
+-AM_CPPFLAGS = -I$(top_srcdir)/include
++AM_CPPFLAGS = -I$(top_srcdir)/include \
++	$(LIBCUE_CFLAGS)
+ 
+ if HAVE_VISIBILITY
+   AM_CFLAGS = -fvisibility=hidden
+@@ -16,4 +17,4 @@
+ 
+ mpcchap_LDADD = $(top_builddir)/libmpcdec/libmpcdec.la \
+ 	$(top_builddir)/libmpcenc/libmpcenc.a \
+-	-lm -lcuefile
++	-lm $(LIBCUE_LIBS)
+--- a/mpcchap/mpcchap.c
++++ b/mpcchap/mpcchap.c
+@@ -25,7 +25,7 @@
+ #include <inttypes.h>
+ #include <sys/stat.h>
+ 
+-#include <cuetools/cuefile.h>
++#include <libcue/libcue.h>
+ 
+ // tags.c
+ void    Init_Tags        ( void );
+@@ -161,18 +161,26 @@
+ mpc_status add_chaps_cue(char * mpc_file, char * chap_file, mpc_demux * demux, mpc_streaminfo * si)
+ {
+ 	Cd *cd = 0;
+-	int nchap, format = UNKNOWN;
++	int nchap;
+ 	struct stat stbuf;
+ 	FILE * in_file;
+ 	int chap_pos, end_pos, chap_size, i;
+ 	char * tmp_buff;
+     mpc_status ret = MPC_STATUS_OK;
+ 
+-	if (0 == (cd = cf_parse(chap_file, &format))) {
++	in_file = fopen(chap_file, "r");
++	if (NULL == in_file) {
+ 		fprintf(stderr, "%s: input file error\n", chap_file);
+ 		return !MPC_STATUS_OK;
+ 	}
+ 
++	if (0 == (cd = cue_parse_file(in_file))) {
++		fclose(in_file);
++		fprintf(stderr, "%s: input file error\n", chap_file);
++		return !MPC_STATUS_OK;
++	}
++	fclose(in_file);
++
+ 	chap_pos = (demux->chap_pos >> 3) + si->header_position;
+ 	end_pos = mpc_demux_pos(demux) >> 3;
+ 	chap_size = end_pos - chap_pos;

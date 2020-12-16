@@ -1,0 +1,9 @@
+prefix=${INSTALL_PREFIX}
+libdir=\${prefix}/lib
+includedir=\${prefix}/include
+
+Name: Yet Another JSON Library
+Description: A Portable JSON parsing and serialization library in ANSI C
+Version: ${PACKAGE_VERSION}
+Libs: -L\${libdir} -lyajl
+Cflags: -I\${includedir}
