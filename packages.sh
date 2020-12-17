@@ -665,9 +665,12 @@ mkdir -p ${STAGING_TO_TARGET_DIR}
 write_build_config
 [[ ! $? -eq 0 ]] && exit 1
 
-process_package "busybox"
-[[ ! $? -eq 0 ]] && exit 1
+PACKAGES_TO_BUILD="busybox bash dropbear"
 
+for PKGN in $PACKAGES_TO_BUILD; do 
+  process_package $PKGN
+  [[ ! $? -eq 0 ]] && exit 1
+done
 
 staging_to_target
 if [[ ! $? -eq 0 ]]; then

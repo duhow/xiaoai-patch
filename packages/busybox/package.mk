@@ -28,6 +28,9 @@ make_package() {
 }
 
 install_package() {
-	CC=${BUILD_CC} make CROSS_COMPILE=${BUILD_TARGET}- DESTDIR=${STAGING_DIR} install
+	#CC=${BUILD_CC} make CROSS_COMPILE=${BUILD_TARGET}- DESTDIR=${STAGING_DIR} install
 	#cp -ar _install/* ${STAGING_DIR}
+	mkdir -p ${STAGING_DIR}/bin
+	echo "cp ${PACKAGE_SRC_DIR}/busybox_unstripped ${STAGING_DIR}/bin/busybox"
+	cp ${PACKAGE_SRC_DIR}/busybox_unstripped ${STAGING_DIR}/bin/busybox
 }

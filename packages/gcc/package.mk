@@ -1,6 +1,6 @@
 PACKAGE_NAME="GCC"
-PACKAGE_VERSION="8.3.0"
-PACKAGE_SRC="https://ftp.gnu.org/gnu/gcc/gcc-8.3.0/gcc-8.3.0.tar.xz"
+PACKAGE_VERSION="7.4.0"
+PACKAGE_SRC="https://ftp.gnu.org/gnu/gcc/gcc-${PACKAGE_VERSION}/gcc-${PACKAGE_VERSION}.tar.xz"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
 
 preconfigure_package() {
@@ -21,10 +21,6 @@ configure_package() {
 		;;
 	esac
 	
-	#CC=${BUILD_CC} LDFLAGS=${BUILD_LDFLAGS} CFLAGS=${BUILD_CFLAGS} ${PACKAGE_SRC_DIR}/configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} --target=${BUILD_TARGET} --disable-multilib ${arch_flags} --enable-languages=c,c++ --disable-multilib --with-native-system-header-dir=${STAGING_DIR}/${INSTALL_PREFIX}
-	#LDFLAGS=${BUILD_LDFLAGS} CFLAGS=${BUILD_CFLAGS} ${PACKAGE_SRC_DIR}/configure CC=${BUILD_CC} --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} --target=${BUILD_TARGET} --disable-multilib ${arch_flags} --enable-languages=c,c++ --disable-multilib --with-native-system-header-dir=${STAGING_DIR}/${INSTALL_PREFIX}
-	#LIBPATH="${STAGING_DIR}/lib:$LIBPATH" CC=${BUILD_CC} LDFLAGS=${BUILD_LDFLAGS} CFLAGS=${BUILD_CFLAGS} ${PACKAGE_SRC_DIR}/configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} --target=${BUILD_TARGET} --disable-multilib ${arch_flags} --enable-languages=c,c++ --disable-multilib --with-native-system-header-dir=${STAGING_DIR}/${INSTALL_PREFIX}
-	#CC=${BUILD_CC} LDFLAGS=${BUILD_LDFLAGS} ${PACKAGE_SRC_DIR}/configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} --target=${BUILD_TARGET} --disable-multilib ${arch_flags} --enable-languages=c,c++ --disable-multilib --with-native-system-header-dir=${STAGING_DIR}/${INSTALL_PREFIX}
 	CC=${BUILD_CC} LDFLAGS=${BUILD_LDFLAGS} CFLAGS="-Os" ${PACKAGE_SRC_DIR}/configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} --target=${BUILD_TARGET} --disable-multilib ${arch_flags} --enable-languages=c,c++ --disable-multilib --with-native-system-header-dir=${STAGING_DIR}/${INSTALL_PREFIX}
 }
 
