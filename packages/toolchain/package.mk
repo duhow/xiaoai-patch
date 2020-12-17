@@ -12,7 +12,7 @@ on_exit_build() {
 	"armv7")	
 		BUILD_TARGET="arm-linux-gnueabihf"
 #		BUILD_LDFLAGS="-L${STAGING_DIR}/${INSTALL_PREFIX}/${BUILD_TARGET}/lib -L${STAGING_DIR}/${INSTALL_PREFIX}/lib -Wl,--sysroot=${STAGING_DIR} -Wl,--rpath=${INSTALL_PREFIX}/${BUILD_TARGET}/lib -Wl,--rpath=${INSTALL_PREFIX}/lib -Wl,--dynamic-linker=${INSTALL_PREFIX}/${BUILD_TARGET}/lib/ld-linux-armhf.so.3"
-        BUILD_LDFLAGS="-L${STAGING_DIR}/${INSTALL_PREFIX}/lib -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib/pulseaudio -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib/private -Wl,--rpath=${INSTALL_PREFIX}/${BUILD_TARGET}/lib -Wl,--rpath=${INSTALL_PREFIX}/lib -Wl,--dynamic-linker=/lib/ld-linux-armhf.so.3 -Os"
+        BUILD_LDFLAGS="-L${STAGING_DIR}/lib -L${STAGING_DIR}/${INSTALL_PREFIX}/lib -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib/pulseaudio -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib/private -Wl,--rpath=${INSTALL_PREFIX}/${BUILD_TARGET}/lib -Wl,--rpath=${INSTALL_PREFIX}/lib -Wl,--dynamic-linker=/lib/ld-linux-armhf.so.3 -Os"
 		;;
 	"x86")
 		BUILD_TARGET="i686-linux"

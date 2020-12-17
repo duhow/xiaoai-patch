@@ -449,35 +449,30 @@ staging_to_target() {
 
     local old_dir=$(pwd)
     
-    prepare_clean_dir ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}
+    prepare_clean_dir ${STAGING_TO_TARGET_DIR}
     [[ ! $? -eq 0 ]] && return 1
 
-    echo "cd ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}"
-    cd ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}
+    cp -a ${STAGING_DIR}/* ${STAGING_TO_TARGET_DIR}
 
-    # copy library files from staging's /lib
-    echo "cp -a ${STAGING_DIR}/${INSTALL_PREFIX}/lib ."
-    cp -a ${STAGING_DIR}/${INSTALL_PREFIX}/lib .
-    [[ ! $? -eq 0 ]] && return 1
+    # cleanup unused data
+    cd ${STAGING_TO_TARGET_DIR}
+    for name in libexec/gcc lib/gcc include share arm-linux-gnueabihf; do
+        echo "rm usr/${name}"
+        rm -rf usr/${name}
+    done
 
-    # copy library files from staging's ${BUILD_TARGET}/lib
-    mkdir -p ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/${BUILD_TARGET}
-    echo "cd ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/${BUILD_TARGET}"
-    cd ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/${BUILD_TARGET}
-    echo "cp -a ${STAGING_DIR}/${INSTALL_PREFIX}/${BUILD_TARGET}/lib ."
-    cp -a ${STAGING_DIR}/${INSTALL_PREFIX}/${BUILD_TARGET}/lib .
-    [[ ! $? -eq 0 ]] && return 1
+    # delete unused compilers in target dir
+    cd ${STAGING_TO_TARGET_DIR}/usr/bin
+    rm gcov* gcc* g++ cpp c++ arm-linux-gnueabihf-*
 
     # remove .la and .pc files
     echo "cd ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}"
     cd ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}
-    for del_file in $(find . -name "*.la" -o -name "*.pc"); do
+    for del_file in $(find . -name "*.la" -o -name "*.pc" -o -name "*.a"); do
         [[ -e "${del_file}" ]] || continue
         echo "rm ${del_file}"
         rm ${del_file}
     done
-
-    prepare_clean_dir ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/bin
 
     echo "cd ${old_dir}"
     cd ${old_dir}
@@ -487,11 +482,11 @@ misc_to_target() {
     echo_stage "Generating extra files..."
 
     # create links for various config dirs
-    echo_stage "Generating symbolic links..."
-    ln -s /etc ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/etc
-    ln -s /run ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/run
-    ln -s /usr/share ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/share
-    ln -s /var ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/var
+    #echo_stage "Generating symbolic links..."
+    #ln -s /etc ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/etc
+    #ln -s /run ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/run
+    #ln -s /usr/share ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/share
+    #ln -s /var ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/var
 }
 
 create_target_package() {
