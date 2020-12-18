@@ -77,7 +77,7 @@ on_exit_build() {
 	in_to_out ${PACKAGE_DIR}/config/cmake-toolchain.txt.in ${TOOLCHAIN_CMAKE}
 
 	# HACK to avoid errors with LDFLAGS files not found
-	for FILE in /lib/libc.so.6 /lib/ld-linux-armhf.so.3 /usr/lib/libc_nonshared.a ; do
+	for FILE in /lib/libc.so.6 /lib/ld-linux-armhf.so.3 /usr/lib/libc_nonshared.a /lib/libpthread.so.0 /usr/lib/libpthread_nonshared.a ; do
 		[ ! -e ${FILE} ] && ln -s ${STAGING_DIR}/${FILE} ${FILE}
 	done
 
