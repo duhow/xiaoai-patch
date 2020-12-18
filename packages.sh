@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Forked from patrickkfkan/volumio-build-mpd - thanks! :)
+# Forked from https://github.com/patrickkfkan/volumio-build-mpd - thanks! :)
 
 echo_info() {
     echo -e "\e[1;32m$1 \e[0m"
@@ -47,7 +47,7 @@ write_build_config() {
 show_help() {
     cat << EOF
 Build usage:
-./build.sh --target=ARCH --prefix=PREFIX --output=FILENAME -jLEVEL
+./build.sh --prefix=PREFIX -jLEVEL
 
 Defaults for the options are specified in brackets.
 
@@ -605,6 +605,7 @@ done
 
 BUILD_ID=$(rand_str)
 BUILD_ARCH="armv7"
+ymd=$(date '+%Y%m%d')
 PACKAGES_PROCESSED=()
 SRC_DOWNLOAD_DIR=${WORKSPACE_DIR}/src
 BUILD_DIR=${WORKSPACE_DIR}/build/${BUILD_ARCH}
@@ -612,6 +613,7 @@ STAGING_DIR=${WORKSPACE_DIR}/staging/${BUILD_ARCH}
 STAGING_TO_TARGET_DIR=${WORKSPACE_DIR}/s2t/${BUILD_ARCH}
 TARGET_PACKAGE_DIR=${WORKSPACE_DIR}/targets
 INSTALL_PREFIX="/usr"
+TARGET_PACKAGE_FILE=${TARGET_PACKAGE_DIR}/bin-${ymd}-${BUILD_ID}.tar.gz
 
 if [[ "${DO_DISTCLEAN}" == "true" ]]; then
     do_distclean
@@ -621,17 +623,6 @@ elif [[ "${DO_CLEAN}" == "true" ]]; then
     exit 0
 fi
 
-ymd=$(date '+%Y%m%d')
-
-if [[ ! -z "${TARGET_PACKAGE_FILENAME}" ]]; then
-    TARGET_PACKAGE_FILE=${TARGET_PACKAGE_DIR}/${TARGET_PACKAGE_FILENAME}
-else
-    if [[ ! -z "${mpd_version}" ]]; then
-        TARGET_PACKAGE_FILE=${TARGET_PACKAGE_DIR}/mpd-${mpd_version}.${BUILD_ARCH}-${ymd}-${BUILD_ID}.tar.gz
-    else
-        TARGET_PACKAGE_FILE=${TARGET_PACKAGE_DIR}/mpd.${BUILD_ARCH}-${ymd}-${BUILD_ID}.tar.gz
-    fi
-fi
 if [[ -z "${MAKE_JOBS}" ]]; then
   MAKE_JOBS=$(nproc)
 fi
@@ -646,22 +637,7 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
 check_clean_build_necessary
 [[ $? -eq 0 ]] && exit 1
 
-while true
-do
-    read -r -p "Continue [y/n]? " input
-    case ${input} in
-    [yY][eE][sS]|[yY])
-        break;
-        ;;
-    [nN][oO]|[nN])
-        echo "Aborting..."
-        exit 0
-        ;;
-    *)
-        echo "Enter 'y' or 'n'"
-        ;;
-    esac
-done
+timeout 4 `read -r -p "Process will begin shortly. Press enter or break run (Ctrl+C). " input`
 
 mkdir -p ${SRC_DOWNLOAD_DIR}
 mkdir -p ${BUILD_DIR}
