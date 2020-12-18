@@ -7,9 +7,11 @@ if [ ! -d "include/" ]; then
 fi
 
 echo "[*] Listing all content to include"
-find include/
+#find include/
 
-cp -far include/* $ROOTFS/
+rsync -avr include/* $ROOTFS/
+#cp -av include/* $ROOTFS/
+#cp -fpdr include/* $ROOTFS/
 
 echo "[*] Running root chown"
 chown -R root:root $ROOTFS
