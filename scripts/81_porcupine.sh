@@ -9,8 +9,6 @@ cat > $FILE <<EOF
 START=98
 USE_PROCD=1
 
-SOUND=/usr/share/sound
-
 EXTRA_COMMANDS="status"
 
 start_service() {
@@ -21,8 +19,8 @@ start_service() {
   fi
 
   # unmute led
-  /bin/shut_led 7
-  [ -f /usr/share/sound/unmute.wav ] && aplay /usr/share/sound/unmute.wav &>/dev/null
+  /bin/shut_led 7 &
+  [ -f /usr/share/sound/unmute.wav ] && aplay /usr/share/sound/unmute.wav &>/dev/null &
 
   procd_open_instance
   procd_set_param command /usr/bin/porcupine_launcher
@@ -32,11 +30,11 @@ start_service() {
 
 stop_service() {
   # mute led
-  /bin/show_led 7
+  /bin/show_led 7 &
 
   pkill -x porcupine_launcher
   pkill -x porcupine
-  [ -f /usr/share/sound/mute.wav ] && aplay /usr/share/sound/mute.wav &>/dev/null
+  [ -f /usr/share/sound/mute.wav ] && aplay /usr/share/sound/mute.wav &>/dev/null &
 }
 
 status() {
@@ -62,6 +60,6 @@ cd $BACK
 echo "[*] Adding rules for Triggerhappy mute"
 
 cat >> $ROOTFS/etc/thd.conf <<EOF
-KEY_HOME        1  /etc/init.d/listener start
+KEY_HOME        1  pgrep porcupine &>/dev/null && /etc/init.d/listener stop || /etc/init.d/listener start
 EOF
 
