@@ -456,9 +456,15 @@ staging_to_target() {
 
     # cleanup unused data
     cd ${STAGING_TO_TARGET_DIR}
-    for name in libexec/gcc lib/gcc include share arm-linux-gnueabihf; do
+    for name in libexec/gcc lib/gcc include arm-linux-gnueabihf; do
         echo "rm usr/${name}"
         rm -rf usr/${name}
+    done
+
+    # some data in usr/share is required, clean the rest
+    for name in applications doc i18n icons info locale man pixmaps tabset terminfo; do
+        echo "rm usr/share/${name}"
+        rm -rf usr/share/${name}
     done
 
     # delete unused compilers in target dir

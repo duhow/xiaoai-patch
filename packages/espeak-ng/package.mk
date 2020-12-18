@@ -26,7 +26,7 @@ make_package() {
 
 install_package() {
 	mkdir -p ${STAGING_DIR}/${INSTALL_PREFIX}/share ${STAGING_DIR}/${INSTALL_PREFIX}/bin
-	cp -r ${PACKAGE_SRC_DIR}/espeak-ng-data ${STAGING_DIR}/${INSTALL_PREFIX}/share/espeak-ng-data
+	cp -ra ${PACKAGE_SRC_DIR}/espeak-ng-data ${STAGING_DIR}/${INSTALL_PREFIX}/share/espeak-ng-data
 	cp ${PACKAGE_SRC_DIR}/src/speak-ng ${STAGING_DIR}/${INSTALL_PREFIX}/bin
-	ln -s speak-ng ${STAGING_DIR}/${INSTALL_PREFIX}/bin/espeak
+	[ -e ${STAGING_DIR}/${INSTALL_PREFIX}/bin/espeak ] || ln -s speak-ng ${STAGING_DIR}/${INSTALL_PREFIX}/bin/espeak
 }

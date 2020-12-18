@@ -3,24 +3,20 @@ PACKAGE_VERSION="1.32.0"
 PACKAGE_SRC="https://busybox.net/downloads/busybox-1.32.0.tar.bz2"
 PACKAGE_DEPENDS="base"
 
-preconfigure_package() {
-  echo "Downloading OpenWRT to apply busybox patches"
-	wget https://github.com/openwrt/openwrt/archive/master.zip
-	unzip master.zip
-	CUR=$PWD
-	for FILE in openwrt-master/package/utils/busybox/patches/*; do 
-	  echo "applying patch $FILE"
-		patch --batch --reverse -p1 < $FILE
-	done
-	rm -rf openwrt-master master.zip
-}
-
 configure_package() {
 	CC=${BUILD_CC} make defconfig CROSS_COMPILE=${BUILD_TARGET}- CFLAGS="${BUILD_CFLAGS}" CXXFLAGS="${BUILD_CFLAGS}" \
-	     CPPFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
-			 CONFIG_PREFIX=${STAGING_DIR} \
-			 CONFIG_LOCK=y
-	sed -i '/CONFIG_LOCK is not/c\CONFIG_LOCK=y' .config
+	     CPPFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}"
+}
+
+premake_package() {
+	echo "configuring additional functions"
+	# https://busybox.net/FAQ.html#touch_config
+	sleep 1
+
+	sed -i '/CONFIG_LOCK/c\CONFIG_LOCK=y' .config
+	sleep 1
+	sed -i "/CONFIG_PREFIX/c\CONFIG_PREFIX=\"${STAGING_DIR}\"" .config
+	sleep 1
 }
 
 make_package() {
@@ -28,9 +24,24 @@ make_package() {
 }
 
 install_package() {
-	#CC=${BUILD_CC} make CROSS_COMPILE=${BUILD_TARGET}- DESTDIR=${STAGING_DIR} install
-	#cp -ar _install/* ${STAGING_DIR}
+	# we don't need init, as it would replace default openwrt init ELF!
+	# still, just to be compliant, as this file does not exist:
+	# echo '#!/bin/sh' > ${STAGING_DIR}/etc/init.d/rcS
+	# chmod 755 ${STAGING_DIR}/etc/init.d/rcS
+
 	mkdir -p ${STAGING_DIR}/bin
-	echo "cp ${PACKAGE_SRC_DIR}/busybox_unstripped ${STAGING_DIR}/bin/busybox"
-	cp ${PACKAGE_SRC_DIR}/busybox_unstripped ${STAGING_DIR}/bin/busybox
+
+	#sleep 1
+	#CC=${BUILD_CC} make CROSS_COMPILE=${BUILD_TARGET}- DESTDIR=${STAGING_DIR} install
+
+	#cp -ar _install/* ${STAGING_DIR}
+
+	echo "cp ${PACKAGE_SRC_DIR}/busybox ${STAGING_DIR}/bin/busybox"
+	cp ${PACKAGE_SRC_DIR}/busybox ${STAGING_DIR}/bin/busybox
 }
+
+postinstall_package() {
+	# delete unused init, will keep using the openwrt one
+	rm -f ${STAGING_DIR}/sbin/init
+}
+

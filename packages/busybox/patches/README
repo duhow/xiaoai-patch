@@ -1,0 +1,2 @@
+All patches are from https://github.com/openwrt/openwrt/tree/master/package/utils/busybox/patches
+commit 2d34355

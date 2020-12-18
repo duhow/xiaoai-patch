@@ -76,6 +76,11 @@ on_exit_build() {
 	mkdir -p ${TOOLCHAIN_DIR}/config
 	in_to_out ${PACKAGE_DIR}/config/cmake-toolchain.txt.in ${TOOLCHAIN_CMAKE}
 
+	# HACK to avoid errors with LDFLAGS files not found
+	for FILE in /lib/libc.so.6 /lib/ld-linux-armhf.so.3 /usr/lib/libc_nonshared.a ; do
+		[ ! -e ${FILE} ] && ln -s ${STAGING_DIR}/${FILE} ${FILE}
+	done
+
 	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
 	echo "TOOLCHAIN_DIR=\"${TOOLCHAIN_DIR}\""
 	echo "BUILD_TARGET=\"${BUILD_TARGET}\""

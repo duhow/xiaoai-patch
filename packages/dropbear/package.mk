@@ -5,11 +5,15 @@ PACKAGE_DEPENDS="base"
 
 configure_package() {
 	# package depend zlib may be added later
-	CC=${BUILD_CC} ./configure CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" --prefix=${INSTALL_PREFIX} --disable-zlib
+	#--with-zlib=${STAGING_DIR}/${INSTALL_PREFIX}/lib
+
+	CC=${BUILD_CC} LDFLAGS="${BUILD_LDFLAGS}" ./configure \
+		 --build=${MACHTYPE} --host=${BUILD_TARGET} --target=${BUILD_TARGET} --prefix=${INSTALL_PREFIX} \
+		 --disable-zlib
 }
 
 make_package() {
-	CC=${BUILD_CC} make -j${MAKE_JOBS} \
+	CC=${BUILD_CC} CFLAGS="-Os" make -j${MAKE_JOBS} \
 		 PROGRAMS="dropbear dbclient dropbearkey dropbearconvert scp" \
 		 MULTI=1
 }
