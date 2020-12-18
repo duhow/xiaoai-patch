@@ -467,6 +467,9 @@ staging_to_target() {
         rm -rf usr/share/${name}
     done
 
+    # var is used for RAM mount, so let's delete it.
+    rm -rf var
+
     # delete unused compilers in target dir
     cd ${STAGING_TO_TARGET_DIR}/usr/bin
     rm gcov* gcc* g++ cpp c++ arm-linux-gnueabihf-*
