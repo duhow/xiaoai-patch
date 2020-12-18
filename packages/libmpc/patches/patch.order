@@ -1,0 +1,5 @@
+01_am-maintainer-mode.patch
+03_mpcchap.patch
+04_link-order.patch
+add_subdir-objects.patch
+05_visibility.patch

@@ -1,0 +1,19 @@
+[host_machine]
+system = 'linux'
+cpu_family = 'arm'
+cpu = 'any'
+endian = 'little'
+
+[properties]
+c_args = '${BUILD_CFLAGS}'
+c_link_args = '${BUILD_LDFLAGS}'
+cpp_args = '${BUILD_CFLAGS}'
+cpp_link_args = '${BUILD_LDFLAGS}'
+
+[binaries]
+c = '${BUILD_CC}'
+cpp = '${BUILD_CXX}'
+ar = '${BUILD_AR}'
+objcopy = '${BUILD_OBJCOPY}'
+strip = '${BUILD_STRIP}'
+pkgconfig = '/usr/bin/pkg-config'

@@ -1,5 +1,6 @@
 /mtd*
 /squashfs-root*
+/build-packages
 /include
 /include-*
 /sound
@@ -8,3 +9,4 @@
 /release
 
 /*.log
+/*.pdf
