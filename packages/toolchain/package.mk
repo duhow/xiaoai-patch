@@ -1,6 +1,6 @@
 PACKAGE_NAME="GNU Toolchain for the A-profile Architecture"
-PACKAGE_VERSION="GCC 8.3-2019.03"
-PACKAGE_SRC="https://developer.arm.com/-/media/Files/downloads/gnu-a/8.3-2019.03/binrel/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf.tar.xz"
+PACKAGE_VERSION="GCC 7.4-2019.02"
+PACKAGE_SRC="https://releases.linaro.org/components/toolchain/binaries/7.4-2019.02/arm-linux-gnueabihf/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf.tar.xz"
 
 on_exit_build() {
 	TOOLCHAIN_DIR=$(pwd)
