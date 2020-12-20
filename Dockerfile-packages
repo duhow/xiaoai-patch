@@ -15,7 +15,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
     python python3 python3-pip cmake autoconf libtool \
     git pkg-config gettext intltool qemu-user-static \
     libgcrypt20-dev gperf libglib2.0-dev docbook-xsl \
-    xsltproc libncurses-dev flex texinfo && \
+    xsltproc libncurses-dev flex texinfo libtool-bin && \
     apt-get clean && \
     pip3 install meson ninja
 
