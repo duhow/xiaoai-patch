@@ -1,6 +1,6 @@
 PACKAGE_NAME="Avahi"
 PACKAGE_VERSION="0.8"
-PACKAGE_DEPENDS="libdaemon libevent"
+PACKAGE_DEPENDS="libdaemon libevent glib"
 PACKAGE_SRC="http://avahi.org/download/avahi-0.8.tar.gz"
 
 configure_package() {
