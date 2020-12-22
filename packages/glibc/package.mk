@@ -5,7 +5,12 @@ PACKAGE_DEPENDS="toolchain kernel-headers"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
 
 configure_package() {
-	CC=${BUILD_CC} ${PACKAGE_SRC_DIR}/configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} --target=${INSTALL_PREFIX} --with-target=${BUILD_ARCH} --with-fpu=vfp --with-float=hard --with-headers=${STAGING_DIR}/${INSTALL_PREFIX}/${BUILD_TARGET}/include --disable-multilib CFLAGS="${BUILD_CFLAGS}" --disable-gconv --without-pkgconfig --disable-werror
+	CC=${BUILD_CC} ${PACKAGE_SRC_DIR}/configure \
+	   --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} \
+	   --target=${INSTALL_PREFIX} --with-target=${BUILD_ARCH} \
+	   --with-fpu=vfp --with-float=hard \
+	   --with-headers=${STAGING_DIR}/${INSTALL_PREFIX}/${BUILD_TARGET}/include \
+	   CFLAGS="${BUILD_CFLAGS}" --disable-werror
 }
 
 make_package() {

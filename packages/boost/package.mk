@@ -10,5 +10,5 @@ configure_package() {
 }
 	
 install_package() {
-	./b2 install toolset=gcc-arm --without-python --prefix=${STAGING_DIR}/${INSTALL_PREFIX} --debug-configuration -j8
+	./b2 install toolset=gcc-arm --without-python --prefix=${STAGING_DIR}/${INSTALL_PREFIX} -j8
 }
