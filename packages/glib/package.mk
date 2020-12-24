@@ -41,15 +41,35 @@ EOT
 		--prefix=${INSTALL_PREFIX} -Dlibmount=disabled -Dinstalled_tests=false
 }
 
-make_package() {
-	# FIXME NOTE this build is unstable, as it uses mixed libs from ARM and system.
+premake_package() {
+	# FIXME this build is unstable, as it uses mixed libs from ARM and system.
 	# Some commands used to fix this:
 
-	# mv ./build-packages/build/armv7/toolchain/arm-linux-gnueabihf/libc/usr/include/xlocale.h{,.bak}
-	# rm build-packages/build/armv7/toolchain/arm-linux-gnueabihf/libc/lib/libresolv.so.2
-	# ln -s $PWD/build-packages/staging/armv7/lib/libresolv.so.2 build-packages/build/armv7/toolchain/arm-linux-gnueabihf/libc/lib/libresolv.so.2
+	echo_error "setting a horrible hack to fix the build"
 
+	FILE_XLOCALE=${TOOLCHAIN_DIR}/${BUILD_TARGET}/libc/usr/include/xlocale.h
+	FILE_LIBRESOLV=${TOOLCHAIN_DIR}/${BUILD_TARGET}/libc/lib/libresolv.so.2
+
+	mv ${FILE_XLOCALE} ${FILE_XLOCALE}.bak
+	ln -s ${STAGING_DIR}/usr/include/locale.h ${FILE_XLOCALE}
+
+	mv ${FILE_LIBRESOLV} ${FILE_LIBRESOLV}.bak
+	ln -s ${STAGING_DIR}/lib/libresolv.so.2 ${FILE_LIBRESOLV}
+}
+
+make_package() {
 	ninja -k 0 -C _build
+	EXITCODE=$?
+
+	echo_info "undoing toolchain changes"
+
+	rm ${FILE_XLOCALE}
+	mv ${FILE_XLOCALE}.bak ${FILE_XLOCALE}
+
+	rm ${FILE_LIBRESOLV}
+	mv ${FILE_LIBRESOLV}.bak ${FILE_LIBRESOLV}
+
+	return ${EXITCODE}
 }
 
 install_package() {
