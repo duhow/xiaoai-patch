@@ -1,0 +1,42 @@
+From: marius@gnu.org
+To: Marcel Holtmann <marcel@holtmann.org>
+Cc: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+	linux-bluetooth@vger.kernel.org, Marius Bakke <marius@devup.no>
+Subject: [PATCH v2] sbc_primitives: Fix build on non-x86.
+Date: Mon, 21 Dec 2020 19:41:14 +0100
+Message-ID: <20201221184114.1300-1-marius@gnu.org> (raw)
+In-Reply-To: <PH0PR11MB51269918A2B84A3120EBD8E4D3C00@PH0PR11MB5126.namprd11.prod.outlook.com>
+
+From: Marius Bakke <marius@devup.no>
+
+Don't call __builtin_cpu_init unless targeting i386 or x86_64.
+Otherwise we get an error at link time:
+
+  CC       sbc/sbc_primitives.lo
+sbc/sbc_primitives.c: In function ‘sbc_init_primitives_x86’:
+sbc/sbc_primitives.c:596:2: warning: implicit declaration of function ‘__builtin_cpu_init’; did you mean ‘__builtin_irint’? [-Wimplicit-function-declaration]
+[...]
+  CCLD     src/sbcdec
+ld: sbc/.libs/libsbc-private.a(sbc_primitives.o): in function `sbc_init_primitives':
+sbc_primitives.c:(.text+0x3a30): undefined reference to `__builtin_cpu_init'
+---
+ sbc/sbc_primitives.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sbc/sbc_primitives.c b/sbc/sbc_primitives.c
+index 97a75be..d8e166a 100644
+--- a/sbc/sbc_primitives.c
++++ b/sbc/sbc_primitives.c
+@@ -593,7 +593,9 @@ static int sbc_calc_scalefactors_j(
+ 
+ static void sbc_init_primitives_x86(struct sbc_encoder_state *state)
+ {
++#if defined(__x86_64__) || defined(__i386__)
+ 	__builtin_cpu_init();
++#endif
+ 
+ #ifdef SBC_BUILD_WITH_MMX_SUPPORT
+ 	if (__builtin_cpu_supports("mmx"))
+-- 
+2.29.2
+
