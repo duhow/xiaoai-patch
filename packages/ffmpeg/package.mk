@@ -17,7 +17,9 @@ configure_package() {
 		--extra-cflags="${BUILD_CFLAGS} -w" \
 		--extra-ldflags="${BUILD_LDFLAGS}" \
 		--pkg-config="/usr/bin/pkg-config" \
-		--enable-openssl
+		--enable-openssl \
+		--enable-shared --disable-static \
+		--enable-small
 }
 
 make_package() {
