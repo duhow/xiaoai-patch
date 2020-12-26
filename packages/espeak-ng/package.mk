@@ -2,6 +2,7 @@ PACKAGE_NAME="espeak-ng"
 PACKAGE_VERSION="1.50"
 PACKAGE_SRC="https://github.com/espeak-ng/espeak-ng/releases/download/${PACKAGE_VERSION}/espeak-ng-${PACKAGE_VERSION}.tgz"
 PACKAGE_DEPENDS="base glibc"
+LANGUAGES_TO_INSTALL="es en ca"
 
 preconfigure_package() {
 	./autogen.sh
@@ -18,10 +19,23 @@ premake_package() {
 }
 
 make_package() {
-	CC=${BUILD_CC} CFLAGS=${BUILD_CFLAGS} ./configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} \
-		 --with-speechplayer=no --with-sonic=no
+	CC=${BUILD_CC} CFLAGS=${BUILD_CFLAGS} \
+	   ./configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} \
+	   --with-speechplayer=no --with-sonic=no
 
 	make -B src/espeak-ng src/speak-ng
+}
+
+preinstall_package() {
+	echo_info "Deleting unused languages"
+	cd ${PACKAGE_SRC_DIR}/espeak-ng-data
+	mkdir -p keep
+	for LANG in ${LANGUAGES_TO_INSTALL}; do
+		mv ${LANG}_dict keep
+	done
+	rm -f *_dict
+	mv keep/* .
+	cd ${PACKAGE_SRC_DIR}
 }
 
 install_package() {

@@ -20,7 +20,11 @@ for FILE in libxml2.so.2.9.7 libstdc++.so.6.0.22* libsbc.so.1.2.1 libreadline.so
 	libical.so.0.48.0 libicalss.so.0.48.0 libicalvcal.so.0.48.0 \
 	libgthread-2.0.so.0.5501.0 libgobject-2.0.so.0.5501.0 libgmodule-2.0.so.0.5501.0 \
 	libglib-2.0.so.0.5501.0 libgio-2.0.so.0.5501.0 \
-	libdbus-1.so.3.14.5 libcurl.so.4.4.0 libbluetooth.so.3.18.10; do
+	libdbus-1.so.3.14.5 dbus-1/dbus-daemon-launch-helper \
+	libcurl.so.4.4.0 libbluetooth.so.3.18.10; do
   echo "   - ${FILE}"
   rm -f $ROOTFS/usr/lib/$FILE
 done
+
+# new one is dbus-1.0
+rm -rf $ROOTFS/usr/lib/dbus-1
