@@ -650,7 +650,8 @@ mkdir -p ${STAGING_TO_TARGET_DIR}
 write_build_config
 [[ ! $? -eq 0 ]] && exit 1
 
-PACKAGES_TO_BUILD="busybox bash dropbear espeak-ng htop"
+PACKAGES_TO_BUILD="busybox bash curl dropbear espeak-ng htop triggerhappy blue-alsa avahi vorbis-tools"
+#PACKAGES_TO_BUILD="lirc mosquitto"
 
 for PKGN in $PACKAGES_TO_BUILD; do 
   process_package $PKGN
