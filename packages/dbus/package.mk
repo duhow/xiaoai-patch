@@ -10,7 +10,8 @@ configure_package() {
 	   CXX="${BUILD_CXX}" \
 	   LDFLAGS="${BUILD_LDFLAGS}" \
 	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
-	   ./configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET}
+	   ./configure --build=${MACHTYPE} --host=${BUILD_TARGET} \
+	   --prefix=${INSTALL_PREFIX} --sysconfdir=/etc --localstatedir=/var
 }
 
 make_package() {
