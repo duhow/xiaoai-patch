@@ -5,10 +5,10 @@ cpu = 'any'
 endian = 'little'
 
 [properties]
-c_args = '${BUILD_CFLAGS}'
-c_link_args = '${BUILD_LDFLAGS}'
-cpp_args = '${BUILD_CFLAGS}'
-cpp_link_args = '${BUILD_LDFLAGS}'
+c_args = '${BUILD_CFLAGS} -I${STAGING_DIR}/${INSTALL_PREFIX}/${BUILD_TARGET}/include --sysroot=${STAGING_DIR}'
+c_link_args = '${BUILD_LDFLAGS} --sysroot=${STAGING_DIR}'
+cpp_args = '${BUILD_CFLAGS} -I${STAGING_DIR}/${INSTALL_PREFIX}/${BUILD_TARGET}/include --sysroot=${STAGING_DIR}'
+cpp_link_args = '${BUILD_LDFLAGS} --sysroot=${STAGING_DIR}'
 
 [binaries]
 c = '${BUILD_CC}'

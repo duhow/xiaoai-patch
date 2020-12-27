@@ -34,7 +34,6 @@ strip = '${BUILD_STRIP}'
 pkgconfig = '/usr/bin/pkg-config'
 EOT
 
-	#--buildtype=debugoptimized -Db_ndebug=true
 	PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
 		meson --cross-file cross-file.build ${PACKAGE_SRC_DIR} \
 		_build \
