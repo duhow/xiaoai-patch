@@ -17,5 +17,8 @@ SHA=$(shasum $FILE | awk '{print $1}')
 if [ "$SHA" = "f51dabcac09d6815356b85e43aab9884a36965a4" ]; then
   echo "[*] Patching Bluetooth start service"
   sed -i 's/sleep .*/return 0/' $FILE
+
+  # new bluealsa params
+  sed -i 's/"$PROG2".*/"$PROG2" 00:00:00:00:00:00 -v -D bluetooth --profile-a2dp/' $FILE
 fi
 shasum $FILE
