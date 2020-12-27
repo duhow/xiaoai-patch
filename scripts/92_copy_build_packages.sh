@@ -27,6 +27,11 @@ for FILE in libxml2.so.2.9.7 libstdc++.so.6.0.22* libsbc.so.1.2.1 libreadline.so
   rm -f $ROOTFS/usr/lib/$FILE
 done
 
+for FILE in hcidump btmgmt hciattach; do
+  echo "   - ${FILE}"
+  rm -f $ROOTFS/usr/bin/$FILE
+done
+
 echo "[!] Fixing old libs"
 for FILE in libreadline.so.7 libicalvcal.so.0 libicalss.so.0 libical.so.0 libffi.so.6; do
   rm -f $ROOTFS/usr/lib/$FILE

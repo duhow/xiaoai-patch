@@ -21,3 +21,8 @@ make_package() {
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
 }
+
+postinstall_package() {
+	# replace original
+	mv -f ${STAGING_DIR}/usr/libexec/bluetooth/bluetoothd ${STAGING_DIR}/usr/bin/bluetoothd
+}
