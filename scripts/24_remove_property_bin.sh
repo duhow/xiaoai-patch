@@ -19,10 +19,19 @@ echo "[*] Deleting unused Xiaomi libs"
 for FILE in libmibrain-common-sdk.so libmibrain-common-util.so libmibrainsdk.so \
 	libxiaomi_crypto.so libxiaomi_didi.so libxiaomi_heartbeat.so libxiaomi_http.so libxiaomi_json.so \
 	libxiaomimediaplayer.so libxiaomi_mico.so libxiaomi_miot.so libxiaomi_mosquitto.so libxiaomi_utils.so \
-	libmdspeech.so libmdplay.so libffmpeg-miplayer.so; do
+	libmdspeech.so libmdplay.so libffmpeg-miplayer.so libmimc_sdk.so libiotdcm.so libiotdcm_mdplay.so \
+	libDiracAPI_SHARED.so libdts.so libxaudio_engine.so libmesh.so \
+	libprocps.so.5 libprocps.so libevtlog.so.0 libevtlog.so; do
   echo "    - $FILE"
   rm -f $ROOTFS/usr/lib/$FILE
 done
+
+# fix repeated libs
+ln -s libevtlog.so.0.0.0 $ROOTFS/usr/lib/libevtlog.so
+ln -s libevtlog.so.0.0.0 $ROOTFS/usr/lib/libevtlog.so.0
+
+ln -s libprocps.so.5.0.0 $ROOTFS/usr/lib/libprocps.so
+ln -s libprocps.so.5.0.0 $ROOTFS/usr/lib/libprocps.so.5
 
 echo "[*] Deleting Xiaomi hotword detection model"
 rm -rvf $ROOTFS/usr/share/xiaomi

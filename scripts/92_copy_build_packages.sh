@@ -21,10 +21,21 @@ for FILE in libxml2.so.2.9.7 libstdc++.so.6.0.22* libsbc.so.1.2.1 libreadline.so
 	libgthread-2.0.so.0.5501.0 libgobject-2.0.so.0.5501.0 libgmodule-2.0.so.0.5501.0 \
 	libglib-2.0.so.0.5501.0 libgio-2.0.so.0.5501.0 \
 	libdbus-1.so.3.14.5 dbus-1/dbus-daemon-launch-helper \
-	libcurl.so.4.4.0 libbluetooth.so.3.18.10; do
+	libcurl.so.4.4.0 libbluetooth.so.3.18.10 libpcre.so.1.2.9 \
+	libpcreposix.so.0.0.5 libopus.so.0.6.1 libffi.so.6.0.4 libexpat.so.1.6.7 libcrypto.so.1.0.0; do
   echo "   - ${FILE}"
   rm -f $ROOTFS/usr/lib/$FILE
 done
+
+echo "[!] Fixing old libs"
+for FILE in libreadline.so.7 libicalvcal.so.0 libicalss.so.0 libical.so.0 libffi.so.6; do
+  rm -f $ROOTFS/usr/lib/$FILE
+done
+ln -s libreadline.so.8 $ROOTFS/usr/lib/libreadline.so.7
+ln -s libicalvcal.so.3 $ROOTFS/usr/lib/libicalvcal.so.0
+ln -s libicalss.so.3 $ROOTFS/usr/lib/libicalss.so.0
+ln -s libical.so.3 $ROOTFS/usr/lib/libical.so.0
+ln -s libffi.so.7 $ROOTFS/usr/lib/libffi.so.6
 
 echo "[*] Fixing new dbus"
 # new one is dbus-1.0
