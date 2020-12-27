@@ -26,5 +26,18 @@ for FILE in libxml2.so.2.9.7 libstdc++.so.6.0.22* libsbc.so.1.2.1 libreadline.so
   rm -f $ROOTFS/usr/lib/$FILE
 done
 
+echo "[*] Fixing new dbus"
 # new one is dbus-1.0
 rm -rf $ROOTFS/usr/lib/dbus-1
+rm $ROOTFS/usr/sbin/dbus-daemon
+ln -s /usr/bin/dbus-daemon $ROOTFS/usr/sbin/dbus-daemon
+
+
+echo "[*] Adding service user entries"
+
+echo "messagebus:x:106:110::/nonexistent:/bin/false" >> $ROOTFS/etc/passwd
+echo "avahi:x:108:115:Avahi mDNS daemon:/var/run/avahi-daemon:/bin/false" >> $ROOTFS/etc/passwd
+
+echo "netdev:x:108:" >> $ROOTFS/etc/group
+echo "messagebus:x:110:" >> $ROOTFS/etc/group
+echo "avahi:x:115:" >> $ROOTFS/etc/group
