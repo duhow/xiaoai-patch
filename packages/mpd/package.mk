@@ -58,6 +58,13 @@ install_package() {
 }
 
 postinstall_package() {
-	mkdir -p ${STAGING_DIR}/etc
+	mkdir -p ${STAGING_DIR}/etc/init.d ${STAGING_DIR}/etc/rc.d ${STAGING_DIR}/etc/avahi/services
+
 	cp ${PACKAGE_DIR}/config/mpd.conf ${STAGING_DIR}/etc
+
+	cp ${PACKAGE_DIR}/config/mpd.init ${STAGING_DIR}/etc/init.d/mpd
+	chmod +x ${STAGING_DIR}/etc/init.d/mpd
+	ln -s /etc/init.d/mpd ${STAGING_DIR}/etc/rc.d/S93mpd
+
+	cp ${PACKAGE_DIR}/config/mpd.service ${STAGING_DIR}/etc/avahi/services
 }
