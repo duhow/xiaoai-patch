@@ -37,7 +37,9 @@ echo "[*] Adding service user entries"
 
 echo "messagebus:x:106:110::/nonexistent:/bin/false" >> $ROOTFS/etc/passwd
 echo "avahi:x:108:115:Avahi mDNS daemon:/var/run/avahi-daemon:/bin/false" >> $ROOTFS/etc/passwd
+echo "upmpdcli:x:199:199::/nonexistent:/bin/false" >> $ROOTFS/etc/passwd
 
 echo "netdev:x:108:" >> $ROOTFS/etc/group
 echo "messagebus:x:110:" >> $ROOTFS/etc/group
 echo "avahi:x:115:" >> $ROOTFS/etc/group
+echo "upmpdcli:x:199:" >> $ROOTFS/etc/group

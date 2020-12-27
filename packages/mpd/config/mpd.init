@@ -16,7 +16,9 @@ start_service() {
 
 	#create mpd directories from config
 	pld=$(grep ^playlist_directory "$CONFIGFILE" | cut -d "\"" -f 2 | sed "s/~/\/root/g")
-	[ -d "$pld" ] || mkdir -m 0755 -p "$pld"
+	if [ ! -z "$pld" ] && [ ! -d "$pld" ]; then
+	    mkdir -m 0755 -p "$pld"
+	fi
 
 	lport=$(grep ^port "$CONFIGFILE" | cut -d "\"" -f 2)
 	[ -z "$lport" ] && lport=6600
