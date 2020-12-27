@@ -3,6 +3,6 @@
 /bin/show_led 1
 sleep 0.2
 
-/usr/bin/espeak --stdout "$@" | /usr/bin/aplay 2>/dev/null >/dev/null
+/usr/bin/espeak --stdout "$@" | /usr/bin/aplay -Dnotify &>/dev/null
 
 /bin/shut_led 1

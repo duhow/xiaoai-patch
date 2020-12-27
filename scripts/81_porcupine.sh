@@ -20,7 +20,7 @@ start_service() {
 
   # unmute led
   /bin/shut_led 7 &
-  [ -f /usr/share/sound/unmute.wav ] && aplay /usr/share/sound/unmute.wav &>/dev/null &
+  [ -f /usr/share/sound/unmute.wav ] && aplay -Dnotify /usr/share/sound/unmute.wav &>/dev/null &
 
   procd_open_instance
   procd_set_param command /usr/bin/porcupine_launcher
@@ -34,7 +34,7 @@ stop_service() {
 
   pkill -x porcupine_launcher
   pkill -x porcupine
-  [ -f /usr/share/sound/mute.wav ] && aplay /usr/share/sound/mute.wav &>/dev/null &
+  [ -f /usr/share/sound/mute.wav ] && aplay -Dnotify /usr/share/sound/mute.wav &>/dev/null &
 }
 
 status() {

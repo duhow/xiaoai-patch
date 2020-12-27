@@ -15,4 +15,4 @@ fi
 for SRC in bluetooth mysoftvol notifyvol; do
   amixer set $SRC $VOL &>/dev/null &
 done
-aplay /usr/share/sound/volume.wav &>/dev/null &
+aplay -Dnotify /usr/share/sound/volume.wav &>/dev/null &

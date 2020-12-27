@@ -1,0 +1,29 @@
+#!/bin/sh
+
+USERAGENT="Chrome/87.0.4280.88"
+DEFAULT_LANGUAGE=es
+TTS_FOLDER=/tmp/tts
+
+if [ -z "$LANGUAGE" ]; then
+  LANGUAGE="$DEFAULT_LANGUAGE"
+fi
+
+/bin/show_led 1 &
+
+TEXT=$(echo "$@" | tr ' ' '+')
+HASH="$(echo "$TEXT" | md5sum | cut -c 1-20)-${LANGUAGE}"
+
+mkdir -p ${TTS_FOLDER}
+
+FILE="${TTS_FOLDER}/${HASH}.mp3"
+
+if [ ! -e "$FILE" ]; then
+  curl -o "$FILE" -A "$USERAGENT" -sLk \
+  "https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${LANGUAGE}&q=${TEXT}"
+fi
+
+sleep 0.2
+
+mpg123 -q -a notify "$FILE"
+
+/bin/shut_led 1
