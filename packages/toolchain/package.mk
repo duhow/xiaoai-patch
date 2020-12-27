@@ -74,10 +74,12 @@ on_exit_build() {
 
 	TOOLCHAIN_CMAKE="${TOOLCHAIN_DIR}/config/cmake-toolchain.txt"
 	TOOLCHAIN_SYSROOT_CMAKE="${TOOLCHAIN_DIR}/config/cmake-toolchain-sysroot.txt"
+	TOOLCHAIN_MESON="${TOOLCHAIN_DIR}/config/meson-cross-file.txt"
 	mkdir -p ${TOOLCHAIN_DIR}/config
 
 	in_to_out ${PACKAGE_DIR}/config/cmake-toolchain.txt.in ${TOOLCHAIN_CMAKE}
 	in_to_out ${PACKAGE_DIR}/config/cmake-toolchain-sysroot.txt.in ${TOOLCHAIN_SYSROOT_CMAKE}
+	in_to_out ${PACKAGE_DIR}/config/meson-cross-file.in ${TOOLCHAIN_MESON}
 
 	# HACK to avoid errors with LDFLAGS files not found
 	for FILE in /lib/libc.so.6 /lib/ld-linux-armhf.so.3 /usr/lib/libc_nonshared.a /lib/libpthread.so.0 /usr/lib/libpthread_nonshared.a ; do

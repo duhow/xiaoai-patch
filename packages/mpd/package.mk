@@ -15,12 +15,10 @@ preconfigure_package() {
 }
 
 configure_package() {
-
-	in_to_out ${PACKAGE_DIR}/config/cross-file.build.in ./cross-file.build
 	# Specify --libdir, or library files will be installed to ${INSTALL_PREFIX}/lib/${BUILD_TARGET} instead of ${INSTALL_PREFIX}/lib
 	PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
 		BOOST_ROOT=${BUILD_DIR}/boost \
-		meson --cross-file cross-file.build ${PACKAGE_SRC_DIR} output/release \
+		meson --cross-file ${TOOLCHAIN_MESON} ${PACKAGE_SRC_DIR} output/release \
 		--prefix=${INSTALL_PREFIX}
 }
 
