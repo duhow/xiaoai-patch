@@ -73,8 +73,11 @@ on_exit_build() {
 	export PATH="${TOOLCHAIN_DIR}/bin:${PATH}"
 
 	TOOLCHAIN_CMAKE="${TOOLCHAIN_DIR}/config/cmake-toolchain.txt"
+	TOOLCHAIN_SYSROOT_CMAKE="${TOOLCHAIN_DIR}/config/cmake-toolchain-sysroot.txt"
 	mkdir -p ${TOOLCHAIN_DIR}/config
+
 	in_to_out ${PACKAGE_DIR}/config/cmake-toolchain.txt.in ${TOOLCHAIN_CMAKE}
+	in_to_out ${PACKAGE_DIR}/config/cmake-toolchain-sysroot.txt.in ${TOOLCHAIN_SYSROOT_CMAKE}
 
 	# HACK to avoid errors with LDFLAGS files not found
 	for FILE in /lib/libc.so.6 /lib/ld-linux-armhf.so.3 /usr/lib/libc_nonshared.a /lib/libpthread.so.0 /usr/lib/libpthread_nonshared.a ; do
