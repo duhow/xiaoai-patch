@@ -11,7 +11,7 @@ USE_PROCD=1
 
 start_service() {
   procd_open_instance
-  procd_set_param command /bin/thd --triggers /etc/thd.conf --socket /var/run/thd.sock /dev/input/event0
+  procd_set_param command /usr/bin/thd --triggers /etc/thd.conf --socket /var/run/thd.sock /dev/input/event0
   procd_set_param respawn 3600 5 0
   procd_close_instance
 }
@@ -34,5 +34,6 @@ echo "[*] Creating default rules for Triggerhappy"
 cat > $ROOTFS/etc/thd.conf <<EOF
 KEY_VOLUMEUP    1  /bin/volume down
 KEY_MENU        1  /bin/volume up
+KEY_VOLUMEDOWN  1  /usr/bin/mpc toggle
 EOF
 
