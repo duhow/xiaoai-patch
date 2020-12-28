@@ -42,5 +42,8 @@ make_package() {
 }
 
 install_package() {
+	# python build takes too much space, this needs to build static or perform a lot of cleaning
+	return 0
+
 	make DESTDIR=${STAGING_DIR} install
 }
