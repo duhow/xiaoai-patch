@@ -14,8 +14,28 @@ configure_package() {
 	   --prefix=${INSTALL_PREFIX} --sysconfdir=/etc --localstatedir=/var
 }
 
+premake_package() {
+	# FIXME this build is unstable, as it uses mixed libs from ARM and system.
+	# Some commands used to fix this:
+
+	echo_error "setting a horrible hack to fix the build"
+
+	FILE_LIBRESOLV=${TOOLCHAIN_DIR}/${BUILD_TARGET}/libc/lib/libresolv.so.2
+
+	mv ${FILE_LIBRESOLV} ${FILE_LIBRESOLV}.bak
+	ln -s ${STAGING_DIR}/lib/libresolv.so.2 ${FILE_LIBRESOLV}
+}
+
 make_package() {
 	make -j${MAKE_JOBS}
+	EXITCODE=$?
+
+	echo_info "undoing toolchain changes"
+
+	rm ${FILE_LIBRESOLV}
+	mv ${FILE_LIBRESOLV}.bak ${FILE_LIBRESOLV}
+
+	return ${EXITCODE}
 }
 
 install_package() {
