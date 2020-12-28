@@ -6,8 +6,8 @@ SHA=$(shasum $FILE | awk '{print $1}')
 #  echo "[*] Patching boot led"
 #fi
 
-echo "[*] Updating boot led"
+echo "[*] Updating boot led and update NTP time"
 LED=13
-sed -i "/set leds/a /bin/show_led ${LED}\n\tsleep 2\n\t/bin/shut_led ${LED}" $FILE
+sed -i "/set leds/a /bin/show_led ${LED}\n\tsleep 2\n\t/bin/shut_led ${LED}\n\tntpd -q -p pool.ntp.org &" $FILE
 
 shasum $FILE
