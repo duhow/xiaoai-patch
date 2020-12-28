@@ -5,7 +5,6 @@ PACKAGE_DEPENDS="expat"
 
 
 configure_package() {
-	#CXX="${BUILD_CXX}" CXXFLAGS="${BUILD_CFLAGS}" CPPFLAGS="${BUILD_CFLAGS}"
 	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" \
 	   CXX="${BUILD_CXX}" \
 	   LDFLAGS="${BUILD_LDFLAGS}" \
