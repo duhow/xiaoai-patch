@@ -34,6 +34,6 @@ echo "[*] Creating default rules for Triggerhappy"
 cat > $ROOTFS/etc/thd.conf <<EOF
 KEY_VOLUMEUP    1  /bin/volume down
 KEY_MENU        1  /bin/volume up
-KEY_VOLUMEDOWN  1  /usr/bin/mpc toggle
+KEY_VOLUMEDOWN  1  playerctl play-pause
 EOF
 
