@@ -27,7 +27,7 @@ for FILE in libxml2.so.2.9.7 libstdc++.so.6.0.22* libsbc.so.1.2.1 libreadline.so
   rm -f $ROOTFS/usr/lib/$FILE
 done
 
-for FILE in hcidump btmgmt hciattach; do
+for FILE in hcidump btmgmt hciattach wget-ssl; do
   echo "   - ${FILE}"
   rm -f $ROOTFS/usr/bin/$FILE
 done
