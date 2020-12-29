@@ -31,3 +31,10 @@ make_package() {
 install_package() {
 	DESTDIR=${STAGING_DIR} ninja -C output/release install
 }
+
+postinstall_package() {
+	TRIGGERHAPPY_FOLDER="${STAGING_DIR}/etc/triggerhappy/triggers.d"
+	mkdir -p ${TRIGGERHAPPY_FOLDER}
+
+	cp -v ${PACKAGE_DIR}/config/triggerhappy.conf ${TRIGGERHAPPY_FOLDER}/mpc.conf
+}
