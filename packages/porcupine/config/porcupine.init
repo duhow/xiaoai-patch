@@ -1,9 +1,3 @@
-#!/bin/sh
-
-echo "[*] Creating startup program for Porcupine (hotword detector)"
-
-FILE=$ROOTFS/etc/init.d/listener
-cat > $FILE <<EOF
 #!/bin/sh /etc/rc.common
 
 START=98
@@ -13,7 +7,7 @@ EXTRA_COMMANDS="status"
 
 start_service() {
   ps | grep -v grep | grep porcupine_launcher -q
-  if [ \$? -eq 0 ]; then
+  if [ $? -eq 0 ]; then
     stop_service
     return
   fi
@@ -49,7 +43,7 @@ stop_service() {
 
 status() {
   _check
-  if [ \$? -eq 0 ]; then
+  if [ $? -eq 0 ]; then
     echo "listener is running."
     return 0
   else
@@ -57,19 +51,3 @@ status() {
     return 1
   fi
 }
-EOF
-
-chmod 755 $FILE
-chown root:root $FILE
-
-BACK=$PWD
-cd $ROOTFS/etc/rc.d
-ln -s ../init.d/listener S98listener
-cd $BACK
-
-echo "[*] Adding rules for Triggerhappy mute"
-
-cat >> $ROOTFS/etc/thd.conf <<EOF
-KEY_HOME        1  pgrep porcupine &>/dev/null && /etc/init.d/listener stop || /etc/init.d/listener start
-EOF
-

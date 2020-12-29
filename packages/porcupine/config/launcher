@@ -1,0 +1,52 @@
+#!/bin/sh
+
+# This script will launch Porcupine (hotword detector) on infinite loop.
+# Service can be stopped, same as pressing the MUTE button.
+
+MIC="mico_record"
+
+SENSITIVITY="0.6"
+WORD=alexa
+TIME=4
+NOTIFY_SOUND=/usr/share/sound/wakeup2.mp3
+PORCUPINE_FOLDER=/usr/share/porcupine
+
+# import config file if exists
+[ -x /data/listener ] && . /data/listener
+
+FILE=/tmp/input.wav
+RATE=16000
+
+amixer sset 'pdm dclk' 'pdm dclk 3.072m, support 8k/16k/32k/48k' &
+amixer sset 'HCIC shift gain from coeff' 'shift with -0x4'
+
+rm -f $FILE
+
+while true; do
+
+# program lib model keyword sensitivity ALSA_INPUT
+/usr/bin/porcupine /usr/lib/libpv_porcupine.so $PORCUPINE_FOLDER/model.pv $PORCUPINE_FOLDER/keywords/${WORD}_raspberry-pi.ppn $SENSITIVITY $MIC
+
+if [ "$?" -gt 0 ]; then
+  sleep 1
+  continue
+fi
+
+/bin/show_led 1
+#aplay -Dnotify $NOTIFY_SOUND &>/dev/null &
+mpg123 -a notify -q $NOTIFY_SOUND &>/dev/null &
+
+# Start recording user response
+arecord -N -D$MIC -d $TIME -f S16_LE -c 8 -r $RATE $FILE
+
+# Show processed LED + fadeout
+/bin/show_led 11
+
+# Perform action - just loop audio
+aplay -Ddefault $FILE
+
+/bin/shut_led 1
+/bin/shut_led 11
+
+done
+# end while
