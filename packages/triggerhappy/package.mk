@@ -9,6 +9,14 @@ make_package() {
 }
 
 install_package() {
-	echo "cp ${PACKAGE_SRC_DIR}/thd ${STAGING_DIR}/${INSTALL_PREFIX}/bin/thd"
-	cp ${PACKAGE_SRC_DIR}/thd ${STAGING_DIR}/${INSTALL_PREFIX}/bin/thd
+	TRIGGERHAPPY_FOLDER="${STAGING_DIR}/etc/triggerhappy/triggers.d"
+	mkdir -p ${STAGING_DIR}/etc/init.d ${STAGING_DIR}/etc/rc.d
+	mkdir -p ${TRIGGERHAPPY_FOLDER}
+	cp -v thd th-cmd ${STAGING_DIR}/${INSTALL_PREFIX}/bin/
+
+	cp -v ${PACKAGE_DIR}/config/triggerhappy.init ${STAGING_DIR}/etc/init.d/triggerhappy
+	chmod 755 ${STAGING_DIR}/etc/init.d/triggerhappy
+	ln -sf ../init.d/triggerhappy ${STAGING_DIR}/etc/rc.d/S70triggerhappy
+
+	cp -v ${PACKAGE_DIR}/config/volume.conf ${TRIGGERHAPPY_FOLDER}
 }
