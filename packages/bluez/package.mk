@@ -25,4 +25,10 @@ install_package() {
 postinstall_package() {
 	# replace original
 	mv -f ${STAGING_DIR}/usr/libexec/bluetooth/bluetoothd ${STAGING_DIR}/usr/bin/bluetoothd
+
+	for NAME in ibeacon eddystone \
+		btproxy btmgmt btinfo btconfig btattach \
+		bluetooth-player bluemoon bdaddr bccmd; do
+	cp -v tools/${NAME} ${STAGING_DIR}/usr/bin/
+	done
 }
