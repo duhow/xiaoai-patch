@@ -16,9 +16,19 @@ FILE=$ROOTFS/etc/init.d/bluetooth
 SHA=$(shasum $FILE | awk '{print $1}')
 if [ "$SHA" = "f51dabcac09d6815356b85e43aab9884a36965a4" ]; then
   echo "[*] Patching Bluetooth start service"
-  sed -i 's/sleep .*/return 0/' $FILE
+  sed -i 's/sleep .*/return 0/' $FILE # stop mibt services
 
-  # new bluealsa params
+  # new bluealsa params, fix start
   sed -i 's/"$PROG2".*/"$PROG2" 00:00:00:00:00:00 -v -D bluetooth --profile-a2dp/' $FILE
 fi
+shasum $FILE
+
+FILE=$ROOTFS/etc/init.d/bluetoothd
+SHA=$(shasum $FILE | awk '{print $1}')
+
+echo "[*] Patching Bluetoothd start service"
+# add parameter to load config from writable flash, not readonly memory
+# so this way user can customize bluetooth name and params
+sed -i 's;command "$PROG".*;command "$PROG" -n -f $conf_dir/bluetooth/main.conf;' $FILE
+
 shasum $FILE

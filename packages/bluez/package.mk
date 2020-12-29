@@ -9,6 +9,8 @@ configure_package() {
 	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
 	   PKG_CONFIG_PATH="${BUILD_PKG_CONFIG_LIBDIR}" \
 	   ./configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} \
+	   --localstatedir=/data/bt/bluez \
+	   --sysconfdir=/etc \
 	   --enable-threads --enable-nfc --enable-library \
 	   --disable-systemd --disable-udev --disable-obex \
 	   --with-sysroot=${STAGING_DIR}
