@@ -1,7 +1,7 @@
 PACKAGE_NAME="FFmpeg"
 PACKAGE_VERSION="4.3.1"
 PACKAGE_SRC="https://www.ffmpeg.org/releases/ffmpeg-${PACKAGE_VERSION}.tar.gz"
-PACKAGE_DEPENDS="openssl"
+PACKAGE_DEPENDS="openssl libxml lame opus soxr speex libvorbis"
 
 configure_package() {
 	export PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}"
@@ -19,7 +19,14 @@ configure_package() {
 		--pkg-config="/usr/bin/pkg-config" \
 		--enable-openssl \
 		--enable-shared --disable-static \
-		--enable-small
+		--enable-small \
+		--disable-doc --disable-htmlpages --disable-manpages \
+		--enable-gpl --enable-nonfree \
+		--enable-libmp3lame \
+		--enable-libvorbis \
+		--enable-libspeex \
+		--enable-libopus \
+		--enable-libsoxr
 }
 
 make_package() {
