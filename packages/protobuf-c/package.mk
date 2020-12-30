@@ -41,4 +41,6 @@ make_package() {
 
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
+
+	# rm -vf ${STAGING_DIR}/${INSTALL_PREFIX}/lib/libprotobuf.so*
 }

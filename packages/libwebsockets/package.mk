@@ -20,3 +20,8 @@ make_package() {
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
 }
+
+postinstall_package() {
+	rm -rvf ${STAGING_DIR}/${INSTALL_PREFIX}/share/libwebsockets-test-server
+	rm -rvf ${STAGING_DIR}/${INSTALL_PREFIX}/bin/libwebsockets-test*
+}

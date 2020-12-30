@@ -1,7 +1,7 @@
 PACKAGE_NAME="forked-daapd"
 PACKAGE_VERSION="27.2"
 PACKAGE_SRC="https://github.com/ejurgensen/forked-daapd/archive/${PACKAGE_VERSION}.tar.gz"
-PACKAGE_DEPENDS="glibc zlib sqlite3 alsa-lib avahi curl ffmpeg libevent libconfuse libunistring json-c minixml libwebsockets gnutls libgcrypt libplist libsodium protobuf-c libantlr3c"
+PACKAGE_DEPENDS="glibc zlib sqlite3 alsa-lib avahi curl ffmpeg libevent libconfuse libunistring json-c minixml libwebsockets libgcrypt libplist libsodium libantlr3c"
 
 preconfigure_package() {
 	autoreconf -fi
@@ -17,7 +17,7 @@ configure_package() {
 	   --prefix=${INSTALL_PREFIX} --with-sysroot=${STAGING_DIR} \
 	   --sysconfdir=/etc \
 	   --localstatedir=/var \
-	   --enable-itunes --enable-lastfm --enable-chromecast \
+	   --enable-itunes --enable-lastfm --disable-chromecast \
 	   --disable-webinterface --enable-mpd \
 	   --with-libplist --with-libwebsockets --with-alsa \
 	   --without-pulseaudio
@@ -29,4 +29,8 @@ make_package() {
 
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
+}
+
+postinstall_package() {
+	rm -rvf ${STAGING_DIR}/${INSTALL_PREFIX}/share/forked-daapd/htdocs/admin/vendor/fontawesome/webfonts/*.svg
 }

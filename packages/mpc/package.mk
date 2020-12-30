@@ -1,7 +1,7 @@
 PACKAGE_NAME="mpc"
 PACKAGE_VERSION="0.33"
-PACKAGE_DEPENDS="mpd"
 PACKAGE_SRC="http://www.musicpd.org/download/mpc/0/mpc-${PACKAGE_VERSION}.tar.xz"
+PACKAGE_DEPENDS="glibc libmpdclient"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
 
 preconfigure_package() {

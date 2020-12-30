@@ -19,3 +19,7 @@ install_package() {
 		--prefix=${STAGING_DIR}/${INSTALL_PREFIX} \
 		-j8
 }
+
+postinstall_package() {
+	rm -rvf ${STAGING_DIR}/${INSTALL_PREFIX}/lib/libboost_*
+}
