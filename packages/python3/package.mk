@@ -21,7 +21,7 @@ preconfigure_package() {
 }
 
 configure_package() {
-	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
+	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS} -static" \
 	   CXX="${BUILD_CXX}" CXXFLAGS="${BUILD_CFLAGS}" CPPFLAGS="${BUILD_CFLAGS}" \
 	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
 	   ./configure --build=${MACHTYPE} --host=${BUILD_TARGET} --target=${BUILD_TARGET} \
@@ -30,7 +30,7 @@ configure_package() {
 	   ac_cv_file__dev_ptc=no \
 	   ac_cv_have_long_long_format=yes \
 	   --disable-ipv6 \
-	   --enable-shared \
+	   --disable-shared \
 	   --enable-optimizations
 }
 
@@ -38,7 +38,8 @@ make_package() {
 	make -j${MAKE_JOBS} \
 		HOSTPYTHON=${PACKAGE_SRC_DIR}/build-host/python \
 		HOSTPGEN=${PACKAGE_SRC_DIR}/build-host/Parser/pgen \
-		CROSS_COMPILE_TARGET=yes
+		CROSS_COMPILE_TARGET=yes \
+		LDFLAGS="${BUILD_LDFLAGS} -static" LINKFORSHARED=" "
 }
 
 install_package() {

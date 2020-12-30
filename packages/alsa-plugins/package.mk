@@ -1,14 +1,15 @@
-PACKAGE_NAME="p11-kit"
-PACKAGE_VERSION="0.23.21"
-PACKAGE_DEPENDS="libtasn1"
-PACKAGE_SRC="https://github.com/p11-glue/p11-kit/releases/download/${PACKAGE_VERSION}/p11-kit-${PACKAGE_VERSION}.tar.xz"
+PACKAGE_NAME="Advanced Linux Sound Architecture - Plugins"
+PACKAGE_VERSION="1.2.2"
+PACKAGE_SRC="ftp://ftp.alsa-project.org/pub/plugins/alsa-plugins-${PACKAGE_VERSION}.tar.bz2"
+PACKAGE_DEPENDS="alsa-lib"
 
 configure_package() {
 	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
 	   CXX="${BUILD_CXX}" CXXFLAGS="${BUILD_CFLAGS}" CPPFLAGS="${BUILD_CFLAGS}" \
 	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
 	   ./configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} \
-	   --without-systemd
+	   --with-sysroot="${STAGING_DIR}" \
+	   --disable-pulseaudio --disable-jack --disable-arcamav --disable-oss
 }
 
 make_package() {

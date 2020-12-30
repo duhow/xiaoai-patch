@@ -650,7 +650,7 @@ mkdir -p ${STAGING_TO_TARGET_DIR}
 write_build_config
 [[ ! $? -eq 0 ]] && exit 1
 
-PACKAGES_TO_BUILD="update-libs update-binaries jq tmux triggerhappy porcupine espeak-ng avahi vorbis-tools mpd mpc upmpdcli snapcast playerctl"
+PACKAGES_TO_BUILD="update-libs update-binaries jq triggerhappy porcupine espeak-ng avahi vorbis-tools ffmpeg mpd mpc upmpdcli snapcast playerctl mosquitto"
 #PACKAGES_TO_BUILD="lirc mosquitto"
 
 for PKGN in $PACKAGES_TO_BUILD; do 
