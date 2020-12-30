@@ -1,6 +1,6 @@
 PACKAGE_NAME="BusyBox"
 PACKAGE_VERSION="1.32.0"
-PACKAGE_SRC="https://busybox.net/downloads/busybox-1.32.0.tar.bz2"
+PACKAGE_SRC="https://busybox.net/downloads/busybox-${PACKAGE_VERSION}.tar.bz2"
 PACKAGE_DEPENDS="base"
 
 configure_package() {
@@ -24,24 +24,17 @@ make_package() {
 }
 
 install_package() {
-	# we don't need init, as it would replace default openwrt init ELF!
-	# still, just to be compliant, as this file does not exist:
-	# echo '#!/bin/sh' > ${STAGING_DIR}/etc/init.d/rcS
-	# chmod 755 ${STAGING_DIR}/etc/init.d/rcS
-
 	mkdir -p ${STAGING_DIR}/bin
-
-	#sleep 1
-	#CC=${BUILD_CC} make CROSS_COMPILE=${BUILD_TARGET}- DESTDIR=${STAGING_DIR} install
-
-	#cp -ar _install/* ${STAGING_DIR}
-
-	echo "cp ${PACKAGE_SRC_DIR}/busybox ${STAGING_DIR}/bin/busybox"
-	cp ${PACKAGE_SRC_DIR}/busybox ${STAGING_DIR}/bin/busybox
+	cp -v ${PACKAGE_SRC_DIR}/busybox ${STAGING_DIR}/bin/busybox
 }
 
 postinstall_package() {
-	# delete unused init, will keep using the openwrt one
+	# we don't need init, as it would replace default openwrt init ELF!
 	rm -f ${STAGING_DIR}/sbin/init
+
+	for NAME in base64 bc dos2unix ftpd httpd ip ipaddr lsof nbd-client nproc \
+		patch realpath sha1sum sha256sum sha3sum sha512sum stat tac tftp tftpd unix2dos xxd; do
+		ln -vsf busybox ${STAGING_DIR}/bin/${NAME}
+	done
 }
 
