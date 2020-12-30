@@ -5,12 +5,19 @@ START=95
 USE_PROCD=1
 
 CONF=/data/snapcast/snapserver.conf
+MPC=/usr/bin/mpc
 
 start_service() {
     if [ ! -f "$CONF" ]; then
-        mkdir -p /data/snapcast 
+        mkdir -p /data/snapcast
         cp /etc/snapserver.conf $CONF
     fi
+
+    /etc/init.d/snapclient stop &>/dev/null
+    /etc/init.d/snapclient start loopback
+
+    $MPC disable Speaker &>/dev/null
+    $MPC enable Snapcast &>/dev/null
 
     procd_open_instance
     procd_set_param command /usr/bin/snapserver -c $CONF
@@ -19,13 +26,14 @@ start_service() {
     procd_append_param respawn 5
     procd_append_param respawn 5
     procd_close_instance
+
+    $MPC play &>/dev/null
 }
 
 stop_service() {
-    killall -9 snapserver &>/dev/null
-}
+    $MPC disable Snapcast &>/dev/null
+    $MPC enable Speaker   &>/dev/null
 
-restart() {
-    stop
-    start
+    /etc/init.d/snapclient restart &>/dev/null
+    $MPC play &>/dev/null
 }
