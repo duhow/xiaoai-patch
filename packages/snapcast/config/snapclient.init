@@ -1,0 +1,24 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006-2020 OpenWrt.org
+
+START=95
+USE_PROCD=1
+
+start_service() {
+    procd_open_instance
+    procd_set_param command /usr/bin/snapclient -s pcm.default
+    procd_set_param respawn
+    procd_append_param respawn 3600
+    procd_append_param respawn 5
+    procd_append_param respawn 5
+    procd_close_instance
+}
+
+stop_service() {
+    killall -9 snapclient &>/dev/null
+}
+
+restart() {
+    stop
+    start
+}
