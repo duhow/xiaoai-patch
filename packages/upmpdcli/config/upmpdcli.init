@@ -1,0 +1,37 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006-2020 OpenWrt.org
+
+START=95
+USE_PROCD=1
+
+DATANAME=/data/upmpdcli
+
+start_service() {
+    if [ ! -f "${DATANAME}.conf" ] || [ ! -d "${DATANAME}" ]; then
+        mkdir -p ${DATANAME}
+	cp /usr/share/upmpdcli/* ${DATANAME}
+	find /usr/share/upmpdcli/ -mindepth 1 -maxdepth 1 -type d -exec ln -s {} ${DATANAME} \;
+
+        cp /etc/upmpdcli.conf ${DATANAME}.conf
+
+	UPNPNAME=`cat /proc/sys/kernel/hostname`
+	sed -i "s/UpMpd/$UPNPNAME/g" ${DATANAME}.conf
+    fi
+
+    procd_open_instance
+    procd_set_param command /usr/bin/upmpdcli -c ${DATANAME}.conf
+    procd_set_param respawn
+    procd_append_param respawn 3600
+    procd_append_param respawn 5
+    procd_append_param respawn 5
+    procd_close_instance
+}
+
+stop_service() {
+    killall -9 snapserver &>/dev/null
+}
+
+restart() {
+    stop
+    start
+}
