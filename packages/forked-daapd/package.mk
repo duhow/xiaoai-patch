@@ -1,23 +1,24 @@
 PACKAGE_NAME="forked-daapd"
 PACKAGE_VERSION="27.2"
 PACKAGE_SRC="https://github.com/ejurgensen/forked-daapd/archive/${PACKAGE_VERSION}.tar.gz"
-PACKAGE_DEPENDS="glibc zlib sqlite3 alsa-lib avahi curl ffmpeg libevent libconfuse libunistring json-c minixml libwebsockets gnutls libplist libsodium protobuf-c"
+PACKAGE_DEPENDS="glibc zlib sqlite3 alsa-lib avahi curl ffmpeg libevent libconfuse libunistring json-c minixml libwebsockets gnutls libgcrypt libplist libsodium protobuf-c libantlr3c"
 
 preconfigure_package() {
-	./scripts/antlr35_install.sh -p /usr/local -y && autoreconf -i
+	autoreconf -fi
+	# ./scripts/antlr35_install.sh -p /usr/local -y
 }
 
 configure_package() {
-	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
+	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS} -lm" \
 	   CXX="${BUILD_CXX}" CXXFLAGS="${BUILD_CFLAGS}" CPPFLAGS="${BUILD_CFLAGS}" \
 	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
 	   PKG_CONFIG_PATH="${BUILD_PKG_CONFIG_LIBDIR}" \
 	   ./configure --build=${MACHTYPE} --host=${BUILD_TARGET} --target=${BUILD_TARGET} \
-	   --prefix=${INSTALL_PREFIX} \
+	   --prefix=${INSTALL_PREFIX} --with-sysroot=${STAGING_DIR} \
 	   --sysconfdir=/etc \
 	   --localstatedir=/var \
 	   --enable-itunes --enable-lastfm --enable-chromecast \
-	   --enable-webinterface --enable-mpd \
+	   --disable-webinterface --enable-mpd \
 	   --with-libplist --with-libwebsockets --with-alsa \
 	   --without-pulseaudio
 }
