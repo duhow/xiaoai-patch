@@ -25,8 +25,9 @@ install_package() {
 }
 
 postinstall_package() {
-	echo_info "adding rc.d start for avahi"
-	RCD_FOLDER="${STAGING_DIR}/etc/rc.d"
-	mkdir -p ${RCD_FOLDER}
-	ln -s /etc/init.d/avahi-daemon ${RCD_FOLDER}/S90avahi
+	mkdir -p ${STAGING_DIR}/etc/init.d ${STAGING_DIR}/etc/rc.d
+
+	cp -vf ${PACKAGE_DIR}/config/avahi-daemon.init ${STAGING_DIR}/etc/init.d/avahi-daemon
+	chmod 755 ${STAGING_DIR}/etc/init.d/avahi-daemon
+	ln -sf ../init.d/avahi-daemon ${STAGING_DIR}/etc/rc.d/S61avahi
 }
