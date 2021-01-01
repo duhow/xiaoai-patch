@@ -1,7 +1,7 @@
 PACKAGE_NAME="Bluetooth Audio ALSA Backend"
-PACKAGE_VERSION="3.0.0"
-PACKAGE_SRC="https://github.com/Arkq/bluez-alsa/archive/v${PACKAGE_VERSION}.tar.gz"
-PACKAGE_DEPENDS="alsa-lib bluez sbc mpg123 lame libldac openaptx dbus glib readline libbsd ncurses"
+PACKAGE_VERSION="master"
+PACKAGE_SRC="https://github.com/Arkq/bluez-alsa/archive/${PACKAGE_VERSION}.tar.gz"
+PACKAGE_DEPENDS="alsa-lib bluez sbc mpg123 lame libldac openaptx fdk-aac dbus glib readline libbsd ncurses"
 
 preconfigure_package() {
 	autoreconf --install
@@ -25,7 +25,9 @@ configure_package() {
 	   --enable-hcitop \
 	   --enable-mp3lame \
 	   --enable-mpg123 \
+	   --enable-aac \
 	   --enable-ldac \
+	   --enable-ofono \
 	   --enable-aptx --enable-aptx-hd \
 	   --with-sysroot="${STAGING_DIR}"
 }
