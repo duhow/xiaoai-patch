@@ -1,0 +1,15 @@
+--- a/src/audio.c
++++ b/src/audio.c
+@@ -84,8 +84,9 @@
+     err = snd_pcm_hw_params_set_channels(handle, hw_params, channels);
+     assert(err >= 0);
+ 
+-    err = snd_pcm_hw_params_set_buffer_size(handle, hw_params, chunk_size * 2);
+-    assert(err >= 0);
++    // No supported by PulseAudio's ALSA plugin
++    // err = snd_pcm_hw_params_set_buffer_size(handle, hw_params, chunk_size * 2);
++    // assert(err >= 0);
+ 
+     // No supported by PulseAudio's ALSA plugin
+     // err = snd_pcm_hw_params_set_period_size(handle, hw_params, chunk_size, 0);
+
