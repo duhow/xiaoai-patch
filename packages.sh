@@ -650,8 +650,7 @@ mkdir -p ${STAGING_TO_TARGET_DIR}
 write_build_config
 [[ ! $? -eq 0 ]] && exit 1
 
-PACKAGES_TO_BUILD="update-libs update-binaries jq triggerhappy porcupine espeak-ng avahi vorbis-tools ffmpeg mpd mpc upmpdcli shairport-sync snapcast playerctl mosquitto"
-#PACKAGES_TO_BUILD="lirc mosquitto"
+PACKAGES_TO_BUILD="update-libs update-binaries support jq services music libgpiod rnnoise ec"
 
 for PKGN in $PACKAGES_TO_BUILD; do 
   process_package $PKGN
