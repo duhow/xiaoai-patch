@@ -1,0 +1,12 @@
+#!/bin/sh /etc/rc.common
+
+USE_PROCD=1
+START=91
+
+start_service() {
+	procd_open_instance
+	procd_set_param command /usr/share/monitor/monitor.sh
+	procd_append_param command -D /data/monitor
+	procd_set_param respawn ${respawn_threshold:-3600} ${respawn_timeout:-5} ${respawn_retry:-5}
+	procd_close_instance
+}
