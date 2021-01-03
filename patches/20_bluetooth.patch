@@ -1,0 +1,59 @@
+--- a/etc/init.d/bluetooth	2019-12-25 04:18:35.000000000 +0100
++++ b/etc/init.d/bluetooth	2021-01-03 12:47:21.705259429 +0100
+@@ -53,7 +53,8 @@
+
+ 	echo "bluealsa_start"
+ 	bluealsa_start
+-	sleep 2
++	return 0
++
+ 	echo "bluez_mibt_classical_start"
+ 	bluez_mibt_classical_start
+
+--- a/etc/init.d/bluetoothd	2019-12-25 04:18:35.000000000 +0100
++++ b/etc/init.d/bluetoothd	2021-01-03 12:47:21.805259975 +0100
+@@ -21,7 +21,7 @@
+         cat /proc/kmsg >/tmp/dmsg.log &
+     else
+         procd_open_instance
+-        procd_set_param command "$PROG" -n
++        procd_set_param command "$PROG" -n -f $conf_dir/bluetooth/main.conf
+         procd_set_param respawn 3600 5 0
+         procd_close_instance
+     fi
+
+--- a/etc/init.d/check_mac	2019-12-25 04:18:35.000000000 +0100
++++ b/etc/init.d/check_mac	2021-01-03 12:47:21.625258992 +0100
+@@ -26,9 +26,6 @@
+ 	fi
+ 	if [ ! -f /data/bt/mibt_config.json ]; then
+ 		cp /etc/bt/mibt_config.json /data/bt
+-	else
+-		mv /data/bt/mibt_config.json $LAST_CONFIG_FILE
+-		cp /etc/bt/mibt_config.json /data/bt
+ 	fi
+ 	if ! grep -Fq macaddr /data/wifi/nvram.txt
+ 	then
+@@ -36,10 +33,6 @@
+ 		cp /etc/wifi/nvram_s12.txt /data/wifi
+ 		cp /etc/wifi/config.txt /data/wifi
+ 	fi
+-	if ! grep -Fq bd_addr /data/bt/bt_config.xml
+-	then
+-		cp /etc/bt/bt_config.xml /data/bt/bt_config.xml
+-	fi
+ 
+ 	KEYPATH=/sys/class/unifykeys
+ 	echo "mac_wifi" > $KEYPATH/name
+@@ -94,11 +87,9 @@
+ if [ "${mac_bt}" != "$oldmac" -o "$oldname" != "${SOUNDBOXNAME}-${sn_poststr}"  ]; then
+   cp -f $BTCONFIGFILE /tmp/${CONFIGNAMETMP}
+   sed -i "s|bd_addr.*|bd_addr\": \"${mac_bt}\",|" /tmp/${CONFIGNAMETMP}
+-  sed -i "s|bd_name.*|bd_name\": \"${SOUNDBOXNAME}-${sn_poststr}\",|"  /tmp/${CONFIGNAMETMP}
+   sed -i "s|discoverable.*|discoverable\": \"${discoverable}\",|"  /tmp/${CONFIGNAMETMP}
+   sed -i "s|connectable.*|connectable\": \"${connectable}\",|"  /tmp/${CONFIGNAMETMP}
+ #修复部分配置出错的设备
+-  sed -i "s|bt_name.*|bd_name\": \"${SOUNDBOXNAME}-${sn_poststr}\",|"  /tmp/${CONFIGNAMETMP}
+   cp -f /tmp/${CONFIGNAMETMP} $BTCONFIGFILE
+   rm -rf $LAST_CONFIG_FILE
+   echo "Modify BT MAC(JSON):${mac_bt}"

@@ -1,0 +1,25 @@
+--- a/etc/config/system	2019-12-25 04:18:35.000000000 +0100
++++ b/etc/config/system	2021-01-03 12:47:22.305262701 +0100
+@@ -1,6 +1,6 @@
+ config system
+ 	option hostname	mico
+-	option zonename PRC
++	option zonename CET
+ 
+ config timeserver ntp
+ 	list server	0.openwrt.pool.ntp.org
+
+--- a/etc/init.d/done	2019-12-25 04:18:35.000000000 +0100
++++ b/etc/init.d/done	2021-01-03 12:47:22.085261502 +0100
+@@ -24,6 +24,10 @@
+ 	echo 0 4 0 7 > /proc/sys/kernel/printk
+
+ 	# set leds to normal state
++	/bin/show_led 13
++	sleep 2
++	/bin/shut_led 13 &
++
+ 	. /etc/diag.sh
+ 	set_state done
+
+

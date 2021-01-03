@@ -1,0 +1,12 @@
+--- a/etc/init.d/done	2019-12-25 04:18:35.000000000 +0100
++++ b/etc/init.d/done	2021-01-03 16:43:28.732282991 +0100
+@@ -23,6 +23,9 @@
+
+ 	echo 0 4 0 7 > /proc/sys/kernel/printk
+
++	# update time
++	ntpd -q -p pool.ntp.org &
++
+ 	# set leds to normal state
+ 	. /etc/diag.sh
+ 	set_state done

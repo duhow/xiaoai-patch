@@ -1,0 +1,25 @@
+--- a/etc/config/dropbear	2019-12-25 04:18:35.000000000 +0100
++++ b/etc/config/dropbear	2021-01-03 12:47:21.385257685 +0100
+@@ -1,6 +1,6 @@
+ config dropbear
+-	option PasswordAuth '0'
+-	option RootPasswordAuth '0'
++	option PasswordAuth '1'
++	option RootPasswordAuth '1'
+ 	option Port         '22'
+ #	option BannerFile   '/etc/banner'
+ 	option rsakeyfile '/data/etc/dropbear/dropbear_rsa_host_key'
+--- a/etc/init.d/dropbear	2019-12-25 04:18:35.000000000 +0100
++++ b/etc/init.d/dropbear	2021-01-03 12:47:21.335257411 +0100
+@@ -118,11 +118,6 @@
+ 
+ start_service()
+ {
+-	ssh_en=`cat /tmp/ssh_en 2>/dev/null`                                       
+-	channel=`/sbin/uci -q get /usr/share/mico/version.version.CHANNEL`
+-	if [ "$ssh_en" != "1" -a "$channel" = "release" ]; then                         
+-		return 0                                                                                  
+-	fi
+ 	[ -s /data/etc/dropbear/dropbear_rsa_host_key ] || keygen
+ 
+ 	. /lib/functions.sh

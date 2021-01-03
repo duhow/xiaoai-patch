@@ -22,6 +22,6 @@ ar --output $TARGET x $TARGET/ca.deb
 tar xf $TARGET/data.tar.xz -C $TARGET
 
 echo "[*] Copying certificates"
-cp -f $TARGET/usr/share/ca-certificates/mozilla/* $ROOTFS/etc/ssl/certs/
+cp -vf $TARGET/usr/share/ca-certificates/mozilla/* $ROOTFS/etc/ssl/certs/
 
 rm -rf $TARGET

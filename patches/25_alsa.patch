@@ -1,0 +1,11 @@
+--- a/etc/asound.conf	2019-12-25 04:18:35.000000000 +0100
++++ b/etc/asound.conf	2021-01-03 12:47:22.255262429 +0100
+@@ -3,7 +3,7 @@
+   slave {
+     pcm {
+       type softvol
+-      slave.pcm dtsaudio
++      slave.pcm dmixer
+       control{
+         name "mysoftvol"
+         card 0
