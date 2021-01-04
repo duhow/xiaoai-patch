@@ -28,8 +28,9 @@ install_package() {
 postinstall_package() {
 	mkdir -p ${STAGING_DIR}/etc/init.d ${STAGING_DIR}/etc/rc.d
 
+	cp -vf ${PACKAGE_DIR}/config/icon.png ${STAGING_DIR}/${INSTALL_PREFIX}/share/upmpdcli
 	cp -vf ${PACKAGE_DIR}/config/upmpdcli.conf ${STAGING_DIR}/etc/
-	cp ${PACKAGE_DIR}/config/upmpdcli.init ${STAGING_DIR}/etc/init.d/upmpdcli
+	cp -vf ${PACKAGE_DIR}/config/upmpdcli.init ${STAGING_DIR}/etc/init.d/upmpdcli
 	chmod 755 ${STAGING_DIR}/etc/init.d/upmpdcli
 	ln -sf ../init.d/upmpdcli ${STAGING_DIR}/etc/rc.d/S98upmpdcli
 }
