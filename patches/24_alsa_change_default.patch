@@ -1,0 +1,14 @@
+--- a/etc/asound.conf 2019-12-25 04:18:35.000000000 +0100
++++ b/etc/asound.conf 2021-01-04 23:43:25.480353861 +0100
+@@ -1,4 +1,10 @@
+ pcm.!default {
++  type asym
++  playback.pcm "general"
++  capture.pcm "mico_record"
++}
++
++pcm.general {
+   type plug
+   slave {
+     pcm {
+
