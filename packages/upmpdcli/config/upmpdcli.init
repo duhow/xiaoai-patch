@@ -18,6 +18,14 @@ start_service() {
 	sed -i "s/UpMpd/$UPNPNAME/g" ${DATANAME}.conf
     fi
 
+    if [ ! -f "${DATANAME}.key" ]; then
+        openssl genrsa -out "${DATANAME}.key" 4096
+        chmod 600 ${DATANAME}.key
+        chown upmpdcli:root ${DATANAME}.key
+    fi
+    mkdir -p /var/cache/upmpdcli/ohcreds
+    ln -s ${DATANAME}.key /var/cache/upmpdcli/ohcreds/credkey.pem
+
     procd_open_instance
     procd_set_param command /usr/bin/upmpdcli -c ${DATANAME}.conf
     procd_set_param respawn
