@@ -24,3 +24,9 @@ make_package() {
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
 }
+
+postinstall_package() {
+	ALSADIR=${STAGING_DIR}/etc/alsa/conf.d
+	mkdir -p ${ALSADIR}
+	cp -vf ${PACKAGE_DIR}/config/alsa.conf ${ALSADIR}/70-rnnoise.conf
+}
