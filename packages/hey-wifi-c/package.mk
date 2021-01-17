@@ -1,6 +1,6 @@
 PACKAGE_NAME="hey-wifi"
-PACKAGE_VERSION="master"
-PACKAGE_SRC="https://github.com/duhow/hey-wifi-c/archive/develop.tar.gz"
+PACKAGE_VERSION="main"
+PACKAGE_SRC="https://github.com/duhow/hey-wifi-c/archive/main.tar.gz"
 PACKAGE_DEPENDS="alsa-lib quiet"
 
 make_package() {
@@ -12,4 +12,5 @@ install_package() {
 	mkdir -p ${HEYWIFI_FOLDER}
 	cp -vf hey-wifi ${STAGING_DIR}/usr/bin
 	cp -vf *.json ${HEYWIFI_FOLDER}
+	cp -vf ${PACKAGE_DIR}/config/heywifi.init ${STAGING_DIR}/etc/init.d/heywifi
 }

@@ -1,0 +1,15 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006-2020 OpenWrt.org
+
+START=95
+USE_PROCD=1
+
+MIC=mico_record
+CONFIG_PROGRAM=/bin/wifi_connect
+CONFIG_QUIET=/usr/share/hey-wifi/quiet-profiles.json
+
+start_service() {
+    procd_open_instance
+    procd_set_param command /usr/bin/hey-wifi -D $MIC -x $CONFIG_PROGRAM -f $CONFIG_QUIET
+    procd_close_instance
+}
