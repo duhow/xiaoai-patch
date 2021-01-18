@@ -16,10 +16,13 @@ URL=https://deb.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20
 
 echo "[*] Downloading ca-certificates: $URL"
 TARGET=$(mktemp -d)
+BACK=$PWD
 
+cd $TARGET
 curl -s -o $TARGET/ca.deb -L "$URL"
-ar --output $TARGET x $TARGET/ca.deb
+ar x $TARGET/ca.deb
 tar xf $TARGET/data.tar.xz -C $TARGET
+cd $BACK
 
 echo "[*] Copying certificates"
 cp -vf $TARGET/usr/share/ca-certificates/mozilla/* $ROOTFS/etc/ssl/certs/
