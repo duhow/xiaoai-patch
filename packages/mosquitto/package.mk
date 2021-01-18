@@ -1,5 +1,5 @@
 PACKAGE_NAME="mosquitto"
-PACKAGE_VERSION="2.0.3"
+PACKAGE_VERSION="2.0.5"
 PACKAGE_SRC="https://mosquitto.org/files/source/mosquitto-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="base glibc cjson"
 

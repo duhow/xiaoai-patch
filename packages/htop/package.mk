@@ -1,5 +1,5 @@
 PACKAGE_NAME="htop"
-PACKAGE_VERSION="3.0.3"
+PACKAGE_VERSION="3.0.5"
 PACKAGE_SRC="https://github.com/htop-dev/htop/archive/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc ncurses"
 
