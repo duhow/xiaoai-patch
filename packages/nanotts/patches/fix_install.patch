@@ -1,0 +1,20 @@
+--- a/Makefile	2021-02-22 17:42:52.000000000 +0100
++++ b/Makefile	2021-05-29 20:47:29.174434337 +0200
+@@ -5,7 +5,7 @@
+ CFLAGS_DEBUG = -g
+ CFLAGS_OPT = -O2
+ SHELL := /bin/bash
+-PICO_LANG_ROOT := /usr/share/pico
++PICO_LANG_ROOT := $(DESTDIR)/usr/share/pico
+ PICO_LANG_LOCATION := $(PICO_LANG_ROOT)/lang/
+ 
+ #LINKER_FLAGS := -lasound -lao
+@@ -87,7 +87,7 @@
+ both: $(PROGRAM) pico
+ 
+ install:
+-	install -m 0755 $(PROGRAM) /usr/bin/
++	install -m 0755 $(PROGRAM) $(DESTDIR)/usr/bin/
+ 	@if [ ! -d $(PICO_LANG_LOCATION) ]; then echo mkdir -p -m 777 $(PICO_LANG_LOCATION); mkdir -p -m 777 $(PICO_LANG_LOCATION); fi
+ 	@for file in ./lang/* ; do echo install -m 0644 $${file} $(PICO_LANG_LOCATION); install -m 0644 $${file} $(PICO_LANG_LOCATION); done
+ 
