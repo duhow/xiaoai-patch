@@ -31,4 +31,6 @@ ln -sf libprocps.so.5.0.0 $ROOTFS/usr/lib/libprocps.so
 ln -sf libprocps.so.5.0.0 $ROOTFS/usr/lib/libprocps.so.5
 
 echo "[*] Deleting Xiaomi hotword detection model"
-rm -rvf $ROOTFS/usr/share/xiaomi
+for NAME in xiaomi sai; do
+  rm -rvf $ROOTFS/usr/share/$NAME
+done
