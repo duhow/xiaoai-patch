@@ -1,5 +1,5 @@
 PACKAGE_NAME="openaptX"
-PACKAGE_VERSION="1.3.0"
+PACKAGE_VERSION="1.3.1"
 PACKAGE_SRC="https://github.com/Arkq/openaptx/archive/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="libsndfile ffmpeg"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"

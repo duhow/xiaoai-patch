@@ -1,5 +1,5 @@
 PACKAGE_NAME="FFmpeg"
-PACKAGE_VERSION="4.3.1"
+PACKAGE_VERSION="4.4"
 PACKAGE_SRC="https://www.ffmpeg.org/releases/ffmpeg-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="openssl libxml lame opus soxr speex libvorbis"
 

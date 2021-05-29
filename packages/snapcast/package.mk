@@ -1,5 +1,5 @@
 PACKAGE_NAME="Snapcast"
-PACKAGE_VERSION="v0.23.0"
+PACKAGE_VERSION="v0.25.0"
 PACKAGE_SRC="https://github.com/badaix/snapcast/archive/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="alsa libvorbis opus flac soxr avahi expat"
 BOOST=boost_1_74_0

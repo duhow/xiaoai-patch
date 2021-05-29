@@ -1,5 +1,5 @@
 PACKAGE_NAME="upmpdcli"
-PACKAGE_VERSION="1.5.7"
+PACKAGE_VERSION="1.5.12"
 #PACKAGE_SRC="https://www.lesbonscomptes.com/upmpdcli/downloads/upmpdcli-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_SRC="https://framagit.org/medoc92/upmpdcli/-/archive/master/upmpdcli-master.tar.gz"
 PACKAGE_DEPENDS="libmpdclient libmicrohttpd jsoncpp libnpupnp libupnpp" # sc2mpd

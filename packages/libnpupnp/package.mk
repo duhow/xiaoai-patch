@@ -1,5 +1,5 @@
 PACKAGE_NAME="libnpupnp"
-PACKAGE_VERSION="4.0.14"
+PACKAGE_VERSION="4.1.4"
 PACKAGE_SRC="https://www.lesbonscomptes.com/upmpdcli/downloads/libnpupnp-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc curl libmicrohttpd expat"
 

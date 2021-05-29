@@ -1,5 +1,5 @@
 PACKAGE_NAME="mpg123"
-PACKAGE_VERSION="1.26.4"
+PACKAGE_VERSION="1.27.2"
 PACKAGE_SRC="https://sourceforge.net/projects/mpg123/files/mpg123/${PACKAGE_VERSION}/mpg123-${PACKAGE_VERSION}.tar.bz2"
 PACKAGE_DEPENDS="alsa-lib"
 

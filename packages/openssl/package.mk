@@ -1,5 +1,5 @@
 PACKAGE_NAME="OpenSSL"
-PACKAGE_VERSION="1.1.1i"
+PACKAGE_VERSION="1.1.1k"
 PACKAGE_SRC="https://www.openssl.org/source/openssl-${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {
