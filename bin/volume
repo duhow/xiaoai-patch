@@ -12,8 +12,8 @@ else
   return
 fi
 
-for SRC in bluetooth mysoftvol notifyvol; do
-  amixer set $SRC $VOL &>/dev/null &
+for SRC in bluetooth mysoftvol notifyvol 'headphone volume'; do
+  amixer set "$SRC" $VOL &>/dev/null &
 done
 
 if [ -e /usr/share/sound/volume.mp3 ]; then
