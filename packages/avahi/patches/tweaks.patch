@@ -1,0 +1,18 @@
+--- a/avahi-daemon/avahi-daemon.conf	2020-02-17 04:41:02.384380713 +0100
++++ b/avahi-daemon/avahi-daemon.conf	2021-05-30 00:25:05.363495244 +0200
+@@ -23,12 +23,12 @@
+ #domain-name=local
+ #browse-domains=0pointer.de, zeroconf.org
+ use-ipv4=yes
+-use-ipv6=yes
++use-ipv6=no
+ #allow-interfaces=eth0
+ #deny-interfaces=eth1
+ #check-response-ttl=no
+ #use-iff-running=no
+-#enable-dbus=yes
+-#disallow-other-stacks=no
++enable-dbus=warn
++disallow-other-stacks=yes
+ #allow-point-to-point=no
+ #cache-entries-max=4096
