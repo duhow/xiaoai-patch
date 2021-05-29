@@ -462,10 +462,14 @@ staging_to_target() {
     done
 
     # some data in usr/share is required, clean the rest
-    for name in applications doc i18n icons info locale man pixmaps tabset gtk-doc ffmpeg gcc-7.4.0; do
+    for name in applications doc i18n icons info locale libtool man pixmaps tabset gtk-doc ffmpeg gcc-7.4.0; do
         echo "rm usr/share/${name}"
         rm -rf usr/share/${name}
     done
+
+    # delete alsa test sounds
+    rm -vrf usr/share/sounds/alsa/Rear_*.wav
+    rm -vrf usr/share/sounds/alsa/Side_*.wav
 
     # var is used for RAM mount, so let's delete it.
     rm -rf var

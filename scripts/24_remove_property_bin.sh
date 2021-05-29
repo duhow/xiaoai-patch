@@ -1,10 +1,11 @@
 #!/bin/sh
 
 echo "[*] Deleting binary files"
-for FILE in alarmd bluez_mibt_ble bluez_mibt_classical carrier_chinatelecom.sh carrier.sh mediaplayer messagingagent mdplay \
+for FILE in alarmd bluez_mibt_ble mibt_ble bluez_mibt_classical carrier_chinatelecom.sh carrier.sh mediaplayer messagingagent mdplay \
   miplayer mibrain_level mibrain_net_check mibrain_oauth_manager mibrain_service mibt_mesh mibt_mesh_proxy mipns-xiaomi \
   miio_client miio_client_helper miio_recv_line miio_send_line miio_service notifyd pns_ubus_helper pns_upload_helper \
-  mitv_pstream nano_httpd quickplayer voip_applite voip_helper voip_service work_day_sync_service mtd_crash_log linein; do
+  mitv_pstream nano_httpd quickplayer mico_voip_applite voip_applite voip_helper voip_service work_day_sync_service \
+  app_avk app_ble app_manager iozone mtd_crash_log linein; do
   rm -vf $ROOTFS/usr/bin/$FILE
 done
 
@@ -18,6 +19,7 @@ for FILE in libmibrain-common-sdk.so libmibrain-common-util.so libmibrainsdk.so 
 	libxiaomi_crypto.so libxiaomi_didi.so libxiaomi_heartbeat.so libxiaomi_http.so libxiaomi_json.so \
 	libxiaomimediaplayer.so libxiaomi_mico.so libxiaomi_miot.so libxiaomi_mosquitto.so libxiaomi_utils.so \
 	libmdspeech.so libmdplay.so libffmpeg-miplayer.so libmimc_sdk.so libiotdcm.so libiotdcm_mdplay.so \
+	libvoipengine.so libsai_miAPIs.so libmibrain-vendor-sdk.so libmibrain-util.so \
 	libDiracAPI_SHARED.so libdts.so libxaudio_engine.so libmesh.so \
 	libprocps.so.5 libprocps.so libevtlog.so.0 libevtlog.so; do
   rm -vf $ROOTFS/usr/lib/$FILE
