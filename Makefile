@@ -11,6 +11,7 @@ extract:
 
 build:
 	rm -f $(BUILD_DIR)/patched 2>/dev/null
+	mkdir -p release
 	mksquashfs $(BUILD_DIR) release/image-$(DATE) -comp xz -noappend -always-use-fragments
 	rm -f release/latest 2>/dev/null
 	ln -s image-$(DATE) release/latest
