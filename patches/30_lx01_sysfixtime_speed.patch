@@ -1,0 +1,11 @@
+--- a/etc/init.d/sysfixtime  	2018-06-14 04:17:09.000000000 +0200
++++ b/etc/init.d/sysfixtime	2021-05-30 23:28:31.085280614 +0200
+@@ -11,7 +11,7 @@
+        start && exit 0
+ 
+        local curtime="$(date +%s)"
+-       local maxtime="$(find /etc -type f -exec date -r {} +%s \; | sort -nr | head -n1)"
++       local maxtime="$(find /etc -type f -maxdepth 1 -exec date -r {} +%s \; | sort -nr | head -n1)"
+        [ $curtime -lt $maxtime ] && date -s @$maxtime
+ }
+ 

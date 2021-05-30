@@ -9,6 +9,25 @@
  config timeserver ntp
  	list server	0.openwrt.pool.ntp.org
 
+--- a/etc/config/system	2018-06-14 04:17:09.000000000 +0200
++++ b/etc/config/system	2021-05-30 23:09:00.699640917 +0200
+@@ -1,15 +1,12 @@
+ config system
+        option hostname mico
+-       option timezone Asia/Shanghai
+-       option timezone CST-8
++       option timezone CET
+        option log_file /var/log/messages
+        option log_size 512
+        option log_buffer_size 64
+
+ config timeserver ntp
+-       list server ntp5.aliyun.com
+        list server 0.openwrt.pool.ntp.org
+-       list server 0.cn.pool.ntp.org
+        option enable 1
+        option enable_server 0
+
 --- a/etc/init.d/done	2019-12-25 04:18:35.000000000 +0100
 +++ b/etc/init.d/done	2021-01-03 12:47:22.085261502 +0100
 @@ -24,6 +24,10 @@
