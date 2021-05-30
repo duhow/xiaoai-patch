@@ -19,7 +19,7 @@ Everything powered by open source software!
 
 This project has been tested on following speakers:
 
-- LX09 - Xiaoai Speaker Pro
+- LX06 - Xiaoai Speaker Pro
 - LX01 - Xiaomi Mi AI Speaker Mini 
 
 There are other models that might be compatible, feel free to contribute and provide some help!
