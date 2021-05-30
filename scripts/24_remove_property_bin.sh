@@ -5,12 +5,16 @@ for FILE in alarmd bluez_mibt_ble mibt_ble bluez_mibt_classical carrier_chinatel
   miplayer mibrain_level mibrain_net_check mibrain_oauth_manager mibrain_service mibt_mesh mibt_mesh_proxy mipns-xiaomi \
   miio_client miio_client_helper miio_recv_line miio_send_line miio_service notifyd pns_ubus_helper pns_upload_helper \
   mitv_pstream nano_httpd quickplayer mico_voip_applite voip_applite voip_helper voip_service work_day_sync_service \
+  mico_voip_alarm mico_voip_ubus_service mico_voip_service.sh mipns-sai \
   app_avk app_ble app_manager iozone mtd_crash_log linein; do
   rm -vf $ROOTFS/usr/bin/$FILE
 done
+  rm -vf $ROOTFS/usr/bin/procps-ng-*
+  rm -vf $ROOTFS/bin/procps-ng-*
 
 # NOTE wakeup.sh is interesting :)
-for FILE in ota notify.sh touchpad tplay wakeup.sh wuw_upload.sh; do
+for FILE in EnterFactory boardupgrade.sh flash.sh \
+  ota notify.sh touchpad tplay wakeup.sh wuw_upload.sh; do
   rm -vf $ROOTFS/bin/$FILE
 done
 

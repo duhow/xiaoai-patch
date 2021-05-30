@@ -33,8 +33,13 @@ postinstall_package() {
 	rm -f ${STAGING_DIR}/sbin/init
 
 	for NAME in base64 bc dos2unix ftpd httpd ip ipaddr lsof nbd-client nproc \
-		patch realpath sha1sum sha256sum sha3sum sha512sum stat tac tftp tftpd unix2dos xxd; do
+		patch realpath sha1sum sha256sum sha3sum sha512sum stat tac tftp tftpd unix2dos xxd \
+		kill w watch; do
 		ln -vsf busybox ${STAGING_DIR}/bin/${NAME}
+	done
+
+	for NAME in pkill pgrep pmap free top uptime; do
+		ln -vsf /bin/busybox ${STAGING_DIR}/usr/bin/${NAME}
 	done
 }
 
