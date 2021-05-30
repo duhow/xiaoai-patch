@@ -1,6 +1,6 @@
 PACKAGE_NAME="D-Bus"
 PACKAGE_VERSION="1.13.18"
-PACKAGE_SRC="https://dbus.freedesktop.org/releases/dbus/dbus-1.13.18.tar.xz"
+PACKAGE_SRC="https://dbus.freedesktop.org/releases/dbus/dbus-${PACKAGE_VERSION}.tar.xz"
 PACKAGE_DEPENDS="expat"
 
 
@@ -39,4 +39,12 @@ make_package() {
 
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
+}
+
+postinstall_package() {
+	mkdir -p ${STAGING_DIR}/etc/init.d ${STAGING_DIR}/etc/rc.d
+
+	cp -vf ${PACKAGE_DIR}/config/dbus.init ${STAGING_DIR}/etc/init.d/dbus
+	chmod 755 ${STAGING_DIR}/etc/init.d/dbus
+	ln -sf ../init.d/dbus ${STAGING_DIR}/etc/rc.d/S60dbus
 }
