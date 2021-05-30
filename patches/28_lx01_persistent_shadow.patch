@@ -1,0 +1,14 @@
+--- a/etc/init.d/boot_check	2018-06-14 04:18:31.000000000 +0200
++++ b/etc/init.d/boot_check	2021-05-30 17:29:04.193869754 +0200
+@@ -27,3 +27,11 @@
+        commit binfo
+ EOF
+ fi
++
++# update persistent password
++if [ ! -f /data/console/shadow ]; then
++       mkdir -p /data/console
++       cp /etc/shadow /data/console
++       cp /etc/passwd /data/console
++fi
++mount --bind /data/console/shadow /etc/shadow
