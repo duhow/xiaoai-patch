@@ -3,6 +3,12 @@
 BUILD_DIR = squashfs-root
 FILE = mtd4
 DATE := $(shell date +%y%m%d-%H%M)
+MODEL ?= none
+BLOCKSIZE = 131072
+
+ifeq ($(MODEL), lx01)
+BLOCKSIZE := 262144
+endif
 
 all: extract patch build
 
@@ -12,7 +18,7 @@ extract:
 build:
 	rm -f $(BUILD_DIR)/patched 2>/dev/null
 	mkdir -p release
-	mksquashfs $(BUILD_DIR) release/image-$(DATE) -comp xz -noappend -always-use-fragments
+	mksquashfs $(BUILD_DIR) release/image-$(DATE) -comp xz -noappend -always-use-fragments -b $(BLOCKSIZE)
 	rm -f release/latest 2>/dev/null
 	ln -s image-$(DATE) release/latest
 
