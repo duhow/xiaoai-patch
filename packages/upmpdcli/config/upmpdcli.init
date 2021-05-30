@@ -36,7 +36,7 @@ start_service() {
 }
 
 stop_service() {
-    killall -9 snapserver &>/dev/null
+    service_stop /usr/bin/upmpdcli
 }
 
 restart() {
