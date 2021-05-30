@@ -1,6 +1,6 @@
 PACKAGE_NAME="Libcap"
-PACKAGE_VERSION="2.43"
-PACKAGE_SRC="https://git.kernel.org/pub/scm/linux/kernel/git/morgan/libcap.git/snapshot/libcap-2.43.tar.gz"
+PACKAGE_VERSION="2.48"
+PACKAGE_SRC="https://git.kernel.org/pub/scm/linux/kernel/git/morgan/libcap.git/snapshot/libcap-${PACKAGE_VERSION}.tar.gz"
 
 install_package() {
 	# gperf breaks the build, so need BUILD_GPERF=no : https://www.mail-archive.com/lfs-dev@lists.linuxfromscratch.org/msg02782.html

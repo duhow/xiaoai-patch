@@ -1,5 +1,5 @@
 PACKAGE_NAME="libbsd"
-PACKAGE_VERSION="0.10.0"
+PACKAGE_VERSION="0.11.3"
 PACKAGE_SRC="https://libbsd.freedesktop.org/releases/libbsd-${PACKAGE_VERSION}.tar.xz"
 PACKAGE_DEPENDS="glibc"
 

@@ -1,5 +1,5 @@
 PACKAGE_NAME="libxml"
-PACKAGE_VERSION="2.9.10"
+PACKAGE_VERSION="2.9.12"
 PACKAGE_SRC="https://github.com/GNOME/libxml2/archive/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc zlib"
 

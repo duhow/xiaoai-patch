@@ -1,6 +1,6 @@
 PACKAGE_NAME="FluidSynth"
-PACKAGE_VERSION="2.1.5"
-PACKAGE_SRC="https://github.com/FluidSynth/fluidsynth/archive/v2.1.5.tar.gz"
+PACKAGE_VERSION="2.2.1"
+PACKAGE_SRC="https://github.com/FluidSynth/fluidsynth/archive/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
 
 configure_package() {

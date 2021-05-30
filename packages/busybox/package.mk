@@ -1,5 +1,5 @@
 PACKAGE_NAME="BusyBox"
-PACKAGE_VERSION="1.32.1"
+PACKAGE_VERSION="1.33.1"
 PACKAGE_SRC="https://busybox.net/downloads/busybox-${PACKAGE_VERSION}.tar.bz2"
 PACKAGE_DEPENDS="base"
 

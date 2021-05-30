@@ -1,5 +1,5 @@
 PACKAGE_NAME="libshout"
-PACKAGE_VERSION="2.4.4"
+PACKAGE_VERSION="2.4.5"
 PACKAGE_SRC="https://ftp.osuosl.org/pub/xiph/releases/libshout/libshout-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="libogg libvorbis speex"
 

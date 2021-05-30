@@ -1,6 +1,6 @@
 PACKAGE_NAME="sndio"
-PACKAGE_VERSION="1.7.0"
-PACKAGE_SRC="https://sndio.org/sndio-1.7.0.tar.gz"
+PACKAGE_VERSION="1.8.0"
+PACKAGE_SRC="https://sndio.org/sndio-${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {
 	./configure --prefix=${INSTALL_PREFIX}

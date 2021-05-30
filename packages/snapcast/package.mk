@@ -2,12 +2,12 @@ PACKAGE_NAME="Snapcast"
 PACKAGE_VERSION="v0.25.0"
 PACKAGE_SRC="https://github.com/badaix/snapcast/archive/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="alsa libvorbis opus flac soxr avahi expat"
-BOOST=boost_1_74_0
+BOOST=boost_1_76_0
 
 preconfigure_package() {
 	if [ ! -e "${PACKAGE_SRC_DOWNLOAD_DIR}/${BOOST}.tar.gz" ]; then
 		echo_info "downloading boost lib"
-		wget -P ${PACKAGE_SRC_DOWNLOAD_DIR} https://boostorg.jfrog.io/artifactory/main/release/1.74.0/source/${BOOST}.tar.gz
+		wget -P ${PACKAGE_SRC_DOWNLOAD_DIR} https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/${BOOST}.tar.gz
 	fi
 	echo_info "extracting boost lib"
 	tar xzf ${PACKAGE_SRC_DOWNLOAD_DIR}/${BOOST}.tar.gz -C ${PACKAGE_SRC_DIR}

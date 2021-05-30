@@ -1,5 +1,5 @@
 PACKAGE_NAME="Nettle"
-PACKAGE_VERSION="3.7"
+PACKAGE_VERSION="3.7.2"
 PACKAGE_DEPENDS="gmp"
 PACKAGE_SRC="https://ftp.gnu.org/gnu/nettle/nettle-${PACKAGE_VERSION}.tar.gz"
 

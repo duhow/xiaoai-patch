@@ -1,5 +1,5 @@
 PACKAGE_NAME="curl"
-PACKAGE_VERSION="7.74.0"
+PACKAGE_VERSION="7.77.0"
 PACKAGE_SRC="https://curl.haxx.se/download/curl-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="zlib openssl nghttp2"
 

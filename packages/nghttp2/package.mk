@@ -1,5 +1,5 @@
 PACKAGE_NAME="nghttp2"
-PACKAGE_VERSION="1.42.0"
+PACKAGE_VERSION="1.43.0"
 PACKAGE_SRC="https://github.com/nghttp2/nghttp2/releases/download/v${PACKAGE_VERSION}/nghttp2-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc gcc openssl zlib"
 
