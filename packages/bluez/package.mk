@@ -31,6 +31,6 @@ postinstall_package() {
 	for NAME in ibeacon eddystone \
 		btproxy btmgmt btinfo btconfig btattach \
 		bluetooth-player bluemoon bdaddr bccmd; do
-	cp -v tools/${NAME} ${STAGING_DIR}/usr/bin/
+	cp -v tools/${NAME} ${STAGING_DIR}/usr/bin/ || true
 	done
 }
