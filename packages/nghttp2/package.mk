@@ -4,12 +4,11 @@ PACKAGE_SRC="https://github.com/nghttp2/nghttp2/releases/download/v${PACKAGE_VER
 PACKAGE_DEPENDS="glibc gcc openssl zlib"
 
 configure_package() {
-	PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" \
-	PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
-	cmake \
-		-DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_CMAKE_SYSROOT} \
-		-DCMAKE_INSTALL_PREFIX=${INSTALL_PREFIX} \
-		${PACKAGE_SRC_DIR}
+	CC="${BUILD_CC}" CXX="${BUILD_CXX}" CFLAGS="${BUILD_CFLAGS}" CXXFLAGS="${BUILD_CFLAGS}" \
+	   CPPFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
+	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
+	   ./configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} \
+	   --disable-python-bindings --enable-lib-only
 }
 
 make_package() {
