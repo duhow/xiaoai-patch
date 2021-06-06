@@ -4,6 +4,8 @@ USERAGENT="Chrome/87.0.4280.88"
 DEFAULT_LANGUAGE=es
 TTS_FOLDER=/tmp/tts
 
+[ -f "/data/tts.conf" ] && . /data/tts.conf
+
 if [ -z "$LANGUAGE" ]; then
   LANGUAGE="$DEFAULT_LANGUAGE"
 fi
