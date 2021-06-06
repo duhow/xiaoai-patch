@@ -17,7 +17,7 @@ install_package() {
 		--without-context \
 		--variant=release \
 		--prefix=${STAGING_DIR}/${INSTALL_PREFIX} \
-		-j8
+		-j${MAKE_JOBS}
 }
 
 postinstall_package() {
