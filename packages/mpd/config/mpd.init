@@ -6,13 +6,16 @@ START=93
 USE_PROCD=1
 
 PROG=/usr/bin/mpd
-CONFIGFILE=/etc/mpd.conf
+CONFIGFILE=/data/mpd.conf
 NICEPRIO=-10
-
-#TODO: Add uci config - nice, config
 
 start_service() {
 	local pld lport
+
+	if [ ! -f "$CONFIGFILE" ]; then
+	    cp /etc/mpd.conf $CONFIGFILE
+	fi
+	mkdir -p /data/mpd
 
 	#create mpd directories from config
 	pld=$(grep ^playlist_directory "$CONFIGFILE" | cut -d "\"" -f 2 | sed "s/~/\/root/g")
@@ -23,9 +26,11 @@ start_service() {
 	lport=$(grep ^port "$CONFIGFILE" | cut -d "\"" -f 2)
 	[ -z "$lport" ] && lport=6600
 
+
 	procd_open_instance
 	procd_add_mdns "mpd" "tcp" "$lport"
 	procd_set_param command "$PROG" --no-daemon "$CONFIGFILE"
+	procd_set_param respawn 3600 5 0
 	procd_set_param stderr 1
 	# Give MPD some real-time priority
 	procd_set_param nice "$NICEPRIO"
