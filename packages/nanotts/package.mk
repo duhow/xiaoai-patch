@@ -23,4 +23,5 @@ make_package() {
 
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
+	rm -rvf ${STAGING_DIR}/usr/local/include/pico*.h
 }

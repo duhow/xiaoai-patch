@@ -37,4 +37,6 @@ postinstall_package() {
 	mkdir -p ${TRIGGERHAPPY_FOLDER}
 
 	cp -v ${PACKAGE_DIR}/config/triggerhappy.conf ${TRIGGERHAPPY_FOLDER}/mpc.conf
+
+	rm -rvf ${STAGING_DIR}/usr/share/vala
 }

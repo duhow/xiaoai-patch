@@ -14,3 +14,7 @@ make_package() {
 install_package() {
 	CC=${BUILD_CC} make DESTDIR=${STAGING_DIR} install
 }
+
+postinstall_package() {
+        rm -rvf ${STAGING_DIR}/usr/share/bash
+}

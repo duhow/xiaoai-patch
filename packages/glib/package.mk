@@ -46,3 +46,8 @@ make_package() {
 install_package() {
 	DESTDIR=${STAGING_DIR} ninja -C _build install
 }
+
+postinstall_package() {
+        rm -rvf ${STAGING_DIR}/usr/share/gdb
+	# /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.6702.0-gdb.py
+}

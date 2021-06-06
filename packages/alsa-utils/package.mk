@@ -14,3 +14,8 @@ make_package() {
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
 }
+
+postinstall_package() {
+	rm -vrf ${STAGING_DIR}/usr/share/sounds/alsa/Rear_*.wav
+	rm -vrf ${STAGING_DIR}/usr/share/sounds/alsa/Side_*.wav
+}

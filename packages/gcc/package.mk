@@ -37,3 +37,7 @@ preinstall_package() {
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
 }
+
+postinstall_package() {
+	rm -rvf ${STAGING_DIR}/usr/share/gcc-${PACKAGE_VERSION}
+}
