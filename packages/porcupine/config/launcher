@@ -10,17 +10,31 @@ WORD=alexa
 TIME=4
 NOTIFY_SOUND=/usr/share/sound/wakeup2.mp3
 PORCUPINE_FOLDER=/usr/share/porcupine
+SPEAK=tts_google
+LANGUAGE=en
 
 # import config file if exists
-[ -x /data/listener ] && . /data/listener
+[ -f /data/listener ] && . /data/listener
+[ -f /data/tts.conf ] && . /data/tts.conf
 
-FILE=/tmp/input.wav
+WAV_INPUT=/tmp/input.wav
+WAV_STT=/tmp/stt.wav
+DATA_STT=/tmp/stt.json
 RATE=16000
+CHANNEL=1
 
-amixer sset 'pdm dclk' 'pdm dclk 3.072m, support 8k/16k/32k/48k' &
-amixer sset 'HCIC shift gain from coeff' 'shift with -0x4'
+# Set lower rate if cannot convert later
+which ffmpeg &>/dev/null || RATE=8000
 
-rm -f $FILE
+MODEL=$(uci -c /usr/share/mico get version.version.HARDWARE)
+
+if [ "${MODEL}" = "LX06" ]; then
+  amixer sset 'pdm dclk' 'pdm dclk 3.072m, support 8k/16k/32k/48k' &
+  amixer sset 'HCIC shift gain from coeff' 'shift with -0x4'
+  CHANNEL=8
+fi
+
+rm -f $WAV_INPUT $WAV_STT
 
 while true; do
 
@@ -37,16 +51,37 @@ fi
 mpg123 -a notify -q $NOTIFY_SOUND &>/dev/null &
 
 # Start recording user response
-arecord -N -D$MIC -d $TIME -f S16_LE -c 8 -r $RATE $FILE
+arecord -N -D$MIC -d $TIME -f S16_LE -c $CHANNEL -r $RATE $WAV_INPUT
 
-# Show processed LED + fadeout
+# Start loading
+/bin/show_led 2
+
+# convert to PCM_S16_LE 1ch/8000
+ffmpeg -hide_banner -loglevel error -i ${WAV_INPUT} -f wav -ac 1 -ar 8000 -y ${WAV_STT}
+
+# upload to STT service
+curl -H "X-Speech-Content: format=wav; channel=1; codec=pcm; sample_rate=8000; bit_rate=16; language=${LANGUAGE}" \
+     -H "Authorization: Bearer ${HA_TOKEN}" \
+     -o ${DATA_STT} -D ${DATA_STT}.hdr \
+     -XPOST -T ${WAV_STT} ${HA_URL}/api/stt/${HA_STT_PROVIDER}
+
+cat ${DATA_STT}.hdr
+cat ${DATA_STT}
+
+# Show speaking LED
+# /bin/show_led 3
+
+if [ "$(jq -r .result ${DATA_STT})" = "success" ]; then
+  ${SPEAK} $(jq .text ${DATA_STT})
+else
+  ${SPEAK} error
+fi
+
+# last animation fadeout and shut LEDs
 /bin/show_led 11
-
-# Perform action - just loop audio
-aplay -Ddefault $FILE
-
-/bin/shut_led 1
-/bin/shut_led 11
+for NUM in 1 2 3; do
+  /bin/shut_led ${NUM}
+done
 
 done
 # end while
