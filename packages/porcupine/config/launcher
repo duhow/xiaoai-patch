@@ -7,7 +7,7 @@ MIC="mico_record"
 
 SENSITIVITY="0.6"
 WORD=alexa
-TIME=4
+TIME=5
 NOTIFY_SOUND=/usr/share/sound/wakeup2.mp3
 PORCUPINE_FOLDER=/usr/share/porcupine
 SPEAK=tts_google
@@ -34,7 +34,7 @@ if [ "${MODEL}" = "LX06" ]; then
   CHANNEL=8
 fi
 
-rm -f $WAV_INPUT $WAV_STT
+rm -f $WAV_INPUT $WAV_STT $DATA_STT
 
 while true; do
 
@@ -50,20 +50,21 @@ fi
 #aplay -Dnotify $NOTIFY_SOUND &>/dev/null &
 mpg123 -a notify -q $NOTIFY_SOUND &>/dev/null &
 
-# Start recording user response
-arecord -N -D$MIC -d $TIME -f S16_LE -c $CHANNEL -r $RATE $WAV_INPUT
+# Do all at once:
+# Start recording user response - tee to input.wav
+# convert to PCM_S16_LE 1ch/8000 - tee to stt.wav
+# send data chuncked without waiting
+
+arecord -N -D$MIC -d $TIME -f S16_LE -c $CHANNEL -r $RATE - | tee ${WAV_INPUT} | \
+ffmpeg -hide_banner -loglevel error -i - -f wav -ac 1 -ar 8000 -y - | tee ${WAV_STT} | \
+curl -H "X-Speech-Content: format=wav; channel=1; codec=pcm; sample_rate=8000; bit_rate=16; language=${LANGUAGE}" \
+     -H "Authorization: Bearer ${HA_TOKEN}" \
+     -H "Tranfer-Encoding: chunked" \
+     -o ${DATA_STT} -D ${DATA_STT}.hdr \
+     -XPOST -T - ${HA_URL}/api/stt/${HA_STT_PROVIDER}
 
 # Start loading
 /bin/show_led 2
-
-# convert to PCM_S16_LE 1ch/8000
-ffmpeg -hide_banner -loglevel error -i ${WAV_INPUT} -f wav -ac 1 -ar 8000 -y ${WAV_STT}
-
-# upload to STT service
-curl -H "X-Speech-Content: format=wav; channel=1; codec=pcm; sample_rate=8000; bit_rate=16; language=${LANGUAGE}" \
-     -H "Authorization: Bearer ${HA_TOKEN}" \
-     -o ${DATA_STT} -D ${DATA_STT}.hdr \
-     -XPOST -T ${WAV_STT} ${HA_URL}/api/stt/${HA_STT_PROVIDER}
 
 cat ${DATA_STT}.hdr
 cat ${DATA_STT}
