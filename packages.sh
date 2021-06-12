@@ -168,7 +168,7 @@ download_package_src() {
                 echo "Using cached download"
             else
                 echo "Downloading package source..."
-                wget -O ${src_filename} -P ${PACKAGE_SRC_DOWNLOAD_DIR} "${PACKAGE_SRC}"
+                wget --no-check-certificate -O ${src_filename} -P ${PACKAGE_SRC_DOWNLOAD_DIR} "${PACKAGE_SRC}"
             fi
         else
             echo_error "Error: Invalid package source specified!"
@@ -289,7 +289,8 @@ update_package_status() {
 
 enter_build() {
     if [[ ${PACKAGE_LAST_BUILD_STATUS} != "completed" ]] || func_exists "on_enter_build" || func_exists "on_exit_build"; then
-        echo_info "::group::Entering build for package '${PACKAGE}'"
+        echo "::group::Build ${PACKAGE}"
+        echo_info "Entering build for package '${PACKAGE}'"
         echo "Entering directory ${PACKAGE_SRC_DOWNLOAD_DIR}..."
         cd ${PACKAGE_SRC_DOWNLOAD_DIR}
         if func_exists "on_enter_build"; then
