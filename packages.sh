@@ -289,7 +289,7 @@ update_package_status() {
 
 enter_build() {
     if [[ ${PACKAGE_LAST_BUILD_STATUS} != "completed" ]] || func_exists "on_enter_build" || func_exists "on_exit_build"; then
-        echo_info "Entering build for package '${PACKAGE}'"
+        echo_info "::group::Entering build for package '${PACKAGE}'"
         echo "Entering directory ${PACKAGE_SRC_DOWNLOAD_DIR}..."
         cd ${PACKAGE_SRC_DOWNLOAD_DIR}
         if func_exists "on_enter_build"; then
@@ -345,6 +345,8 @@ commence_build() {
 exit_build() {
     local status=$1
     [[ "${status}" == '' ]] && status=0
+
+    echo "::endgroup::"
 
     local build_status
     if [[ "${status}" == '0' ]]; then

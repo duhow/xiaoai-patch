@@ -1,0 +1,18 @@
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build image
+        run: docker build -t xiaoai-patch - < Dockerfile-packages
+      - name: Build packages
+        run: docker run -v $PWD:/xiaoai xiaoai-patch
+      - name: Upload packages
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: build-packages/targets/bin-*.tar.gz
