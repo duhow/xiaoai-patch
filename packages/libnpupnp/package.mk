@@ -9,8 +9,8 @@ configure_package() {
 	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
 	   PKG_CONFIG_PATH="${BUILD_PKG_CONFIG_LIBDIR}" \
 	   ./configure --build=${MACHTYPE} --host=${BUILD_TARGET} \
-	   --prefix=${INSTALL_PREFIX} \
-	   --exec-prefix="${STAGING_DIR}/${INSTALL_PREFIX}" \
+	   --prefix="${STAGING_DIR}/${INSTALL_PREFIX}" \
+	   --exec-prefix="${INSTALL_PREFIX}" \
 	   --sysconfdir=/etc
 }
 

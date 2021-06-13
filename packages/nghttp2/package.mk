@@ -8,8 +8,8 @@ configure_package() {
 	   CPPFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
 	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
 	   PKG_CONFIG_PATH="${BUILD_PKG_CONFIG_LIBDIR}" \
-	   ./configure --prefix=${INSTALL_PREFIX} \
-	   --exec-prefix="${STAGING_DIR}/${INSTALL_PREFIX}" \
+	   ./configure --prefix="${STAGING_DIR}/${INSTALL_PREFIX}" \
+	   --exec-prefix="${INSTALL_PREFIX}" \
 	   --build=${MACHTYPE} --host=${BUILD_TARGET} --target=${BUILD_TARGET} \
 	   --enable-lib-only --disable-python-bindings --enable-hpack-tools
 }
