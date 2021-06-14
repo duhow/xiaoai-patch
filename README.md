@@ -26,7 +26,8 @@ There are other models that might be compatible, feel free to contribute and pro
 
 - LX05 - Xiaoai Speaker Play
 - L09G - Xiaomi Mi Smart Speaker
-- Xiaomi Mi AI Speaker 2 Gen
+- L15A - Xiaomi Mi AI Speaker 2 Gen
+- MDZ-25-DT - Xiaomi Mi AI Speaker 1 Gen (?)
 
 You will also need a computer with Linux and:
 
