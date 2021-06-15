@@ -15,6 +15,19 @@ Everything powered by open source software!
 [Vosk]: https://alphacephei.com/vosk/
 [Home Assistant]: https://www.home-assistant.io/
 
+# Warning
+
+(!) Looks like some new speakers or firmware upgrades change the rootfs partition and include a DER certificate to verify the system.
+This **may block** any changes on non-signed squashfs. **Recommended to NOT flash**, you may have an invalid rootfs and potentially lock yourself!
+You can check this by running `binwalk` if it contains a Certificate entry:
+
+```
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             Squashfs filesystem, little endian, version 4.0, compression:xz, size: 32240378 bytes, 2430 inodes, blocksize: 262144 bytes, created: 2021-04-28 06:34:34
+32243716      0x1EC0004       Certificate in DER format (x509 v3), header length: 4, sequence length: 830
+```
+
 # Requirements
 
 This project has been tested on following speakers:
