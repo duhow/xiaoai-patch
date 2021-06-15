@@ -95,5 +95,15 @@ After you have the new image ready, send it to the speaker, and **flash the not-
 You should have some wires soldered to the board to perform TTL in case it is required.  
 As long as you perform steps as described and not flashing content in wrong partitions, you can reverse failed boot with Uboot safely.
 
+In order to enable Uboot menu, check in the environment partition that you have the setting `bootdelay=3`.  
+If is set to `bootdelay=0` then Uboot will continue normal boot process and you won't be able to stop it unless you get into fastboot or recovery mode. (?)  
+In most cases, binary program is `fw_setenv` or `fw_env` and data is set into first partition as string.
+
+Ensure you can access Uboot before writing changes, it is your rescue!
+
+```
+Hit any key to stop autoboot:  0
+```
+
 # DISCLAIMER
 YOU are responsible for any use or damage this software may cause. This repo and its content is intended for educational purposes only. Use at your own risk.
