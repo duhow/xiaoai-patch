@@ -38,7 +38,8 @@ This project has been tested on following speakers:
 There are other models that might be compatible, feel free to contribute and provide some help!
 
 - LX05 - Xiaoai Speaker Play
-- L09G - Xiaomi Mi Smart Speaker
+- L09G - Xiaomi Mi Smart Speaker (Global, Google Assistant)
+- L09A - Xiaoai Speaker Art (China)
 - L15A - Xiaomi Mi AI Speaker 2 Gen
 - MDZ-25-DT - Xiaomi Mi AI Speaker 1 Gen (?)
 
