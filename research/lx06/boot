@@ -1,0 +1,577 @@
+[    0.000000@0] Booting Linux on physical CPU 0x0
+[    0.000000@0] Linux version 4.9.61 (jenkins@a5c85bbdd38c) (gcc version 6.3.1 20170109 (Linaro GCC 6.3-2017.02) ) #1 SMP PREEMPT Wed Dec 25 03:18:35 2019
+[    0.000000@0] Boot CPU: AArch64 Processor [410fd034]
+[    0.000000@0] earlycon: aml_uart0 at MMIO 0x00000000ff803000 (options '')
+[    0.000000@0] bootconsole [aml_uart0] enabled
+[    0.000000@0] Reserved memory: created CMA memory pool at 0x0000000005000000, size 4 MiB
+[    0.000000@0] OF: reserved mem: initialized node linux,secmon, compatible id shared-dma-pool
+[    0.000000@0] On node 0 totalpages: 65536
+[    0.000000@0] free_area_init_node: node 0, pgdat ffffff8009859600, node_mem_map ffffffc00fbc7400
+[    0.000000@0]   DMA zone: 1024 pages used for memmap
+[    0.000000@0]   DMA zone: 0 pages reserved
+[    0.000000@0]   DMA zone: 65536 pages, LIFO batch:15
+[    0.000000@0] psci: probing for conduit method from DT.
+[    0.000000@0] psci: PSCIv1.0 detected in firmware.
+[    0.000000@0] psci: Using standard PSCI v0.2 function IDs
+[    0.000000@0] psci: MIGRATE_INFO_TYPE not supported.
+[    0.000000@0] percpu: Embedded 19 pages/cpu @ffffffc00fb79000 s40920 r8192 d28712 u77824
+[    0.000000@0] pcpu-alloc: s40920 r8192 d28712 u77824 alloc=19*4096
+[    0.000000@0] pcpu-alloc: [0] 0 [0] 1 [0] 2 [0] 3 
+[    0.000000@0] Detected VIPT I-cache on CPU0
+[    0.000000@0] CPU features: enabling workaround for ARM erratum 845719
+[    0.000000@0] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 64512
+[    0.000000@0] Kernel command line: rootfstype=ramfs init=/init console=ttyS0,115200 no_console_suspend earlycon=aml_uart,0xff803000 jtag=apao reboot_mode=cold_boot uboot=U-Boot 2015.01 (Dec 25 2019 - 03:56:50) 
+[    0.000000@0] jtag: jtag select apao
+[    0.000000@0] PID hash table entries: 1024 (order: 1, 8192 bytes)
+[    0.000000@0] Dentry cache hash table entries: 32768 (order: 6, 262144 bytes)
+[    0.000000@0] Inode-cache hash table entries: 16384 (order: 5, 131072 bytes)
+[    0.000000@0] Memory: 241776K/262144K available (5438K kernel code, 370K rwdata, 1860K rodata, 320K init, 704K bss, 16272K reserved, 4096K cma-reserved)
+[    0.000000@0] Virtual kernel memory layout:
+[    0.000000@0]     modules : 0xffffff8000000000 - 0xffffff8008000000   (   128 MB)
+[    0.000000@0]     vmalloc : 0xffffff8008000000 - 0xffffffbebfff0000   (   250 GB)
+[    0.000000@0]       .text : 0xffffff8009080000 - 0xffffff80095d0000   (  5440 KB)
+[    0.000000@0]     .rodata : 0xffffff80095d0000 - 0xffffff80097b0000   (  1920 KB)
+[    0.000000@0]       .init : 0xffffff80097b0000 - 0xffffff8009800000   (   320 KB)
+[    0.000000@0]       .data : 0xffffff8009800000 - 0xffffff800985c808   (   371 KB)
+[    0.000000@0]        .bss : 0xffffff800985c808 - 0xffffff800990cbb4   (   705 KB)
+[    0.000000@0]     fixed   : 0xffffffbefe7fd000 - 0xffffffbefec00000   (  4108 KB)
+[    0.000000@0]     PCI I/O : 0xffffffbefee00000 - 0xffffffbeffe00000   (    16 MB)
+[    0.000000@0]     memory  : 0xffffffc000000000 - 0xffffffc010000000   (   256 MB)
+[    0.000000@0] SLUB: HWalign=64, Order=0-0, MinObjects=0, CPUs=4, Nodes=1
+[    0.000000@0] Preemptible hierarchical RCU implementation.
+[    0.000000@0]        Build-time adjustment of leaf fanout to 64.
+[    0.000000@0]        RCU restricting CPUs from NR_CPUS=8 to nr_cpu_ids=4.
+[    0.000000@0] RCU: Adjusting geometry for rcu_fanout_leaf=64, nr_cpu_ids=4
+[    0.000000@0] NR_IRQS:64 nr_irqs:64 0
+[    0.000000@0] axg_aoclkc_init: register ao clk ok!
+[    0.000000@0] axg_amlogic_init_sdemmc: register amlogic sdemmc clk
+[    0.000000@0] axg_amlogic_init_sdemmc: register amlogic sdemmc clk
+[    0.000000@0] axg_amlogic_init_media: register meson media clk
+[    0.000000@0] axg_amlogic_init_misc: register amlogic axg misc clks
+[    0.000000@0] axg_amlogic_init_misc: register amlogic sdemmc clk
+[    0.000000@0] axg_clkc_init initialization complete
+[    0.000000@0] arm_arch_timer: Architected cp15 timer(s) running at 24.00MHz (phys).
+[    0.000000@0] clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0x588fe9dc0, max_idle_ns: 440795202592 ns
+[    0.000004@0] sched_clock: 56 bits at 24MHz, resolution 41ns, wraps every 4398046511097ns
+[    0.008245@0] meson_bc_timer: mclk->mux_reg =ffffff8008008190,mclk->reg =ffffff800800a194
+[    0.016778@0] Console: colour dummy device 80x25
+[    0.021105@0] Calibrating delay loop (skipped), value calculated using timer frequency.. 48.00 BogoMIPS (lpj=96000)
+[    0.031585@0] pid_max: default: 4096 minimum: 301
+[    0.036391@0] Mount-cache hash table entries: 512 (order: 0, 4096 bytes)
+[    0.043056@0] Mountpoint-cache hash table entries: 512 (order: 0, 4096 bytes)
+[    0.050866@0] sched-energy: CPU device node has no sched-energy-costs
+[    0.056731@0] Invalid sched_group_energy for CPU0
+[    0.061432@0] CPU0: update cpu_capacity 1024
+[    0.065729@0] ASID allocator initialised with 65536 entries
+[    0.103620@0] Meson chip version = RevB (25:B - 43:0)
+[    0.139619@1] Detected VIPT I-cache on CPU1
+[    0.139676@1] Invalid sched_group_energy for CPU1
+[    0.139680@1] CPU1: update cpu_capacity 1024
+[    0.139682@1] CPU1: Booted secondary processor [410fd034]
+[    0.167654@2] Detected VIPT I-cache on CPU2
+[    0.167687@2] Invalid sched_group_energy for CPU2
+[    0.167690@2] CPU2: update cpu_capacity 1024
+[    0.167693@2] CPU2: Booted secondary processor [410fd034]
+[    0.195709@3] Detected VIPT I-cache on CPU3
+[    0.195736@3] Invalid sched_group_energy for CPU3
+[    0.195739@3] CPU3: update cpu_capacity 1024
+[    0.195742@3] CPU3: Booted secondary processor [410fd034]
+[    0.195802@0] Brought up 4 CPUs
+[    0.249200@0] SMP: Total of 4 processors activated.
+[    0.254107@0] CPU features: detected feature: 32-bit EL0 Support
+[    0.260188@0] CPU: All CPU(s) started at EL2
+[    0.264448@0] alternatives: patching kernel code
+[    0.269153@0] Invalid sched_group_energy for CPU3
+[    0.273796@0] Invalid sched_group_energy for Cluster3
+[    0.278868@0] Invalid sched_group_energy for CPU2
+[    0.283593@0] Invalid sched_group_energy for Cluster2
+[    0.288667@0] Invalid sched_group_energy for CPU1
+[    0.293393@0] Invalid sched_group_energy for Cluster1
+[    0.298467@0] Invalid sched_group_energy for CPU0
+[    0.303192@0] Invalid sched_group_energy for Cluster0
+[    0.316820@0] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
+[    0.321156@0] futex hash table entries: 16 (order: -2, 1024 bytes)
+[    0.327521@0] pinctrl core: initialized pinctrl subsystem
+[    0.333756@0] NET: Registered protocol family 16
+[    0.353488@0] cpuidle: using governor menu
+[    0.353767@0] vdso: 2 pages (1 code @ ffffff80095d6000, 1 data @ ffffff8009804000)
+[    0.359706@0] DMA: preallocated 256 KiB pool for atomic allocations
+[    0.366317@0] pstore: using zlib compression
+[    0.370548@0] console [pstore-1] enabled
+[    0.374219@0] pstore: Registered ramoops as persistent store backend
+[    0.380473@0] ramoops: attached 0x100000@0x7400000, ecc: 0/0
+[    0.394398@0] aml_iomap: amlogic iomap probe done
+[    0.406321@0] aml_snd_reg_map[0], reg:ff632000, size:20
+[    0.406372@0] aml_snd_reg_map[1], reg:ff642000, size:2000
+[    0.411340@0] aml snd iomap probe done
+[    0.460706@2] usbcore: registered new interface driver usbfs
+[    0.460797@2] usbcore: registered new interface driver hub
+[    0.466576@2] usbcore: registered new device driver usb
+[    0.471659@2] pps_core: LinuxPPS API ver. 1 registered
+[    0.476673@2] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    0.486071@2] PTP clock support registered
+[    0.490505@2] aml_i2c version: 20140813
+[    0.494854@2] aml-i2c ff805000.i2c: add adapter aml_i2c_adap0(ffffffc00f59e0b8)
+[    0.501837@2] aml-i2c ffd1e000.i2c: add adapter aml_i2c_adap2(ffffffc00f59e8b8)
+[    0.508962@2] Advanced Linux Sound Architecture Driver Initialized.
+[    0.515549@2] Bluetooth: Core ver 2.22
+[    0.518806@2] NET: Registered protocol family 31
+[    0.523408@2] Bluetooth: HCI device and connection manager initialized
+[    0.529965@2] Bluetooth: HCI socket layer initialized
+[    0.535036@2] Bluetooth: L2CAP socket layer initialized
+[    0.540310@2] Bluetooth: SCO socket layer initialized
+[    0.548368@0] clocksource: Switched to clocksource arch_sys_counter
+[    0.557523@0] jtag: module init
+[    0.557886@0] NET: Registered protocol family 2
+[    0.560078@0] TCP established hash table entries: 2048 (order: 2, 16384 bytes)
+[    0.566878@0] TCP bind hash table entries: 2048 (order: 3, 32768 bytes)
+[    0.573526@0] TCP: Hash tables configured (established 2048 bind 2048)
+[    0.580114@0] UDP hash table entries: 128 (order: 0, 4096 bytes)
+[    0.586089@0] UDP-Lite hash table entries: 128 (order: 0, 4096 bytes)
+[    0.592742@0] NET: Registered protocol family 1
+[    0.598152@0] wifi: power_on_pin_OD = 0;
+[    0.601076@0] aml_wifi wifi: [wifi_dev_probe] no power_on_pin2
+[    0.606988@0] aml_wifi wifi: [pwm_double_channel_conf_dt] wifi pwm dt ok
+[    0.613651@0] aml_wifi wifi: [pwm_double_channel_conf] wifi pwm conf ok
+[    0.620291@0] aml_wifi wifi: [wifi_dev_probe] dhd_static_buf setup
+[    0.626725@0] Wifi: bcmdhd_init_wlan_mem: bcmdhd_init_wlan_mem prealloc ok
+[    0.633425@0] aml_wifi wifi: [wifi_dev_probe] interrupt_pin=79
+[    0.639279@0] aml_wifi wifi: [wifi_dev_probe] irq_num=0, irq_trigger_type=1
+[    0.646277@0] aml_wifi wifi: [wifi_dev_probe] power_on_pin=69
+[    0.652052@0] aml_wifi wifi: [wifi_dev_probe] clock_32k_pin=0
+[    0.657989@0] aml_wifi wifi: [wifi_setup_dt] wifi_setup_dt
+[    0.663382@0] aml_wifi wifi: [wifi_setup_dt] irq num is:(102)
+[    0.669117@0] aml_wifi wifi: [wifi_setup_dt] interrupt_pin(79)
+[    0.674993@0] aml_wifi wifi: [wifi_setup_dt] power_on_pin(69)
+[    0.681036@0] Unpacking initramfs...
+[    0.742664@0] Freeing initrd memory: 1396K
+[    0.743977@0] audit: initializing netlink subsys (disabled)
+[    0.746817@0] audit: type=2000 audit(0.672:1): initialized
+[    0.752336@0] Crashlog allocated RAM at address 0x3f00000
+[    0.758011@0] workingset: timestamp_bits=62 max_order=16 bucket_order=0
+[    0.771442@1] squashfs: version 4.0 (2009/01/31) Phillip Lougher
+[    0.774496@2] NET: Registered protocol family 38
+[    0.776500@2] io scheduler noop registered
+[    0.780573@2] io scheduler deadline registered
+[    0.785469@2] io scheduler cfq registered (default)
+[    0.790877@2] Unable to detect cache hierarchy from DT for CPU 0
+[    0.796905@2] loop: module loaded
+[    0.799890@2] zram: Added device: zram0
+[    0.803448@2] tun: Universal TUN/TAP device driver, 1.6
+[    0.808421@2] tun: (C) 1999-2004 Max Krasnyansky <maxk@qualcomm.com>
+[    0.815786@2] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+[    0.821550@2] ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+[    0.828309@2] usbcore: registered new interface driver cdc_acm
+[    0.833780@2] cdc_acm: USB Abstract Control Model driver for USB modems and ISDN adapters
+[    0.842106@2] usbcore: registered new interface driver usbserial
+[    0.848082@2] usbcore: registered new interface driver usbserial_generic
+[    0.854820@2] usbserial: USB Serial support registered for generic
+[    0.861116@2] i2c /dev entries driver
+[    0.865698@2] cpu cpu0: bL_cpufreq_init: CPU 0 initialized
+[    0.870270@2] arm_big_little: bL_cpufreq_register: Registered platform driver: scpi
+[    0.879057@2] hidraw: raw HID events driver (C) Jiri Kosina
+[    0.883967@2] ff803000.serial: clock gate not found
+[    0.888457@2] meson_uart ff803000.serial: ==uart0 reg addr = ffffff80081fc000
+[    0.895605@2] ff803000.serial: ttyS0 at MMIO 0xff803000 (irq = 124, base_baud = 1500000) is a meson_uart
+[    0.910675@2] meson_uart ff803000.serial: ttyS0 use xtal(8M) 24000000 change 0 to 115200
+[    0.913258@2] console [ttyS0] enabled
+[    0.920467@2] bootconsole [aml_uart0] disabled
+[    0.929836@2] meson_uart ffd24000.serial: ==uart1 reg addr = ffffff80081fe000
+[    0.936412@2] ffd24000.serial: ttyS1 at MMIO 0xffd24000 (irq = 139, base_baud = 1500000) is a meson_uart
+[    0.946218@2] secmon secmon: assigned reserved memory node linux,secmon
+[    0.952745@2] secmon: share in base: 0xffffffc0050fe000, share out base: 0xffffffc0050ff000
+[    0.960583@2] secmon: phy_in_base: 0x50fe000, phy_out_base: 0x50ff000
+[    0.967709@2] amlogic-new-usb2 ffe09000.usb2phy: USB2 phy probe:phy_mem:0xffe09000, iomap phy_base:0xffffff8008322000
+[    0.977786@2] amlogic-new-usb3 ffe09080.usb3phy: This phy has no usb port
+[    0.984321@2] amlogic-new-usb3 ffe09080.usb3phy: USB3 phy probe:phy_mem:0xffe09080, iomap phy_base:0xffffff8008326080
+[    0.995409@2] clkmsr: msr_clk_reg0=ffffff8008328004,msr_clk_reg2=ffffff800832a00c
+[    1.002299@2] clkmsr: clkmsr: driver init
+[    1.006643@2] aml_aes_dma ff63e000.aml_aes: Aml AES_dma
+[    1.012187@2] aml_sha_dma ff63e000.aml_sha: Aml SHA1/SHA224/SHA256 dma
+[    1.018673@2] mmc driver version: 3.02, 2017-05-15: New Emmc Host Controller
+[    1.025087@2] core->rate: 166666504
+[    1.028185@2] core->name: axg_emmc_b
+[    1.031763@2] rate: 24000000, name: sd_emmc_p0_B_comp
+[    1.036752@2] rate: 999999023, name: fclk_div2
+[    1.041134@2] clk_name: ffe05000.sdio#mux
+[    1.045159@2] [aml_emmc_clktree_init] clock: 0x0
+[    1.049761@2] get property:                ocr_avail, value:0x00200080
+[    1.056138@2] get property:                    f_min, value:400000
+[    1.062264@2] get property:                    f_max, value:200000000
+[    1.068643@2] get property:             max_req_size, value:0x00020000
+[    1.075124@2] get property:                  pinname, str:sdio
+[    1.080896@2] get property:                card_type, value:3
+[    1.086584@2] get property:              pinmux_base, value:0xff634400
+[    1.093085@2] sdio:pdata->caps = 7810f
+[    1.096760@2] sdio:pdata->caps2 = 0
+[    1.100296@2] sdio reg val:
+[    1.102971@2] SD_EMMC_CLOCK = 0x1000033c
+[    1.106859@2] SD_EMMC_CFG = 0x804890
+[    1.110396@2] SD_EMMC_STATUS = 0x1ff0000
+[    1.114276@2] SD_EMMC_IRQ_EN = 0x3fff
+[    1.118067@2] [meson_mmc_clk_set_rate_v3] clk_ios: 400000,before clock: 0x1000033c
+[    1.125491@2] actual_clock :400000, HHI_nand: 0x80
+[    1.130146@2] [meson_mmc_clk_set_rate_v3] after clock: 0x1000033c
+[    1.152380@2] [meson_mmc_clk_set_rate_v3] clk_ios: 400000,  return .............. clock: 0x1000033c
+[    1.172393@2] meson_mmc_probe() : success!
+[    1.172519@2] amlogic mtd driver init
+[    1.175051@2] prase_get_dtb_nand_parameter:124,parse dts start
+[    1.180382@2] bl mode descrete
+[    1.183287@2] fip_copies 4
+[    1.185971@2] fip_size 0x200000
+[    1.189076@2] nand_clk_ctrl 0xffe07000
+[    1.192782@2] prase_get_dtb_nand_parameter:230,parse dts end
+[    1.198414@2] nand_clk_ctrl 0xffe07000
+[    1.202103@2] nand register base ffffff800835d800, nand clock register ffffff800835f000
+[    1.210339@2] plat->aml_nand_device ffffff80098480b0
+[    1.214965@2] m3_nand_probe() aml_nand_device ffffff80098480b0
+[    1.222758@2] nand: Could not find valid JEDEC parameter page; aborting
+[    1.227286@2] nand: device found, Manufacturer ID: 0xec, Chip ID: 0xf1
+[    1.233752@2] nand: Samsung NAND 128MiB 3,3V 8-bit
+[    1.238495@2] nand: 128 MiB, SLC, erase size: 128 KiB, page size: 2048, OOB size: 64
+[    1.246181@2] nand: NAND_ECC_NONE selected by board driver. This is not recommended!
+[    1.254044@2] NAND device id: ec f1 0 95 42 c6
+[    1.258251@2] NAND device: Manufacturer ID: 
+[    1.262302@2]  0xec, Chip ID: 0xec (Samsung M Generation NAND 1Gib FS33ND01GS108TFI0)
+[    1.270080@2] nand: NAND_ECC_NONE selected by board driver. This is not recommended!
+[    1.277743@2] oob_fill_cnt =32 oob_size =64, bch_bytes =14
+[    1.283172@2] ecc mode:6 ecc_page_num=2 eep_need_oobsize=16
+[    1.288695@2] plane_num=1 writesize=0x800 ecc.size=0x200 bch_mode=1
+[    1.294934@2] aml_nand_init 2178: plat-name:bootloader
+[    1.299993@2] Creating 1 MTD partitions on "bootloader":
+[    1.305266@2] 0x000000000000-0x000000200000 : "bootloader"
+[    1.312328@2] bootloader initialized ok
+[    1.314505@2] plat->aml_nand_device ffffff80098480b0
+[    1.319406@2] m3_nand_probe() aml_nand_device ffffff80098480b0
+[    1.327254@2] nand: Could not find valid JEDEC parameter page; aborting
+[    1.331741@2] nand: device found, Manufacturer ID: 0xec, Chip ID: 0xf1
+[    1.338200@2] nand: Samsung NAND 128MiB 3,3V 8-bit
+[    1.342948@2] nand: 128 MiB, SLC, erase size: 128 KiB, page size: 2048, OOB size: 64
+[    1.350631@2] nand: NAND_ECC_NONE selected by board driver. This is not recommended!
+[    1.358496@2] NAND device id: ec f1 0 95 42 c6
+[    1.362702@2] NAND device: Manufacturer ID: 
+[    1.366751@2]  0xec, Chip ID: 0xec (Samsung M Generation NAND 1Gib FS33ND01GS108TFI0)
+[    1.374532@2] nand: NAND_ECC_NONE selected by board driver. This is not recommended!
+[    1.382192@2] oob_fill_cnt =32 oob_size =64, bch_bytes =14
+[    1.387621@2] ecc mode:6 ecc_page_num=2 eep_need_oobsize=16
+[    1.393143@2] plane_num=1 writesize=0x800 ecc.size=0x200 bch_mode=1
+[    1.399381@2] aml_nand_init 2178: plat-name:nandnormal
+[    1.404463@2] bbt_start=20 env_start=24 key_start=32 dtb_start=40
+[    1.410479@2] nbbt: info size=0x400 max_scan_blk=24, start_blk=20
+[    1.416869@2] get_free_node 43: bitmap=0
+[    1.420398@2] get_free_node 52: bitmap=1
+[    1.424434@2] get_free_node 43: bitmap=1
+[    1.428150@2] get_free_node 52: bitmap=3
+[    1.432204@2] get_free_node 43: bitmap=3
+[    1.435921@2] get_free_node 52: bitmap=7
+[    1.439803@2] nbbt : phy_blk_addr=20, ec=0, phy_page_addr=0, timestamp=1
+[    1.446442@2] nbbt free list:
+[    1.449376@2] blockN=21, ec=-1, dirty_flag=0
+[    1.453601@2] blockN=22, ec=-1, dirty_flag=0
+[    1.457827@2] blockN=23, ec=-1, dirty_flag=0
+[    1.462055@2] aml_nand_scan_rsv_info 1093: page_num=1
+[    1.467056@2] aml_nand_scan_rsv_info 1096
+[    1.471352@2] nbbt valid addr: 280000
+[    1.474649@2] aml_nand_bbt_check 1233 bbt is valid, reading.
+[    1.480255@2] aml_nand_read_rsv_info:426,read nbbt info to 280000
+[    1.486457@2] nenv: info size=0x10000 max_scan_blk=32, start_blk=24
+[    1.492829@2] get_free_node 43: bitmap=7
+[    1.496383@2] get_free_node 52: bitmap=f
+[    1.500421@2] get_free_node 43: bitmap=f
+[    1.504137@2] get_free_node 52: bitmap=1f
+[    1.508277@2] get_free_node 43: bitmap=1f
+[    1.512079@2] get_free_node 52: bitmap=3f
+[    1.516211@2] get_free_node 43: bitmap=3f
+[    1.520015@2] get_free_node 52: bitmap=7f
+[    1.524146@2] get_free_node 43: bitmap=7f
+[    1.527950@2] get_free_node 52: bitmap=ff
+[    1.532081@2] get_free_node 43: bitmap=ff
+[    1.535885@2] get_free_node 52: bitmap=1ff
+[    1.540102@2] get_free_node 43: bitmap=1ff
+[    1.543993@2] get_free_node 52: bitmap=3ff
+[    1.548046@2] nenv : phy_blk_addr=24, ec=227, phy_page_addr=0, timestamp=455
+[    1.555031@2] nenv free list:
+[    1.557964@2] blockN=25, ec=226, dirty_flag=1
+[    1.562276@2] blockN=26, ec=-1, dirty_flag=0
+[    1.566502@2] blockN=27, ec=-1, dirty_flag=0
+[    1.570729@2] blockN=28, ec=-1, dirty_flag=0
+[    1.574960@2] blockN=29, ec=-1, dirty_flag=0
+[    1.579182@2] blockN=30, ec=-1, dirty_flag=0
+[    1.583408@2] blockN=31, ec=-1, dirty_flag=0
+[    1.587634@2] aml_nand_scan_rsv_info 1093: page_num=32
+[    1.592722@2] aml_nand_scan_rsv_info 1096
+[    1.602034@2] nenv valid addr: 300000
+[    1.602055@2] nkey: info size=0x8000 max_scan_blk=40, start_blk=32
+[    1.606763@2] get_free_node 43: bitmap=3ff
+[    1.610492@2] get_free_node 52: bitmap=7ff
+[    1.614708@2] get_free_node 43: bitmap=7ff
+[    1.618599@2] get_free_node 52: bitmap=fff
+[    1.622816@2] get_free_node 43: bitmap=fff
+[    1.626706@2] get_free_node 52: bitmap=1fff
+[    1.631010@2] get_free_node 43: bitmap=1fff
+[    1.634986@2] get_free_node 52: bitmap=3fff
+[    1.639290@2] get_free_node 43: bitmap=3fff
+[    1.643267@2] get_free_node 52: bitmap=7fff
+[    1.647570@2] get_free_node 43: bitmap=7fff
+[    1.651546@2] get_free_node 52: bitmap=ffff
+[    1.655850@2] get_free_node 43: bitmap=ffff
+[    1.659826@2] get_free_node 52: bitmap=1ffff
+[    1.664053@2] nkey : phy_blk_addr=32, ec=0, phy_page_addr=0, timestamp=1
+[    1.670692@2] nkey free list:
+[    1.673625@2] blockN=33, ec=-1, dirty_flag=0
+[    1.677851@2] blockN=34, ec=-1, dirty_flag=0
+[    1.682077@2] blockN=35, ec=-1, dirty_flag=0
+[    1.686304@2] blockN=36, ec=-1, dirty_flag=0
+[    1.690530@2] blockN=37, ec=-1, dirty_flag=0
+[    1.694756@2] blockN=38, ec=-1, dirty_flag=0
+[    1.698982@2] blockN=39, ec=-1, dirty_flag=0
+[    1.703209@2] aml_nand_scan_rsv_info 1093: page_num=16
+[    1.708296@2] aml_nand_scan_rsv_info 1096
+[    1.722638@2] nkey valid addr: 418000
+[    1.722659@2] ndtb: info size=0x20000 max_scan_blk=44, start_blk=40
+[    1.727213@2] get_free_node 43: bitmap=1ffff
+[    1.731112@2] get_free_node 52: bitmap=3ffff
+[    1.735502@2] get_free_node 43: bitmap=3ffff
+[    1.739564@2] get_free_node 52: bitmap=7ffff
+[    1.743954@2] get_free_node 43: bitmap=7ffff
+[    1.748017@2] get_free_node 52: bitmap=fffff
+[    1.752243@2] ndtb : phy_blk_addr=40, ec=0, phy_page_addr=0, timestamp=1
+[    1.758883@2] ndtb free list:
+[    1.761816@2] blockN=41, ec=-1, dirty_flag=0
+[    1.766042@2] blockN=42, ec=-1, dirty_flag=0
+[    1.770268@2] blockN=43, ec=-1, dirty_flag=0
+[    1.774495@2] aml_nand_scan_rsv_info 1093: page_num=64
+[    1.779583@2] aml_nand_scan_rsv_info 1096
+[    1.793920@2] ndtb valid addr: 500000
+[    1.793943@2] tpl: off 8388608, size 8388608
+[    1.812849@2]  NAND bbt detect factory Bad block at 4060000
+[    1.812882@2] aml_nand_add_partition:441 factory bad addr=203
+[    1.840296@2]  NAND bbt detect factory Bad block at 7fe0000
+[    1.840329@2] Creating 6 MTD partitions on "nandnormal":
+[    1.845509@2] 0x000000800000-0x000001000000 : "tpl"
+[    1.854092@2] 0x000001000000-0x000001600000 : "boot0"
+[    1.858358@2] 0x000001600000-0x000001c00000 : "boot1"
+[    1.863330@2] 0x000001c00000-0x000004420000 : "system0"
+[    1.878113@2]  NAND bbt detect factory Bad block at 4060000
+[    1.880283@2] 0x000004420000-0x000006c20000 : "system1"
+[    1.898040@3] 0x000006c20000-0x000008000000 : "data"
+[    1.904996@3]  NAND bbt detect factory Bad block at 7fe0000
+[    1.905892@3] nandnormal initialized ok
+[    1.908801@3] aml_ubootenv_init: register env chardev
+[    1.913873@3] aml_ubootenv_init: register env chardev OK
+[    1.919098@3] amlnf_dtb_init: register dtb cdev
+[    1.923595@3] amlnf_dtb_init: register dtd cdev OK
+[    1.928802@3] aml_vrtc rtc: rtc core: registered aml_vrtc as rtc0
+[    1.934671@3] no efuse-version set, use default value: -1
+[    1.939618@3] key unify config unifykey-num is 6
+[    1.944246@3] key unify fact unifykey-num is 9
+[    1.948580@3] aml_unifykeys_probe:1441=============unifykey_devno:f100000
+[    1.955487@3] unifykey: device unifykeys created ok
+[    1.960206@3] aml_unifykeys_init done!
+[    1.963992@3] storage: storage in base: 0xffffffc005000000
+[    1.969276@3] storage: storage out base: 0xffffffc005040000
+[    1.974797@3] storage: storage block base: 0xffffffc005080000
+[    1.980485@3] storage: probe done!
+[    1.984351@3] aml_wdt ffd0f0d0.watchdog: creat work queue for watch dog
+[    1.990641@3] aml_wdt ffd0f0d0.watchdog: AML Watchdog Timer probed done
+[    1.997171@3] amlogic rfkill init
+[    2.000444@3] enter bt_probe of_node
+[    2.003794@3] not get gpio_en
+[    2.006712@3] power on valid level is high
+[    2.010588@3] bt: power_on_pin_OD = 0;
+[    2.017489@3] tas5805_parse_dts pdata->pdn_pin = 21!
+[    2.019416@3] asoc debug: aml_audio_controller_probe-115
+[    2.024892@3] aml-audio-clocks ff642000.audio_clocks: aml_audio_clocks_probe register audio gate clks
+[    2.034389@3] parse loopback:,       lb mode:0
+[    2.037612@3]        datain_src:4, datain_chnum:8, datain_chumask:3f
+[    2.043363@3]        datalb_src:5, datalb_chnum:2
+[    2.047505@3]        datalb_chswap:0x32,datalb_chumask:3
+[    2.052703@3] aml_tdm_platform_probe, tdm ID = 0
+[    2.057022@3] aml_tdm ff642000.audiobus:tdma: Can't retrieve dai-tdm-clk-rate
+[    2.064077@3] aml_tdm_platform_probe, tdm ID = 1
+[    2.068657@3] aml_tdm ff642000.audiobus:tdmb: tcm_rate =48000
+[    2.074281@3] aml_dai_set_clkdiv, clksel(1), ratio(3)
+[    2.079317@3] aml_tdm_platform_probe, tdm ID = 2
+[    2.083887@3] aml_tdm ff642000.audiobus:tdmc: tcm_rate =48000
+[    2.089532@3] aml_dai_set_clkdiv, clksel(2), ratio(3)
+[    2.095333@3] aml_pdm_platform_probe pdm filter mode from dts:1
+[    2.100343@3] aml_pdm_platform_probe, register soc platform
+[    2.106207@3] 0, irqs toddr 125, frddr 128
+[    2.109874@3] 1, irqs toddr 126, frddr 129
+[    2.113920@3] 2, irqs toddr 127, frddr 130
+[    2.118734@3] NET: Registered protocol family 10
+[    2.123630@3] NET: Registered protocol family 17
+[    2.127234@3] Bluetooth: RFCOMM TTY layer initialized
+[    2.132126@3] Bluetooth: RFCOMM socket layer initialized
+[    2.137400@3] Bluetooth: RFCOMM ver 1.11
+[    2.141271@3] Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+[    2.146690@3] Bluetooth: BNEP filters: protocol multicast
+[    2.152045@3] Bluetooth: BNEP socket layer initialized
+[    2.157131@3] Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+[    2.163169@3] Bluetooth: HIDP socket layer initialized
+[    2.168252@3] lib80211: common routines for IEEE802.11 drivers
+[    2.174032@3] lib80211_crypt: registered algorithm 'NULL'
+[    2.174038@3] lib80211_crypt: registered algorithm 'WEP'
+[    2.174043@3] lib80211_crypt: registered algorithm 'CCMP'
+[    2.174049@3] lib80211_crypt: registered algorithm 'TKIP'
+[    2.174262@3] Registered cp15_barrier emulation handler
+[    2.179278@3] Registered setend emulation handler
+[    2.184384@3] registered taskstats version 1
+[    2.195220@3] dwc3 ff500000.dwc3: Configuration mismatch. dr_mode forced to host
+[    2.899382@3] xhci-hcd xhci-hcd.0.auto: xHCI Host Controller
+[    2.899444@3] xhci-hcd xhci-hcd.0.auto: new USB bus registered, assigned bus number 1
+[    2.907363@3] xhci-hcd xhci-hcd.0.auto: hcc params 0x0220f664 hci version 0x100 quirks 0x02010010
+[    2.916047@3] xhci-hcd xhci-hcd.0.auto: irq 136, io mem 0xff500000
+[    2.922734@3] hub 1-0:1.0: USB hub found
+[    2.926040@3] hub 1-0:1.0: 1 port detected
+[    2.930324@3] xhci-hcd xhci-hcd.0.auto: xHCI Host Controller
+[    2.935653@3] xhci-hcd xhci-hcd.0.auto: new USB bus registered, assigned bus number 2
+[    2.943464@3] usb usb2: We don't know the algorithms for LPM for this host, disabling LPM.
+[    2.952150@3] hub 2-0:1.0: USB hub found
+[    2.955526@3] hub 2-0:1.0: config failed, hub doesn't have any ports! (err -19)
+[    2.963340@3] parse loopback:,       lb mode:0
+[    2.966700@3]        datain_src:4, datain_chnum:8, datain_chumask:3f
+[    2.972485@3]        datalb_src:5, datalb_chnum:2
+[    2.976605@3]        datalb_chswap:0x32,datalb_chumask:3
+[    2.981998@3] tas5805 2-002c: tas5805_init!
+[    3.310269@3] aml_pdm_probe
+[    3.310311@3] aml_pdm_dai_probe
+[    3.310551@3] aml_dai_set_tdm_sysclk freq(12288000), mpll/mclk(2)
+[    3.316734@3] aml_dai_set_tdm_slot(), txmask(0x3), rxmask(0x3)
+[    3.322374@3]        slots(2), slot_width(32), lanes(1)
+[    3.327050@3] asoc aml_dai_set_tdm_fmt, 0x4014, ffffffc00dc1d6d8, id(0), clksel(0)
+[    3.334537@3] pad clk ctl value:0
+[    3.337811@3] sclk_ph0 (pad) clk ctl set:0
+[    3.341866@3] master_mode(1), binv(0), finv(0) out_skew(1), in_skew(3)
+[    3.349022@3] asoc-aml-card meson_sound: dummy <-> TDM-A mapping ok
+[    3.354548@3] aml_dai_set_tdm_sysclk freq(12288000), mpll/mclk(2)
+[    3.360695@3] aml_dai_set_tdm_slot(), txmask(0x3), rxmask(0x3)
+[    3.366360@3]        slots(2), slot_width(32), lanes(1)
+[    3.371022@3] asoc aml_dai_set_tdm_fmt, 0x4001, ffffffc00dc1d858, id(1), clksel(1)
+[    3.378523@3] pad clk ctl value:3
+[    3.381798@3] sclk_ph0 (pad) clk ctl set:3
+[    3.385853@3] master_mode(1), binv(0), finv(0) out_skew(1), in_skew(3)
+[    3.392948@3] asoc-aml-card meson_sound: dummy <-> TDM-B mapping ok
+[    3.398535@3] aml_dai_set_tdm_sysclk freq(12288000), mpll/mclk(2)
+[    3.404680@3] aml_dai_set_tdm_slot(), txmask(0x3), rxmask(0x3)
+[    3.410348@3]        slots(2), slot_width(32), lanes(1)
+[    3.415012@3] asoc aml_dai_set_tdm_fmt, 0x4011, ffffffc00dc1da98, id(2), clksel(2)
+[    3.422510@3] pad clk ctl value:3
+[    3.425785@3] sclk_ph0 (pad) clk ctl set:3
+[    3.429841@3] master_mode(1), binv(0), finv(0) out_skew(1), in_skew(3)
+[    3.436935@3] asoc-aml-card meson_sound: multicodec <-> TDM-C mapping ok
+[    3.443163@3] aml_pdm_pcm_new dai->name: ff642000.audiobus:pdm dai->id: 0
+[    3.449764@3] asoc-aml-card meson_sound: dummy <-> ff642000.audiobus:pdm mapping ok
+[    3.458472@3] snd_card_add_kcontrols card:ffffffc00e343018
+[    3.464056@1] aml_vrtc rtc: setting system clock to 2015-01-01 00:00:05 UTC (1420070405)
+[    3.471129@1] dwc_otg ff400000.dwc2_a: dwc_otg_driver_probe(ffffffc00f78b800)
+[    3.471174@1] dwc_otg: usb0: type: 2 speed: 0, config: 0, dma: 0, id: 0, phy: ffe09000, ctrl: 0
+[    3.479370@1] dwc_otg ff400000.dwc2_a: base=0xffffff8008c00000
+[    3.479377@1] dwc_otg ff400000.dwc2_a: dwc_otg_device=0xffffffc00e5b8c00
+[    3.579739@1] dwc_otg: Core Release: 3.10a
+[    3.579776@1] dwc_otg: Setting default values for core params
+[    3.583935@1] dwc_otg: curmode: 0, host_only: 0
+[    3.588417@1] dwc_otg ff400000.dwc2_a: DMA config: BURST_DEFAULT
+[    3.600718@1] dwc_otg: Using Buffer DMA mode
+[    3.600742@1] dwc_otg: OTG VER PARAM: 1, OTG VER FLAG: 1
+[    3.604625@1] dwc_otg: Working on port type = SLAVE
+[    3.609458@1] dwc_otg: Dedicated Tx FIFOs mode
+[    3.614889@1] input: adc_keypad as /devices/platform/adc_keypad/input/input0
+[    3.621791@1] cpucore_cooling_register, max_cpu_core_num:4
+[    3.634180@1] gxbb_pm: enter meson_pm_probe!
+[    3.634308@1] gxbb_pm: meson_pm_probe done
+[    3.637274@1] ALSA device list:
+[    3.639983@1]   #0: AML-AXGSOUND
+[    3.643379@1] meson_uart ff803000.serial: ttyS0 use xtal(8M) 24000000 change 115200 to 115200
+[    3.646407@1] Freeing unused kernel memory: 320K
+[    3.714639@0] aw20054: no symbol version for module_layout
+[    3.715115@0] [AW20054] LED AW20054 Driver Ver 2.3 
+[    3.719525@0] AW20054 0-003a: [AW20054] leds_aw20054_i2c_probe:3a
+[    3.764644@0] AW20054 0-003a: [AW20054] chip ID is 0x18
+[    3.795037@2] uboot env amlnf_env_read : ####
+[    3.795137@2] aml_nand_read_rsv_info:426,read nenv info to 300000
+[    3.809276@1] uboot env amlnf_env_read : ####
+[    3.809375@1] aml_nand_read_rsv_info:426,read nenv info to 300000
+[    3.824282@2] [ir_rx] GPIO IR RX Driver Ver 2.1 .
+[    3.824643@2] [ir_rx] in probe.
+[    3.826548@2] [ir_tx] creat node.
+[    3.829781@2] [ir_tx] creat netlink.
+[    3.833286@2] [ir_rx] useless datas 1 .
+[    3.837109@2] [ir_rx] kfifo len : 0
+[    3.837109@2] .
+[    3.840658@2] meson_pinctrl: gpio virq[21] connect to AO GIC hwirq[232]
+[    3.847162@2] meson_pinctrl: gpio virq[21] connect to AO GIC hwirq[233]
+[    3.853886@2] [ir_rx] register driver ok.
+[    3.862116@1] [ir_tx] in probe.
+[    3.862336@1] [ir_tx] LX06 GPIO IR TX Driver
+[    3.925040@0] mtdblock_open() 362: name system[system0], flag 0x400, oob 64
+[    3.929170@0] mtdblock_open() 377: mapping! 
+[    3.946938@0]  NAND bbt detect factory Bad block at 4060000
+[    3.946974@0] skip bad blk 291
+[    4.374952@1] init: Console is alive
+[    4.375166@1] init: - watchdog -
+[    4.623247@1] kmodloader: loading kernel modules from /etc/modules-boot.d/*
+[    4.643856@2] Aux In Driver Ver 3.0 
+[    4.644244@2] meson-pinctrl pinctrl@ff634480: function 'gpioa_20' not supported
+[    4.649093@2] meson-pinctrl pinctrl@ff634480: invalid function gpioa_20 in map table
+[    4.656811@2] [auxin] in probe.
+[    4.660096@2] input: Xiaomi mico auxiliary port as /devices/virtual/input/input1
+[    4.667324@2] meson_pinctrl: gpio virq[84] connect to GIC hwirq[96]
+[    4.673392@0] meson_pinctrl: gpio virq[84] connect to GIC hwirq[96]
+[    4.679971@3] [auxin] register driver ok.
+[    4.683971@3] kmodloader: done loading kernel modules from /etc/modules-boot.d/*
+[    4.689601@0] [auxin] value mismatch [0 1] at 10ms
+[    4.699598@0] [auxin] value mismatch [0 1] at 10ms
+[    4.700335@2] init: - preinit -
+[    4.709607@0] [auxin] value mismatch [0 1] at 10ms
+[    4.719600@0] [auxin] value mismatch [0 1] at 10ms
+[    4.729604@0] [auxin] value mismatch [0 1] at 10ms
+[    4.729650@0] meson_pinctrl: gpio virq[84] connect to GIC hwirq[96]
+[    4.735018@0] [auxin] aux out
+[    5.265950@0] random: jshn: uninitialized urandom read (4 bytes read)
+[    5.282361@0] random: jshn: uninitialized urandom read (4 bytes read)
+[    8.377190@2] mount_root: mounting /dev/root
+[    8.381651@0] urandom-seed: Seed file not found (/etc/urandom.seed)
+[    8.451674@2] procd: - early -
+[    8.451818@2] procd: - watchdog -
+[    9.063683@1] procd: - watchdog -
+[    9.064006@1] procd: - ubus -
+[    9.118470@2] random: ubusd: uninitialized urandom read (4 bytes read)
+[    9.119641@2] random: ubusd: uninitialized urandom read (4 bytes read)
+[    9.125875@2] random: ubusd: uninitialized urandom read (4 bytes read)
+[    9.132470@2] random: ubusd: uninitialized urandom read (4 bytes read)
+[    9.138784@2] random: ubusd: uninitialized urandom read (4 bytes read)
+[    9.145483@2] random: ubusd: uninitialized urandom read (4 bytes read)
+[    9.151905@2] random: ubusd: uninitialized urandom read (4 bytes read)
+[    9.158627@3] procd: - init -
+[    9.293969@1] kmodloader: loading kernel modules from /etc/modules.d/*
+[    9.301136@1] Miso kernel module inited
+[    9.307880@1] ip6_tables: (C) 2000-2006 Netfilter Core Team
+[    9.313720@1] usbcore: registered new interface driver btusb
+[    9.314452@1] Bluetooth: HCI UART driver ver 2.3
+[    9.318363@1] Bluetooth: HCI UART protocol H4 registered
+[    9.324819@1] ip_tables: (C) 2000-2006 Netfilter Core Team
+[    9.332922@1] nf_conntrack version 0.5.0 (2048 buckets, 8192 max)
+[    9.345595@1] xt_time: kernel timezone is -0000
+[    9.348189@1] kmodloader: done loading kernel modules from /etc/modules.d/*
+[   10.409666@1] random: jshn: uninitialized urandom read (4 bytes read)
+[   10.739475@3] ubi0: attaching mtd6
+[   10.798278@3]  NAND bbt detect factory Bad block at 7fe0000
+[   10.798328@3] ubi0: scanning is finished
+[   10.805748@3] ubi0: attached mtd6 (name "data", size 19 MiB)
+[   10.807709@3] ubi0: PEB size: 131072 bytes (128 KiB), LEB size: 126976 bytes
+[   10.814715@3] ubi0: min./max. I/O unit sizes: 2048/2048, sub-page size 2048
+[   10.821604@3] ubi0: VID header offset: 2048 (aligned 2048), data offset: 4096
+[   10.828669@3] ubi0: good PEBs: 158, bad PEBs: 1, corrupted PEBs: 0
+[   10.834795@3] ubi0: user volume: 1, internal volumes: 1, max. volumes count: 128
+[   10.842123@3] ubi0: max/mean erase counter: 34/17, WL threshold: 4096, image sequence number: 3848856180
+[   10.851532@3] ubi0: available PEBs: 0, total reserved PEBs: 158, PEBs reserved for bad PEB handling: 19
+[   10.860883@0] ubi0: background thread "ubi_bgt0d" started, PID 1123
+[   10.867768@1] UBIFS (ubi0:0): background thread "ubifs_bgt0_0" started, PID 1126
+[   10.884312@2] UBIFS (ubi0:0): recovery needed
+[   10.941235@2] UBIFS (ubi0:0): recovery completed
+[   10.941386@2] UBIFS (ubi0:0): UBIFS: mounted UBI device 0, volume 0, name "data"
+[   10.947569@2] UBIFS (ubi0:0): LEB size: 126976 bytes (124 KiB), min./max. I/O unit sizes: 2048 bytes/2048 bytes
+[   10.957573@2] UBIFS (ubi0:0): FS size: 15872000 bytes (15 MiB, 125 LEBs), journal size 1015809 bytes (0 MiB, 6 LEBs)
+[   10.968005@2] UBIFS (ubi0:0): reserved for root: 749673 bytes (732 KiB)
+[   10.974563@2] UBIFS (ubi0:0): media format: w4/r0 (latest is w4/r0), UUID 5088DF18-7953-4840-8DE2-E46DF94A0003, small LPT model

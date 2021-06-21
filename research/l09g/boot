@@ -1,0 +1,248 @@
+[    0.000000@0] Booting Linux on physical CPU 0x0
+[    0.000000@0] Linux version 4.9.113-04598-gde6945f522b7-dirty (ming.liu@droid16-sz) (gcc version 6.3.1 20170109 (Linaro GCC 6.3-2017.02) ) #81 SMP PREEMPT Thu Sep 3 14:18:06 CST 2020
+[    0.000000@0] Boot CPU: AArch64 Processor [410fd034]
+[    0.000000@0] earlycon: aml_uart0 at MMIO 0x00000000ff803000 (options '')
+[    0.000000@0] bootconsole [aml_uart0] enabled
+[    0.000000@0] efi: Getting EFI parameters from FDT:
+[    0.000000@0] efi: UEFI not found.
+[    0.000000@0]        07400000 - 07500000,     1024 KB, ramoops@0x07400000
+[    0.000000@0] __reserved_mem_alloc_size, start:0x0000000005000000, end:0x0000000005400000, len:4 MiB
+[    0.000000@0]        05000000 - 05400000,     4096 KB, linux,secmon
+[    0.000000@0] cma: Reserved 8 MiB at 0x000000001f800000
+[    0.000000@0] psci: probing for conduit method from DT.
+[    0.000000@0] psci: PSCIv1.0 detected in firmware.
+[    0.000000@0] psci: Using standard PSCI v0.2 function IDs
+[    0.000000@0] psci: MIGRATE_INFO_TYPE not supported.
+[    0.000000@0] psci: SMC Calling Convention v1.1
+[    0.000000@0] percpu: Embedded 26 pages/cpu @ffffffc01f750000 s68632 r8192 d29672 u106496
+[    0.000000@0] Detected VIPT I-cache on CPU0
+[    0.000000@0] CPU features: enabling workaround for ARM erratum 845719
+[    0.000000@0] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 129024
+[    0.000000@0] Kernel command line: init="/bin/busybox sh" loglevel=7 console=ttyS0,115200 no_console_suspend earlycon=aml_uart,0xff803000 emergency reboot_mode=cold_boot
+[    0.000000@0]
+[    0.000000@0] PID hash table entries: 2048 (order: 2, 16384 bytes)
+[    0.000000@0] Dentry cache hash table entries: 65536 (order: 7, 524288 bytes)
+[    0.000000@0] Inode-cache hash table entries: 32768 (order: 6, 262144 bytes)
+[    0.000000@0] Memory: 480040K/524288K available (9468K kernel code, 1222K rwdata, 2508K rodata, 3776K init, 635K bss, 31960K reserved, 12288K cma-reserved)
+[    0.000000@0] Virtual kernel memory layout:
+[    0.000000@0]     modules : 0xffffff8000000000 - 0xffffff8008000000   (   128 MB)
+[    0.000000@0]     vmalloc : 0xffffff8008000000 - 0xffffffbebfff0000   (   250 GB)
+[    0.000000@0]       .text : 0xffffff8009080000 - 0xffffff80099c0000   (  9472 KB)
+[    0.000000@0]     .rodata : 0xffffff80099c0000 - 0xffffff8009c40000   (  2560 KB)
+[    0.000000@0]       .init : 0xffffff8009c40000 - 0xffffff8009ff0000   (  3776 KB)
+[    0.000000@0]       .data : 0xffffff8009ff0000 - 0xffffff800a121a00   (  1223 KB)
+[    0.000000@0]        .bss : 0xffffff800a121a00 - 0xffffff800a1c06dc   (   636 KB)
+[    0.000000@0]     fixed   : 0xffffffbefe7fb000 - 0xffffffbefec00000   (  4116 KB)
+[    0.000000@0]     PCI I/O : 0xffffffbefee00000 - 0xffffffbeffe00000   (    16 MB)
+[    0.000000@0]     vmemmap : 0xffffffbf00000000 - 0xffffffc000000000   (     4 GB maximum)
+[    0.000000@0]               0xffffffbf00000000 - 0xffffffbf00800000   (     8 MB actual)
+[    0.000000@0]     memory  : 0xffffffc000000000 - 0xffffffc020000000   (   512 MB)
+[    0.000000@0] can't find symbol:arm_dma_alloc
+[    0.000000@0] can't find symbol:__alloc_from_contiguous
+[    0.000000@0] can't find symbol:cma_allocator_alloc
+[    0.000000@0] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
+[    0.000000@0] Preemptible hierarchical RCU implementation.
+[    0.000000@0]        Build-time adjustment of leaf fanout to 64.
+[    0.000000@0]        RCU restricting CPUs from NR_CPUS=8 to nr_cpu_ids=4.
+[    0.000000@0] RCU: Adjusting geometry for rcu_fanout_leaf=64, nr_cpu_ids=4
+[    0.000000@0]
+[    0.000000@0] **********************************************************
+[    0.000000@0] **   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **
+[    0.000000@0] **                                                      **
+[    0.000000@0] ** trace_printk() being used. Allocating extra memory.  **
+[    0.000000@0] **                                                      **
+[    0.000000@0] ** This means that this is a DEBUG kernel and it is     **
+[    0.000000@0] ** unsafe for production use.                           **
+[    0.000000@0] **                                                      **
+[    0.000000@0] ** If you see this message and you are not debugging    **
+[    0.000000@0] ** the kernel, report this immediately to your vendor!  **
+[    0.000000@0] **                                                      **
+[    0.000000@0] **   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **
+[    0.000000@0] **********************************************************
+[    0.000000@0] NR_IRQS:64 nr_irqs:64 0
+[    0.000000@0] irq_meson_gpio: 100 to 8 gpio interrupt mux initialized
+[    0.000000@0] axg_aoclkc_init: register ao clk ok![    0.000000@0] axg_amlogic_init_sdemmc: register amlogic sdemmc clk
+[    0.000000@0] axg_amlogic_init_sdemmc: register amlogic sdemmc clk
+[    0.000000@0] axg_amlogic_init_media: register meson media clk
+[    0.000000@0] axg_amlogic_init_misc: register amlogic axg misc clks
+[    0.000000@0] axg_amlogic_init_misc: register amlogic sdemmc clk
+[    0.000000@0] axg_clkc_init initialization complete
+[    0.000000@0] arm_arch_timer: Architected cp15 timer(s) run
+[    2.351819@1]  NAND bbt detect factory Bad block at c000000
+[    2.351849@1] aml_nand_add_partition:392 factory bad addr=600
+[    2.357480@1]  NAND bbt detect factory Bad block at c020000
+[    2.362975@1] aml_nand_add_partition:392 factory bad addr=601
+[    2.388135@1] Creating 7 MTD partitions on "nandnormal":
+[    2.388165@1] 0x000000800000-0x000001000000 : "tpl"
+[    2.396888@2] 0x000001000000-0x000001a00000 : "recovery"
+[    2.402862@3] 0x000001a00000-0x000002600000 : "boot"
+[    2.408643@3] 0x000002600000-0x000003600000 : "system"
+[    2.415334@3] 0x000003600000-0x000007a20000 : "chrome"
+[    2.423468@3]  NAND bbt detect factory Bad block at 5040000
+[    2.438235@3] 0x000007a20000-0x000007e20000 : "factory"
+[    2.445393@3] 0x000007e20000-0x000010000000 : "data"
+[    2.465592@3]  NAND bbt detect factory Bad block at c000000
+[    2.465660@3]  NAND bbt detect factory Bad block at c020000
+[    2.492502@3] nandnormal initialized ok
+[    2.492581@3] aml_ubootenv_init: register env chardev
+[    2.496161@3] aml_ubootenv_init: register env chardev OK
+[    2.501101@3] amlnf_dtb_init: register dtb cdev
+[    2.505931@3] amlnf_dtb_init: register dtd cdev OK
+[    2.510229@3] mtd_nand_probe 267 , err = 0
+[    2.515058@3] aml_vrtc rtc: rtc core: registered aml_vrtc as rtc0
+[    2.520609@3] input: aml_vkeypad as /devices/platform/rtc/input/input1
+[    2.527451@3] unifykey: storage in base: 0xffffffc005000000
+[    2.532320@3] unifykey: storage out base: 0xffffffc005040000
+[    2.537940@3] unifykey: storage block base: 0xffffffc005080000
+[    2.543679@3] unifykey: probe done!
+[    2.547700@3] unifykey: no efuse-version set, use default value: -1
+[    2.553353@3] unifykey: key unify config unifykey-num is 13
+[    2.558963@3] unifykey: key unify fact unifykey-num is 13
+[    2.564211@3] unifykey: unifykey_devno: f300000
+[    2.569015@2] unifykey: device unifykeys created ok
+[    2.573617@2] unifykey: aml_unifykeys_init done!
+[    2.578603@2] amlkaraoke init success!
+[    2.582424@2] meson_wdt ffd0f0d0.watchdog: start watchdog
+[    2.587175@2] meson_wdt ffd0f0d0.watchdog: creat work queue for watch dog
+[    2.594316@3] meson_wdt ffd0f0d0.watchdog: AML Watchdog Timer probed done
+[    2.600896@3] amlogic rfkill init
+[    2.604177@3] enter bt_probe of_node
+[    2.607451@3] not get gpio_en
+[    2.610351@3] not get gpio_hostwake
+[    2.613791@3] not get gpio_btwakeup
+[    2.617251@3] power on valid level is high[    2.621135@3] bt: power_on_pin_OD = 0;
+[    2.624840@3] bt: power_off_flag = 1;
+[    2.628462@3] dis power down = 0;
+[    2.658190@3] request_irq error ret=-22
+[    2.658268@3] dev_pm_set_wake_irq failed: -22
+[    2.660807@3] page_trace_module_init, create sysfs failed
+[    2.671101@3] [AW20072] LED AW20072 Driver Ver 2.2
+[    2.686169@3] AW20072 1-003b: [AW20072] chip ID is 0x18
+[    2.710908@3] defendkey defendkey: Reserved memory is not enough!
+[    2.711382@3] defendkey: probe of defendkey failed with error -22
+[    2.719615@3] tas5805_parse_dts pdata->pdn_pin = 417!
+[    2.724997@3] asoc debug: aml_audio_controller_probe-130
+[    2.728547@3] aml_tdm_platform_probe, tdm ID = 0, lane_cnt = 4
+[    2.733531@3] snd_tdm ff642000.audiobus:tdma: lane_mask_out = 2, lane_oe_mask_out = 0
+[    2.741304@3] snd_tdm ff642000.audiobus:tdma: neither mclk_pad nor mclk2pad set
+[    2.748657@3] aml_tdm_platform_probe(), share en = 1[    2.753219@3] No channel mask node Channel_Mask
+[    2.758019@3] aml_tdm_platform_probe, tdm ID = 1, lane_cnt = 4
+[    2.763520@3] snd_tdm ff642000.audiobus:tdmb: lane_mask_out = 1, lane_oe_mask_out = 0
+[    2.771510@3] aml_tdm_platform_probe(), share en = 1[    2.775982@3] No channel mask node Channel_Mask
+[    2.780743@3] aml_tdm_platform_probe, tdm ID = 2, lane_cnt = 4
+[    2.786292@3] snd_tdm ff642000.audiobus:tdmc: lane_mask_out = 1, lane_oe_mask_out = 0
+[    2.794269@3] TDM id 2 output clk enable:1
+[    2.798191@3] aml_tdm_platform_probe(), share en = 1[    2.802801@3] No channel mask node Channel_Mask
+[    2.808755@3] aml_spdif_platform_probe, register soc platform
+[    2.813650@3] snd_pdm ff642000.audiobus:pdm: check whether to update pdm chipinfo
+[    2.820760@3] default set lane_mask_in as all lanes.
+[    2.825326@3] aml_pdm_platform_probe pdm filter mode from dts:1
+[    2.831206@3] aml_pdm_platform_probe, register soc platform
+[    2.837215@3] audio-ddr-manager ff642000.audiobus:ddr_manager: 0, irqs toddr 14, frddr 17
+[    2.844875@3] audio-ddr-manager ff642000.audiobus:ddr_manager: 1,
+[    5.443525@3] ubi7: scanning is finished
+[    5.448716@0] ubi7: attached mtd7 (name "data", size 129 MiB)
+[    5.448831@0] ubi7: PEB size: 131072 bytes (128 KiB), LEB size: 126976 bytes
+[    5.455849@0] ubi7: min./max. I/O unit sizes: 2048/2048, sub-page size 2048
+[    5.462733@0] ubi7: VID header offset: 2048 (aligned 2048), data offset: 4096
+[    5.469798@0] ubi7: good PEBs: 1037, bad PEBs: 2, corrupted PEBs: 0
+[    5.476012@0] ubi7: user volume: 1, internal volumes: 1, max. volumes count: 128
+[    5.483356@0] ubi7: max/mean erase counter: 1/0, WL threshold: 4096, image sequence number: 66472384
+[    5.492409@0] ubi7: available PEBs: 0, total reserved PEBs: 1037, PEBs reserved for bad PEB handling: 38
+[    5.501818@1] ubi7: background thread "ubi_bgt7d" started, PID 1436
+[    5.506637@0] UBIFS (ubi7:0): background thread "ubifs_bgt7_0" started, PID 1439
+UBI device number 7, total 1037 LEBs (131674112 bytes, 125.6 MiB), available 0 LEBs (0 bytes), L[    5.524276@2] UBIFS (ubi7:0): recovery needed
+EB size 126976 bytes (124.0 KiB)
+[    5.601281@1] UBIFS (ubi7:0): recovery completed
+[    5.601441@1] UBIFS (ubi7:0): UBIFS: mounted UBI device 7, volume 0, name "cache"
+[    5.607709@1] UBIFS (ubi7:0): LEB size: 126976 bytes (124 KiB), min./max. I/O unit sizes: 2048 bytes/2048 bytes
+[    5.617704@1] UBIFS (ubi7:0): FS size: 124944384 bytes (119 MiB, 984 LEBs), journal size 6221824 bytes (5 MiB, 49 LEBs)
+[    5.628395@1] UBIFS (ubi7:0): reserved for root: 4952683 bytes (4836 KiB)
+[    5.635124@1] UBIFS (ubi7:0): media format: w4/r0 (latest is w4/r0), UUID B57309F6-AB04-4AA3-B266-8B3B9D46DB8A, small LPT model
+/dev/ubi7_0 /cache ubifs rw,relatime 0 0
+/cache is already mounted
+ctrl_interface=/data/wifi
+/data/misc/bluedroid/bt_config.conf
+[    6.084655@1] unifykey: amlkey_init_gen() enter!
+[    6.084717@1] aml_nand_read_rsv_info:431,read nkey info at 420000
+[    6.092588@1] unifykey: amlkey_init_gen() storagekey_info.buffer=ffffffc005080000, storagekey_info.size = 8000!
+[    6.099959@1] unifykey: name_store() 1302, name mac_bt, 6
+[    6.105066@1] unifykey: name_store() 1311
+[    6.119698@3] unifykey: name: mac_bt, size 17
+and wifi mac changes,seting new wifi MAC addr.
+[    6.176697@1] file system registered
+[    6.176862@1] assign_ffs_buffer FFS_BUFFER_MAX=100!!!
+[    6.240206@2] unifykey:  key_unify_init() already inited!
+[    6.240334@2] unifykey: name_store() 1302, name mac_wifi, 8
+[    6.245558@2] unifykey: name_store() 1311
+[    6.259914@3] unifykey: name: mac_wifi, size 17
+and wifi mac changes,seting new wifi MAC addr.
+set system prompt languge to en-US
+[    6.442874@2] logd.auditd: start
+[    6.442937@2] logd.klogd: 6253014376
+[1231/160241.580712:WARNING:client_auth_manager.cc(87)] Pref service not available. This should only happen in tests.
+[    6.710932@3]
+[    6.710932@3] aml_pdm_dai_set_sysclk, pdm_sysclk:133333203 pdm_dclk:3071998, dclk_srcpll:24575982
+[    6.715990@3] aml_pdm_dai_prepare, pdm_dclk:3072000, osr:192, rate:16000 filter mode:1
+[    6.723694@3] aml_pdm_ctrl, lane mask:0xf, channels:2, channels mask:0x3, bypass:0
+[    6.731538@3] asoc-aml-card auge_sound: PDM Capture start
+[    6.738658@3] input: mic_state as /devices/virtual/input/input2
+Playing WAVE '/usr/share/empty.wav' : Signed 16 bit Little Endian, Rate 44100 Hz, Stereo
+link failed File exists
+link failed Read-only file system
+link failed Read-only file system
+link failed Read-only file system
+link failed Read-only file system
+link failed Read-only file system
+link failed No such file or directory
+[    6.937754@3] 8821cs: loading out-of-tree module taints kernel.
+[    7.037557@3] ######platform_wifi_power_on:
+[    7.037613@3] aml_wifi wifi: [extern_wifi_set_enable] WIFI  Disable! 465
+[    7.577963@3] aml_wifi wifi: [extern_wifi_set_enable] WIFI  Enable! 465
+[    8.091368@0] meson-mmc: sdio: resp_timeout,vstat:0xa1ff2800,virqc:3fff
+[    8.092342@0] meson-mmc: sdio: err: wait for irq service, bus_fsm:0x8
+[    8.099769@0] meson-mmc: sdio: resp_timeout,vstat:0xa1ff2800,virqc:3fff
+[    8.105276@0] meson-mmc: sdio: err: wait for irq service, bus_fsm:0x8
+[    8.116396@0] meson-mmc: sdio: resp_timeout,vstat:0x9dff0800,virqc:3fff
+[    8.118215@0] meson-mmc: sdio: err: wait for desc write back, bus_fsm:0x7
+[    8.125655@3] meson-aml-mmc ffe05000.sdio: card claims to support voltages below defined range
+[    8.153987@3] meson-mmc: actual_clock :400000, HHI_nand: 0x80
+[    8.154098@3] meson-mmc: [meson_mmc_clk_set_rate_v3] after clock: 0x1000033c
+[    8.180485@3] meson-aml-mmc ffe05000.sdio: divider requested rate 100000000 != actual rate 99999903: ret=0
+[    8.184492@3] meson-mmc: actual_clock :99999903, HHI_nand: 0x80
+[    8.190355@3] meson-mmc: [meson_mmc_clk_set_rate_v3] after clock: 0x1000034a
+[    8.197342@3] meson-mmc: Data 1 aligned delay is 0
+[    8.202084@3] meson-mmc: sdio: clk 99999903 tuning start
+[    8.216147@3] meson-mmc: sdio: adj_win: < 0 1 2 3 4 5 7 8 >
+[    8.216175@3] meson-mmc: sdio: best_win_start =0, best_win_size =6
+[    8.222217@3] meson-mmc: sdio: sd_emmc_regs->gclock=0x1000034a,sd_emmc_regs->gadjust=0x32000
+[    8.230576@3] meson-mmc: delay1:0x0, delay2:0x0
+[    8.236422@3] sdio: new ultra high speed SDR50 SDIO card at address 0001
+[    8.241709@3] sdio: clock 99999903, 4-bit-bus-width
+[    8.247140@1] meson-mmc: [sdio_reinit] finish
+[    8.440015@2] Miso kernel module inited
+[    9.619243@2] start_addr=(0x8000), end_addr=(0x10000), buffer_size=(0x8000), smp_number_max=(4096)
+[    9.652930@1] IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
+[    9.666218@0] init: '/system/bin/ifconfig' exited with status 0
+[    9.666587@0] init: command 'exec' r=0
+[    9.670558@0] init: executing '/system/bin/iw'
+command failed: No such device (-19)
+[    9.714246@0] init: '/system/bin/iw' exited with status 237
+[    9.714372@0] init: command 'exec' r=237
+[    9.719102@0] init: starting 'wpa_supplicant'
+[    9.722900@0] init: command 'start' r=0
+[    9.723369@3] init: Created socket '/dev/socket/wpa_wlan0' with mode '660', user '1008', group '1008'
+[    9.735438@0] init: executing '/sbin/populate_sn.sh'
+[    9.788424@0] init: '/sbin/populate_sn.sh' exited with status 0
+Serial Number: bin
+Initializing random number generator...
+[   10.495749@3] unifykey:  key_unify_init() already inited!
+[   10.495901@3] unifykey: name_store() 1302, name deviceid, 8
+[   10.501141@3] unifykey: name_store() 1311
+[   10.517479@2] unifykey: name: deviceid, size 15
+[   10.541806@1] capability: warning: `dhcpcd' uses 32-bit capabilities (legacy support in use)
+[   11.213431@3] BT_RADIO going: off
+[   11.213466@3] AML_BT: going OFF
+[   11.442394@3] BT_RADIO going: on
+[   11.442428@3] AML_BT: going ON
+[   11.551645@1] configfs-gadget ff400000.dwc2_a: failed to start amlogic: -19 
