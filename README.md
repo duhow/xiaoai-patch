@@ -1,11 +1,18 @@
+
+![XiaoAi Speakers](research/speakers.jpg)
+
+------------
+
 # Introduction
 
 This repo contains custom scripts and patches, to make a custom rootfs image free of propietary software, and installing open source programs.  
-The main purpose of this toolset is to have your DIY Alexa-like speaker, with lots of integrations for music and automation.
+Patches and scripts can be tweaked, so if really want, you can keep the original functions of the Chinese XiaoAi assistant, and install new programs as well.
+
+The main purpose of this toolset is to have your DIY Voice Assistant (Alexa-like) and Smart Speaker, with lots of integrations for music and automation.
 
 By using [MPD], [Snapcast], [Shairport-Sync], [Upmpdcli] you can make your speaker a full media player compatible with multiple cast protocols,
 and also have a voice assistant powered by [Porcupine] and [Vosk] that can interact with your [Home Assistant].  
-Everything powered by open source software!
+Everything powered by Open Source Software!
 
 [MPD]: https://www.musicpd.org/
 [Snapcast]: https://github.com/badaix/snapcast
@@ -15,16 +22,17 @@ Everything powered by open source software!
 [Vosk]: https://alphacephei.com/vosk/
 [Home Assistant]: https://www.home-assistant.io/
 
-# Warning
+# :warning: Warning
 
-:warning: Looks like some new speakers or firmware upgrades change the rootfs partition and include a DER certificate to verify the system.
+Looks like some new speakers or firmware upgrades change the rootfs partition and include a DER certificate to verify the system.
 This **may block** any changes on non-signed squashfs. **Recommended to NOT flash**, you may have an invalid rootfs and potentially lock yourself!
 You can check this by running `binwalk` if it contains a Certificate entry:
 
 ```
 DECIMAL       HEXADECIMAL     DESCRIPTION
 --------------------------------------------------------------------------------
-0             0x0             Squashfs filesystem, little endian, version 4.0, compression:xz, size: 32240378 bytes, 2430 inodes, blocksize: 262144 bytes, created: 2021-04-28 06:34:34
+0             0x0             Squashfs filesystem, little endian, version 4.0, compression:xz, size: 32240378 bytes,
+                              2430 inodes, blocksize: 262144 bytes, created: 2021-04-28 06:34:34
 32243716      0x1EC0004       Certificate in DER format (x509 v3), header length: 4, sequence length: 830
 ```
 
@@ -40,13 +48,13 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 | ![L15A - encrypted, not fully supported][L15A] | Xiaomi Mi AI Speaker 2 Gen |
 | ![MDZ-25-DT - not tested][MDZ-25-DT] | Xiaomi Mi AI Speaker 1 Gen (?) |
 
-[LX06]: https://img.shields.io/badge/LX06-green
-[LX01]: https://img.shields.io/badge/LX01-green
-[L09A]: https://img.shields.io/badge/L09A-green
-[L09G]: https://img.shields.io/badge/L09G-red
-[LX05]: https://img.shields.io/badge/LX05-yellow
-[L15A]: https://img.shields.io/badge/L15A-yellow
-[MDZ-25-DT]: https://img.shields.io/badge/MDZ--25--DT-lightgrey
+[LX06]: https://img.shields.io/badge/LX06-green?style=for-the-badge
+[LX01]: https://img.shields.io/badge/LX01-green?style=for-the-badge
+[L09A]: https://img.shields.io/badge/L09A-green?style=for-the-badge
+[L09G]: https://img.shields.io/badge/L09G-red?style=for-the-badge
+[LX05]: https://img.shields.io/badge/LX05-yellow?style=for-the-badge
+[L15A]: https://img.shields.io/badge/L15A-yellow?style=for-the-badge
+[MDZ-25-DT]: https://img.shields.io/badge/MDZ--25--DT-lightgrey?style=for-the-badge
 
 # Requirements
 

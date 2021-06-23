@@ -1,5 +1,10 @@
-# images
+# Info
 
+Tested with firmware 1.58.15
+
+# Images and partitions
+
+```
 root@mico:~# cat /proc/mtd 
 dev:    size   erasesize  name
 mtd0: 00200000 00020000 "bootloader"
@@ -9,15 +14,18 @@ mtd3: 00600000 00020000 "boot1"
 mtd4: 02820000 00020000 "system0"
 mtd5: 02800000 00020000 "system1"
 mtd6: 013e0000 00020000 "data"
+```
+| block | size | description |
+|-------|------|-------------|
+| mtd0 | 258048 | uboot |
+| mtd1 | 8388608 | tpl (?) |
+| mtd2 | 6291456 | kernel boot image 1 |
+| mtd3 | 6291456 | kernel boot image 2 (empty on first boot) |
+| mtd4 | 41943040 | rootfs partition 1 squashfs |
+| mtd5 | 41943040 | rootfs partition 2 squashfs (empty on first boot) |
+| mtd6 | 20709376 | ubifs data partition, 13.3MB to use |
 
-mtd0: uboot, 258048 bytes
-mtd1: tpl (?), 8388608 bytes
-mtd2: kernel boot image 1, 6291456 bytes
-mtd3: kernel boot image 2, 6291456 bytes [empty on first boot]
-mtd4: rootfs partition squashfs, 41943040 bytes
-mtd5: rootfs partition squashfs, 41943040 bytes [empty on first boot]
-mtd6: ubifs data partition, 20709376 bytes, 13.3MB to use
-
+```
 Target File:   /lx06/mtd1
 MD5 Checksum:  e78660e77c10a2a4a6bb5b63ed32b4b9
 
@@ -54,16 +62,17 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 --------------------------------------------------------------------------------
 0             0x0             Squashfs filesystem, little endian, version 4.0, compression:xz, size: 32345147 bytes, 1810 inodes, blocksize: 131072 bytes, created: 2019-12-25 03:18:35
 
-
 Target File:   /lx06/mtd6
 MD5 Checksum:  d8bb66ac48fc599e219d8bb6eb82dc38
 
 DECIMAL       HEXADECIMAL     DESCRIPTION
 --------------------------------------------------------------------------------
 0             0x0             UBI erase count header, version: 1, EC: 0x2, VID header offset: 0x800, data offset: 0x1000
+```
 
 # IR (infrared)
 
+```
 root@mico:~# cat /sys/ir_rx_power/rx_power
 ir rx power off
 root@mico:~# echo on > /sys/ir_rx_power/rx_power
@@ -81,8 +90,6 @@ root@mico:~# dmesg | tail
 [ 1890.736406@0] [ir_rx] useless datas 8 .
 [ 1902.784395@0] [ir_rx] receive -111 datas.
 
-root@mico:~# echo 9003,4494,566,1692,562,1691,566,1692 > /sys/ir_tx_gpio/ir_data 
-
 root@mico:/# cat /sys/kernel/debug/gpio 
 gpiochip0: GPIOs 0-14, parent: platform/pinctrl@ff800014, aobus-banks:
  gpio-5   (                    |?                   ) out lo    
@@ -99,9 +106,49 @@ gpiochip1: GPIOs 15-100, parent: platform/pinctrl@ff634480, periphs-banks:
  gpio-78  (                    |sysfs               ) out hi    
  gpio-79  (                    |sdio_wifi           ) in  hi    
  gpio-83  (                    |bt_rfkill           ) in  hi    
+```
 
-# aux in (jack)
+Send IR commands (IR Raw?)
 
+```
+root@mico:~# echo 9003,4494,566,1692,562,1691,566,1692 > /sys/ir_tx_gpio/ir_data 
+```
+
+Remove module and manually use GPIO
+
+```
+root@mico:~# rmmod gpio_ir_rx
+root@mico:~# echo 20 > /sys/class/gpio/export
+root@mico:~# echo 6 > /sys/class/gpio/export
+
+# power on rx
+root@mico:/sys/class/gpio# echo 0 > /sys/class/gpio/gpio20/value
+root@mico:~# ls -l /sys/class/gpio/
+
+
+root@mico:~# cat /sys/kernel/debug/gpio
+gpiochip0: GPIOs 0-14, parent: platform/pinctrl@ff800014, aobus-banks:
+ gpio-5   (                    |?                   ) out lo
+ gpio-6   (                    |sysfs               ) in  hi
+ gpio-7   (                    |gpio-ir-tx          ) out lo
+
+gpiochip1: GPIOs 15-100, parent: platform/pinctrl@ff634480, periphs-banks:
+ gpio-18  (                    |aw20054-hwen-pin    ) out hi
+ gpio-20  (                    |sysfs               ) out hi
+ gpio-21  (                    |codec_pdn           ) out hi
+ gpio-59  (                    |sysfs               ) in  hi
+ gpio-61  (                    |auxin_det           ) in  lo IRQ
+ gpio-69  (                    |sdio_wifi           ) out hi
+ gpio-78  (                    |sysfs               ) out hi
+ gpio-79  (                    |sdio_wifi           ) in  hi
+ gpio-83  (                    |bt_rfkill           ) in  hi
+```
+
+# Aux In (jack)
+
+ALSA device is `hw:0,1`.
+
+```
 root@mico:/sys/auxin_det# cat status 
 aux_out  # unplugged
 aux_in   # plugged
@@ -115,9 +162,11 @@ add device 1: /dev/input/event1
     SW  (0005): 0002 
   input props:
     <none>
+```
 
-# button inputs
+# Button inputs
 
+```
 root@mico:~# getevent -p /dev/input/event0 | grep KEY 
     KEY (0001): 0066  0072* 0073  008b 
 
@@ -125,9 +174,11 @@ EV_KEY  KEY_HOME        1       /dev/input/event0  # mute
 EV_KEY  KEY_VOLUMEUP    1       /dev/input/event0  # volume down
 EV_KEY  KEY_VOLUMEDOWN  1       /dev/input/event0  # play
 EV_KEY  KEY_MENU        1       /dev/input/event0  # volume up
+```
 
 # uboot settings
 
+```
 fw_env -g boot_part
 fw_env -s boot_part boot1
 fw_env -p # print
@@ -231,3 +282,4 @@ root@mico:~# fw_env -p
 
 [ubootenv] key: [version]
 [ubootenv] value: [U-Boot 2015.01 (Dec 25 2019 - 03:56:50)]
+```
