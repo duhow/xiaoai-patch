@@ -17,7 +17,7 @@ Everything powered by open source software!
 
 # Warning
 
-(!) Looks like some new speakers or firmware upgrades change the rootfs partition and include a DER certificate to verify the system.
+:warning: Looks like some new speakers or firmware upgrades change the rootfs partition and include a DER certificate to verify the system.
 This **may block** any changes on non-signed squashfs. **Recommended to NOT flash**, you may have an invalid rootfs and potentially lock yourself!
 You can check this by running `binwalk` if it contains a Certificate entry:
 
@@ -28,28 +28,34 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 32243716      0x1EC0004       Certificate in DER format (x509 v3), header length: 4, sequence length: 830
 ```
 
+# Compatibility
+
+| Model | Name |
+|-------|------|
+| ![LX06 - supported][LX06] | Xiaoai Speaker Pro |
+| ![LX01 - supported][LX01] | Xiaomi Mi AI Speaker Mini |
+| ![L09A - supported][L09A] | Xiaoai Speaker Art (China) |
+| ![L09G - not supported][L09G] | Xiaomi Mi Smart Speaker (Global, Google Assistant) |
+| ![LX05 - encrypted, not fully supported][LX05] | Xiaoai Speaker Play |
+| ![L15A - encrypted, not fully supported][L15A] | Xiaomi Mi AI Speaker 2 Gen |
+| ![MDZ-25-DT - not tested][MDZ-25-DT] | Xiaomi Mi AI Speaker 1 Gen (?) |
+
+[LX06]: https://img.shields.io/badge/LX06-green
+[LX01]: https://img.shields.io/badge/LX01-green
+[L09A]: https://img.shields.io/badge/L09A-green
+[L09G]: https://img.shields.io/badge/L09G-red
+[LX05]: https://img.shields.io/badge/LX05-yellow
+[L15A]: https://img.shields.io/badge/L15A-yellow
+[MDZ-25-DT]: https://img.shields.io/badge/MDZ--25--DT-lightgrey
+
 # Requirements
 
-This project has been tested on following speakers:
+You need a computer with Linux and:
 
-- LX06 - Xiaoai Speaker Pro
-- LX01 - Xiaomi Mi AI Speaker Mini 
-
-There are other models that might be compatible, feel free to contribute and provide some help!
-
-- LX05 - Xiaoai Speaker Play
-- L09G - Xiaomi Mi Smart Speaker (Global, Google Assistant)
-- L09A - Xiaoai Speaker Art (China)
-- L15A - Xiaomi Mi AI Speaker 2 Gen
-- MDZ-25-DT - Xiaomi Mi AI Speaker 1 Gen (?)
-
-You will also need a computer with Linux and:
-
-```
-- squashfs-tools, provides unsquashfs and mksquashfs
-- make
+- `squashfs-tools`, provides `unsquashfs` and `mksquashfs`
+- `make`
 - Docker
-```
+- patience. :)
 
 # Usage
 
@@ -91,7 +97,7 @@ sudo make build
 
 After you have the new image ready, send it to the speaker, and **flash the not-in-use** `rootfs` partition, boot it and test.
 
-# Unbricking
+# :warning: Unbricking
 
 You should have some wires soldered to the board to perform TTL in case it is required.  
 As long as you perform steps as described and not flashing content in wrong partitions, you can reverse failed boot with Uboot safely.
