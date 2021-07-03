@@ -1,0 +1,27 @@
+--- a/src/main.cxx        2021-04-28 15:05:49.000000000 +0200
++++ b/src/main.cxx       2021-07-03 13:08:48.939239471 +0200
+@@ -241,7 +241,7 @@
+     bool enableOH = true;
+     bool enableMediaServer = false;
+     bool ohmetapersist = true;
+-    string upmpdcliuser("upmpdcli");
++    string upmpdcliuser("root");
+     string pidfilename("/var/run/upmpdcli.pid");
+     string iconpath(DATADIR "/icon.png");
+     string presentationhtml(DATADIR "/presentation.html");
+@@ -475,7 +475,6 @@
+         if (runas == 0) {
+             LOGFAT("upmpdcli won't run as root and user " << upmpdcliuser << 
+                    " does not exist " << endl);
+-            return 1;
+         }
+         runas = pass->pw_uid;
+         runasg = pass->pw_gid;
+@@ -570,7 +569,6 @@
+         if (setuid(runas) < 0) {
+             LOGFAT("Can't set my uid to " << runas << " current: " << geteuid()
+                    << endl);
+-            return 1;
+         }
+ #if 0
+         gid_t list[100];
