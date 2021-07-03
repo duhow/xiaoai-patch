@@ -46,6 +46,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 | ![L09G - not supported][L09G] | Xiaomi Mi Smart Speaker (Global, Google Assistant) |
 | ![LX05 - encrypted, not fully supported][LX05] | Xiaoai Speaker Play |
 | ![L15A - encrypted, not fully supported][L15A] | Xiaomi Mi AI Speaker 2 Gen |
+| ![L07A - not tested][L07A] | Redmi XiaoAI Speaker Play |
 | ![MDZ-25-DT - not tested][MDZ-25-DT] | Xiaomi Mi AI Speaker 1 Gen (?) |
 
 [LX06]: https://img.shields.io/badge/LX06-green?style=for-the-badge
@@ -54,6 +55,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 [L09G]: https://img.shields.io/badge/L09G-red?style=for-the-badge
 [LX05]: https://img.shields.io/badge/LX05-yellow?style=for-the-badge
 [L15A]: https://img.shields.io/badge/L15A-yellow?style=for-the-badge
+[L07A]: https://img.shields.io/badge/L07A-lightgrey?style=for-the-badge
 [MDZ-25-DT]: https://img.shields.io/badge/MDZ--25--DT-lightgrey?style=for-the-badge
 
 # Requirements
