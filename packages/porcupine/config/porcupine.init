@@ -31,8 +31,7 @@ stop_service() {
   # mute led
   /bin/show_led 7 &
 
-  pkill porcupine_launcher
-  pkill -x /usr/bin/porcupine
+  killall porcupine_launcher porcupine
 
   if [ -f /usr/share/sound/mute.mp3 ]; then
     mpg123 -a notify -q /usr/share/sound/mute.mp3 &
