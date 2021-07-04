@@ -1,0 +1,54 @@
+--- a/etc/asound.conf
++++ b/etc/asound.conf
+@@ -3,7 +3,7 @@
+   slave {
+     pcm {
+       type softvol
+-      slave.pcm dtsaudio
++      slave.pcm dmixer
+       control{
+         name "mysoftvol"
+         card 0
+@@ -55,24 +55,6 @@
+   }
+ }
+ 
+-pcm.dtsaudio {
+-	type plug
+-	slave.pcm "dtsladspa"
+-}
+-
+-pcm.dtsladspa {
+-	type ladspa
+-	slave.pcm plug:dmixer
+-	channels 2
+-	path "/usr/lib/"
+-	playback_plugins [{
+-	label dts_process
+-		input {
+-			controls [4]
+-		}
+-	}]
+-}
+-
+ pcm.dmixer  {
+    type dmix
+    ipc_key 1024
+@@ -95,11 +77,6 @@
+    device 1
+ }
+ 
+-pcm.dsp {
+-    type plug
+-    slave.pcm "dmixer"     # use our new PCM here
+-}
+-
+ ctl.mixer {
+     type hw
+     card 0
+@@ -126,5 +103,3 @@
+    }
+ }
+ 
+-
+-defaults.pcm.rate_converter "speexrate_medium"
