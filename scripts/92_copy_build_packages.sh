@@ -42,20 +42,31 @@ ln -s libicalss.so.3 $ROOTFS/usr/lib/libicalss.so.0
 ln -s libical.so.3 $ROOTFS/usr/lib/libical.so.0
 ln -s libffi.so.7 $ROOTFS/usr/lib/libffi.so.6
 
-echo "[*] Fixing new dbus"
-# new one is dbus-1.0
-rm -rf $ROOTFS/usr/lib/dbus-1
-rm $ROOTFS/usr/sbin/dbus-daemon
-ln -sf /usr/bin/dbus-daemon $ROOTFS/usr/sbin/dbus-daemon
+if [ -f "${ROOTFS}/usr/sbin/avahi-daemon" ]; then
+  echo "[*] Adding avahi user entries"
+  echo "netdev:x:108:" >> $ROOTFS/etc/group
+  echo "avahi:x:115:" >> $ROOTFS/etc/group
+  echo "avahi:x:108:115:Avahi mDNS daemon:/var/run/avahi-daemon:/bin/false" >> $ROOTFS/etc/passwd
+fi
 
+if [ -f "${ROOTFS}/usr/bin/dbus-daemon" ]; then
+  echo "[*] Adding dbus user entries"
+  echo "messagebus:x:106:110::/nonexistent:/bin/false" >> $ROOTFS/etc/passwd
+  echo "messagebus:x:110:" >> $ROOTFS/etc/group
 
-echo "[*] Adding service user entries"
+  echo "[*] Fixing new dbus"
+  # new one is dbus-1.0
+  rm -rf $ROOTFS/usr/lib/dbus-1
+  rm $ROOTFS/usr/sbin/dbus-daemon
+  ln -sf /usr/bin/dbus-daemon $ROOTFS/usr/sbin/dbus-daemon
+fi
 
-echo "messagebus:x:106:110::/nonexistent:/bin/false" >> $ROOTFS/etc/passwd
-echo "avahi:x:108:115:Avahi mDNS daemon:/var/run/avahi-daemon:/bin/false" >> $ROOTFS/etc/passwd
-echo "upmpdcli:x:199:199::/nonexistent:/bin/false" >> $ROOTFS/etc/passwd
+if [ -f "${ROOTFS}/usr/bin/upmpdcli" ]; then
+  echo "[*] Adding upmpdcli user entries"
+  echo "upmpdcli:x:199:199::/nonexistent:/bin/false" >> $ROOTFS/etc/passwd
+  echo "upmpdcli:x:199:" >> $ROOTFS/etc/group
 
-echo "netdev:x:108:" >> $ROOTFS/etc/group
-echo "messagebus:x:110:" >> $ROOTFS/etc/group
-echo "avahi:x:115:" >> $ROOTFS/etc/group
-echo "upmpdcli:x:199:" >> $ROOTFS/etc/group
+  # required for LX01 Android permissions for users
+  echo "aid_inet:x:3003:upmpdcli" >> $ROOTFS/etc/group
+  echo "aid_inet_raw:x:3004:upmpdcli" >> $ROOTFS/etc/group
+fi
