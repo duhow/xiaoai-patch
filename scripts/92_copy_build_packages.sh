@@ -72,3 +72,15 @@ if [ -f "${ROOTFS}/usr/bin/upmpdcli" ]; then
   echo "aid_inet:x:3003:upmpdcli" >> $ROOTFS/etc/group
   echo "aid_inet_raw:x:3004:upmpdcli" >> $ROOTFS/etc/group
 fi
+
+VOLUME_FILE=${ROOTFS}/etc/triggerhappy/triggers.d/volume.conf
+if [ "${MODEL}" = "lx05" ] && [ -f "${VOLUME_FILE}" ]; then
+  echo "[*] Patching inverse volume controls"
+
+  cat << EOF > ${VOLUME_FILE}
+KEY_VOLUMEUP         1  /bin/volume up
+KEY_MENU             1  /bin/volume down
+EOF
+
+  chmod 644 ${VOLUME_FILE}
+fi
