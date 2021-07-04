@@ -5,9 +5,15 @@ FILE = mtd4
 DATE := $(shell date +%y%m%d-%H%M)
 MODEL ?= none
 BLOCKSIZE = 131072
+COMPRESSION = xz
 
 ifeq ($(MODEL), lx01)
 BLOCKSIZE := 262144
+endif
+
+ifeq ($(MODEL), lx05)
+BLOCKSIZE := 262144
+COMPRESSION := gzip
 endif
 
 all: extract patch build
@@ -18,7 +24,7 @@ extract:
 build:
 	rm -f $(BUILD_DIR)/patched 2>/dev/null
 	mkdir -p release
-	mksquashfs $(BUILD_DIR) release/image-$(DATE) -comp xz -noappend -always-use-fragments -b $(BLOCKSIZE)
+	mksquashfs $(BUILD_DIR) release/image-$(DATE) -comp $(COMPRESSION) -noappend -always-use-fragments -b $(BLOCKSIZE)
 	rm -f release/latest 2>/dev/null
 	ln -s image-$(DATE) release/latest
 
