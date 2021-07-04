@@ -1,5 +1,5 @@
 PACKAGE_NAME="shairport-sync"
-PACKAGE_VERSION="3.3.7"
+PACKAGE_VERSION="3.3.8"
 PACKAGE_SRC="https://github.com/mikebrady/shairport-sync/archive/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc openssl avahi alsa-lib popt libconfig soxr alac"
 
@@ -25,4 +25,12 @@ make_package() {
 
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
+}
+
+postinstall_package() {
+	mkdir -p ${STAGING_DIR}/etc/init.d ${STAGING_DIR}/etc/rc.d
+
+	cp -vf ${PACKAGE_DIR}/config/shairport.init ${STAGING_DIR}/etc/init.d/shairport-sync
+	chmod 755 ${STAGING_DIR}/etc/init.d/shairport-sync
+	ln -svf ../init.d/shairport-sync ${STAGING_DIR}/etc/rc.d/S98shairport-sync
 }

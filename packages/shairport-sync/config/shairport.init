@@ -1,0 +1,31 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006-2020 OpenWrt.org
+
+START=98
+USE_PROCD=1
+
+PROG=shairport-sync
+CONF=/data/${PROG}.conf
+
+start_service() {
+    if [ ! -f "${CONF}" ]; then
+        grep -ve '^//' /etc/${PROG}.conf > ${CONF}
+    fi
+
+    procd_open_instance
+    procd_set_param command /usr/bin/${PROG} -c ${CONF}
+    procd_set_param respawn
+    procd_append_param respawn 3600
+    procd_append_param respawn 5
+    procd_append_param respawn 5
+    procd_close_instance
+}
+
+stop_service() {
+    service_stop /usr/bin/${PROG}
+}
+
+restart() {
+    stop
+    start
+}
