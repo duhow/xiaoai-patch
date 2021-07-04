@@ -1,0 +1,30 @@
+--- a/etc/asound.conf
++++ b/etc/asound.conf
+@@ -1,4 +1,10 @@
+ pcm.!default {
++  type asym
++  playback.pcm "general"
++  capture.pcm "mico_record"
++}
++
++pcm.general {
+     type plug
+     slave {
+       pcm {
+@@ -57,15 +63,10 @@
+ 
+ pcm.miaudio {
+ 	type plug
+-	slave.pcm plugequal
+-}
+-
+-pcm.plugequal {
+-	type miaudio
+ 	slave.pcm dmixer
+ }
+ 
+-pcm.capture_common {
++pcm.mico_record {
+     type plug
+     slave {
+         pcm "hw:audiocodec"
