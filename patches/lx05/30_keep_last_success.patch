@@ -1,0 +1,16 @@
+--- a/etc/init.d/done
++++ b/etc/init.d/done
+@@ -27,9 +27,11 @@
+     write_misc -a 0 -d 0 -o 0
+     root_dev=`cat /proc/cmdline|sed "s# #\n#g"|grep "root="|awk -F"/" '{print $3}'`
+     if [ "x$root_dev" = "xnand0p3" ]; then
+-        write_misc -l 0
++       echo boot0
++        #write_misc -l 0
+     else
+-        write_misc -l 1
++       echo boot1
++        #write_misc -l 1
+     fi
+     write_misc -b 1
+ 
