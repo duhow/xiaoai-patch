@@ -19,7 +19,7 @@ endif
 all: extract patch build
 
 extract:
-	unsquashfs $(FILE)
+	unsquashfs -d $(BUILD_DIR) $(FILE)
 
 build:
 ifeq ($(MODEL),none)
@@ -27,7 +27,7 @@ ifeq ($(MODEL),none)
 endif
 	rm -f $(BUILD_DIR)/patched 2>/dev/null
 	mkdir -p release
-	mksquashfs $(BUILD_DIR) release/image-$(DATE) -comp $(COMPRESSION) -noappend -always-use-fragments -b $(BLOCKSIZE)
+	mksquashfs $(BUILD_DIR) release/image-$(DATE) -comp $(COMPRESSION) -noappend -all-root -always-use-fragments -b $(BLOCKSIZE)
 	rm -f release/latest 2>/dev/null
 	ln -s image-$(DATE) release/latest
 

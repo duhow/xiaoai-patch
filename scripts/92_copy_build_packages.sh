@@ -12,9 +12,6 @@ echo "[*] Copying content"
 
 rsync -avr ${FOLDER}/* $ROOTFS/
 
-echo "[*] Running root chown"
-chown -R root:root $ROOTFS
-
 echo "[!] Deleting additional data"
 for FILE in libxml2.so.2.9.7 libxml2.so.2.9.3 libstdc++.so.6.0.22* libsbc.so.1.2.1 libreadline.so.7.0 libogg.so.0.8.2 \
 	libical.so.0.48.0 libicalss.so.0.48.0 libicalvcal.so.0.48.0 \
