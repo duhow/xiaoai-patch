@@ -22,13 +22,15 @@ for FILE in libxml2.so.2.9.7 libxml2.so.2.9.3 libstdc++.so.6.0.22* libsbc.so.1.2
 	libglib-2.0.so.0.5500.0 libgio-2.0.so.0.5500.0 \
 	libgthread-2.0.so.0.5501.0 libgobject-2.0.so.0.5501.0 libgmodule-2.0.so.0.5501.0 \
 	libglib-2.0.so.0.5501.0 libgio-2.0.so.0.5501.0 \
+	libgio-2.0.so.0.5000.1 libglib-2.0.so.0.5000.1 libgmodule-2.0.so.0.5000.1 libgobject-2.0.so.0.5000.1 \
 	libdbus-1.so.3.14.5 dbus-1/dbus-daemon-launch-helper \
 	libcurl.so.4.4.0 libbluetooth.so.3.18.10 libpcre.so.1.2.9 libpcre.so.1.2.6 \
-	libpcreposix.so.0.0.5 libopus.so.0.6.1 libffi.so.6.0.4 libexpat.so.1.6.7 libcrypto.so.1.0.0; do
+	libpcreposix.so.0.0.5 libopus.so.0.6.1 libffi.so.6.0.4 libexpat.so.1.6.7 libcrypto.so.1.0.0 \
+	libz.so.1.2.8 libopus.so.0.5.3 libnghttp2.so.14.13.2; do
   rm -vf $ROOTFS/usr/lib/$FILE
 done
 
-for FILE in hcidump btmgmt hciattach wget-ssl; do
+for FILE in hcidump btmgmt hciattach gatttool bccmd sdptool wget-ssl; do
   rm -vf $ROOTFS/usr/bin/$FILE
 done
 
