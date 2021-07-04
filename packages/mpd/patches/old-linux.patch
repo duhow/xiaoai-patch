@@ -1,0 +1,14 @@
+--- a/src/net/SocketDescriptor.cxx
++++ b/src/net/SocketDescriptor.cxx
+@@ -289,7 +289,11 @@
+ bool
+ SocketDescriptor::SetReusePort(bool value) noexcept
+ {
++#if defined(SO_REUSEPORT)
+ 	return SetBoolOption(SOL_SOCKET, SO_REUSEPORT, value);
++#else
++	return SetBoolOption(SOL_SOCKET, SO_REUSEADDR, value);
++#endif
+ }
+ 
+ bool
