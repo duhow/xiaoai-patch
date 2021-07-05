@@ -5,7 +5,7 @@ for FILE in alarmd carrier_chinatelecom.sh carrier.sh mediaplayer messagingagent
   bluez_mibt_ble mibt_ble bluez_mibt_classical mibt_mesh mibt_mesh_proxy mibt_mesh.automation mico_ble_service \
   miplayer mibrain_level mibrain_net_check mibrain_oauth_manager mibrain_service  \
   mipns-xiaomi mipns-sai mipns-horizon \
-  mico_ai_crontab mico_vendor_helper mico_model_helper mico_aivs_lab micocfg mico-helper micowpa micocfg_wifi_chip \
+  mico_ai_crontab mico_vendor_helper mico_model_helper mico_aivs_lab mico-helper \
   heartbeatagent ciptool xiaomi_dns_server miio_helper \
   miio_client miio_client_helper miio_recv_line miio_send_line miio_service notifyd pns_ubus_helper pns_upload_helper \
   mitv_pstream nano_httpd quickplayer mico_voip_applite voip_applite voip_helper voip_service work_day_sync_service \
@@ -16,7 +16,6 @@ for FILE in alarmd carrier_chinatelecom.sh carrier.sh mediaplayer messagingagent
   rm -vf $ROOTFS/usr/bin/$FILE
 done
   rm -vf $ROOTFS/usr/bin/matool_*
-  rm -vf $ROOTFS/usr/bin/micocfg_*
   rm -vf $ROOTFS/usr/bin/procps-ng-*
   rm -vf $ROOTFS/bin/procps-ng-*
 
@@ -42,7 +41,6 @@ for FILE in libmibrain-common-sdk.so libmibrain-common-util.so libmibrainsdk.so 
 	libvoipengine.so libsai_miAPIs.so libmibrain-vendor-sdk.so libmibrain-util.so libota-burnboot.so \
 	libDiracAPI_SHARED.so libdts.so libxaudio_engine.so libmesh.so libquark_lib.so libmivpm.so libvpm.so \
 	libaivs_sdk.so libaivs-message-util.so libxiaomimediaplayerlite.so libmijia_ble_api.so \
-	libmico-common.so libmico-common-api.so libxmdtransceiver.so \
 	libsoup-2.4.so.1.8.0; do
   rm -vf $ROOTFS/usr/lib/$FILE
 done
