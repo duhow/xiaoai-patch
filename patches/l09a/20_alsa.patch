@@ -46,7 +46,20 @@
  ctl.mixer {
      type hw
      card 0
-@@ -126,5 +103,3 @@
+@@ -115,16 +92,12 @@
+ }
+ 
+ pcm.noop {
+-   type dsnoop
+-   ipc_key 1024
++   type plug
+    slave {
+      pcm "hw:0,3"
+ 	 format S32_LE
+ 	 rate 48000
+-	 channels 8
+-	 period_size 4096
++	 channels 2
     }
  }
  
