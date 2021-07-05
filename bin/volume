@@ -22,20 +22,43 @@ else
     aplay -Dnotify /usr/share/sound/volume.wav &>/dev/null &
 fi
 
-# SHOW VOLUME LED - if LX06
+# SHOW VOLUME LED
 CURVOL=$(amixer get mysoftvol | awk '$0~/%/{print $4}' | tr -d '[]%' | head -n1)
-LEDSYS=/sys/devices/i2c-0/0-003a
-if [ -d "$LEDSYS" ] && [ "$CURVOL" -ge 0 ] && [ "$CURVOL" -le 100 ]; then
-  COLOR="903000" # HEX BGR
-  LEDMAX=18
+if [ "$CURVOL" -ge 0 ] && [ "$CURVOL" -le 100 ]; then
+
+  MODEL=$(uci -c /usr/share/mico get version.version.HARDWARE)
+  COLOR="0x903000" # HEX BGR
+  BLACK="0x0"
+
+  case "${MODEL}" in
+    LX06)
+      LEDMAX=18
+      LEDSYS=/sys/devices/i2c-0/0-003a/led_rgb
+      # starts from play button
+      LEDSEQ="$(seq 10 18) $(seq 0 9)"
+      ;;
+    L09A)
+      LEDMAX=23
+      LEDSYS=/sys/devices/i2c-0/0-003b/led_rgb
+      LEDSEQ="$(seq 12 23) $(seq 0 11)"
+      ;;
+    LX01 | LX05)
+      LEDMAX=0  # 1 but needed
+      LEDSYS=/proc/ws2812/rgb0
+      LEDSEQ=0
+      COLOR="48 144" # HACK LEDSEQ+COLOR RGB
+      BLACK="0 0"    # HACK LEDMAX+BLACK
+      ;;
+    *)
+      exit 0
+      ;;
+  esac
 
   let AMOUNT=1+CURVOL*LEDMAX/100
 
-  # order is 10-18, 0-9, starts from play button
-  for LED in $(seq 10 18) $(seq 0 9); do
-    [ "$AMOUNT" -le 0 ] && COLOR="0" # reset to black
-    #echo "$AMOUNT $COLOR $LED"
-    echo ${LED} 0x${COLOR} > ${LEDSYS}/led_rgb
+  for LED in ${LEDSEQ}; do
+    [ "$AMOUNT" -le 0 ] && COLOR="${BLACK}" # reset to black
+    echo ${LED} ${COLOR} > ${LEDSYS}
     let AMOUNT=AMOUNT-1
   done
 
@@ -51,7 +74,7 @@ if [ -d "$LEDSYS" ] && [ "$CURVOL" -ge 0 ] && [ "$CURVOL" -le 100 ]; then
   ( sleep $WAIT_TIME; \
     if [ -f "$TMPWAIT" ] && [ "$(cat ${TMPWAIT} 2>/dev/null)" -eq "$(cut -d'.' -f1 /proc/uptime)" ]; then \
     rm ${TMPWAIT} &>/dev/null; \
-    for LED in $(seq 0 $LEDMAX); do echo ${LED} 0x0 > ${LEDSYS}/led_rgb; done \
+    for LED in $(seq 0 $LEDMAX); do echo ${LED} ${BLACK} > ${LEDSYS}; done \
     fi \
   ) &
 fi
