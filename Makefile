@@ -26,10 +26,10 @@ ifeq ($(MODEL),none)
 	$(error Please specify MODEL)
 endif
 	rm -f $(BUILD_DIR)/patched 2>/dev/null
-	mkdir -p release
-	mksquashfs $(BUILD_DIR) release/image-$(DATE) -comp $(COMPRESSION) -noappend -all-root -always-use-fragments -b $(BLOCKSIZE)
-	rm -f release/latest 2>/dev/null
-	ln -s image-$(DATE) release/latest
+	mkdir -p release/$(MODEL)
+	mksquashfs $(BUILD_DIR) release/$(MODEL)/image-$(DATE) -comp $(COMPRESSION) -noappend -all-root -always-use-fragments -b $(BLOCKSIZE)
+	rm -f release/$(MODEL)/latest 2>/dev/null
+	ln -sf image-$(DATE) release/$(MODEL)/latest
 
 patch:
 ifeq ($(MODEL),none)

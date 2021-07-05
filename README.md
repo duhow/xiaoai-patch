@@ -44,7 +44,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 | ![LX01 - supported][LX01] | Xiaomi Mi AI Speaker Mini |
 | ![L09A - supported][L09A] | Xiaoai Speaker Art (China) |
 | ![L09G - not supported][L09G] | Xiaomi Mi Smart Speaker (Global, Google Assistant) |
-| ![LX05 - encrypted, not fully supported][LX05] | Xiaoai Speaker Play |
+| ![LX05 - encrypted, supported][LX05] | Xiaoai Speaker Play |
 | ![L15A - encrypted, not fully supported][L15A] | Xiaomi Mi AI Speaker 2 Gen |
 | ![L07A - not tested][L07A] | Redmi XiaoAI Speaker Play |
 | ![MDZ-25-DT - not tested][MDZ-25-DT] | Xiaomi Mi AI Speaker 1 Gen (?) |
@@ -53,7 +53,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 [LX01]: https://img.shields.io/badge/LX01-green?style=for-the-badge
 [L09A]: https://img.shields.io/badge/L09A-green?style=for-the-badge
 [L09G]: https://img.shields.io/badge/L09G-red?style=for-the-badge
-[LX05]: https://img.shields.io/badge/LX05-yellow?style=for-the-badge
+[LX05]: https://img.shields.io/badge/LX05-yellowgreen?style=for-the-badge
 [L15A]: https://img.shields.io/badge/L15A-yellow?style=for-the-badge
 [L07A]: https://img.shields.io/badge/L07A-lightgrey?style=for-the-badge
 [MDZ-25-DT]: https://img.shields.io/badge/MDZ--25--DT-lightgrey?style=for-the-badge
@@ -72,7 +72,7 @@ You need a computer with Linux and:
 Get a copy of your `rootfs` filesystem from your speaker. It can also be from a system upgrade file.
 It should be something similar as this:
 
-```
+```bash
 nc -vlp 8888 > $HOME/backup-image
 # -----
 dd if=/dev/mtd4 of=/tmp/image
@@ -89,18 +89,21 @@ Optionally but recommended, prepare the packages you want to install by editing 
 Build the docker image and run it to build all the packages. Probably it will take more than an hour.  
 **NOTE:** Run the **build packages.sh** process with Docker, since the package build performs some patching to the system, otherwise it could harm your GNU/Linux installation.
 
-```
+```bash
 docker build -t xiaoai-patch - < Dockerfile-packages
 docker run -it -v $PWD:/xiaoai xiaoai-patch
 ```
 
 You can now run the commands to prepare the new image.
 
-```
+```bash
 sudo make clean
 sudo make extract FILE=image-mtd4
-sudo make patch
-sudo make build
+sudo make patch MODEL=lx06
+sudo make build MODEL=lx06
+
+# or all at once :)
+sudo make clean all FILE=image-mtd4 MODEL=lx06
 ```
 
 **NOTE:** Ensure the image format is correct, by comparing the original and new images. Use `file` or other commands to check info.
