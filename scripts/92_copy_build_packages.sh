@@ -70,7 +70,10 @@ if [ -f "${ROOTFS}/usr/bin/upmpdcli" ]; then
   echo "aid_inet_raw:x:3004:upmpdcli" >> $ROOTFS/etc/group
 fi
 
-VOLUME_FILE=${ROOTFS}/etc/triggerhappy/triggers.d/volume.conf
+# swap button keys
+
+TRIGGER_FOLDER=${ROOTFS}/etc/triggerhappy/triggers.d
+VOLUME_FILE=${TRIGGER_FOLDER}/volume.conf
 if [ "${MODEL}" = "lx05" ] && [ -f "${VOLUME_FILE}" ]; then
   echo "[*] Patching inverse volume controls"
 
@@ -80,4 +83,16 @@ KEY_MENU             1  /bin/volume down
 EOF
 
   chmod 644 ${VOLUME_FILE}
+
+  [ -f "${TRIGGER_FOLDER}/listener.conf" ] && \
+    sed -i "s/KEY_HOME/KEY_ENTER/" ${TRIGGER_FOLDER}/listener.conf
+fi
+
+if [ "${MODEL}" = "l09a" ] && [ -f "${VOLUME_FILE}" ]; then
+  echo "[*] Patching inverse volume controls"
+
+  sed -i "s/KEY_MENU/KEY_HOME/" ${VOLUME_FILE}
+
+  [ -f "${TRIGGER_FOLDER}/listener.conf" ] && \
+    sed -i "s/KEY_HOME/KEY_MENU/" ${TRIGGER_FOLDER}/listener.conf
 fi
