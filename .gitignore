@@ -1,5 +1,7 @@
 /mtd*
 /squashfs-root*
+/ubi.ini
+/ubifs.img
 /build-packages
 /include
 /include-*
