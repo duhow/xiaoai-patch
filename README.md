@@ -47,7 +47,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 | ![LX05 - encrypted, supported][LX05] | Xiaoai Speaker Play |
 | ![L15A - encrypted, not fully supported][L15A] | Xiaomi Mi AI Speaker 2 Gen |
 | ![L07A - not tested][L07A] | Redmi XiaoAI Speaker Play |
-| ![MDZ-25-DT - not tested][MDZ-25-DT] | Xiaomi Mi AI Speaker 1 Gen (?) |
+| ![MDZ-25-DT - not tested][MDZ-25-DT] | Xiaomi Mi AI Speaker 1 Gen (?) - S12 |
 
 [LX06]: https://img.shields.io/badge/LX06-green?style=for-the-badge
 [LX01]: https://img.shields.io/badge/LX01-green?style=for-the-badge
@@ -63,6 +63,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 You need a computer with Linux and:
 
 - `squashfs-tools`, provides `unsquashfs` and `mksquashfs`
+- `mtd-utils` (Only for model S12), provides utils for UBI images
 - `make`
 - Docker
 - patience. :)
@@ -79,7 +80,7 @@ dd if=/dev/mtd4 of=/tmp/image
 nc $IP_ADDR 8888 < /tmp/image
 ```
 
-Since the speakers filesystem is in `squashfs` format, we have to reflash it to add the new applications and patches.
+Since the speakers filesystem is read-only format, we have to reflash it to add the new applications and patches.
 There are three steps to perform this: **extract, patch, build**.
 
 Optionally but recommended, prepare the packages you want to install by editing the [packages.sh] script.
