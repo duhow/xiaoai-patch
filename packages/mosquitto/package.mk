@@ -15,6 +15,9 @@ make_package() {
 }
 
 install_package() {
-	LDFLAGS="-L${STAGING_DIR}/usr/lib -Wl,--rpath-link=${STAGING_DIR}/lib -Os" CFLAGS=${BUILD_CFLAGS} make DESTDIR=${STAGING_DIR} install CC=${BUILD_CC} WITH_DOCS=no WITH_TLS=no
-	echo ""
+	for d in lib src client; do
+	LDFLAGS="-L${STAGING_DIR}/usr/lib -Wl,--rpath-link=${STAGING_DIR}/lib -Os" CFLAGS=${BUILD_CFLAGS} \
+		make -C ${d} install \
+		DESTDIR=${STAGING_DIR} CC=${BUILD_CC} WITH_DOCS=no WITH_TLS=no
+	done
 }
