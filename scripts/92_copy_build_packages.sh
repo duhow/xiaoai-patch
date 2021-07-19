@@ -41,6 +41,15 @@ ln -s libicalss.so.3 $ROOTFS/usr/lib/libicalss.so.0
 ln -s libical.so.3 $ROOTFS/usr/lib/libical.so.0
 ln -s libffi.so.7 $ROOTFS/usr/lib/libffi.so.6
 
+if [ -d "${ROOTFS}/usr/lib/gconv" ]; then
+  echo "[*] Deleting some gconv files"
+  GCONV_KEEP="ANSI_X3.110 ARMSCII-8 BIG5HKSCS BIG5 CP1252 ECMA-CYRILLIC IBM850 ISO8859-1 ISO8859-11 \
+	      UNICODE UTF-16 UTF-32 libCNS libGB libISOIR165 libJIS libJISX0213 libKSC"
+  for FILE in ${ROOTFS}/usr/lib/gconv/*.so; do
+    (echo "${GCONV_KEEP}" | grep -q "$(basename $FILE .so)") || rm -vf ${FILE}
+  done
+fi
+
 if [ -f "${ROOTFS}/usr/sbin/avahi-daemon" ]; then
   echo "[*] Adding avahi user entries"
   echo "netdev:x:108:" >> $ROOTFS/etc/group
