@@ -8,7 +8,7 @@ configure_package() {
 	   CPPFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
 	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
 	   PKG_CONFIG_PATH="${BUILD_PKG_CONFIG_LIBDIR}" \
-	   ./configure --prefix="${STAGING_DIR}/${INSTALL_PREFIX}" \
+	   ./configure --prefix="${INSTALL_PREFIX}" \
 	   --exec-prefix="${INSTALL_PREFIX}" \
 	   --build=${MACHTYPE} --host=${BUILD_TARGET} --target=${BUILD_TARGET} \
 	   --enable-lib-only --disable-python-bindings --enable-hpack-tools
@@ -24,4 +24,6 @@ install_package() {
 
 postinstall_package() {
 	rm -rvf ${STAGING_DIR}/usr/share/nghttp2
+
+	sed -i "s!libdir=.*!libdir='${STAGING_DIR}/${INSTALL_PREFIX}/lib'!" ${STAGING_DIR}/${INSTALL_PREFIX}/lib/libnghttp2.la
 }

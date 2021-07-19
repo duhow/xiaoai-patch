@@ -23,3 +23,7 @@ make_package() {
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
 }
+
+postinstall_package() {
+	sed -i "s!libdir=.*!libdir='${STAGING_DIR}/${INSTALL_PREFIX}/lib'!" ${STAGING_DIR}/${INSTALL_PREFIX}/lib/libcurl.la
+}
