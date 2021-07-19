@@ -1,0 +1,25 @@
+--- a/etc/init.d/dnsmasq	2018-06-14 04:15:12.000000000 +0200
++++ b/etc/init.d/dnsmasq	2021-07-19 20:26:37.733175004 +0200
+@@ -61,14 +61,14 @@
+ 		cp /etc/dnsmasq.conf.sta $CONFIGFILE
+     fi
+     
+-	rm -f /tmp/resolv.conf
+-	[ $ADD_LOCAL_DOMAIN -eq 1 ] && [ -n "$DOMAIN" ] && {
+-		echo "search $DOMAIN" >> /tmp/resolv.conf
+-	}
+-	DNS_SERVERS="$DNS_SERVERS 127.0.0.1"
+-	for DNS_SERVER in $DNS_SERVERS ; do
+-		echo "nameserver $DNS_SERVER" >> /tmp/resolv.conf
+-	done
++	#rm -f /tmp/resolv.conf
++	#[ $ADD_LOCAL_DOMAIN -eq 1 ] && [ -n "$DOMAIN" ] && {
++	#	echo "search $DOMAIN" >> /tmp/resolv.conf
++	#}
++	#DNS_SERVERS="$DNS_SERVERS 127.0.0.1"
++	#for DNS_SERVER in $DNS_SERVERS ; do
++	#	echo "nameserver $DNS_SERVER" >> /tmp/resolv.conf
++	#done
+ }
+ 
+ reload_service() {
