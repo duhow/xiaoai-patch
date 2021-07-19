@@ -1,0 +1,11 @@
+--- a/wpa_supplicant/Makefile
++++ b/wpa_supplicant/Makefile
+@@ -3,7 +3,7 @@
+ endif
+ 
+ ifndef CFLAGS
+-CFLAGS = -MMD -O2 -Wall -g
++CFLAGS = -MMD -Os -Wall
+ endif
+ 
+ ifdef LIBS
