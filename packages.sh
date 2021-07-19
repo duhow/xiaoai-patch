@@ -507,7 +507,7 @@ create_target_package() {
     # get name of prefix's top directoy (e.g. "/opt/mpd" -> "opt")
     # https://stackoverflow.com/questions/24631866/how-to-get-root-directory-of-given-path-in-bash
     local prefix_top=$(echo "$INSTALL_PREFIX" | cut -d "/" -f2)
-    tar -C ${STAGING_TO_TARGET_DIR} -cvzf ${TARGET_PACKAGE_FILE} "${prefix_top}"
+    tar -C ${STAGING_TO_TARGET_DIR} -cvzf ${TARGET_PACKAGE_FILE} .
     [[ ! $? -eq 0 ]] && return 1
     echo_stage "Binary package created: ${TARGET_PACKAGE_FILE}"
 }
