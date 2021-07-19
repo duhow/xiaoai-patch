@@ -25,6 +25,11 @@ install_package() {
 postinstall_package() {
 	in_to_out ${PACKAGE_DIR}/config/ncurses.pc.in ${STAGING_DIR}/${INSTALL_PREFIX}/lib/pkgconfig/ncurses.pc
 	for LIBNAME in panel form menu ncurses; do
-	  ln -s lib${LIBNAME}.so ${STAGING_DIR}/${INSTALL_PREFIX}/lib/lib${LIBNAME}w.so
+	  ln -svf lib${LIBNAME}.so ${STAGING_DIR}/${INSTALL_PREFIX}/lib/lib${LIBNAME}w.so
+	done
+
+	TERMNAMES_KEEP="ansi dumb linux rxvt rxvt-unicode screen vt100 vt102 vt220 xterm xterm-256color xterm-color"
+	for TERMNAME in ${STAGING_DIR}/${INSTALL_PREFIX}/lib/terminfo/?/*; do
+	  (echo ${TERMNAMES_KEEP} | grep `basename ${TERMNAME}` -q) || rm -vf ${TERMNAME}
 	done
 }
