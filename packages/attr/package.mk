@@ -1,6 +1,6 @@
 PACKAGE_NAME="attr"
 PACKAGE_VERSION="2.4.47"
-PACKAGE_SRC="https://git.savannah.nongnu.org/cgit/attr.git/snapshot/attr-${PACKAGE_VERSION}.tar.gz"
+PACKAGE_SRC="https://mirror.ossplanet.net/nongnu/attr/attr-${PACKAGE_VERSION}.src.tar.gz"
 
 
 configure_package() {
