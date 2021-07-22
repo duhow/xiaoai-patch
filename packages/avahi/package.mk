@@ -1,8 +1,7 @@
 PACKAGE_NAME="Avahi"
 PACKAGE_VERSION="0.8"
 PACKAGE_DEPENDS="libdaemon libevent glib dbus gdbm"
-PACKAGE_SRC="https://github.com/lathiat/avahi/releases/download/v0.8/avahi-${PACKAGE_VERSION}.tar.gz"
-
+PACKAGE_SRC="https://github.com/lathiat/avahi/releases/download/v${PACKAGE_VERSION}/avahi-${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {
 	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
