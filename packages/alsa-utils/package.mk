@@ -1,6 +1,6 @@
 PACKAGE_NAME="Advanced Linux Sound Architecture - Utils"
 PACKAGE_VERSION="1.2.4"
-PACKAGE_SRC="ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PACKAGE_VERSION}.tar.bz2"
+PACKAGE_SRC="https://www.alsa-project.org/files/pub/utils/alsa-utils-${PACKAGE_VERSION}.tar.bz2"
 PACKAGE_DEPENDS="ncurses"
 
 configure_package() {

@@ -1,6 +1,6 @@
 PACKAGE_NAME="AudioFile"
 PACKAGE_VERSION="0.3.6"
-PACKAGE_SRC="http://ftp.gnome.org/pub/gnome/sources/audiofile/0.3/audiofile-0.3.6.tar.xz"
+PACKAGE_SRC="https://github.com/mpruett/audiofile/archive/refs/tags/audiofile-${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {
 	# add -std=c++98 flag to CXXFLAGS: http://www.linuxfromscratch.org/blfs/view/svn/multimedia/audiofile.html
