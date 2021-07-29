@@ -2,6 +2,11 @@ PACKAGE_NAME="GNU Toolchain for the A-profile Architecture"
 PACKAGE_VERSION="GCC 7.4-2019.02"
 PACKAGE_SRC="https://releases.linaro.org/components/toolchain/binaries/7.4-2019.02/arm-linux-gnueabihf/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf.tar.xz"
 
+if [ "${HOST_ARCH}" = "aarch64" ]; then
+PACKAGE_VERSION="10.2-2020.11"
+PACKAGE_SRC="https://developer.arm.com/-/media/Files/downloads/gnu-a/${PACKAGE_VERSION}/binrel/gcc-arm-${PACKAGE_VERSION}-aarch64-arm-none-linux-gnueabihf.tar.xz"
+fi
+
 on_exit_build() {
 	TOOLCHAIN_DIR=$(pwd)
 	case ${BUILD_ARCH} in
@@ -11,7 +16,10 @@ on_exit_build() {
 		;;
 	"armv7")	
 		BUILD_TARGET="arm-linux-gnueabihf"
-#		BUILD_LDFLAGS="-L${STAGING_DIR}/${INSTALL_PREFIX}/${BUILD_TARGET}/lib -L${STAGING_DIR}/${INSTALL_PREFIX}/lib -Wl,--sysroot=${STAGING_DIR} -Wl,--rpath=${INSTALL_PREFIX}/${BUILD_TARGET}/lib -Wl,--rpath=${INSTALL_PREFIX}/lib -Wl,--dynamic-linker=${INSTALL_PREFIX}/${BUILD_TARGET}/lib/ld-linux-armhf.so.3"
+
+		# using GCC-10
+		[[ "${HOST_ARCH}" = "aarch64" ]] && BUILD_TARGET="arm-none-linux-gnueabihf"
+
         BUILD_LDFLAGS="-L${STAGING_DIR}/lib -L${STAGING_DIR}/${INSTALL_PREFIX}/lib -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib/pulseaudio -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib/private -Wl,--rpath=${INSTALL_PREFIX}/${BUILD_TARGET}/lib -Wl,--rpath=${INSTALL_PREFIX}/lib -Wl,--dynamic-linker=/lib/ld-linux-armhf.so.3 -Os"
 		;;
 	"x86")
