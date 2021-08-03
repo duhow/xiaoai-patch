@@ -608,6 +608,7 @@ done
 
 BUILD_ID=$(rand_str)
 BUILD_ARCH="armv7"
+HOST_ARCH=$(uname -m)
 ymd=$(date '+%Y%m%d')
 PACKAGES_PROCESSED=()
 SRC_DOWNLOAD_DIR=${WORKSPACE_DIR}/src
@@ -631,6 +632,7 @@ if [[ -z "${MAKE_JOBS}" ]]; then
 fi
 
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+echo "Host arch         :  ${HOST_ARCH}"
 echo "Target arch       :  ${BUILD_ARCH}"
 echo "Prefix            :  ${INSTALL_PREFIX}"
 echo "Make concurrency  :  ${MAKE_JOBS}"
