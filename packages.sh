@@ -168,7 +168,8 @@ download_package_src() {
                 echo "Using cached download"
             else
                 echo "Downloading package source..."
-                wget --no-check-certificate -O ${src_filename} -P ${PACKAGE_SRC_DOWNLOAD_DIR} "${PACKAGE_SRC}"
+                wget --no-check-certificate --tries=5 --retry-connrefused --waitretry=5 \
+                  -O ${src_filename} -P ${PACKAGE_SRC_DOWNLOAD_DIR} "${PACKAGE_SRC}"
             fi
         else
             echo_error "Error: Invalid package source specified!"
