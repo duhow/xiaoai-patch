@@ -13,8 +13,9 @@ jobs:
       - name: Check version
         run: |
           for REPO in $(head packages/*/package.mk | grep -e ^PACKAGE_SRC | grep github.com | cut -d'=' -f2 | tr -d '"' | cut -d'/' -f 4,5); do
-          echo -n "${REPO} "
-          curl -s H 'User-Agent: GithubWorkflow' -u ${GITHUB_USER}:${GITHUB_TOKEN} https://api.github.com/repos/${REPO}/tags | jq -r '.[0].name'
+            TAG=$(curl -s H 'User-Agent: GithubWorkflow' -u ${GITHUB_USER}:${GITHUB_TOKEN} https://api.github.com/repos/${REPO}/tags | jq -r '.[0].name')
+            RELEASE=$(curl -s H 'User-Agent: GithubWorkflow' -u ${GITHUB_USER}:${GITHUB_TOKEN} https://api.github.com/repos/${REPO}/releases/latest | jq -r '.tag_name')
+            echo "${REPO} ${TAG} ${RELEASE}"
           done | column -t
         env:
           GITHUB_USER: ${{ github.repository_owner }}
