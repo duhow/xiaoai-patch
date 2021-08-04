@@ -17,4 +17,5 @@ jobs:
           curl -s H 'User-Agent: GithubWorkflow' -H "Authorization: token ${GITHUB_TOKEN}" https://api.github.com/repos/${REPO}/tags | jq -r '.[0].name'
           done
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.OAUTH_TOKEN }}
+
