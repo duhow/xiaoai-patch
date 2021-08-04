@@ -22,8 +22,9 @@ jobs:
             VERSION=$(grep -e ^PACKAGE_VERSION packages/${PACKAGE}/package.mk | cut -d'=' -f2 | tr -d '"')
             TAG=$(curl -s H 'User-Agent: GithubWorkflow' -u ${GITHUB_USER}:${GITHUB_TOKEN} https://api.github.com/repos/${REPO}/tags | jq -r '.[0].name')
             RELEASE=$(curl -s H 'User-Agent: GithubWorkflow' -u ${GITHUB_USER}:${GITHUB_TOKEN} https://api.github.com/repos/${REPO}/releases/latest | jq -r '.tag_name')
-            (echo "${TAG} ${VERSION}" | grep -v -q ${VERSION}) || echo -n "${BLUE}"
-            echo "${REPO} ${VERSION} ${TAG} ${RELEASE}${NC}"
+            (echo "${TAG} ${RELEASE}" | grep -q ${VERSION}) || echo -ne "${BLUE}"
+            echo "${REPO} ${VERSION} ${TAG} ${RELEASE}"
+            echo -ne "${NC}"
           done) | column -t
         env:
           GITHUB_USER: ${{ github.repository_owner }}
