@@ -1,12 +1,12 @@
 name: Check new package versions
 
 on:
-  push:
+  workflow_dispatch:
   schedule:
     - cron: '0 0 * * 1'
 
 jobs:
-  build:
+  check:
     name: Check
     runs-on: ubuntu-latest
     steps:
