@@ -66,6 +66,8 @@ You need a computer with Linux and:
 - `mtd-utils` (Only for model S12), provides utils for UBI images
 - `make`
 - Docker
+- rsync
+- perl (shasum)
 - patience. :)
 
 # Usage
