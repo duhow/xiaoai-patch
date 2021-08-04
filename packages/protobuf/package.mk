@@ -1,5 +1,5 @@
 PACKAGE_NAME="protobuf"
-PACKAGE_VERSION="3.14.0"
+PACKAGE_VERSION="3.17.3"
 PACKAGE_SRC="https://github.com/protocolbuffers/protobuf/archive/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="zlib gcc"
 

@@ -1,5 +1,5 @@
 PACKAGE_NAME="tmux"
-PACKAGE_VERSION="3.1c"
+PACKAGE_VERSION="3.2a"
 PACKAGE_SRC="https://github.com/tmux/tmux/archive/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="ncurses libevent"
 
