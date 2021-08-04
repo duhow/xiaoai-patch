@@ -14,8 +14,9 @@ jobs:
         run: |
           for REPO in $(head packages/*/package.mk | grep -e ^PACKAGE_SRC | grep github.com | cut -d'=' -f2 | tr -d '"' | cut -d'/' -f 4,5); do
           echo -n "${REPO}\t"
-          curl -s H 'User-Agent: GithubWorkflow' -H "Authorization: token ${GITHUB_TOKEN}" https://api.github.com/repos/${REPO}/tags | jq -r '.[0].name'
+          curl -s H 'User-Agent: GithubWorkflow' -u ${GITHUB_USER}:${GITHUB_TOKEN} https://api.github.com/repos/${REPO}/tags | jq -r '.[0].name'
           done
         env:
-          GITHUB_TOKEN: ${{ secrets.OAUTH_TOKEN }}
+          GITHUB_USER: ${{ github.repository_owner }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
