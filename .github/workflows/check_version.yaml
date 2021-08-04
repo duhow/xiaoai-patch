@@ -18,5 +18,5 @@ jobs:
           done
         env:
           GITHUB_USER: ${{ github.repository_owner }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.OAUTH_TOKEN }}
 
