@@ -1,6 +1,6 @@
 PACKAGE_NAME="forked-daapd"
 PACKAGE_VERSION="27.2"
-PACKAGE_SRC="https://github.com/ejurgensen/forked-daapd/archive/${PACKAGE_VERSION}.tar.gz"
+PACKAGE_SRC="https://github.com/owntone/owntone-server/archive/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc zlib sqlite3 alsa-lib avahi curl ffmpeg libevent libconfuse libunistring json-c minixml libwebsockets libgcrypt libplist libsodium libantlr3c"
 
 preconfigure_package() {
