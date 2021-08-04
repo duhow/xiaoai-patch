@@ -12,14 +12,18 @@ jobs:
       - uses: actions/checkout@v2
       - name: Check version
         run: |
+          BLUE='\033[0;34m'
+          NC='\033[0m'
+
           (echo "REPO CURRENT TAG RELEASE";
-          for PACKAGE in $(find packages -type d -maxdepth 1 | cut -d'/' -f2); do
+          for PACKAGE in $(find packages -type d -mindepth 1 -maxdepth 1 | cut -d'/' -f2); do
             REPO=$(head packages/${PACKAGE}/package.mk | grep -e ^PACKAGE_SRC | grep github.com | cut -d'=' -f2 | tr -d '"' | cut -d'/' -f 4,5)
             [ "${REPO}" = "" ] && continue
             VERSION=$(grep -e ^PACKAGE_VERSION packages/${PACKAGE}/package.mk | cut -d'=' -f2 | tr -d '"')
             TAG=$(curl -s H 'User-Agent: GithubWorkflow' -u ${GITHUB_USER}:${GITHUB_TOKEN} https://api.github.com/repos/${REPO}/tags | jq -r '.[0].name')
             RELEASE=$(curl -s H 'User-Agent: GithubWorkflow' -u ${GITHUB_USER}:${GITHUB_TOKEN} https://api.github.com/repos/${REPO}/releases/latest | jq -r '.tag_name')
-            echo "${REPO} ${VERSION} ${TAG} ${RELEASE}"
+            (echo "${TAG} ${VERSION}" | grep -v -q ${VERSION}) || echo -n "${BLUE}"
+            echo "${REPO} ${VERSION} ${TAG} ${RELEASE}${NC}"
           done) | column -t
         env:
           GITHUB_USER: ${{ github.repository_owner }}
