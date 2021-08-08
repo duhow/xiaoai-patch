@@ -655,7 +655,7 @@ mkdir -p ${STAGING_TO_TARGET_DIR}
 write_build_config
 [[ ! $? -eq 0 ]] && exit 1
 
-PACKAGES_TO_BUILD="update-libs update-binaries support jq services music pycopy rnnoise ec hey-wifi-c tmux forked-daapd"
+PACKAGES_TO_BUILD="update-libs update-binaries support jq services music pycopy rnnoise ec hey-wifi-c"
 
 for PKGN in $PACKAGES_TO_BUILD; do 
   process_package $PKGN
@@ -679,5 +679,5 @@ strip_debug
 create_target_package
 if [[ ! $? -eq 0 ]]; then
     echo_error "Failed to create binary package"
-   exit 1   
+    exit 1
 fi
