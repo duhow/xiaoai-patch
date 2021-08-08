@@ -3,6 +3,10 @@ PACKAGE_VERSION="2020.81"
 PACKAGE_SRC="https://github.com/mkj/dropbear/archive/refs/tags/DROPBEAR_${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="base"
 
+preconfigure_package() {
+	autoreconf -fi
+}
+
 configure_package() {
 	# package depend zlib may be added later
 	#--with-zlib=${STAGING_DIR}/${INSTALL_PREFIX}/lib

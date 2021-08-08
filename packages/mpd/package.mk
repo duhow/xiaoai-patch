@@ -1,6 +1,6 @@
 PACKAGE_NAME="MPD"
 PACKAGE_VERSION="0.22.10"
-PACKAGE_DEPENDS="curl alsa-lib ffmpeg flac opus libvorbis libogg faad2 libsndfile lame libid3tag soxr libao libshout chromaprint boost avahi libnfs yajl pcre sqlite3 sndio libupnp zziplib bzip2 libmpdclient"
+PACKAGE_DEPENDS="curl alsa-lib flac opus libvorbis libogg faad2 libsndfile lame libid3tag soxr libao libshout chromaprint boost avahi libnfs yajl pcre sqlite3 sndio libupnp ffmpeg zziplib bzip2 libmpdclient"
 PACKAGE_SRC="https://github.com/MusicPlayerDaemon/MPD/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
 

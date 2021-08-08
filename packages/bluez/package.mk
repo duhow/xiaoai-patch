@@ -1,7 +1,7 @@
 PACKAGE_NAME="Bluetooth Linux"
 PACKAGE_VERSION="5.60"
 PACKAGE_SRC="https://cdn.kernel.org/pub/linux/bluetooth/bluez-${PACKAGE_VERSION}.tar.xz"
-PACKAGE_DEPENDS="kernel-headers glibc alsa-lib dbus sbc glib libical readline"
+PACKAGE_DEPENDS="kernel-headers glibc alsa-lib dbus sbc glib libical readline json-c"
 
 configure_package() {
 	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
@@ -11,6 +11,7 @@ configure_package() {
 	   ./configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} \
 	   --localstatedir=/data/bt/bluez \
 	   --sysconfdir=/etc \
+	   --disable-manpages --enable-logger \
 	   --enable-threads --enable-nfc --enable-library \
 	   --disable-systemd --disable-udev --disable-obex \
 	   --with-sysroot=${STAGING_DIR}

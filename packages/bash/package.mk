@@ -4,7 +4,9 @@ PACKAGE_SRC="https://github.com/bminor/bash/archive/refs/tags/bash-${PACKAGE_VER
 PACKAGE_DEPENDS="base glibc"
 
 configure_package() {
-	CC=${BUILD_CC} CFLAGS="-Os" ./configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} 
+	CC=${BUILD_CC} CFLAGS="-Os" ./configure \
+	   --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} \
+	   --enable-static-link
 }
 
 make_package() {
