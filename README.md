@@ -65,6 +65,8 @@ You need a computer with Linux and:
 - `squashfs-tools`, provides `unsquashfs` and `mksquashfs`
 - `mtd-utils` (Only for model S12), provides utils for UBI images
 - `make`
+- `rsync`
+- `shasum`
 - Docker
 - patience. :)
 
