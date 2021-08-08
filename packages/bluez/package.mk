@@ -1,6 +1,6 @@
 PACKAGE_NAME="Bluetooth Linux"
-PACKAGE_VERSION="5.58"
-PACKAGE_SRC="http://www.kernel.org/pub/linux/bluetooth/bluez-${PACKAGE_VERSION}.tar.xz"
+PACKAGE_VERSION="5.60"
+PACKAGE_SRC="https://cdn.kernel.org/pub/linux/bluetooth/bluez-${PACKAGE_VERSION}.tar.xz"
 PACKAGE_DEPENDS="kernel-headers glibc alsa-lib dbus sbc glib libical readline"
 
 configure_package() {

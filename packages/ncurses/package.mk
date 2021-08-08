@@ -1,6 +1,6 @@
 PACKAGE_NAME="ncurses"
 PACKAGE_VERSION="6.2"
-PACKAGE_SRC="ftp://ftp.gnu.org/gnu/ncurses/ncurses-${PACKAGE_VERSION}.tar.gz"
+PACKAGE_SRC="https://ftp.gnu.org/gnu/ncurses/ncurses-${PACKAGE_VERSION}.tar.gz"
 
 preconfigure_package() {
 	# update this extern exit call as it breaks build
