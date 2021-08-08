@@ -40,7 +40,7 @@ extract_squashfs:
 	unsquashfs -d $(BUILD_DIR) $(FILE)
 
 extract_ubifs: modprobe_mtd
-	umount -q $(BUILD_DIR) || true
+	-umount -q $(BUILD_DIR)
 	ubidetach /dev/ubi_ctrl -m 0
 	ubiformat /dev/mtd0 -f $(FILE) -s 2048 -O 2048 -y
 	ubiattach /dev/ubi_ctrl -m 0 -O 2048
@@ -85,8 +85,8 @@ endif
 
 clean:
 ifeq ($(MODEL), s12)
-	umount -q $(BUILD_DIR) || true
-	rmmod ubifs ubi nandsim || true
+	-umount -q $(BUILD_DIR)
+	-rmmod ubifs ubi nandsim
 endif
 	rm -rf $(BUILD_DIR) 2>/dev/null
 
