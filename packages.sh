@@ -609,6 +609,12 @@ done
 
 BUILD_ID=$(rand_str)
 BUILD_ARCH="armv7"
+if [[ -f "squashfs-root/usr/share/mico/version" ]]; then
+	BUILD_MODEL=$(grep HARDWARE squashfs-root/usr/share/mico/version | awk '{print $3}' | tr -d "'" | tr "[:lower:]" "[:upper:]")
+fi
+if [[ ! -z "${MODEL}" ]]; then
+	BUILD_MODEL="${MODEL}"
+fi
 HOST_ARCH=$(uname -m)
 ymd=$(date '+%Y%m%d')
 PACKAGES_PROCESSED=()
@@ -635,6 +641,7 @@ fi
 printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
 echo "Host arch         :  ${HOST_ARCH}"
 echo "Target arch       :  ${BUILD_ARCH}"
+echo "Model detected    :  ${BUILD_MODEL}"
 echo "Prefix            :  ${INSTALL_PREFIX}"
 echo "Make concurrency  :  ${MAKE_JOBS}"
 echo_warning "\nNote: Prefix will be the path to all binaries in target device"
