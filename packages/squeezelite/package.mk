@@ -17,6 +17,7 @@ preinstall_package() {
 
 install_package() {
 	install -v squeezelite ${STAGING_DIR}/usr/bin
+	cp -vf ${PACKAGE_DIR}/config/${PACKAGE_NAME}.conf ${STAGING_DIR}/etc/${PACKAGE_NAME}
 
 	install -v ${PACKAGE_DIR}/config/${PACKAGE_NAME}.init ${STAGING_DIR}/etc/init.d/${PACKAGE_NAME}
 	ln -svf ../init.d/${PACKAGE_NAME} ${STAGING_DIR}/etc/rc.d/S99${PACKAGE_NAME}

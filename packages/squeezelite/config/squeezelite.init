@@ -6,15 +6,29 @@ STOP=1
 
 USE_PROCD=1
 PROG=/usr/bin/squeezelite
+CONF=/data/squeezelite
 
 make_cmdline() {
+	# copy default settings and load
+	[ ! -f "${CONF}" ] && cp /etc/squeezelite ${CONF}
+	source ${CONF}
+
 	cmdline=""
 
-	# name
-	cmdline="$cmdline -n $(hostname)"
+        # add squeezelite name if set
+        [ -n "$SL_NAME" ] && cmdline="${cmdline} -n ${SL_NAME}"
 
 	model_name=$(uci -c /usr/share/mico get version.version.HARDWARE)
 	cmdline="$cmdline -M $model_name"
+
+        # add souncard setting if set
+        [ -n "$SL_SOUNDCARD" ] && cmdline="${cmdline} -o ${SL_SOUNDCARD}"
+
+        # add squeezebox server ip address if set
+        [ -n "$SB_SERVER_IP" ] && cmdline="${cmdline} -s ${SB_SERVER_IP}"
+
+        # add any other options given by the user
+        [ -n "$SB_EXTRA_ARGS" ] && cmdline="${cmdline} ${SB_EXTRA_ARGS}"
 }
 
 start_service() {
