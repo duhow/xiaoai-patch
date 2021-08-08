@@ -1,6 +1,6 @@
 PACKAGE_NAME="GNU C Library"
 PACKAGE_VERSION="2.27"
-PACKAGE_SRC="https://ftp.gnu.org/gnu/glibc/glibc-${PACKAGE_VERSION}.tar.gz"
+PACKAGE_SRC="https://github.com/bminor/glibc/archive/refs/tags/glibc-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="toolchain kernel-headers"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
 

@@ -1,6 +1,6 @@
 PACKAGE_NAME="Dropbear SSH"
 PACKAGE_VERSION="2020.81"
-PACKAGE_SRC="https://mirror.dropbear.nl/mirror/releases/dropbear-${PACKAGE_VERSION}.tar.bz2"
+PACKAGE_SRC="https://github.com/mkj/dropbear/archive/refs/tags/DROPBEAR_${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="base"
 
 configure_package() {

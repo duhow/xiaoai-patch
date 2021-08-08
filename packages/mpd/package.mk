@@ -1,8 +1,7 @@
 PACKAGE_NAME="MPD"
-PACKAGE_VERSION="0.22.8"
-PACKAGE_SHORT_VERSION=${PACKAGE_VERSION::${#PACKAGE_VERSION}-2}
+PACKAGE_VERSION="0.22.10"
 PACKAGE_DEPENDS="curl alsa-lib ffmpeg flac opus libvorbis libogg faad2 libsndfile lame libid3tag soxr libao libshout chromaprint boost avahi libnfs yajl pcre sqlite3 sndio libupnp zziplib bzip2 libmpdclient"
-PACKAGE_SRC="http://www.musicpd.org/download/mpd/${PACKAGE_SHORT_VERSION}/mpd-${PACKAGE_VERSION}.tar.xz"
+PACKAGE_SRC="https://github.com/MusicPlayerDaemon/MPD/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
 
 preconfigure_package() {

@@ -1,6 +1,6 @@
-PACKAGE_NAME="SQLite Version 3"
-PACKAGE_VERSION="3330000"
-PACKAGE_SRC="https://www.sqlite.org/2020/sqlite-autoconf-${PACKAGE_VERSION}.tar.gz"
+PACKAGE_NAME="SQLite"
+PACKAGE_VERSION="3.36.0"
+PACKAGE_SRC="https://github.com/mackyle/sqlite/archive/refs/tags/version-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="zlib readline"
 
 configure_package() {
