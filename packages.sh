@@ -164,7 +164,7 @@ download_package_src() {
     if [[ ! -z "${PACKAGE_SRC}" ]]; then
         local src_filename=$(basename "${PACKAGE_SRC}")
         if [[ ! -z "${src_filename}" ]]; then
-            if [[ -e "${PACKAGE_SRC_DOWNLOAD_DIR}/${src_filename}" ]]; then
+            if [[ -e "${PACKAGE_SRC_DOWNLOAD_DIR}/${src_filename}" ]] && [[ "`stat -c %s ${PACKAGE_SRC_DOWNLOAD_DIR}/${src_filename}`" -gt 1024 ]]; then
                 echo "Using cached download"
             else
                 echo "Downloading package source..."
