@@ -1,6 +1,6 @@
 PACKAGE_NAME="bash"
 PACKAGE_VERSION="5.1"
-PACKAGE_SRC="https://ftp.gnu.org/gnu/bash/bash-${PACKAGE_VERSION}.tar.gz"
+PACKAGE_SRC="https://github.com/bminor/bash/archive/refs/tags/bash-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="base glibc"
 
 configure_package() {

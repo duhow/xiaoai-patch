@@ -1,8 +1,7 @@
 PACKAGE_NAME="GLib"
 PACKAGE_VERSION="2.68.2"
-PACKAGE_VERSION_SHORT=${PACKAGE_VERSION::${#PACKAGE_VERSION}-2}
+PACKAGE_SRC="https://github.com/GNOME/glib/archive/refs/tags/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="libffi zlib"
-PACKAGE_SRC="https://download.gnome.org/sources/glib/${PACKAGE_VERSION_SHORT}/glib-${PACKAGE_VERSION}.tar.xz"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
 
 configure_package() {

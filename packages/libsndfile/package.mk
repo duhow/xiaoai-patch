@@ -1,6 +1,6 @@
 PACKAGE_NAME="Libsndfile"
 PACKAGE_VERSION="1.0.28"
-PACKAGE_SRC="http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz"
+PACKAGE_SRC="https://github.com/libsndfile/libsndfile/archive/refs/tags/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="flac libogg libvorbis sqlite3 alsa-lib"
 
 configure_package() {

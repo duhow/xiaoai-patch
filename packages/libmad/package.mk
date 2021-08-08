@@ -1,6 +1,6 @@
 PACKAGE_NAME="MPEG Audio Decoder"
 PACKAGE_VERSION="0.15.1b"
-PACKAGE_SRC="https://downloads.sourceforge.net/mad/libmad-${PACKAGE_VERSION}.tar.gz"
+PACKAGE_SRC="https://github.com/albel727/libmad/archive/refs/heads/master.tar.gz"
 # no longer updated
 
 preconfigure_package(){

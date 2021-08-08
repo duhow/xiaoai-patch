@@ -1,6 +1,6 @@
 PACKAGE_NAME="libsodium"
 PACKAGE_VERSION="1.0.18"
-PACKAGE_SRC="https://download.libsodium.org/libsodium/releases/libsodium-${PACKAGE_VERSION}.tar.gz"
+PACKAGE_SRC="https://github.com/jedisct1/libsodium/archive/refs/tags/${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {
 	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS} -lm" \

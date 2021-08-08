@@ -1,6 +1,6 @@
 PACKAGE_NAME="GMP"
 PACKAGE_VERSION="6.2.1"
-PACKAGE_SRC="https://gmplib.org/download/gmp/gmp-${PACKAGE_VERSION}.tar.xz"
+PACKAGE_SRC="https://github.com/alisw/GMP/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {
 	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \

@@ -1,6 +1,6 @@
 PACKAGE_NAME="libdaemon"
 PACKAGE_VERSION="0.14"
-PACKAGE_SRC="http://0pointer.de/lennart/projects/libdaemon/libdaemon-0.14.tar.gz"
+PACKAGE_SRC="https://github.com/Distrotech/libdaemon/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {
 	# for autoconf flags, see: https://vanducuy.wordpress.com/2009/11/19/libdaemon-0-14-cross-compile-error/
