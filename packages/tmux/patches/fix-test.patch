@@ -1,0 +1,10 @@
+--- a/configure.ac	2021-06-10 10:24:57.000000000 +0200
++++ b/configure.ac	2021-08-08 10:45:14.509161270 +0200
+@@ -160,6 +160,7 @@
+          [return (strtonum("0", 0, 1, NULL) == 0 ? 0 : 1);]
+ 	 )],
+ 	 [AC_DEFINE(HAVE_STRTONUM) AC_MSG_RESULT(yes)],
++	 [AC_LIBOBJ(strtonum) AC_MSG_RESULT(no)],
+ 	 [AC_LIBOBJ(strtonum) AC_MSG_RESULT(no)]
+ )
+ 
