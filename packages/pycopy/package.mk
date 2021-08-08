@@ -1,5 +1,5 @@
 PACKAGE_NAME="Python3 - Pycopy"
-PACKAGE_VERSION="3.5.7"
+PACKAGE_VERSION="3.6.0"
 PACKAGE_SRC="https://github.com/pfalcon/pycopy/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="gcc libffi"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
