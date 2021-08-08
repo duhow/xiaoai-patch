@@ -680,5 +680,5 @@ strip_debug
 create_target_package
 if [[ ! $? -eq 0 ]]; then
     echo_error "Failed to create binary package"
-    exit 1   
+    exit 1
 fi

@@ -1,5 +1,5 @@
 PACKAGE_NAME="JACK Audio Connection Kit"
-PACKAGE_VERSION="1.9.18"
+PACKAGE_VERSION="1.9.19"
 PACKAGE_SRC="https://github.com/jackaudio/jack2/archive/v${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {

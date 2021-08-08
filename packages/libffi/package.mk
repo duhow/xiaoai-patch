@@ -1,6 +1,6 @@
 PACKAGE_NAME="libffi"
-PACKAGE_VERSION="3.3"
-PACKAGE_SRC="https://github.com/libffi/libffi/releases/download/v3.3/libffi-3.3.tar.gz"
+PACKAGE_VERSION="3.4.2"
+PACKAGE_SRC="https://github.com/libffi/libffi/releases/download/v${PACKAGE_VERSION}/libffi-${PACKAGE_VERSION}.tar.gz"
 
 
 configure_package() {
