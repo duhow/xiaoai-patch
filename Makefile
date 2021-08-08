@@ -4,6 +4,8 @@ BUILD_DIR = squashfs-root
 FILE = mtd4
 DATE := $(shell date +%y%m%d-%H%M)
 MODEL ?= none
+IMAGE_NAME = image-$(DATE)
+DESTDIR ?= release/$(MODEL)
 BLOCKSIZE = 131072
 COMPRESSION = xz
 
@@ -52,17 +54,17 @@ ifeq ($(MODEL),none)
 	$(error Please specify MODEL)
 endif
 	rm -f $(BUILD_DIR)/patched 2>/dev/null
-	mkdir -p release/$(MODEL)
+	mkdir -p $(DESTDIR)
 
 postbuild:
-	rm -f release/$(MODEL)/latest 2>/dev/null
-	ln -sf image-$(DATE) release/$(MODEL)/latest
+	rm -f $(DESTDIR)/latest 2>/dev/null
+	ln -sf $(IMAGE_NAME) $(DESTDIR)/latest
 
 build_squashfs:
-	mksquashfs $(BUILD_DIR) release/$(MODEL)/image-$(DATE) -comp $(COMPRESSION) -noappend -all-root -always-use-fragments -b $(BLOCKSIZE)
+	mksquashfs $(BUILD_DIR) $(DESTDIR)/$(IMAGE_NAME) -comp $(COMPRESSION) -noappend -all-root -always-use-fragments -b $(BLOCKSIZE)
 
 build_ubifs: make_ubifs ubi.ini
-	ubinize -o release/$(MODEL)/image-$(DATE) -p 131072 -m 2048 -s 2048 -O 2048 ubi.ini
+	ubinize -o $(DESTDIR)/$(IMAGE_NAME) -p 131072 -m 2048 -s 2048 -O 2048 ubi.ini
 	@rm -vf ubi.ini ubifs.img 2>/dev/null
 
 make_ubifs:
