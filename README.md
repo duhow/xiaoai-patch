@@ -45,6 +45,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 | ![L09A - supported][L09A] | Xiaoai Speaker Art (China) |
 | ![L09G - not supported][L09G] | Xiaomi Mi Smart Speaker (Global, Google Assistant) |
 | ![LX05 - encrypted, supported][LX05] | Xiaoai Speaker Play |
+| ![L05B - not supported][L05B] | Xiaoai Speaker Play Enhanced Edition, no Clock LED (NuttX) - [details](https://github.com/duhow/xiaoai-patch/issues/19) |
 | ![L15A - encrypted, not fully supported][L15A] | Xiaomi Mi AI Speaker 2 Gen |
 | ![L07A - not tested][L07A] | Redmi XiaoAI Speaker Play |
 | ![MDZ-25-DT - not tested][MDZ-25-DT] | Xiaomi Mi AI Speaker 1 Gen (?) - S12 |
@@ -54,6 +55,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 [L09A]: https://img.shields.io/badge/L09A-green?style=for-the-badge
 [L09G]: https://img.shields.io/badge/L09G-red?style=for-the-badge
 [LX05]: https://img.shields.io/badge/LX05-yellowgreen?style=for-the-badge
+[L05B]: https://img.shields.io/badge/L05B-red?style=for-the-badge
 [L15A]: https://img.shields.io/badge/L15A-yellow?style=for-the-badge
 [L07A]: https://img.shields.io/badge/L07A-lightgrey?style=for-the-badge
 [MDZ-25-DT]: https://img.shields.io/badge/MDZ--25--DT-lightgrey?style=for-the-badge
