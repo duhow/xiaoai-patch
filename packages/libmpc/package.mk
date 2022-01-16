@@ -1,6 +1,6 @@
 PACKAGE_NAME="libmpc"
 PACKAGE_VERSION="0.1~r495"
-PACKAGE_SRC="http://deb.debian.org/debian/pool/main/libm/libmpc/libmpc_0.1~r495.orig.tar.gz"
+PACKAGE_SRC="https://deb.debian.org/debian/pool/main/libm/libmpc/libmpc_0.1~r495.orig.tar.gz"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
 
 # Original Musepack sources do not build properly (library files are not installed)

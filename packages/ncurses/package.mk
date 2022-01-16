@@ -1,6 +1,6 @@
 PACKAGE_NAME="ncurses"
 PACKAGE_VERSION="6.2"
-PACKAGE_SRC="ftp://ftp.gnu.org/gnu/ncurses/ncurses-${PACKAGE_VERSION}.tar.gz"
+PACKAGE_SRC="https://ftp.gnu.org/gnu/ncurses/ncurses-${PACKAGE_VERSION}.tar.gz"
 
 preconfigure_package() {
 	# update this extern exit call as it breaks build
@@ -11,7 +11,8 @@ configure_package() {
 	# specifying --with-termlib is important because libcdio requires it (libtinfo)
 	CC=${BUILD_CC} CXX="${BUILD_CXX}" CFLAGS="${BUILD_CFLAGS}" CXXFLAGS="${BUILD_CFLAGS}" CPPFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
 		 PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
-		 ./configure --with-termlib --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} --disable-stripping --with-shared
+		 ./configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} --with-shared \
+		 --with-termlib --disable-stripping --without-manpages
 }
 
 make_package() {

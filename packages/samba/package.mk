@@ -1,7 +1,7 @@
 PACKAGE_NAME="Samba"
 PACKAGE_VERSION="4.11.3"
 PACKAGE_DEPENDS="jansson libtirpc gnutls heimdal"
-PACKAGE_SRC="https://download.samba.org/pub/samba/stable/samba-4.11.3.tar.gz"
+PACKAGE_SRC="https://github.com/samba-team/samba/archive/refs/tags/samba-${PACKAGE_VERSION}.tar.gz"
 
 # patches obtained from LibreELEC repo to enable cross-building
 

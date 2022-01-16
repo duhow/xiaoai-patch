@@ -1,6 +1,6 @@
 PACKAGE_NAME="libid3tag"
 PACKAGE_VERSION="0.15.1b"
-PACKAGE_SRC="ftp://ftp.mars.org/pub/mpeg/libid3tag-${PACKAGE_VERSION}.tar.gz"
+PACKAGE_SRC="https://downloads.sourceforge.net/project/mad/libid3tag/${PACKAGE_VERSION}/libid3tag-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="zlib"
 
 configure_package() {

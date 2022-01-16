@@ -1,8 +1,11 @@
 PACKAGE_NAME="D-Bus"
 PACKAGE_VERSION="1.13.18"
-PACKAGE_SRC="https://dbus.freedesktop.org/releases/dbus/dbus-${PACKAGE_VERSION}.tar.xz"
+PACKAGE_SRC="https://github.com/freedesktop/dbus/archive/refs/tags/dbus-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="expat"
 
+preconfigure_package() {
+	autoreconf -fi
+}
 
 configure_package() {
 	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" \

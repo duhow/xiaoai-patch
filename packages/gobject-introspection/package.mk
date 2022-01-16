@@ -1,7 +1,6 @@
 PACKAGE_NAME="gobject-introspection"
 PACKAGE_VERSION="1.68.0"
-PACKAGE_VERSION_SHORT=${PACKAGE_VERSION::${#PACKAGE_VERSION}-2}
-PACKAGE_SRC="https://ftp.acc.umu.se/pub/GNOME/sources/gobject-introspection/${PACKAGE_VERSION_SHORT}/gobject-introspection-${PACKAGE_VERSION}.tar.xz"
+PACKAGE_SRC="https://github.com/GNOME/gobject-introspection/archive/refs/tags/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc glib libffi python3"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
 

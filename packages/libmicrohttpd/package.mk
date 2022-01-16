@@ -1,6 +1,6 @@
 PACKAGE_NAME="libmicrohttpd"
 PACKAGE_VERSION="0.9.73"
-PACKAGE_SRC="https://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-${PACKAGE_VERSION}.tar.gz"
+PACKAGE_SRC="https://github.com/Karlson2k/libmicrohttpd/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc"
 
 configure_package() {

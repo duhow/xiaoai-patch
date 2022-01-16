@@ -1,6 +1,6 @@
 PACKAGE_NAME="zlib"
 PACKAGE_VERSION="1.2.11"
-PACKAGE_SRC="https://www.zlib.net/zlib-${PACKAGE_VERSION}.tar.gz"
+PACKAGE_SRC="https://github.com/madler/zlib/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {
 	#LDPREFIX="-L${STAGING_DIR}/lib -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib -Wl,--rpath-link=${STAGING_DIR}/lib"

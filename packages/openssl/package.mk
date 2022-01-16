@@ -1,6 +1,6 @@
 PACKAGE_NAME="OpenSSL"
-PACKAGE_VERSION="1.1.1k"
-PACKAGE_SRC="https://www.openssl.org/source/openssl-${PACKAGE_VERSION}.tar.gz"
+PACKAGE_VERSION="1_1_1k"
+PACKAGE_SRC="https://github.com/openssl/openssl/archive/refs/tags/OpenSSL_${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {
 	CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \

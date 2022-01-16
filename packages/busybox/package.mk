@@ -1,6 +1,6 @@
 PACKAGE_NAME="BusyBox"
-PACKAGE_VERSION="1.32.1"
-PACKAGE_SRC="https://busybox.net/downloads/busybox-${PACKAGE_VERSION}.tar.bz2"
+PACKAGE_VERSION="1_32_1"
+PACKAGE_SRC="https://github.com/mirror/busybox/archive/refs/tags/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="base"
 
 configure_package() {

@@ -1,6 +1,6 @@
 PACKAGE_NAME="Libvorbis"
 PACKAGE_VERSION="1.3.7"
-PACKAGE_SRC="https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-1.3.7.tar.xz"
+PACKAGE_SRC="https://github.com/xiph/vorbis/releases/download/v${PACKAGE_VERSION}/libvorbis-${PACKAGE_VERSION}.tar.xz"
 PACKAGE_DEPENDS="libogg"
 
 configure_package() {

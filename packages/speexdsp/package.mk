@@ -1,6 +1,6 @@
 PACKAGE_NAME="SpeexDSP"
 PACKAGE_VERSION="1.2.0"
-PACKAGE_SRC="https://github.com/xiph/speexdsp/archive/SpeexDSP-1.2.0.tar.gz"
+PACKAGE_SRC="https://github.com/xiph/speexdsp/archive/refs/tags/SpeexDSP-${PACKAGE_VERSION}.tar.gz"
 
 preconfigure_package() {
 	./autogen.sh

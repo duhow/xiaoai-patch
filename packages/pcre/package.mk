@@ -1,6 +1,6 @@
 PACKAGE_NAME="Perl Compatible Regular Expressions"
 PACKAGE_VERSION="8.44"
-PACKAGE_SRC="ftp://ftp.pcre.org/pub/pcre/pcre-${PACKAGE_VERSION}.tar.gz"
+PACKAGE_SRC="https://sourceforge.net/projects/pcre/files/pcre/${PACKAGE_VERSION}/pcre-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="zlib bzip2"
 
 configure_package() {

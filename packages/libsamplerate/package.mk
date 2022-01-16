@@ -1,6 +1,6 @@
 PACKAGE_NAME="Secret Rabbit Code (aka libsamplerate)"
-PACKAGE_VERSION="0.1.9"
-PACKAGE_SRC="http://www.mega-nerd.com/SRC/libsamplerate-0.1.9.tar.gz"
+PACKAGE_VERSION="0.2.1"
+PACKAGE_SRC="https://github.com/libsndfile/libsamplerate/archive/refs/tags/${PACKAGE_VERSION}.tar.gz"
 
 preconfigure_package() {
 	./autogen.sh

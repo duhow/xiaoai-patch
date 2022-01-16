@@ -1,6 +1,6 @@
 PACKAGE_NAME="The SoX Resampler library"
 PACKAGE_VERSION="0.1.3"
-PACKAGE_SRC="https://sourceforge.net/projects/soxr/files/soxr-0.1.3-Source.tar.xz"
+PACKAGE_SRC="https://github.com/chirlu/soxr/archive/refs/tags/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
 
 configure_package() {
