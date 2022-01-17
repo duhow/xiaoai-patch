@@ -6,6 +6,7 @@
 /include
 /include-*
 /sound
+/mico_*.bin
 
 /test
 /release
