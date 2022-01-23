@@ -14,7 +14,6 @@ configure_package() {
 }
 
 make_package() {
-	return 1
 	make -j${MAKE_JOBS}
 }
 
