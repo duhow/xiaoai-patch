@@ -3,6 +3,10 @@ PACKAGE_VERSION="0.9.73"
 PACKAGE_SRC="https://github.com/Karlson2k/libmicrohttpd/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc"
 
+preconfigure_package() {
+	./autogen.sh
+}
+
 configure_package() {
 	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
 	   CXX="${BUILD_CXX}" CXXFLAGS="${BUILD_CFLAGS}" CPPFLAGS="${BUILD_CFLAGS}" \
