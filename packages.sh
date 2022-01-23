@@ -16,6 +16,7 @@ echo_warning() {
 
 echo_error() {
     echo -e "\e[1;31m$1 \e[0m"
+    [ -n "${GITHUB_ACTIONS}" ] && echo "::error::$1"
 }
 
 echo_stage() {

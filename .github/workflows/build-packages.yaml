@@ -14,9 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build image
-        run: docker build -t xiaoai-patch - < Dockerfile-packages
+        uses: docker/build-push-action@v2
+        with:
+          context: packages
+          tags: xiaoai-patch
+          load: true
       - name: Build packages
-        run: docker run -v $PWD:/xiaoai xiaoai-patch
+        uses: ./
       - name: Upload packages
         uses: actions/upload-artifact@v2
         with:

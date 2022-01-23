@@ -24,4 +24,4 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
 
 VOLUME /xiaoai
 WORKDIR /xiaoai
-CMD /xiaoai/packages.sh
+CMD ./packages.sh
