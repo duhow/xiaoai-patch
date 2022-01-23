@@ -16,7 +16,7 @@ jobs:
       - name: Build image
         run: docker build -t xiaoai-patch - < Dockerfile-packages
       - name: Build packages
-        run: docker run -v $PWD:/xiaoai xiaoai-patch
+        uses: docker://xiaoai-patch:latest
       - name: Upload packages
         uses: actions/upload-artifact@v2
         with:
