@@ -1,0 +1,9 @@
+name: 'Build ARM packages'
+description: 'Build ARM packages from source'
+author: 'duhow'
+branding:
+  icon: 'layout'
+  color: 'green'
+runs:
+  using: 'docker'
+  image: 'Dockerfile-packages'
