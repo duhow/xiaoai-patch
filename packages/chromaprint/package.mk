@@ -11,6 +11,7 @@ configure_package() {
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_PREFIX} \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DBUILD_TOOLS=ON \
+		-DBUILD_TESTS=OFF \
 		${PACKAGE_SRC_DIR}
 }
 
