@@ -1,5 +1,5 @@
 PACKAGE_NAME="Chromaprint"
-PACKAGE_VERSION="1.5.0"
+PACKAGE_VERSION="1.5.1"
 PACKAGE_SRC="https://github.com/acoustid/chromaprint/releases/download/v${PACKAGE_VERSION}/chromaprint-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="ffmpeg"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
@@ -11,6 +11,7 @@ configure_package() {
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_PREFIX} \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DBUILD_TOOLS=ON \
+		-DBUILD_TESTS=OFF \
 		${PACKAGE_SRC_DIR}
 }
 

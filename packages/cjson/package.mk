@@ -1,6 +1,6 @@
 PACKAGE_NAME="cJSON"
-PACKAGE_VERSION="v1.7.14"
-PACKAGE_SRC="https://github.com/DaveGamble/cJSON/archive/${PACKAGE_VERSION}.tar.gz"
+PACKAGE_VERSION="1.7.15"
+PACKAGE_SRC="https://github.com/DaveGamble/cJSON/archive/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
 

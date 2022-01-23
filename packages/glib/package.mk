@@ -15,7 +15,7 @@ premake_package() {
 	# FIXME this build is unstable, as it uses mixed libs from ARM and system.
 	# Some commands used to fix this:
 
-	echo_error "setting a horrible hack to fix the build"
+	echo_warning "setting a horrible hack to fix the build"
 
 	FILE_XLOCALE=${TOOLCHAIN_DIR}/${BUILD_TARGET}/libc/usr/include/xlocale.h
 	FILE_LIBRESOLV=${TOOLCHAIN_DIR}/${BUILD_TARGET}/libc/lib/libresolv.so.2
