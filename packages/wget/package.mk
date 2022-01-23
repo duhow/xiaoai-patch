@@ -1,6 +1,6 @@
-PACKAGE_NAME="wget2"
-PACKAGE_VERSION="latest"
-PACKAGE_SRC="https://gnuwget.gitlab.io/wget2/wget2-${PACKAGE_VERSION}.tar.gz"
+PACKAGE_NAME="wget"
+PACKAGE_VERSION="1.21.2"
+PACKAGE_SRC="https://ftp.gnu.org/gnu/wget/wget-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc zlib bzip2 nghttp2 pcre openssl"
 
 
@@ -22,9 +22,4 @@ make_package() {
 
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
-}
-
-postinstall_package() {
-	ln -s wget2 ${STAGING_DIR}/usr/bin/wget
-	rm ${STAGING_DIR}/usr/bin/wget2_noinstall
 }
