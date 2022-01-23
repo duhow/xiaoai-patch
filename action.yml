@@ -6,4 +6,4 @@ branding:
   color: 'green'
 runs:
   using: 'docker'
-  image: 'packages/Dockerfile'
+  image: 'xiaoai-patch'

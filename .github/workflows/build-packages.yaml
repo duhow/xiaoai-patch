@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Build image
+        run: docker build -t xiaoai-patch packages/
       - name: Build packages
         uses: ./
       - name: Upload packages
