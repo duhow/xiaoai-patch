@@ -1,5 +1,5 @@
 PACKAGE_NAME="mosquitto"
-PACKAGE_VERSION="2.0.11"
+PACKAGE_VERSION="2.0.14"
 PACKAGE_SRC="https://github.com/eclipse/mosquitto/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="base glibc cjson"
 

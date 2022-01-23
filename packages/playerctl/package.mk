@@ -1,5 +1,5 @@
 PACKAGE_NAME="playerctl"
-PACKAGE_VERSION="2.3.1"
+PACKAGE_VERSION="2.4.1"
 PACKAGE_SRC="https://github.com/altdesktop/playerctl/archive/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc glib" # gobject-introspection
 

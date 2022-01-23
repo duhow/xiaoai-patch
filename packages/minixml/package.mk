@@ -1,5 +1,5 @@
 PACKAGE_NAME="minixml"
-PACKAGE_VERSION="3.2"
+PACKAGE_VERSION="3.3"
 PACKAGE_SRC="https://github.com/michaelrsweet/mxml/archive/v${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {

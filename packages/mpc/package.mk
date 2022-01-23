@@ -1,5 +1,5 @@
 PACKAGE_NAME="mpc"
-PACKAGE_VERSION="0.33"
+PACKAGE_VERSION="0.34"
 PACKAGE_SRC="https://github.com/MusicPlayerDaemon/mpc/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc libmpdclient"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
