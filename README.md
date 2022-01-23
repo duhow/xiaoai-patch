@@ -46,9 +46,12 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 | ![L09G - not supported][L09G] | Xiaomi Mi Smart Speaker (Global, Google Assistant) |
 | ![LX05 - encrypted, supported][LX05] | Xiaoai Speaker Play |
 | ![L05B - not supported][L05B] | Xiaoai Speaker Play Enhanced Edition, no Clock LED (NuttX) - [details](https://github.com/duhow/xiaoai-patch/issues/19) |
+| ![L05C - not supported][L05C] | Xiaoai Speaker Play Enhanced Edition, with Clock LED |
 | ![L15A - encrypted, not fully supported][L15A] | Xiaomi Mi AI Speaker 2 Gen |
+| ![L16A - not tested][L16A] | Xiaomi Sound by HARMAN AudioEFX |
 | ![L07A - not tested][L07A] | Redmi XiaoAI Speaker Play |
 | ![MDZ-25-DT - not tested][MDZ-25-DT] | Xiaomi Mi AI Speaker 1 Gen (?) - S12 |
+| ![XMYX01JY - not tested][XMYX01JY] | Xiaomi XiaoAI HD |
 
 [LX06]: https://img.shields.io/badge/LX06-green?style=for-the-badge
 [LX01]: https://img.shields.io/badge/LX01-green?style=for-the-badge
@@ -56,9 +59,12 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 [L09G]: https://img.shields.io/badge/L09G-red?style=for-the-badge
 [LX05]: https://img.shields.io/badge/LX05-yellowgreen?style=for-the-badge
 [L05B]: https://img.shields.io/badge/L05B-red?style=for-the-badge
+[L05C]: https://img.shields.io/badge/L05C-red?style=for-the-badge
 [L15A]: https://img.shields.io/badge/L15A-yellow?style=for-the-badge
+[L16A]: https://img.shields.io/badge/L16A-lightgrey?style=for-the-badge
 [L07A]: https://img.shields.io/badge/L07A-lightgrey?style=for-the-badge
 [MDZ-25-DT]: https://img.shields.io/badge/MDZ--25--DT-lightgrey?style=for-the-badge
+[XMYX01JY]: https://img.shields.io/badge/XMYX01JY-lightgrey?style=for-the-badge
 
 # Requirements
 
@@ -95,7 +101,7 @@ Build the docker image and run it to build all the packages. Probably it will ta
 **NOTE:** Run the **build packages.sh** process with Docker, since the package build performs some patching to the system, otherwise it could harm your GNU/Linux installation.
 
 ```bash
-docker build -t xiaoai-patch - < Dockerfile-packages
+docker build -t xiaoai-patch packages
 docker run -it -v $PWD:/xiaoai xiaoai-patch
 ```
 
