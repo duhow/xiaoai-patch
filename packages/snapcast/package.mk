@@ -1,8 +1,9 @@
 PACKAGE_NAME="Snapcast"
-PACKAGE_VERSION="v0.26.0"
-PACKAGE_SRC="https://github.com/badaix/snapcast/archive/${PACKAGE_VERSION}.tar.gz"
+PACKAGE_VERSION="0.25.0"
+PACKAGE_SRC="https://github.com/badaix/snapcast/archive/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="alsa libvorbis opus flac soxr avahi expat"
-BOOST=boost_1_76_0
+BOOST_VERSION="1.76.0"
+BOOST="boost_${BOOST_VERSION//./_}"
 
 preconfigure_package() {
 	if [ ! -e "${PACKAGE_SRC_DOWNLOAD_DIR}/${BOOST}.tar.gz" ]; then
