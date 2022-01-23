@@ -4,6 +4,10 @@ PACKAGE_SRC="https://github.com/freedesktop/libbsd/archive/refs/tags/${PACKAGE_V
 PACKAGE_DEPENDS="glibc"
 
 preconfigure_package() {
+	if [ ! -f ".dist-version" ]; then
+		echo -n "${PACKAGE_VERSION}" > .dist-version
+	fi
+
 	./autogen
 }
 
