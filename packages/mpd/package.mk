@@ -19,6 +19,10 @@ configure_package() {
 		BOOST_ROOT=${BUILD_DIR}/boost \
 		meson --cross-file ${TOOLCHAIN_MESON} ${PACKAGE_SRC_DIR} output/release \
 		--prefix=${INSTALL_PREFIX}
+
+	if [ "${BUILD_MODEL}" = "LX01" ]; then
+		sed -i -e "s/SO_REUSEPORT/SO_REUSEADDR/" ${PACKAGE_SRC_DIR}/src/net/SocketDescriptor.cxx
+	fi
 }
 
 premake_package() {
