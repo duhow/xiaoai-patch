@@ -21,7 +21,7 @@
 | lx06 | 1.74.1   | 66643b82aa60eff9ac99b7688c8b9cbb | all |
 | lx06 | 1.74.10  | fe6edc680d58620019c9afe4fd79c712 | firmware |
 | l07a | 1.76.2   | N/A | skr_firmware |
-| l09a | 1.54.10  | N/A | |
+| l09a | 1.54.0   | 9376a09e3c23e68102b4ad7c449d632e | all |
 | l09a | 1.64.64  | N/A | |
 | l09a | 1.68.1   | N/A | |
 | l15a | 1.70.103 | N/A | |
