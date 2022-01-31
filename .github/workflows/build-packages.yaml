@@ -22,7 +22,7 @@ on:
 
 jobs:
   build:
-    name: Build for ${{ env.MODEL }}
+    name: Build for ${{ github.event.inputs.model || inputs.model || 'LX06' }}
     env:
       MODEL: ${{ github.event.inputs.model || inputs.model || 'LX06' }}
     runs-on: ubuntu-latest
