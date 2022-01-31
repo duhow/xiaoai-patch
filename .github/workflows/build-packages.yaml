@@ -13,12 +13,6 @@ on:
         default: 'LX06'
         description: Speaker model to build packages
         type: string
-  pull_request:
-    paths:
-      - 'packages/**'
-      - 'packages.sh'
-      - '.github/workflows/build-packages.yaml'
-
 
 jobs:
   build:

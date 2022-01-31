@@ -1,0 +1,20 @@
+name: PR Build packages
+
+on:
+  pull_request:
+    paths:
+      - 'packages/**'
+      - 'packages.sh'
+      - '.github/workflows/build-packages.yaml'
+
+
+jobs:
+  build:
+    name: Build for ${{ matrix.model }}
+    if: ${{ github.repository == 'duhow/xiaoai-patch' }}
+    uses: duhow/xiaoai-patch/.github/workflows/build-packages.yaml@master
+    with:
+      model: ${{ matrix.model }}
+    strategy:
+      matrix:
+        model: [LX01, LX06]
