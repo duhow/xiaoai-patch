@@ -1,5 +1,8 @@
 PACKAGE_NAME="GNU C Library"
 PACKAGE_VERSION="2.27"
+
+[ "${BUILD_MODEL}" = "S12" ] && PACKAGE_VERSION="2.19"
+
 PACKAGE_SRC="https://github.com/bminor/glibc/archive/refs/tags/glibc-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="toolchain kernel-headers"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"

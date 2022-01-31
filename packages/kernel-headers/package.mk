@@ -1,9 +1,8 @@
 PACKAGE_NAME="Linux kernel headers"
 PACKAGE_VERSION="4.9.61" # LX06
 
-if [ "${BUILD_MODEL}" = "LX01" ]; then
-PACKAGE_VERSION="3.4.39"
-fi
+[ "${BUILD_MODEL}" = "LX01" ] && PACKAGE_VERSION="3.4.39"
+[ "${BUILD_MODEL}" = "S12" ] && PACKAGE_VERSION="3.14.29"
 
 PACKAGE_SRC="https://cdn.kernel.org/pub/linux/kernel/v${PACKAGE_VERSION:0:1}.x/linux-${PACKAGE_VERSION}.tar.xz"
 
@@ -14,10 +13,10 @@ install_package() {
 		"arm"|"armv7")
 		kernel_arch="arm"
 		;;
-	"x86")
-		kernel_arch="x86"
+		"aarch64")
+		kernel_arch="arm64"
 		;;
-	*)
+		*)
 		echo_error "Error: Unknown target '${BUILD_ARCH}'. Toolchain setup failed."
 		return 1
 		;;
