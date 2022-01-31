@@ -3,7 +3,7 @@ PACKAGE_VERSION="7.4.1-2019.02"
 PACKAGE_SUBVERSION="7.4-2019.02"
 BUILD_TARGET="arm-linux-gnueabihf"
 
-if [ "${BUILD_ARCH}" = "aarch64" || "${MODEL}" = "s12" ]; then
+if [ "${BUILD_ARCH}" = "aarch64" ] || [ "${MODEL}" = "S12" ]; then
 BUILD_TARGET="aarch64-linux-gnu"
 fi
 
