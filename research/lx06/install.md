@@ -1,9 +1,19 @@
-# root LX06
-This instruction is for a new LX06, bought in late 2021. Xiaomi did some things to make it hard to get access. Just the serial connection isn't working me. So I have found an another solution using the micro usb port on the board. A serial connection is helpful but not needed!
+# Install Guide
 
-The latest revision of the speaker has some different chips on its board (i.e. wifi). So in my case the speaker doesn't work properbly when using an older firmware (before 1.74.x). Furthermore an older firmware doesn't remove the new magic password generation for root. So I'm using a 1.74.10 for the follwing steps. 
+- author: @danielk117
 
-I'm using the Windows versions of the "Amlogic Update Tool" and the "WinCap" driver. There seems to be a version of the update tool for linux, but I don't know where to get a linux driver and if it is working.
+This instruction is for a new LX06, bought in late 2021.
+Xiaomi did some things to make it hard to get access. Just the serial connection isn't working me.
+So I have found an another solution using the micro usb port on the board.
+A serial connection is helpful but not needed!
+
+The latest revision of the speaker has some different chips on its board (i.e. wifi).
+So in my case the speaker doesn't work properbly when using an older firmware (before 1.74.x).
+Furthermore an older firmware doesn't remove the new magic password generation for root.
+So I'm using a 1.74.10 for the follwing steps.
+
+I'm using the Windows versions of the "Amlogic Update Tool" and the "WinCap" driver.
+There seems to be a version of the update tool for linux, but I don't know where to get a linux driver and if it is working.
 
 ## prepare
 
@@ -18,7 +28,7 @@ I'm using the Windows versions of the "Amlogic Update Tool" and the "WinCap" dri
 - connect a cable to the micro usb and your computer
 
 - power on -> when windows plays a sound (or 2 seconds after power on) -> run `update.exe identify`
-  - if you don't see `firmware version ...` than it wasn't successful and you need to try it again
+  - if you don't see `firmware version ...` then it wasn't successful and you need to try it again
 
 ```
 > update.exe identify
@@ -29,7 +39,7 @@ This firmware version is 0-7-0-16-0-0-0-0
 ## backup
 
 - (optional, but recommended) restore uboot access
-  - when using serial connection, you aren't able the interrupt the autoboot of uboot. this is caused by the bootdelay which is setted to 0. 
+  - when using serial connection, you aren't able the interrupt the autoboot of uboot. this is caused by the bootdelay which is setted to 0.
   - I setted it to 30, because in my case, this aren't 30 seconds -> it counts really fast, so 30 are aproxomittly 3-4 seconds.
 ```
 > update.exe bulkcmd "setenv bootdelay 30"
@@ -39,10 +49,13 @@ AmlUsbBulkCmd[setenv bootdelay 30]
 ```
 
 - dump partitions (for backup)
-  - the update tool doesn't show any output from the speaker, so without sericial connection, we dont see stdout/stderr and we can't get the real size of the partitions. so we assume a size of 1GB (1073741824 Bytes -> 0x40000000)
+  - the update tool doesn't show any output from the speaker, so without serial connection,
+  we dont see stdout/stderr and we can't get the real size of the partitions.
+  so we assume a size of 1GB (1073741824 Bytes -> 0x40000000)
     - the dump stops at the real end of the partition
-    - if you have a serial connection, than run `mtdparts` and calculate the real sizes
+    - if you have a serial connection, then run `mtdparts` and calculate the real sizes
   - the last argument of `update.exe mread` is the path on your local machine
+  - run this for `boot0`, `system0` and `data`:
 
 ```
 > update.exe mread store boot0 normal 0x40000000 boot0.dump
@@ -50,15 +63,13 @@ AmlUsbBulkCmd[upload store boot1 normal 0x40000000]
 Want read 65536 bytes, actual len 0
 AmlReadMedia failed
 ERR: ReadMediaFile failed!
-```
-```
+
 > update.exe mread store system0 normal 0x40000000 system0.dump
 AmlUsbBulkCmd[upload store system0 normal 0x40000000]
 Want read 65536 bytes, actual len 0
 AmlReadMedia failed
 ERR: ReadMediaFile failed!
-```
-```
+
 > update.exe mread store data normal 0x40000000 data.dump
 AmlUsbBulkCmd[upload store data normal 0x40000000]
 Want read 65536 bytes, actual len 0
@@ -66,8 +77,9 @@ AmlReadMedia failed
 ERR: ReadMediaFile failed!
 ```
 
-- restart speaker and set it up using the Xiaomi Home app (wifi access -> for me, only the official app is able to set all the config files correct, otherwise you need to it over serial connection) 
-  - choose speaker -> Speaker Pro -> enter wifi credentials -> connect to local AP from Speaker "xiaomi-wifispealer-lx06..." 
+- restart speaker and set it up using the Xiaomi Home app
+  (wifi access -> for me, only the official app is able to set all the config files correct, otherwise you need to it over serial connection)
+  - choose speaker -> Speaker Pro -> enter wifi credentials -> connect to local AP from Speaker `xiaomi-wifispealer-lx06...`
   - turn off the speaker when setting in the app is done
 
 ## create/prepare image
@@ -129,7 +141,9 @@ AmlUsbBulkCmd[download get_status]
 ```
 
 - flash `system0` partition
-  - if you want to patch the installed firmware on your speaker (the factory installed version might be newer than the one we try to flash), than skip flashing the `system0` and set `/usr/bin/fw_env -s boot_part boot1`, follow the next step and than get an copy of `mtd4`, i.e. by `dd if=/dev/mtd4 of=/tmp/system0.img` and `scp` for transfering to your computer
+  - if you want to patch the installed firmware on your speaker (the factory installed version might be newer than the one we try to flash),
+  then skip flashing the `system0` and set `/usr/bin/fw_env -s boot_part boot1`,
+  follow the next step and then get an copy of `mtd4`, i.e. by `dd if=/dev/mtd4 of=/tmp/system0.img` and `scp` for transfering to your computer
 
 ```
 > update.exe partition system0 my_prepared_image.img
