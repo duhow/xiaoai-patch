@@ -1,5 +1,5 @@
-# Hack LX06
-This instruction is for a new LX06, bought in late 2021. Xiaomi did some things to make it hard to hack. Just the serial connection isn't working me. So I have found an another solution using the micro usb port on the board. A serial connection is helpful but not needed!
+# root LX06
+This instruction is for a new LX06, bought in late 2021. Xiaomi did some things to make it hard to get access. Just the serial connection isn't working me. So I have found an another solution using the micro usb port on the board. A serial connection is helpful but not needed!
 
 The latest revision of the speaker has some different chips on its board (i.e. wifi). So in my case the speaker doesn't work properbly when using an older firmware (before 1.74.x). Furthermore an older firmware doesn't remove the new magic password generation for root. So I'm using a 1.74.10 for the follwing steps. 
 
