@@ -8,14 +8,12 @@ on:
       - '.github/workflows/build-packages.yaml'
 
 jobs:
-  build_lx01:
-    name: Build for LX01
+  lx01:
     if: ${{ github.repository == 'duhow/xiaoai-patch' }}
     uses: duhow/xiaoai-patch/.github/workflows/build-packages.yaml@master
     with:
       model: LX01
-  build_lx06:
-    name: Build for LX06
+  lx06:
     if: ${{ github.repository == 'duhow/xiaoai-patch' }}
     uses: duhow/xiaoai-patch/.github/workflows/build-packages.yaml@master
     with:
