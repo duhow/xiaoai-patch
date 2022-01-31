@@ -18,13 +18,15 @@ fi
 on_exit_build() {
 	TOOLCHAIN_DIR=$(pwd)
 	case ${BUILD_ARCH} in
-	"armv7")	
+	"armv7")
+		LIBPATH="lib"
 		# using GCC-10
 		[[ "${HOST_ARCH}" = "aarch64" ]] && BUILD_TARGET="arm-none-linux-gnueabihf"
 
 				BUILD_LDFLAGS="-L${STAGING_DIR}/lib -L${STAGING_DIR}/${INSTALL_PREFIX}/lib -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib/pulseaudio -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib/private -Wl,--rpath=${INSTALL_PREFIX}/${BUILD_TARGET}/lib -Wl,--rpath=${INSTALL_PREFIX}/lib -Wl,--dynamic-linker=/lib/ld-linux-armhf.so.3 -Os"
 		;;
 	"aarch64")
+		LIBPATH="lib64"
 				BUILD_LDFLAGS="-L${STAGING_DIR}/lib -L${STAGING_DIR}/${INSTALL_PREFIX}/lib -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib/pulseaudio -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib/private -Wl,--rpath=${INSTALL_PREFIX}/${BUILD_TARGET}/lib -Wl,--rpath=${INSTALL_PREFIX}/lib -Wl,--dynamic-linker=/lib/ld-linux-armhf.so.3 -Os"
 		;;
 	*)
@@ -54,7 +56,7 @@ on_exit_build() {
 	in_to_out ${PACKAGE_DIR}/config/meson-cross-file.in ${TOOLCHAIN_MESON}
 
 	# HACK to avoid errors with LDFLAGS files not found
-	for FILE in /lib/libc.so.6 /lib/ld-linux-armhf.so.3 /usr/lib/libc_nonshared.a /lib/libpthread.so.0 /usr/lib/libpthread_nonshared.a ; do
+	for FILE in /${LIBPATH}/libc.so.6 /${LIBPATH}/ld-linux-armhf.so.3 /${LIBPATH}/ld-linux-aarch64.so.1 /lib/ld-linux-aarch64.so.1 /usr/${LIBPATH}/libc_nonshared.a /${LIBPATH}/libpthread.so.0 /usr/${LIBPATH}/libpthread_nonshared.a ; do
 		[ ! -e ${FILE} ] && ln -s ${STAGING_DIR}/${FILE} ${FILE}
 	done
 
