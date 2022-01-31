@@ -1,4 +1,4 @@
-name: PR Build packages
+name: Build packages PR
 
 on:
   pull_request:
@@ -7,14 +7,16 @@ on:
       - 'packages.sh'
       - '.github/workflows/build-packages.yaml'
 
-
 jobs:
-  build:
-    name: Build for ${{ matrix.model }}
+  build_lx01:
+    name: Build for LX01
     if: ${{ github.repository == 'duhow/xiaoai-patch' }}
     uses: duhow/xiaoai-patch/.github/workflows/build-packages.yaml@master
     with:
-      model: ${{ matrix.model }}
-    strategy:
-      matrix:
-        model: [LX01, LX06]
+      model: LX01
+  build_lx06:
+    name: Build for LX06
+    if: ${{ github.repository == 'duhow/xiaoai-patch' }}
+    uses: duhow/xiaoai-patch/.github/workflows/build-packages.yaml@master
+    with:
+      model: LX06
