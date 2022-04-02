@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Compatibility with miplayer command
+if [ "$0" = "miplayer" ] && [ "$1" = "-f" ]; then
+  shift
+fi
+
+OUTPUT=notify
+[ -n "$2" ] && OUTPUT=$2
+
+# Help
+if [ -z "$1" ] || [ ! -f "$1" ]; then
+  echo "$0 <AUDIO_FILE> [OUTPUT]"
+  exit 0
+fi
+
+EXTENSION=$(basename $1 | cut -d '.' -f 2)
+
+case $EXTENSION in
+  mp3|MP3)
+    command -v mpg123 > /dev/null || return
+    mpg123 -q -a ${OUTPUT} $1 &>/dev/null &
+    ;;
+  ogg|OGG)
+    command -v ogg123 > /dev/null || return
+    ogg123 -q -d alsa -o dev:${OUTPUT} $1 &>/dev/null &
+    ;;
+  wav|wave|WAV)
+    aplay -D${OUTPUT} $1 &>/dev/null &
+    ;;
+esac
