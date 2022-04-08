@@ -108,10 +108,24 @@ gpiochip1: GPIOs 15-100, parent: platform/pinctrl@ff634480, periphs-banks:
  gpio-83  (                    |bt_rfkill           ) in  hi    
 ```
 
-Send IR commands (IR Raw?)
+Send IR commands
+
+- Uses IR Raw protocol without signs.
+- Pairs of numbers, first is positive (ON), second is negative (OFF).
 
 ```
-root@mico:~# echo 9003,4494,566,1692,562,1691,566,1692 > /sys/ir_tx_gpio/ir_data 
+root@mico:~# echo 9003,4494,566,1692,562,1691,566,1692 > /sys/ir_tx_gpio/ir_data
+```
+
+- Use [irgen](https://github.com/elupus/irgen) to convert IR codes to `raw`. (compatible with Broadlink)
+- Use [IrScrutinizer](https://github.com/bengtmartensson/IrScrutinizer) for advanced analysis of IR codes.
+- Pending: Create LIRC server implementing something like [broadlink-bridge](https://github.com/lbschenkel/broadlink-bridge)
+
+```bash
+CODE=JgAKASkOJw8NKg4pDikOKQ4oDygPKA4pDikO8icQJxANKQ4pDygoDycQJxAnDygPJxAn2CkOKQ4NKg4pDikOKQ0qJw.....
+
+irgen -i broadlink_base64 -d ${CODE} -o raw | tr ' ' '\n' | cut -c 2- | cut -d '.' -f1 | tr '\n' ','
+1249,426,1188,457,396,1279,426,1249,426,1249,426,1249,426,1218,457,1218,457,1218,426,1249,426,1249
 ```
 
 Remove module and manually use GPIO
