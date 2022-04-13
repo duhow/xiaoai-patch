@@ -119,6 +119,7 @@ root@mico:~# echo 9003,4494,566,1692,562,1691,566,1692 > /sys/ir_tx_gpio/ir_data
 
 - Use [irgen](https://github.com/elupus/irgen) to convert IR codes to `raw`. (compatible with Broadlink)
 - Use [IrScrutinizer](https://github.com/bengtmartensson/IrScrutinizer) for advanced analysis of IR codes.
+- Use [irplus LAN](https://play.google.com/store/apps/details?id=net.binarymode.android.irpluslan) 📱 to send IR Raw commands. 📺 Use URL: `http://${SPEAKER_IP}:8766/cgi-bin/ir.cgi`
 - Pending: Create LIRC server implementing something like [broadlink-bridge](https://github.com/lbschenkel/broadlink-bridge)
 
 ```bash
