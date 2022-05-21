@@ -1,0 +1,13 @@
+--- a/etc/init.d/alsa	2018-06-14 04:18:31.000000000 +0200
++++ b/etc/init.d/alsa	2022-05-21 23:27:34.496889231 +0200
+@@ -6,7 +6,9 @@
+ boot() {
+     auen
+     # set default volume and enable 
+-    alsactl -f /etc/asound.state restore
++    ALSA_FILE=/etc/asound.state
++    [ -f "/data/status/asound.state" ] && ALSA_FILE=/data/status/asound.state
++    alsactl -f ${ALSA_FILE} restore
+ }
+ 
+ stop() {
