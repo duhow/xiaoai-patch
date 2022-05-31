@@ -170,6 +170,7 @@ download_package_src() {
             else
                 echo "Downloading package source..."
                 wget --no-check-certificate --tries=5 --retry-connrefused --waitretry=5 \
+                  --progress=bar:force:noscroll \
                   -O ${src_filename} -P ${PACKAGE_SRC_DOWNLOAD_DIR} "${PACKAGE_SRC}"
             fi
         else

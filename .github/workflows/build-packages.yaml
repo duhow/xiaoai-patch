@@ -1,15 +1,25 @@
 name: Build packages
 
 on:
+  workflow_call: 
+    inputs:
+      model:
+        required: true
+        type: string
   workflow_dispatch:
-  pull_request:
-    paths:
-      - 'packages/**'
-      - 'packages.sh'
-      - 'Dockerfile-packages'
+    inputs:
+      model:
+        required: false
+        default: 'LX06'
+        description: Speaker model to build packages
+        type: string
 
 jobs:
   build:
+    name: Build for ${{ github.event.inputs.model || inputs.model || 'LX06' }}
+    if: ${{ github.repository == 'duhow/xiaoai-patch' }}
+    env:
+      MODEL: ${{ github.event.inputs.model || inputs.model || 'LX06' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -24,5 +34,5 @@ jobs:
       - name: Upload packages
         uses: actions/upload-artifact@v2
         with:
-          name: build
+          name: build-${{ env.MODEL }}
           path: build-packages/targets/bin-*.tar.gz

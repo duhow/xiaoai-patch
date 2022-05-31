@@ -5,7 +5,7 @@ Tested with firmware 1.58.15
 # Images and partitions
 
 ```
-root@mico:~# cat /proc/mtd 
+root@mico:~# cat /proc/mtd
 dev:    size   erasesize  name
 mtd0: 00200000 00020000 "bootloader"
 mtd1: 00800000 00020000 "tpl"
@@ -90,28 +90,43 @@ root@mico:~# dmesg | tail
 [ 1890.736406@0] [ir_rx] useless datas 8 .
 [ 1902.784395@0] [ir_rx] receive -111 datas.
 
-root@mico:/# cat /sys/kernel/debug/gpio 
+root@mico:/# cat /sys/kernel/debug/gpio
 gpiochip0: GPIOs 0-14, parent: platform/pinctrl@ff800014, aobus-banks:
- gpio-5   (                    |?                   ) out lo    
+ gpio-5   (                    |?                   ) out lo
  gpio-6   (                    |ir_rx               ) in  hi IRQ
- gpio-7   (                    |gpio-ir-tx          ) out lo    
+ gpio-7   (                    |gpio-ir-tx          ) out lo
 
 gpiochip1: GPIOs 15-100, parent: platform/pinctrl@ff634480, periphs-banks:
- gpio-18  (                    |aw20054-hwen-pin    ) out hi    
- gpio-20  (                    |gpio-ir-rx-power    ) out lo    
- gpio-21  (                    |codec_pdn           ) out hi    
- gpio-59  (                    |sysfs               ) in  hi    
+ gpio-18  (                    |aw20054-hwen-pin    ) out hi
+ gpio-20  (                    |gpio-ir-rx-power    ) out lo
+ gpio-21  (                    |codec_pdn           ) out hi
+ gpio-59  (                    |sysfs               ) in  hi
  gpio-61  (                    |auxin_det           ) in  lo IRQ
- gpio-69  (                    |sdio_wifi           ) out hi    
- gpio-78  (                    |sysfs               ) out hi    
- gpio-79  (                    |sdio_wifi           ) in  hi    
- gpio-83  (                    |bt_rfkill           ) in  hi    
+ gpio-69  (                    |sdio_wifi           ) out hi
+ gpio-78  (                    |sysfs               ) out hi
+ gpio-79  (                    |sdio_wifi           ) in  hi
+ gpio-83  (                    |bt_rfkill           ) in  hi
 ```
 
-Send IR commands (IR Raw?)
+Send IR commands
+
+- Uses IR Raw protocol without signs.
+- Pairs of numbers, first is positive (ON), second is negative (OFF).
 
 ```
-root@mico:~# echo 9003,4494,566,1692,562,1691,566,1692 > /sys/ir_tx_gpio/ir_data 
+root@mico:~# echo 9003,4494,566,1692,562,1691,566,1692 > /sys/ir_tx_gpio/ir_data
+```
+
+- Use [irgen](https://github.com/elupus/irgen) to convert IR codes to `raw`. (compatible with Broadlink)
+- Use [IrScrutinizer](https://github.com/bengtmartensson/IrScrutinizer) for advanced analysis of IR codes.
+- Use [irplus LAN](https://play.google.com/store/apps/details?id=net.binarymode.android.irpluslan) 📱 to send IR Raw commands. 📺 Use URL: `http://${SPEAKER_IP}:8766/cgi-bin/ir.cgi`
+- Pending: Create LIRC server implementing something like [broadlink-bridge](https://github.com/lbschenkel/broadlink-bridge)
+
+```bash
+CODE=JgAKASkOJw8NKg4pDikOKQ4oDygPKA4pDikO8icQJxANKQ4pDygoDycQJxAnDygPJxAn2CkOKQ4NKg4pDikOKQ0qJw.....
+
+irgen -i broadlink_base64 -d ${CODE} -o raw | tr ' ' '\n' | cut -c 2- | cut -d '.' -f1 | tr '\n' ','
+1249,426,1188,457,396,1279,426,1249,426,1249,426,1249,426,1218,457,1218,457,1218,426,1249,426,1249
 ```
 
 Remove module and manually use GPIO
@@ -149,7 +164,7 @@ gpiochip1: GPIOs 15-100, parent: platform/pinctrl@ff634480, periphs-banks:
 ALSA device is `hw:0,1`.
 
 ```
-root@mico:/sys/auxin_det# cat status 
+root@mico:/sys/auxin_det# cat status
 aux_out  # unplugged
 aux_in   # plugged
 
@@ -159,7 +174,7 @@ root@mico:~# getevent -p /dev/input/event1
 add device 1: /dev/input/event1
   name:     "Xiaomi mico auxiliary port"
   events:
-    SW  (0005): 0002 
+    SW  (0005): 0002
   input props:
     <none>
 ```
@@ -167,8 +182,8 @@ add device 1: /dev/input/event1
 # Button inputs
 
 ```
-root@mico:~# getevent -p /dev/input/event0 | grep KEY 
-    KEY (0001): 0066  0072* 0073  008b 
+root@mico:~# getevent -p /dev/input/event0 | grep KEY
+    KEY (0001): 0066  0072* 0073  008b
 
 EV_KEY  KEY_HOME        1       /dev/input/event0  # mute
 EV_KEY  KEY_VOLUMEUP    1       /dev/input/event0  # volume down

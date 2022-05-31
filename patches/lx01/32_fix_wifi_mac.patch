@@ -1,0 +1,14 @@
+--- a/etc/init.d/wireless	2018-06-14 04:18:31.000000000 +0200
++++ b/etc/init.d/wireless	2022-01-31 21:51:00.599538208 +0100
+@@ -62,9 +62,11 @@
+       return 0
+   }
+   rm "/tmp/need_dhcp_flag" >/dev/null 2>&1
++  ifconfig wlan0 down
+   echo -n /lib/firmware/fw_bcm4343_ag.bin > /sys/module/bcmdhd/parameters/firmware_path
+   echo -n /data/wifi/ > /sys/module/bcmdhd/parameters/nvram_path
+   echo -n 0 > /sys/module/bcmdhd/parameters/op_mode
++  sleep 1
+   ifconfig wlan0 up
+ 
+   key_mgmt=`cat /data/wifi/wpa_supplicant.conf | grep "key_mgmt="`

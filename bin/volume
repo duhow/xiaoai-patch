@@ -32,10 +32,10 @@ if [ "$CURVOL" -ge 0 ] && [ "$CURVOL" -le 100 ]; then
 
   case "${MODEL}" in
     LX06)
-      LEDMAX=18
+      LEDMAX=17
       LEDSYS=/sys/devices/i2c-0/0-003a/led_rgb
       # starts from play button
-      LEDSEQ="$(seq 10 18) $(seq 0 9)"
+      LEDSEQ="$(seq 10 17) $(seq 0 9)"
       ;;
     L09A)
       LEDMAX=23
