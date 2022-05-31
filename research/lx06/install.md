@@ -1,6 +1,6 @@
 # Install Guide
 
-- author: @danielk117
+- author: [@danielk117](https://github.com/danielk117)
 
 This instruction is for a new LX06, bought in late 2021.
 Xiaomi did some things to make it hard to get access. Just the serial connection isn't working me.
@@ -41,6 +41,7 @@ This firmware version is 0-7-0-16-0-0-0-0
 - (optional, but recommended) restore uboot access
   - when using serial connection, you aren't able the interrupt the autoboot of uboot. this is caused by the bootdelay which is setted to 0.
   - I setted it to 30, because in my case, this aren't 30 seconds -> it counts really fast, so 30 are aproxomittly 3-4 seconds.
+
 ```
 > update.exe bulkcmd "setenv bootdelay 30"
 AmlUsbBulkCmd[setenv bootdelay 30]
@@ -84,7 +85,8 @@ ERR: ReadMediaFile failed!
 
 ## create/prepare image
 
-### if you want to use `duhow/xiaoai-patch`
+### option a: if you want to use `duhow/xiaoai-patch`
+
 - create a img file using `binwalk`
 - follow the main instructions from the readme
   - build the docker and install packages
@@ -92,7 +94,8 @@ ERR: ReadMediaFile failed!
   - build a firmware
 - flash it
 
-### otherwise (the manual way, credits goes to http://javabin.cn/2021/xiaoai_fm.html)
+### option b: the manual way (credits goes to http://javabin.cn/2021/xiaoai_fm.html)
+
 - download http://cdn.cnbj1.fds.api.mi-img.com/xiaoqiang/rom/lx06/mico_firmware_9c712_1.74.10.bin
 - `binwalk -e mico_firmware_9c712_1.74.10.bin`
 - `unsquashfs -dest unsquashed_image m5.img`
@@ -115,7 +118,7 @@ ERR: ReadMediaFile failed!
 
 - power on -> when windows plays a sound (or 2 seconds after power on) -> run `update.exe identify`
 
-- for me, `boot1` and `system1` are empty on a new speaker, so i flashed my `boot0` dump to `boot1` and my prepared image to `system1`
+- for me, `boot1` and `system1` are empty on a new speaker, so i flashed my `boot0` dump to `boot1`...
 
 ```
 > update.exe partition boot1 boot0.dump
@@ -128,6 +131,9 @@ Downloading....
 AmlUsbBulkCmd[download get_status]
 [update]:mwrite success
 ```
+
+- ... and the prepared image to `system1` and `system0`
+
 ```
 > update.exe partition system1 my_prepared_image.img
 file size is 0x23bf000
@@ -138,14 +144,7 @@ Downloading....
 [update]:Transfer size 0x23bf000B(35MB)
 AmlUsbBulkCmd[download get_status]
 [update]:mwrite success
-```
 
-- flash `system0` partition
-  - if you want to patch the installed firmware on your speaker (the factory installed version might be newer than the one we try to flash),
-  then skip flashing the `system0` and set `/usr/bin/fw_env -s boot_part boot1`,
-  follow the next step and then get an copy of `mtd4`, i.e. by `dd if=/dev/mtd4 of=/tmp/system0.img` and `scp` for transfering to your computer
-
-```
 > update.exe partition system0 my_prepared_image.img
 file size is 0x23bf000
 AmlUsbTplCmd = download store system0 normal 0x23bf000 rettemp = 1 buffer = download store system0 normal 0x23bf000
@@ -156,6 +155,13 @@ Downloading....
 AmlUsbBulkCmd[download get_status]
 [update]:mwrite success
 ```
+
+- (optional) if you want to get the factory installed firmware from the speaker and patch it (because the factory installed version might be newer, than the one we try to flash), then...
+  - skip flashing the `system0`
+  - change active partion to `boot1` (set `/usr/bin/fw_env -s boot_part boot1`)
+  - restart speaker, search it in your network and try connect to ssh (using root and the password you prepared in the image)
+  - get an copy of `mtd4`, i.e. by `dd if=/dev/mtd4 of=/tmp/system0.img` and `scp` for transfering to your computer
+  - repeat all steps from **create/prepare image** -> **option a**
 
 - restart speaker, search it in your network and try connect to ssh (using root and the password you prepared in the image)
 
