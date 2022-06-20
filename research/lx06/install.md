@@ -12,14 +12,13 @@ So in my case the speaker doesn't work properbly when using an older firmware (b
 Furthermore an older firmware doesn't remove the new magic password generation for root.
 So I'm using a 1.74.10 for the follwing steps.
 
-I'm using the Windows versions of the "Amlogic Update Tool" and the "WinCap" driver.
-There seems to be a version of the update tool for linux, but I don't know where to get a linux driver and if it is working.
+I'm using the Windows versions of the "Amlogic Flash Tool" and the "WorldCup" driver. There are some sources on the internet. I was using the latest version (6.0.0) downloaded from https://androidmtk.com/download-amlogic-flash-tool.
 
 ## prepare
 
-- download "USB Burning Tool" driver and "Amlogic Update Tool", install the driver
-  - http://openlinux.amlogic.com:8000/download/A113/Tool/windows/ (the Burning tool includes the driver and installs it)
-  - http://openlinux.amlogic.com:8000/download/A113/Tool/flash-tool-v4.7/flash-tool/tools/windows/ (download all files in the directory)
+- download "Amlogic Flash Tool" and unzip
+
+- install the "WorldCup" driver from `drivers` folder of the zip
 
 - open the speaker (loosen the 6 screws under the rubber at the bottom, put the cap off and take the 2 cables out of the holder)
 
@@ -27,14 +26,17 @@ There seems to be a version of the update tool for linux, but I don't know where
 
 - connect a cable to the micro usb and your computer
 
-- power on -> when windows plays a sound (or 2 seconds after power on) -> run `update.exe identify`
-  - if you don't see `firmware version ...` then it wasn't successful and you need to try it again
+- (only for first run after installing the driver) power on -> windows recognize the devices and starts a service, which seems to be needed for using the update tool -> power speaker off
 
+- power on -> when windows plays a sound (or ~ 2 seconds after power on) -> run `update.exe identify` (update tool is inside the `bin` folder of the dowloaded zip)
+  - you should see a message like this...
 ```
-> update.exe identify
+update.exe identify
 AmlUsbIdentifyHost
 This firmware version is 0-7-0-16-0-0-0-0
 ```
+  
+ - if you don't see this message then you wasn't successful and you need to try it again (power on -> wait -> run update identify)
 
 ## backup
 
