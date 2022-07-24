@@ -1,0 +1,369 @@
+GXL:BL1:9ac50e:bb16dc;FEAT:ADFC318C:0;POC:3;RCY:0;EMMC:800;NAND:0;READ:0;0.0;CHK                                                                                                                                                             :0;
+TE: 25800
+
+BL2 Built : 18:43:23, Sep  8 2017.
+gxl g5190619 - xiaobo.gu@droid12
+
+Board ID = 3
+CPU clk: 1200MHz
+DQS calibration enabled
+DDR scramble enabled
+DDR3 chl: Rank0 16bit @ 912MHz
+
+af_vref ddr_training_win: rank: 0 1f 00 48 37 0b 63 19 00 40 38 0d 64 00 00 00 0                                                                                                                                                             0 00 00 00 00 00 00 00 00 623  rank: 1 2c 00 48 07 0b 63 2c 00 40 08 0d 64 00 00                                                                                                                                                              00 00 00 00 00 00 00 00 00 00 623
+af_vref ddr_bist_window:  rank: 0 1d 00 35 29 15 54 17 00 37 2a 13 50 623
+Rank0: 256MB(auto)-2T-13
+AddrBus test pass!
+NAND init
+read start page:00000000
+page :00000500
+succeed in getting one bbt block!
+page :00000540
+page :00000580
+page :000005c0
+select bbt block:00000014
+select page:00000001
+select page:00000000
+bbt status: 00000000000000000000000000000000
+Load fip header from NAND, src: 0x00020000, des: 0x01400000, size: 0x00004000
+read start page:00000041
+New fip structure!
+Load bl30 from NAND, src: 0x00024000, des: 0x01100000, size: 0x0000d600
+read start page:00000049
+Load bl31 from NAND, src: 0x00034000, des: 0x05100000, size: 0x00017400
+read start page:00000069
+Load bl33 from NAND, src: 0x0004c000, des: 0x01000000, size: 0x000b3200
+read start page:00000099
+NOTICE:  BL3-1: v1.0(debug):2da3090
+NOTICE:  BL3-1: Built : 16:05:52, Jan 19 2017
+aml log : bl31 normal boot !
+mpu_config_enable:ok
+[Image: gxl_v1.1.3170-f392be9 2017-01-04 10:51:57 yun.cai@droid06]
+OPS=0xf4
+4a f0 cf e3 4a dc 4b f8 49 35 6d f1 [0.444421 Inits done]
+secure task start!
+high task start!
+low task start!
+INFO:    BL3-1: Initializing runtime services
+WARNING: No OPTEE provided by BL2 boot loader
+ERROR:   Error initializing runtime service opteed_fast
+INFO:    BL3-1: Preparing for EL3 exit to normal world
+INFO:    BL3-1: Next image address = 0x1000000
+INFO:    BL3-1: Next image spsr = 0x3c9
+
+
+U-Boot 2015.01 (Mar 26 2018 - 17:19:59), Build: jenkins-mijia_box-578
+
+DRAM:  256 MiB
+Relocation Offset is: 0eec1000
+AO_RTI_PIN_MUX_REG[00000000c8100014]=0x0
+register usb cfg[0][1] = 000000000ff560c0
+vpu: clk_level = 7
+vpu: set clk: 666667000Hz, readback: 666660000Hz(0x300)
+vpp: vpp_init
+NAND:  get_sys_clk_rate_mtd() 272, clock setting 200!
+nand id: 200 218
+256MiB, SLC, page size: 2048, OOB size: 64
+NAND device id: c8 da 90 95 44 7f
+NAND device: Manufacturer ID: 0xc8, Chip ID: 0xc8 (Unknown ESMT SLC 256MiB 3.3V                                                                                                                                                              8-bit)
+get_sys_clk_rate_mtd() 272, clock setting 200!
+oob_fill_cnt =32 oob_size =64, bch_bytes =14
+ecc mode:6 ecc_page_num=2 eep_need_oobsize=16
+plane_num=1 writesize=0x800 ecc.size=0x200 bch_mode=1
+oob avail size 6
+Creating 1 MTD partitions on "ESMT SLC 256MiB 3.3V 8-bit":
+0x000000000000-0x000000200000 : "nandboot"
+aml_nand_read_page_hwecc 2941 read ecc failed here at at page:0, blk:0 chip[0]
+1 NAND detect Bad block:0
+ESMT SLC 256MiB 3.3V 8-bit initialized ok
+get_sys_clk_rate_mtd() 272, clock setting 200!
+nand id: 200 218
+256MiB, SLC, page size: 2048, OOB size: 64
+NAND device id: c8 da 90 95 44 7f
+NAND device: Manufacturer ID: 0xc8, Chip ID: 0xc8 (Unknown ESMT SLC 256MiB 3.3V                                                                                                                                                              8-bit)
+get_sys_clk_rate_mtd() 272, clock setting 200!
+oob_fill_cnt =32 oob_size =64, bch_bytes =14
+ecc mode:6 ecc_page_num=2 eep_need_oobsize=16
+PLANE change!
+plane_num=1 writesize=0x800 ecc.size=0x200 bch_mode=1
+aml_nand_init :oobmul=1,oobfree.length=8,oob_size=64
+oob avail size 8
+bbt_start=20 env_start=24 key_start=32 dtb_start=40
+nbbt: info size=0x800 max_scan_blk=24, start_blk=20
+nbbt : phy_blk_addr=20, ec=0, phy_page_addr=0, timestamp=1
+nbbt free list:
+blockN=21, ec=-1, dirty_flag=0
+blockN=22, ec=-1, dirty_flag=0
+blockN=23, ec=-1, dirty_flag=0
+aml_nand_scan_rsv_info 1114: page_num=1
+aml_nand_scan_rsv_info 1117
+nbbt valid addr: 280000
+aml_nand_bbt_check 1250 bbt is valid, reading.
+aml_nand_read_rsv_info:396,read nbbt info to 280000
+nenv: info size=0x10000 max_scan_blk=32, start_blk=24
+nenv : phy_blk_addr=24, ec=0, phy_page_addr=0, timestamp=1
+nenv free list:
+blockN=25, ec=-1, dirty_flag=0
+blockN=26, ec=-1, dirty_flag=0
+blockN=27, ec=-1, dirty_flag=0
+blockN=28, ec=-1, dirty_flag=0
+blockN=29, ec=-1, dirty_flag=0
+blockN=30, ec=-1, dirty_flag=0
+blockN=31, ec=-1, dirty_flag=0
+aml_nand_scan_rsv_info 1114: page_num=32
+aml_nand_scan_rsv_info 1117
+nenv valid addr: 310000
+nkey: info size=0x8000 max_scan_blk=40, start_blk=32
+nkey : phy_blk_addr=36, ec=0, phy_page_addr=0, timestamp=5
+nkey free list:
+blockN=32, ec=0, dirty_flag=1
+blockN=33, ec=0, dirty_flag=1
+blockN=34, ec=0, dirty_flag=1
+blockN=35, ec=0, dirty_flag=1
+blockN=37, ec=-1, dirty_flag=0
+blockN=38, ec=-1, dirty_flag=0
+blockN=39, ec=-1, dirty_flag=0
+aml_nand_scan_rsv_info 1114: page_num=16
+aml_nand_scan_rsv_info 1117
+nkey valid addr: 488000
+ndtb: info size=0x20000 max_scan_blk=44, start_blk=40
+ndtb : phy_blk_addr=-1, ec=0, phy_page_addr=0, timestamp=0
+ndtb free list:
+blockN=40, ec=-1, dirty_flag=0
+blockN=41, ec=-1, dirty_flag=0
+blockN=42, ec=-1, dirty_flag=0
+blockN=43, ec=-1, dirty_flag=0
+aml_nand_scan_rsv_info 1114: page_num=64
+ndtb valid addr: fffffffffffe0000
+aml_nand_dtb_check 1226 NO dtb exist
+Creating 5 MTD partitions on "ESMT SLC 256MiB 3.3V 8-bit":
+0x000000800000-0x000001800000 : "boot0"
+0x000001800000-0x000002800000 : "boot1"
+0x000002800000-0x000008800000 : "system0"
+0x000008800000-0x00000e800000 : "system1"
+0x00000e800000-0x000010000000 : "data"
+ESMT SLC 256MiB 3.3V 8-bit initialized ok
+aml_key_init 169
+MMC:   aml_priv->desc_buf = 0x000000000bed9120
+aml_priv->desc_buf = 0x000000000bedb440
+SDIO Port B: 0, SDIO Port C: 1
+uboot env amlnf_env_read : ####
+aml_nand_read_rsv_info:396,read nenv info to 310000
+In:    serial
+Out:   serial
+Err:   serial
+reboot_mode=cold_boot
+[burnup]Rd:Up sz 0x800 to align 0x1000
+[burnup]run cmd[store  read boot0 0x1000000  0x0  0x1000]
+[burnup]Read end.
+[burnup]Rd:Up sz 0x8800 to align 0x1000
+[burnup]run cmd[store  read boot0 0x1e43800  0xe43800  0x9000]
+[burnup]Read end.
+vpp: vpp_pq_load pq val error !!!
+upgrade_step=2
+amlkey_init() enter!
+amlnf_key_read key data len too much
+aml_nand_read_rsv_info:396,read nkey info to 488000
+amlkey_init() storagekey_info.buffer=0000000005080000, storagekey_info.size = 7f                                                                                                                                                             fc!
+[EFUSE_MSG]keynum is 4
+[BL31]: tee size: 0
+[KM]Error:f[key_manage_query_size]L507:key[boot_flag] not programed yet
+*** verbose mode is disabled ***
++/- not both pressed, normal boot
+Hit Enter or space or Ctrl+C key to stop autoboot -- :  0
+password:
+
+-----
+
+[KM]Error:f[key_manage_query_size]L507:key[boot_flag] not programed yet
+itest - return true/false on integer compare
+
+Usage:
+itest [.b, .w, .l, .s] [*]value1 <op> [*]value2
+boot kernerl=boot0
+[burnup]run cmd[store  read boot0 0x1080000  0x0  0x100000]
+[burnup]Read end.
+[burnup]Rd:Up sz 0xd4bdc9 to align 0x1000
+[burnup]run cmd[store  read boot0 0x1180000  0x100000  0xd4c000]
+[burnup]Read end.
+ee_gate_off ...
+## Booting Android Image at 0x01080000 ...
+load dtb from 0x1000000 ......
+   Loading Kernel Image(COMP_NONE) ... OK
+   kernel loaded at 0x01080000, end = 0x01c59508
+[rsvmem] no check for rsvmem, should check int kernel
+   Loading Ramdisk to 0bc46000, end 0beaf0a1 ... OK
+   Loading Device Tree to 000000000bc3a000, end 000000000bc455c8 ... OK
+fdt_instaboot: no instaboot image
+
+Starting kernel ...
+
+uboot time: 1937926 us
+[    0.000000@0] Initializing cgroup subsys cpu
+[    0.000000@0] Initializing cgroup subsys cpuacct
+[    0.000000@0] Linux version 3.14.29 (work@lg-smart-build-cam01.bj) (gcc version 4.8.3 (OpenWrt/Linaro GCC 4.8-2014.04 unknown) ) #1 SMP PREEMPT Mon Mar 26 17:27:00 CST 2018
+[    0.000000@0] CPU: AArch64 Processor [410fd034] revision 4
+[    0.000000@0] no prop version_code
+[    0.000000@0] bootconsole [earlycon0] enabled
+[    0.000000@0] fdt Reserved memory table:
+[    0.000000@0] fdt Reserved memory total:  3 MiB
+[    0.000000@0] cma: Reserved 8 MiB at 0f800000, total cma pages:2048
+[    0.000000@0] psci: probing function IDs from device-tree
+[    0.000000@0] PERCPU: Embedded 12 pages/cpu @ffffffc00f7af000 s19904 r8192 d21056 u49152
+[    0.000000@0] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 63364
+[    0.000000@0] Kernel command line: rootfstype=ramfs init=/init console=tty10,115200 no_console_suspend earlyprintk=aml-uart,0xc81004c0 ramoops.pstore_en=1 ramoops.record_size=0x8000 ramoops.console_size=0x4000 androidboot.selinux=enforcing logo=osd1,loaded,0x0d800000,1080p60hz maxcpus=4 vout=1080p60hz,enable hdmimode=1080p60hz cvbsmode=576cvbs hdmitx= cvbsdrv=0 pq= androidboot.firstboot=1 jtag=disable androidboot.hardware=amlogic mac=78:11:DC:E3:F6:00 androidboot.mac=78:11:DC:E3:F6:00 androidboot.deviceid=81209935
+[    0.000000@0] jtag: jtag select -1
+[    0.000000@0] PID hash table entries: 1024 (order: 1, 8192 bytes)
+[    0.000000@0] Dentry cache hash table entries: 32768 (order: 6, 262144 bytes)
+[    0.000000@0] Inode-cache hash table entries: 16384 (order: 5, 131072 bytes)
+[    0.000000@0] Memory: 227112K/258048K available (8089K kernel code, 733K rwdata, 2900K rodata, 403K init, 1219K bss, 30936K reserved)
+[    0.000000@0] Virtual kernel memory layout:
+[    0.000000@0]     vmalloc : 0xffffff8000000000 - 0xffffff8040000000   (  1024 MB)
+[    0.000000@0]     vmemmap : 0xffffff8040010000 - 0xffffff8040490000   (     4 MB)
+[    0.000000@0]     modules : 0xffffffbffc000000 - 0xffffffc000000000   (    64 MB)
+[    0.000000@0]     memory  : 0xffffffc000000000 - 0xffffffc010000000   (   256 MB)
+[    0.000000@0]       .init : 0xffffffc001b3d000 - 0xffffffc001ba1dc0   (   404 kB)
+[    0.000000@0]       .text : 0xffffffc001080000 - 0xffffffc001b3c5b4   ( 10994 kB)
+[    0.000000@0]       .data : 0xffffffc001ba2000 - 0xffffffc001c59508   (   734 kB)
+[    0.000000@0] PM: Registered nosave memory: [mem 0x01080000-0x01b3bfff]
+[    0.000000@0] SLUB: HWalign=64, Order=0-1, MinObjects=0, CPUs=4, Nodes=1
+[    0.000000@0] arch_multi_cluster:0
+[    0.000000@0] Preemptible hierarchical RCU implementation.
+[    0.000000@0]        RCU restricting CPUs from NR_CPUS=8 to nr_cpu_ids=4.
+[    0.000000@0] RCU: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=4
+[    0.000000@0] NR_IRQS:64 nr_irqs:64 0
+[    0.000000@0] Architected cp15 timer(s) running at 24.00MHz (phys).
+[    0.000003@0] sched_clock: 56 bits at 24MHz, resolution 41ns, wraps every 2863311519744ns
+[    0.008242@0] meson_bc_timer: mclk->mux_reg =ffffff800000c990,mclk->reg =ffffff800000e994
+[    0.016745@0] Console: colour dummy device 80x25
+[    0.021087@0] console [tty10] enabled
+[    0.024760@0] bootconsole [earlycon0] disabled
+domain-0 init dvfs: 4
+[BL31]: tee size: 0
+[BL31]: tee size: 0
+[BL31]: tee size: 0
+[BL31]: tee size: 0
+WARNING: Unimplemented Sip Call: 0x82000036
+
+
+----
+
+ESMT SLC 256MiB 3.3V 8-bit initialized ok
+aml_key_init 169
+MMC:   aml_priv->desc_buf = 0x000000000bed9120
+aml_priv->desc_buf = 0x000000000bedb440
+SDIO Port B: 0, SDIO Port C: 1
+uboot env amlnf_env_read : ####
+aml_nand_read_rsv_info:396,read nenv info to 310000
+In:    serial
+Out:   serial
+Err:   serial
+reboot_mode=cold_boot
+[burnup]Rd:Up sz 0x800 to align 0x1000
+[burnup]run cmd[store  read boot0 0x1000000  0x0  0x1000]
+[burnup]Read end.
+[burnup]Rd:Up sz 0x8800 to align 0x1000
+[burnup]run cmd[store  read boot0 0x1e43800  0xe43800  0x9000]
+[burnup]Read end.
+vpp: vpp_pq_load pq val error !!!
+upgrade_step=2
+amlkey_init() enter!
+amlnf_key_read key data len too much
+aml_nand_read_rsv_info:396,read nkey info to 488000
+amlkey_init() storagekey_info.buffer=0000000005080000, storagekey_info.size = 7ffc!
+[EFUSE_MSG]keynum is 4
+[BL31]: tee size: 0
+[KM]Error:f[key_manage_query_size]L507:key[boot_flag] not programed yet
+i2c_write: i2c transfer failed
+*** verbose mode is disabled ***
+[KM]Error:f[key_unify_read]L301:key[boot_flag] not programed yet
+current boot_flag=
+overwrite boot_flag as 1
+[KM]Msg:isEncrypt=
+[KM]Msg:keyAttr is 0x00000000
+aml_nand_save_rsv_info:656,valid=1, pages=16
+aml_nand_save_rsv_info:718,save info to 490000
+aml_nand_write_rsv:522,write info to 490000
+Hit Enter or space or Ctrl+C key to stop autoboot -- :  0
+boot_flag=1
+boot kernerl=boot1
+[burnup]run cmd[store  read boot1 0x1080000  0x0  0x100000]
+[burnup]Read end.
+[burnup]Rd:Up sz 0xd4bdc9 to align 0x1000
+[burnup]run cmd[store  read boot1 0x1180000  0x100000  0xd4c000]
+[burnup]Read end.
+ee_gate_off ...
+## Booting Android Image at 0x01080000 ...
+load dtb from 0x1000000 ......
+   Loading Kernel Image(COMP_NONE) ... OK
+   kernel loaded at 0x01080000, end = 0x01c59508
+[rsvmem] no check for rsvmem, should check int kernel
+   Loading Ramdisk to 0bc46000, end 0beaf0a1 ... OK
+   Loading Device Tree to 000000000bc3a000, end 000000000bc455c8 ... OK
+fdt_instaboot: no instaboot image
+
+Starting kernel ...
+
+uboot time: 1962549 us
+[    0.000000@0] Initializing cgroup subsys cpu
+[    0.000000@0] Initializing cgroup subsys cpuacct
+[    0.000000@0] Linux version 3.14.29 (work@lg-smart-build-cam01.bj) (gcc version 4.8.3 (OpenWrt/Linaro GCC 4.8-2014.04 unknown) ) #1 SMP PREEMPT Mon Mar 26 17:27:00 CST 2018
+[    0.000000@0] CPU: AArch64 Processor [410fd034] revision 4
+[    0.000000@0] no prop version_code
+[    0.000000@0] bootconsole [earlycon0] enabled
+[    0.000000@0] fdt Reserved memory table:
+[    0.000000@0] fdt Reserved memory total:  3 MiB
+[    0.000000@0] cma: Reserved 8 MiB at 0f800000, total cma pages:2048
+[    0.000000@0] psci: probing function IDs from device-tree
+[    0.000000@0] PERCPU: Embedded 12 pages/cpu @ffffffc00f7af000 s19904 r8192 d21056 u49152
+[    0.000000@0] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 63364
+[    0.000000@0] Kernel command line: rootfstype=ramfs init=/init console=tty10,115200 no_console_suspend earlyprintk=aml-uart,0xc81004c0 ramoops.pstore_en=1 ramoops.record_size=0x8000 ramoops.console_size=0x4000 androidboot.selinux=enforcing logo=osd1,loaded,0x0d800000,1080p60hz maxcpus=4 vout=1080p60hz,enable hdmimode=1080p60hz cvbsmode=576cvbs hdmitx= cvbsdrv=0 pq= androidboot.firstboot=1 jtag=disable androidboot.hardware=amlogic mac=78:11:DC:E3:F6:00 androidboot.mac=78:11:DC:E3:F6:00 androidboot.deviceid=81209935
+[    0.000000@0] jtag: jtag select -1
+[    0.000000@0] PID hash table entries: 1024 (order: 1, 8192 bytes)
+[    0.000000@0] Dentry cache hash table entries: 32768 (order: 6, 262144 bytes)
+[    0.000000@0] Inode-cache hash table entries: 16384 (order: 5, 131072 bytes)
+[    0.000000@0] Memory: 227112K/258048K available (8089K kernel code, 733K rwdata, 2900K rodata, 403K init, 1219K bss, 30936K reserved)
+[    0.000000@0] Virtual kernel memory layout:
+[    0.000000@0]     vmalloc : 0xffffff8000000000 - 0xffffff8040000000   (  1024 MB)
+[    0.000000@0]     vmemmap : 0xffffff8040010000 - 0xffffff8040490000   (     4 MB)
+[    0.000000@0]     modules : 0xffffffbffc000000 - 0xffffffc000000000   (    64 MB)
+[    0.000000@0]     memory  : 0xffffffc000000000 - 0xffffffc010000000   (   256 MB)
+[    0.000000@0]       .init : 0xffffffc001b3d000 - 0xffffffc001ba1dc0   (   404 kB)
+[    0.000000@0]       .text : 0xffffffc001080000 - 0xffffffc001b3c5b4   ( 10994 kB)
+[    0.000000@0]       .data : 0xffffffc001ba2000 - 0xffffffc001c59508   (   734 kB)
+[    0.000000@0] PM: Registered nosave memory: [mem 0x01080000-0x01b3bfff]
+[    0.000000@0] SLUB: HWalign=64, Order=0-1, MinObjects=0, CPUs=4, Nodes=1
+[    0.000000@0] arch_multi_cluster:0
+[    0.000000@0] Preemptible hierarchical RCU implementation.
+[    0.000000@0]        RCU restricting CPUs from NR_CPUS=8 to nr_cpu_ids=4.
+[    0.000000@0] RCU: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=4
+[    0.000000@0] NR_IRQS:64 nr_irqs:64 0
+[    0.000000@0] Architected cp15 timer(s) running at 24.00MHz (phys).
+[    0.000004@0] sched_clock: 56 bits at 24MHz, resolution 41ns, wraps every 2863311519744ns
+[    0.008242@0] meson_bc_timer: mclk->mux_reg =ffffff800000c990,mclk->reg =ffffff800000e994
+[    0.016746@0] Console: colour dummy device 80x25
+[    0.021087@0] console [tty10] enabled
+[    0.024760@0] bootconsole [earlycon0] disabled
+domain-0 init dvfs: 4
+[BL31]: tee size: 0
+[BL31]: tee size: 0
+[BL31]: tee size: 0
+[BL31]: tee size: 0
+WARNING: Unimplemented Sip Call: 0x82000036
+
+
+amlnf_key_read key data len too much
+aml_nand_read_rsv_info:396,read nkey info to 490000
+amlkey_init() storagekey_info.buffer=0000000005080000, storagekey_info.size = 7ffc!
+[EFUSE_MSG]keynum is 4
+[BL31]: tee size: 0
+*** verbose mode is disabled ***
+current boot_flag=1
+overwrite boot_flag as 0
+[KM]Msg:isEncrypt=
+[KM]Msg:keyAttr is 0x00000000
+aml_nand_save_rsv_info:656,valid=1, pages=16
+aml_nand_save_rsv_info:718,save info to 498000
+aml_nand_write_rsv:522,write info to 498000
+Hit Enter or space or Ctrl+C key to stop autoboot -- :  0
+

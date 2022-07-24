@@ -52,6 +52,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 | ![L07A - not tested][L07A] | Redmi XiaoAI Speaker Play |
 | ![MDZ-25-DT - not tested][MDZ-25-DT] | Xiaomi Mi AI Speaker 1 Gen (?) - S12 |
 | ![XMYX01JY - not tested][XMYX01JY] | Xiaomi XiaoAI HD |
+| ![YLAI01YL - blocked (not tested)][YLAI01YL] | Yeelight Voice Control Assistant |
 
 [LX06]: https://img.shields.io/badge/LX06-green?style=for-the-badge
 [LX01]: https://img.shields.io/badge/LX01-green?style=for-the-badge
@@ -65,6 +66,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 [L07A]: https://img.shields.io/badge/L07A-lightgrey?style=for-the-badge
 [MDZ-25-DT]: https://img.shields.io/badge/MDZ--25--DT-lightgrey?style=for-the-badge
 [XMYX01JY]: https://img.shields.io/badge/XMYX01JY-lightgrey?style=for-the-badge
+[YLAI01YL]: https://img.shields.io/badge/YLAI01YL-lightgrey?style=for-the-badge
 
 # Requirements
 
