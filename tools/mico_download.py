@@ -13,8 +13,8 @@ import asyncio
 import string
 
 # CHANGEME
-rom = 'lx06'
-version = '1.74.10'
+rom = 'lx01'
+version = '1.7.1'
 updateType = 'all'
 
 def base_16(num: int):
@@ -47,7 +47,7 @@ async def download_async(session: aiohttp.ClientSession, package_name: str, url:
                 print(f'Download: Found {package_name} 200')
                 exit(0)
             elif rsp.status == 404:
-                print(f'Download: {package_name} not found')
+                print(f'Download: {url} not found')
             else:
                 print(f'Download: {package_name} failed for reason: {rsp.status}')
     except aiohttp.ClientError:
@@ -77,6 +77,6 @@ async def main(ntasks: int):
 
 if __name__ == '__main__':
     # Maximum tasks to be run at once
-    connection_pool_count = 20
+    connection_pool_count = 40
     # `asyncio.run` require Python 3.7
     asyncio.run(main(connection_pool_count))
