@@ -19,13 +19,17 @@ configure_package() {
 		BOOST_ROOT=${BUILD_DIR}/boost \
 		meson --cross-file ${TOOLCHAIN_MESON} ${PACKAGE_SRC_DIR} output/release \
 		--prefix=${INSTALL_PREFIX}
+
+	if [ "${BUILD_MODEL}" = "LX01" ]; then
+		sed -i -e "s/SO_REUSEPORT/SO_REUSEADDR/" ${PACKAGE_SRC_DIR}/src/net/SocketDescriptor.cxx
+	fi
 }
 
 premake_package() {
         # FIXME this build is unstable, as it uses mixed libs from ARM and system.
         # Some commands used to fix this:
 
-        echo_error "setting a horrible hack to fix the build"
+        echo_warning "setting a horrible hack to fix the build"
 
         FILE_XLOCALE=${TOOLCHAIN_DIR}/${BUILD_TARGET}/libc/usr/include/xlocale.h
         FILE_LIBRESOLV=${TOOLCHAIN_DIR}/${BUILD_TARGET}/libc/lib/libresolv.so.2

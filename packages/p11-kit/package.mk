@@ -1,5 +1,5 @@
 PACKAGE_NAME="p11-kit"
-PACKAGE_VERSION="0.24.0"
+PACKAGE_VERSION="0.24.1"
 PACKAGE_DEPENDS="libtasn1"
 PACKAGE_SRC="https://github.com/p11-glue/p11-kit/releases/download/${PACKAGE_VERSION}/p11-kit-${PACKAGE_VERSION}.tar.xz"
 

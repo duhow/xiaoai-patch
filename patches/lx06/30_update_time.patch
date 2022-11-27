@@ -1,0 +1,12 @@
+--- a/etc/init.d/wireless	2019-12-25 04:18:35.000000000 +0100
++++ b/etc/init.d/wireless	2022-04-02 16:32:29.489595570 +0200
+@@ -1179,6 +1179,9 @@
+         fi
+     fi
+ 
++    # update time
++    (sleep 10; ntpd -q -p pool.ntp.org) &
++
+     aptimer_start
+ }
+ 

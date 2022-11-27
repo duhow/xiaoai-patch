@@ -21,7 +21,10 @@
 | lx06 | 1.74.1   | 66643b82aa60eff9ac99b7688c8b9cbb | all |
 | lx06 | 1.74.10  | fe6edc680d58620019c9afe4fd79c712 | firmware |
 | l07a | 1.76.2   | N/A | skr_firmware |
+| l09g | 1.44.21  | b2204ae2c465296e78607669d4300107 | l09g |
 | l09a | 1.54.0   | 9376a09e3c23e68102b4ad7c449d632e | all |
+| l09a | 1.54.10  | N/A | |
+| l09a | 1.64.4   | N/A | |
 | l09a | 1.64.64  | N/A | |
 | l09a | 1.68.1   | N/A | |
 | l15a | 1.70.103 | N/A | |
@@ -31,6 +34,7 @@ This is a list of all the updates found for different speakers / devices.
 You can download from two hosts:
 - `bigota.miwifi.com`
 - `cdn.cnbj1.fds.api.mi-img.com`
+- `cdn.awsde0-fusion.fds.api.mi-img.com`
 
 Download path is `$HOST/xiaoqiang/rom/$MODEL_NAME/`.
 

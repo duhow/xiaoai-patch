@@ -1,5 +1,5 @@
 PACKAGE_NAME="Portable UPnP SDK"
-PACKAGE_VERSION="1.14.8"
+PACKAGE_VERSION="1.14.12"
 PACKAGE_SRC="https://github.com/pupnp/pupnp/releases/download/release-${PACKAGE_VERSION}/libupnp-${PACKAGE_VERSION}.tar.bz2"
 
 configure_package() {

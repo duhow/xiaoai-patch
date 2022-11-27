@@ -7,6 +7,10 @@ FILE=$ROOTFS/etc/ssl/certs/ca-cert.crt
 
 rm $FILE
 curl -s -o "$FILE" -L "$URL"
+# add for wget compatibility
+mkdir -p $ROOTFS/usr/ssl
+ln -svf /etc/ssl/certs/ca-cert.crt $ROOTFS/usr/ssl/cert.pem
+
 
 chown root.root $FILE
 chmod 644 $FILE

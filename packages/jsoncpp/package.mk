@@ -1,5 +1,5 @@
 PACKAGE_NAME="jsoncpp"
-PACKAGE_VERSION="1.9.4"
+PACKAGE_VERSION="1.9.5"
 PACKAGE_SRC="https://github.com/open-source-parsers/jsoncpp/archive/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
