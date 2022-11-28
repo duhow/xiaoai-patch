@@ -1,5 +1,5 @@
 PACKAGE_NAME="Speex"
-PACKAGE_VERSION="1.2.0"
+PACKAGE_VERSION="1.2.1"
 PACKAGE_SRC="https://github.com/xiph/speex/archive/refs/tags/Speex-${PACKAGE_VERSION}.tar.gz"
 
 preconfigure_package() {

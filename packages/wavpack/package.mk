@@ -1,5 +1,5 @@
 PACKAGE_NAME="WavPack Audio Compression"
-PACKAGE_VERSION="5.4.0"
+PACKAGE_VERSION="5.6.0"
 PACKAGE_SRC="https://github.com/dbry/WavPack/archive/refs/tags/${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {

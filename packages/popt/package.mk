@@ -1,5 +1,5 @@
 PACKAGE_NAME="popt"
-PACKAGE_VERSION="1.18"
+PACKAGE_VERSION="1.19"
 PACKAGE_SRC="https://github.com/rpm-software-management/popt/archive/popt-${PACKAGE_VERSION}-release.tar.gz"
 
 preconfigure_package() {

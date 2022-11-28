@@ -1,5 +1,5 @@
 PACKAGE_NAME="BusyBox"
-PACKAGE_VERSION="1_32_1"
+PACKAGE_VERSION="1_35_0"
 PACKAGE_SRC="https://github.com/mirror/busybox/archive/refs/tags/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="base"
 
