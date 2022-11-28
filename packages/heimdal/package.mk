@@ -1,6 +1,6 @@
 PACKAGE_NAME="Heimdal"
-PACKAGE_VERSION="7.7.0"
-PACKAGE_SRC="https://github.com/heimdal/heimdal/releases/download/heimdal-7.7.0/heimdal-7.7.0.tar.gz"
+PACKAGE_VERSION="7.8.0"
+PACKAGE_SRC="https://github.com/heimdal/heimdal/releases/download/heimdal-${PACKAGE_VERSION}/heimdal-${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {
 	CC="/usr/bin/gcc" CXX="/usr/bin/g++" CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ./configure \
