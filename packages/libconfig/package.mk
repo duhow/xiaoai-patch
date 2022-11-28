@@ -1,5 +1,5 @@
 PACKAGE_NAME="libconfig"
-PACKAGE_VERSION="master"
+PACKAGE_VERSION="v1.7.3"
 PACKAGE_SRC="https://github.com/hyperrealm/libconfig/archive/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="gcc"
 
