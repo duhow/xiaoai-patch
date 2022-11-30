@@ -1,0 +1,21 @@
+--- a/etc/pam.d/common-auth	2021-06-28 04:23:39.000000000 +0200
++++ b/etc/pam.d/common-auth	2022-11-30 19:46:27.354752765 +0100
+@@ -8,8 +8,8 @@
+ # traditional Unix authentication mechanisms.
+ #
+ 
+-auth sufficient libmico-pam.so
+-account sufficient libmico-pam.so
++#auth sufficient libmico-pam.so
++#account sufficient libmico-pam.so
+ # here are the per-package modules (the "Primary" block)
+ # auth	[success=1 default=ignore]	pam_unix.so nullok_secure
+ # here's the fallback if no module succeeds
+--- a/etc/pam.conf	2021-06-28 04:23:39.000000000 +0200
++++ b/etc/pam.conf	2022-11-30 19:47:44.058394820 +0100
+@@ -12,4 +12,4 @@
+ # Format:
+ # serv.	module	   ctrl	      module [path]	...[args..]		     #
+ # name	type	   flag							     #
+-OTHER auth required /lib/security/libmico-pam.so
++#OTHER auth required /lib/security/libmico-pam.so

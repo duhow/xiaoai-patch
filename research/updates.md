@@ -57,6 +57,7 @@
 | lx06 | 1.74.1   | 66643b82aa60eff9ac99b7688c8b9cbb | all |
 | lx06 | 1.74.10  | fe6edc680d58620019c9afe4fd79c712 | firmware |
 | lx06 | 1.77.6   | 977ff0c09a95a109a3d049ba9700395b | firmware |
+| lx06 | 1.81.93  | fe4907c2d21c1b6c040f5aa5d0b0446c | firmware |
 | lx06 | 1.82.3   | dc6b3dad7244ce4abb8a350ab30da457 | firmware |
 | lx06 | 1.82.5   | 4f45c793b51aa13804e7640ee95a32d6 | firmware |
 | l07a | 1.76.2   | 39e4b4666c963a633bec59cdc7cd3027 | skr_firmware |

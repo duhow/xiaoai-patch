@@ -25,7 +25,10 @@ network={
 }
 EOF
 
-aplay -Dnotify /usr/share/sound/multirounds_tone.wav &>/dev/null &
+command -v miplay > /dev/null && miplay /usr/share/sound/volume.mp3 &
+
+# required on new firmware versions
+touch /data/status/config_done
 
 /etc/init.d/wireless restart
 
@@ -35,7 +38,7 @@ STATUS=$(wpa_cli status | grep wpa_state | cut -d'=' -f2)
 
 if [ "$STATUS" = "COMPLETED" ]; then
     echo "All done!"
-    rm ${WPA_CONFIG}.bak
+    [ -e "${WPA_CONFIG}.bak" ] && rm ${WPA_CONFIG}.bak
     exit 0
 fi
 
