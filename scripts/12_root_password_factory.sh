@@ -5,6 +5,7 @@ echo "[*] Replacing factory default root password"
 # NOTE: Remember to set a custom password after flashing!
 
 # password: root
+# openssl passwd -5 -salt xiaoai root
 HASH='$5$xiaoai$sry7iaqDMu/y7/yz5w1BcV26l2RGFBd6WHXiuLahL9D'
 
 sed -i 's,^\(root:\)[^:]*\(:.*\)$,\1'"${HASH}"'\2,' $ROOTFS/etc/shadow
