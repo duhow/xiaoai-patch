@@ -27,7 +27,8 @@ for FILE in libxml2.so.2.9.7 libxml2.so.2.9.3 libstdc++.so.6.0.22* libsbc.so.1.2
   rm -vf $ROOTFS/usr/lib/$FILE
 done
 
-for FILE in l2test l2ping hcidump btmgmt hciattach gatttool bccmd sdptool wget-ssl; do
+# bluez packages
+for FILE in l2test l2ping btmgmt gatttool bccmd sdptool ciptool wget-ssl; do
   rm -vf $ROOTFS/usr/bin/$FILE
 done
 
