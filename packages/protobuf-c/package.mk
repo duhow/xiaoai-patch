@@ -1,5 +1,5 @@
 PACKAGE_NAME="protobuf-c"
-PACKAGE_VERSION="1.4.0"
+PACKAGE_VERSION="1.4.1"
 PACKAGE_SRC="https://github.com/protobuf-c/protobuf-c/archive/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="protobuf"
 

@@ -1,5 +1,5 @@
 PACKAGE_NAME="zlib"
-PACKAGE_VERSION="1.2.11"
+PACKAGE_VERSION="1.2.13"
 PACKAGE_SRC="https://github.com/madler/zlib/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {

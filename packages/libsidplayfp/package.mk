@@ -1,5 +1,5 @@
 PACKAGE_NAME="Libsidplayfp"
-PACKAGE_VERSION="2.3.1"
+PACKAGE_VERSION="2.4.1"
 PACKAGE_SRC="https://github.com/libsidplayfp/libsidplayfp/releases/download/v${PACKAGE_VERSION}/libsidplayfp-${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {

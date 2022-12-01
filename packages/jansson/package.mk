@@ -1,5 +1,5 @@
 PACKAGE_NAME="Jansson"
-PACKAGE_VERSION="2.13.1"
+PACKAGE_VERSION="2.14"
 PACKAGE_SRC="https://github.com/akheron/jansson/archive/v${PACKAGE_VERSION}.tar.gz"
 
 preconfigure_package() {

@@ -1,5 +1,5 @@
 PACKAGE_NAME="SpeexDSP"
-PACKAGE_VERSION="1.2.0"
+PACKAGE_VERSION="1.2.1"
 PACKAGE_SRC="https://github.com/xiph/speexdsp/archive/refs/tags/SpeexDSP-${PACKAGE_VERSION}.tar.gz"
 
 preconfigure_package() {
