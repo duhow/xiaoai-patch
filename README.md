@@ -46,7 +46,8 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 | ![L09G - not supported][L09G] | Xiaomi Mi Smart Speaker (Global, Google Assistant) | |
 | ![LX05 - encrypted, supported][LX05] | Xiaoai Speaker Play | |
 | ![L05B - not supported][L05B] | Xiaoai Speaker Play Enhanced Edition, no Clock LED (NuttX) - [details](https://github.com/duhow/xiaoai-patch/issues/19) | |
-| ![L05C - not supported][L05C] | Xiaoai Speaker Play Enhanced Edition, with Clock LED | |
+| ![L05C - not supported][L05C] | Xiaoai Speaker Play Enhanced Edition, with Clock LED (NuttX) | |
+| ![L05G - not supported][L05G] | Xiaomi Smart Speaker IR Control (Global, Google Assistant) | |
 | ![L15A - encrypted, not fully supported][L15A] | Xiaomi Mi AI Speaker 2 Gen | |
 | ![L16A - not tested][L16A] | Xiaomi Sound by HARMAN AudioEFX | |
 | ![L07A - not tested][L07A] | Redmi XiaoAI Speaker Play | |
@@ -61,6 +62,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 [LX05]: https://img.shields.io/badge/LX05-yellowgreen?style=for-the-badge
 [L05B]: https://img.shields.io/badge/L05B-red?style=for-the-badge
 [L05C]: https://img.shields.io/badge/L05C-red?style=for-the-badge
+[L05G]: https://img.shields.io/badge/L05G-red?style=for-the-badge
 [L15A]: https://img.shields.io/badge/L15A-yellow?style=for-the-badge
 [L16A]: https://img.shields.io/badge/L16A-lightgrey?style=for-the-badge
 [L07A]: https://img.shields.io/badge/L07A-lightgrey?style=for-the-badge
