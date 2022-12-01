@@ -3,6 +3,38 @@ PACKAGE_VERSION="1.35.0"
 PACKAGE_SRC="https://github.com/mirror/busybox/archive/refs/tags/${PACKAGE_VERSION//./_}.tar.gz"
 PACKAGE_DEPENDS="base"
 
+BUSYBOX_CONFIG=$(cat << EOF
+LOCK=y
+DPKG=n
+DPKG_DEB=n
+RPM=n
+RPM2CPIO=n
+
+ACPID=n
+EJECT=n
+FBSET=n
+LSPCI=n
+LSUSB=n
+MKSWAP=n
+SWAPON=n
+SWAPOFF=n
+LSSCSI=n
+
+WGET=n
+WHOIS=n
+TRACEROUTE=n
+TRACEROUTE6=n
+
+LPD=n
+LPR=n
+LPQ=n
+
+SENDMAIL=n
+HUSH=n
+
+EOF)
+#FEATURE_PS_WIDE=y
+
 configure_package() {
 	CC=${BUILD_CC} make defconfig CROSS_COMPILE=${BUILD_TARGET}- CFLAGS="${BUILD_CFLAGS}" CXXFLAGS="${BUILD_CFLAGS}" \
 	     CPPFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}"
@@ -13,8 +45,16 @@ premake_package() {
 	# https://busybox.net/FAQ.html#touch_config
 	sleep 1
 
-	sed -i '/CONFIG_LOCK/c\CONFIG_LOCK=y' .config
+	for LINE in $(echo $BUSYBOX_CONFIG); do
+		CFG_KEY=$(echo $LINE | cut -d '=' -f1)
+		CFG_VAL=$(echo $LINE | cut -d '=' -f2)
+		if [ -z "${CFG_KEY}" ] || [ -z "${CFG_VAL}" ]; then
+		  continue
+		fi
+	  sed -i "/CONFIG_${CFG_KEY}=/c\\CONFIG_${CFG_KEY}=${CFG_VAL}" .config
+	done
 	sleep 1
+
 	sed -i "/CONFIG_PREFIX/c\CONFIG_PREFIX=\"${STAGING_DIR}\"" .config
 	sleep 1
 }
