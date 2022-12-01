@@ -1,0 +1,28 @@
+diff --git a/monitor.sh b/monitor.sh
+index db35f33..f37e973 100755
+--- a/monitor.sh
++++ b/monitor.sh
+@@ -46,7 +46,7 @@ fi
+ # BETA WARNING ONLY IF ON THE BETA CHANNEL
+ # ----------------------------------------------------------------------------------------
+ 
+-if [[ $(git status) =~ .*beta.* ]]; then 
++if command -v git >/dev/null && [[ $(git status) =~ .*beta.* ]]; then 
+ 
+ 	printf "\n%s\n" 	"${RED}===================================================${NC}"
+ 	printf "\n%s\n"		"${RED}              ${PURPLE}*** BETA/DEV BRANCH ***${NC}"
+diff --git a/support/argv b/support/argv
+index 75842fb..1fbf615 100644
+--- a/support/argv
++++ b/support/argv
+@@ -16,7 +16,9 @@
+ # REPORT CURRENT VERSION 
+ # ----------------------------------------------------------------------------------------
+ 
+-previous_version=$(cat ".previous_version")
++if [ -f ".previous_version" ]; then
++  previous_version=$(cat ".previous_version")
++fi
+ 
+ #DETERMINE IF UPDATED SINCE LAST RUN
+ if [ "$previous_version" != "$version" ]; then 

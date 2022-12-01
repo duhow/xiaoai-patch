@@ -1,0 +1,44 @@
+diff --git a/monitor.sh b/monitor.sh
+index f37e973..1d5d082 100755
+--- a/monitor.sh
++++ b/monitor.sh
+@@ -96,7 +96,7 @@ trap "clean" EXIT
+ hciconfig "$PREF_HCI_DEVICE" down && sleep 3 && hciconfig "$PREF_HCI_DEVICE" up
+ 
+ #STOP OTHER INSTANCES OF MONITOR WITHOUT STOPPING THIS ONE
+-for pid in $(pidof -x "$(basename "$0")"); do
++for pid in $(pidof -s "$(basename "$0")"); do
+     if [ "$pid" != $$ ]; then
+         kill -9 "$pid"
+     fi 
+diff --git a/support/btle b/support/btle
+index 9cf6cbb..509121b 100644
+--- a/support/btle
++++ b/support/btle
+@@ -30,7 +30,7 @@ btle_scanner () {
+ 
+ 	while true; do 
+ 		#TIMEOUT THE HCITOOL SCAN TO RESHOW THE DUPLICATES WITHOUT SPAMMING THE MAIN LOOP BY USING THE --DUPLICATES TAG
+-		local hcitool_raw=$(timeout --signal SIGINT 60 hcitool -i $PREF_HCI_DEVICE lescan 2>&1)
++		local hcitool_raw=$(timeout -s SIGINT 60 hcitool -i $PREF_HCI_DEVICE lescan 2>&1)
+ 
+ 		#FIND ERROR VALUES 
+ 		local error=$(echo "$hcitool_raw" | grep -iE 'input/output error|invalid device|invalid|error|network')
+@@ -360,7 +360,7 @@ btle_text_listener () {
+ 			else 		
+ 				packet="$packet~$line" 
+ 			fi
+-		done < <(timeout --signal SIGINT 90 stdbuf -oL -eL btmon 2>&1)
++		done < <(timeout -s SIGINT 90 stdbuf -oL -eL btmon 2>&1)
+ 
+ 		#PREVENT LOOPING
+ 		sleep 1
+@@ -416,7 +416,7 @@ btle_listener () {
+ 					packet=""
+ 				fi 
+ 			fi
+-		done < <(timeout --signal SIGINT 120 stdbuf -oL -eL hcidump -i $PREF_HCI_DEVICE --raw)
++		done < <(timeout -s SIGINT 120 stdbuf -oL -eL hcidump -i $PREF_HCI_DEVICE --raw)
+ 
+ 		#PREVENT INFINITE LOOPING
+ 		sleep 1
