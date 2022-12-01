@@ -11,7 +11,7 @@ jobs:
     if: ${{ github.repository == 'duhow/xiaoai-patch' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Check version
         run: |
           BLUE='\033[0;34m'
