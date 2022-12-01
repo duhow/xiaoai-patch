@@ -2,11 +2,13 @@
 
 echo "[*] Deleting binary files"
 for FILE in alarmd carrier_chinatelecom.sh carrier.sh mediaplayer messagingagent mdplay \
-  bluez_mibt_ble mibt_ble bluez_mibt_classical mibt_mesh mibt_mesh_proxy mibt_mesh.automation mico_ble_service \
+  bluez_mibt_ble mibt_ble bluez_mibt_classical \
+  mibt_mesh mibt_mesh_rtl mibt_mesh_proxy mibt_mesh.automation mico_ble_service \
   miplayer mphelper mibrain_level mibrain_net_check mibrain_oauth_manager mibrain_service  \
   mipns-xiaomi mipns-sai mipns-horizon \
   mico_ai_crontab mico_vendor_helper mico_model_helper mico_aivs_lab mico-helper \
-  heartbeatagent ciptool xiaomi_dns_server miio_helper \
+  heartbeatagent xiaomi_dns_server miio_helper \
+  mijia_automation \
   miio_client miio_client_helper miio_recv_line miio_send_line miio_service notifyd pns_ubus_helper pns_upload_helper \
   mitv_pstream nano_httpd quickplayer mico_voip_applite voip_applite voip_helper voip_service work_day_sync_service \
   mico_voip_alarm mico_voip_ubus_service mico_voip_service.sh upnp-disc ota-burnboot0 ota-burnuboot quark quarkd \
