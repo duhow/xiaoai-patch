@@ -9,7 +9,17 @@ CONF=/data/${PROG}.conf
 
 start_service() {
     if [ ! -f "${CONF}" ]; then
-        grep -ve '^//' /etc/${PROG}.conf > ${CONF}
+      grep -ve '^//' /etc/${PROG}.conf > ${CONF}
+    fi
+
+    if [ -e "/usr/bin/nqptp" ]; then
+      procd_open_instance
+      procd_set_param command /usr/bin/nqptp
+      procd_set_param respawn
+      procd_append_param respawn 3600
+      procd_append_param respawn 5
+      procd_append_param respawn 5
+      procd_close_instance
     fi
 
     procd_open_instance
@@ -23,6 +33,9 @@ start_service() {
 
 stop_service() {
     service_stop /usr/bin/${PROG}
+    if [ -e "/usr/bin/nqptp" ]; then
+      service_stop /usr/bin/nqptp
+    fi
 }
 
 restart() {

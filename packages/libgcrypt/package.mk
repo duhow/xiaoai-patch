@@ -1,5 +1,5 @@
 PACKAGE_NAME="Libgcrypt"
-PACKAGE_VERSION="1.8.7"
+PACKAGE_VERSION="1.10.1"
 PACKAGE_DEPENDS="libgpg-error"
 PACKAGE_SRC="https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-${PACKAGE_VERSION}.tar.bz2"
 

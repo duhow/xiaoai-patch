@@ -11,7 +11,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone && \
     apt update && apt install -y \
     unzip squashfs-tools \
-    build-essential wget rsync gawk bison bc \
+    build-essential wget rsync gawk bison bc xxd \
     python python3 python3-pip python3-dev python3-yaml \
     cmake autoconf autopoint autogen autoconf-archive \
     libtool libtool-bin \
