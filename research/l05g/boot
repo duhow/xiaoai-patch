@@ -1,0 +1,608 @@
+XG:BL1:d1dbf2:a4926f;FEAT:F0DC31BC:2000;POC:F;EMMC:800;NAND:0;READ:0;0.0;0.0;CHK:0;
+sdio debug board detected 
+TE: 136498
+
+BL2 Built : 10:06:34, Jan 19 2021. axg g796c27d - jenkins@walle02-sh
+
+set vcck to 1050 mv
+set vddee to 950 mv
+Board ID = 0
+CPU clk: 1200MHz
+DDR low power enabled
+DDR3 chl: Rank0 16bit @ 912MHz
+bist_test rank: 0 20 00 40 2e 10 4c 1c 00 39 31 13 4f 00 00 00 00 00 00 00 00 00 00 00 00 637   - PASS
+Rank0: 512MB(auto)-2T-13
+AddrBus test pass!
+NAND init
+scan bbt ecc error happen:
+storage init finish
+Load FIP HDR from NAND, src: 0x0000c000, des: 0x01700000, size: 0x00004000, part: 0
+Load BL3x from NAND, src: 0x00010000, des: 0x01704000, size: 0x000b2800, part: 0
+NOTICE:  BL31: v1.3(release):d3a620ec3
+NOTICE:  BL31: Built : 10:32:40, Jan 20 2021
+NOTICE:  BL31: AXG secure boot!
+NOTICE:  BL31: BL33 decompress pass
+OPS=0x43
+[Image: axg_v1.1.3516-f91e350f3 2020-12-11 20:41:05 jenkins@walle02-sh]
+25 0c 43 00 c8 cc f9 9b 0f 3a e1 55 9b 2c 97 9e 
+bl30:axg ver: 9 mode: 0
+bl30:axg thermal0
+[0.016061 Inits done]
+secure task start!
+high task start!
+low task start!
+ERROR:   Error initializing runtime service opteed_fast
+
+
+U-Boot 2015.01-g35e62defed-dirty (Nov 18 2021 - 15:48:24)
+
+DRAM:  512 MiB
+Relocation Offset is: 1eebd000
+mmu cfg end: 0x20000000
+mmu cfg end: 0x20000000
+register usb cfg[0][1] = 000000001ff72df0
+aml_i2c_init_port init regs for 0
+NAND:  get_sys_clk_rate_mtd() 281, clock setting 200!
+bus cycle0: 6,timing: 7
+NAND device id: 98 da 90 15 76 16 
+NAND device: Manufacturer ID: 0x98, Chip ID: 0x98 (Toshiba A revision NAND 2Gib TC58NVG1S3HBAI4 )
+get_sys_clk_rate_mtd() 281, clock setting 200!
+m3_nand_adjust_timing() sys_clk_rate 200, bus_c 6, bus_t 7
+oob_fill_cnt =32 oob_size =64, bch_bytes =14
+ecc mode:6 ecc_page_num=2 eep_need_oobsize=16
+plane_num=1 writesize=0x800 ecc.size=0x200 bch_mode=1
+oob avail size 6
+Creating 1 MTD partitions on "A revision NAND 2Gib TC58NVG1S3HBAI4 ":
+0x000000000000-0x000000200000 : "bootloader"
+A revision NAND 2Gib TC58NVG1S3HBAI4  initialized ok
+get_sys_clk_rate_mtd() 281, clock setting 200!
+bus cycle0: 6,timing: 7
+NAND device id: 98 da 90 15 76 16 
+NAND device: Manufacturer ID: 0x98, Chip ID: 0x98 (Toshiba A revision NAND 2Gib TC58NVG1S3HBAI4 )
+get_sys_clk_rate_mtd() 281, clock setting 200!
+m3_nand_adjust_timing() sys_clk_rate 200, bus_c 6, bus_t 7
+oob_fill_cnt =32 oob_size =64, bch_bytes =14
+ecc mode:6 ecc_page_num=2 eep_need_oobsize=16
+PLANE change!
+plane_num=1 writesize=0x800 ecc.size=0x200 bch_mode=1
+aml_nand_init :oobmul=1,oobfree.length=8,oob_size=64
+oob avail size 8
+nbbt=20
+nenv=24
+nkey=32
+ndtb=40
+nddr=44
+bbt_start=20 env_start=24 key_start=32 dtb_start=40 ddr_start=44 
+nbbt: info size=0x800 max_scan_blk=24, start_blk=20
+nbbt : phy_blk_addr=20, ec=0, phy_page_addr=0, timestamp=1
+nbbt free list: 
+blockN=21, ec=-1, dirty_flag=0
+blockN=22, ec=-1, dirty_flag=0
+blockN=23, ec=-1, dirty_flag=0
+aml_nand_scan_rsv_info 1120: page_num=1
+aml_nand_scan_rsv_info 1123
+nbbt valid addr: 280000
+aml_nand_bbt_check 1244 bbt is valid, reading.
+aml_nand_read_rsv_info:432,read nbbt info to 280000
+nenv: info size=0x10000 max_scan_blk=32, start_blk=24
+nenv : phy_blk_addr=25, ec=1, phy_page_addr=0, timestamp=4
+nenv free list: 
+blockN=24, ec=1, dirty_flag=1
+blockN=26, ec=-1, dirty_flag=0
+blockN=27, ec=-1, dirty_flag=0
+blockN=28, ec=-1, dirty_flag=0
+blockN=29, ec=-1, dirty_flag=0
+blockN=30, ec=-1, dirty_flag=0
+blockN=31, ec=-1, dirty_flag=0
+aml_nand_scan_rsv_info 1120: page_num=32
+aml_nand_scan_rsv_info 1123
+nenv valid addr: 320000
+nkey: info size=0x8000 max_scan_blk=40, start_blk=32
+nkey : phy_blk_addr=33, ec=0, phy_page_addr=0, timestamp=2
+nkey free list: 
+blockN=32, ec=0, dirty_flag=1
+blockN=34, ec=-1, dirty_flag=0
+blockN=35, ec=-1, dirty_flag=0
+blockN=36, ec=-1, dirty_flag=0
+blockN=37, ec=-1, dirty_flag=0
+blockN=38, ec=-1, dirty_flag=0
+blockN=39, ec=-1, dirty_flag=0
+aml_nand_scan_rsv_info 1120: page_num=16
+aml_nand_scan_rsv_info 1123
+nkey valid addr: 420000
+ndtb: info size=0x20000 max_scan_blk=44, start_blk=40
+ndtb : phy_blk_addr=40, ec=0, phy_page_addr=0, timestamp=1
+ndtb free list: 
+blockN=41, ec=-1, dirty_flag=0
+blockN=42, ec=-1, dirty_flag=0
+blockN=43, ec=-1, dirty_flag=0
+aml_nand_scan_rsv_info 1120: page_num=64
+aml_nand_scan_rsv_info 1123
+ndtb valid addr: 500000
+nddr: info size=0x800 max_scan_blk=46, start_blk=44
+nddr : phy_blk_addr=-1, ec=0, phy_page_addr=0, timestamp=0
+nddr free list: 
+blockN=44, ec=-1, dirty_flag=0
+blockN=45, ec=-1, dirty_flag=0
+aml_nand_scan_rsv_info 1120: page_num=1
+nddr valid addr: fffffffffffe0000
+aml_nand_rsv_info_check_except_bbt 1214 NO nddr exist
+tpl: off 8388608, size 8388608
+ NAND bbt detect factory Bad block at c000000 
+ NAND bbt detect factory Bad block at c020000 
+Creating 7 MTD partitions on "A revision NAND 2Gib TC58NVG1S3HBAI4 ":
+0x000000800000-0x000001000000 : "tpl"
+0x000001000000-0x000001a00000 : "recovery"
+0x000001a00000-0x000002600000 : "boot"
+0x000002600000-0x000003600000 : "system"
+0x000003600000-0x000007a00000 : "chrome"
+0x000007a00000-0x000007e00000 : "factory"
+0x000007e00000-0x000010000000 : "data"
+ NAND bbt detect factory Bad block at c000000 
+ NAND bbt detect factory Bad block at c020000 
+A revision NAND 2Gib TC58NVG1S3HBAI4  initialized ok
+MMC:   aml_priv->desc_buf = 0x000000001debb760
+aml_priv->desc_buf = 0x000000001debdaa0
+SDIO Port B: 0, SDIO Port C: 1
+uboot env amlnf_env_read : ####
+aml_nand_read_rsv_info:432,read nenv info to 320000
+In:    serial
+Out:   serial
+Err:   serial
+aml log : internal sys error!
+reboot_mode=cold_boot
+aml log : internal sys error!
+Start read misc partition datas!
+[burnup]Rd:Up sz 0x440 to align 0x1000
+[store]Err:mtd_find_phy_off_by_lgc_off,L104:device(misc) is err
+[store]Err:do_store_read,L1763:Fail in find phy addr by logic off (0x0),ret(1)
+[burnup]Err:store_read_ops,L89:cmd failed, ret=1, [store  read misc 0x1deaba78  0x0  0x1000]
+failed to store read misc.
+get_valid_slot - get_valid_slot
+
+Usage:
+get_valid_slot 
+This command will choose valid slot to boot up which saved in misc
+partition by mark to decide whether execute command!
+So you can execute command: get_valid_slot
+active_slot is normal
+cmd: imgread dtb boot ${dtb_mem_addr}
+[imgread]szTimeStamp[2022021815005655]
+[imgread]MTD pageShift 11, writesz 0x800
+[burnup]Rd:Up sz 0xc800 to align 0x1000
+aml log : R-2048 check pass!
+aml log : R2048 check pass!
+[imgread]Enc dtb sz 0xc800
+      Amlogic Multi-DTB tool
+      Single DTB detected
+aml log : internal sys error!
+Start read misc partition datas!
+[burnup]Rd:Up sz 0x440 to align 0x1000
+[store]Err:mtd_find_phy_off_by_lgc_off,L104:device(misc) is err
+[store]Err:do_store_read,L1763:Fail in find phy addr by logic off (0x0),ret(1)
+[burnup]Err:store_read_ops,L89:cmd failed, ret=1, [store  read misc 0x1deab888  0x0  0x1000]
+failed to store read misc.
+get_valid_slot - get_valid_slot
+
+Usage:
+get_valid_slot 
+This command will choose valid slot to boot up which saved in misc
+partition by mark to decide whether execute command!
+So you can execute command: get_valid_slot
+wipe_data=successful
+wipe_cache=successful
+recovery_status=
+upgrade_step=2
+s_version: U-Boot 2015.01-g35e62defed-dirty
+amlkey_init() enter!
+amlnf_key_read: ####
+amlnf_key_read key data len too much
+aml_nand_read_rsv_info:432,read nkey info to 420000
+[EFUSE_MSG]keynum is 4
+[KM]Error:f[key_manage_query_size]L503:key[mac] not programed yet
+[KM]Error:f[key_manage_query_size]L503:key[lang] not programed yet
+enable adb debug prop
+InUsbBurn
+[MSG]sof
+Set Addr 2
+Get DT cfg
+Get DT cfg
+set CFG
+waitIdentifyTime(401) > timeout(400)
+Hit Enter or space or Ctrl+C key to stop autoboot -- :  0 
+[imgread]szTimeStamp[2022021815005655]
+[imgread]secureKernelImgSz=0x927000
+aml log : R-2048 check pass!
+aml log : R2048 check pass!
+aml log : R2048 check pass!
+aml log : R2048 check pass!
+avb2: 0
+save_power_post ...
+avb2: 0
+## Booting Android Image at 0x01080000 ...
+reloc_addr =1ded6280
+copy done
+Kernel command line: rootfstype=ramfs init=/init console=ttyS0,115200 no_console_suspend earlycon=aml_uart,0xff803000
+[store]Is good fdt check header, no need decrypt!
+load dtb from 0x1000000 ......
+      Amlogic Multi-DTB tool
+      Single DTB detected
+   Uncompressing Kernel Image ... OK
+   kernel loaded at 0x01080000, end = 0x02240a00
+   Loading Ramdisk to 1dc2b000, end 1deaa800 ... OK
+   Loading Device Tree to 000000001dc1c000, end 000000001dc2a7f9 ... OK
+fdt_fixup_memory_banks, reg:0000000000000000
+
+Starting kernel ...
+
+uboot time: 3455272 us
+[    0.000000@0]d       07400000 - 07500000,     1024 KB, ramoops@0x07400000
+[    0.000000@0]d       05000000 - 05400000,     4096 KB, linux,secmon
+domain-0 init dvfs: 1
+[    0.236151@0]- clkmsr ffd18004.meson_clk_msr: failed to get msr ring reg0
+[    0.288804@0]- dmi: Firmware registration failed.
+[    1.199349@1]- Initramfs unpacking failed: junk in compressed archive
+[    1.205017@0]- meson-mmc: >>>>>>>>hostbase ffffff8008322000, dmode 
+[    1.361502@0]- mtdoops: mtd device (mtddev=name/number) must be supplied
+[    1.382873@0]- ff803000.serial: clock gate not found
+[    1.388420@0]- ff804000.serial: clock gate not found
+[    1.391305@0]- amlogic-new-usb3 ffe09080.usb3phy: This phy has no usb port
+[    1.414652@0]- page_trace_module_init, create sysfs failed
+[    1.423341@0]- is31fl32xx 1-003c: register write to 0x4F failed (error -6)
+[    2.120948@0]- asoc-aml-card auge_sound: control 2:0:0:I2SIn CLK:0 is already present
+[    2.123135@0]- snd_tdm ff642000.audiobus:tdmb: ASoC: Failed to add I2SIn CLK: -16
+[    2.130589@0]- aml_dai_tdm_probe, failed add snd tdm controls
+[    2.136255@0]- asoc-aml-card auge_sound: control 2:0:0:I2SIn CLK:0 is already present
+[    2.144013@0]- snd_tdm ff642000.audiobus:tdmc: ASoC: Failed to add I2SIn CLK: -16
+[    2.151436@0]- aml_dai_tdm_probe, failed add snd tdm controls
+[    2.188047@3]- hub 2-0:1.0: config failed, hub doesn't have any ports! (err -19)
+[    2.189909@3]- usb usb2: Unsupported the hub
+[    2.311028@0]- thermal thermal_zone0: binding zone soc_thermal with cdev thermal-cpufreq-0 failed:-22
+[    2.321mount normal partition
+UBI device number 6, total 32 LEBs (4063232 bytes, 3.9 MiB), available 0 LEBs (0 bytes), LEB size 126976 bytes (124.0 KiB)
+UBI device number 7, total 1038 LEBs (131801088 bytes, 125.7 MiB), available 0 LEBs (0 bytes), LEB size 126976 bytes (124.0 KiB)
+/dev/ubi7_0 /cache ubifs rw,relatime 0 0
+/cache is already mounted
+ctrl_interface=/data/wifi
+Unable to chown /sys/devices/platform/bt-dev/rfkill/*/type: No such file or directory
+Unable to chmod /sys/devices/platform/bt-dev/rfkill/*/type: No such file or directory
+Unable to chown /sys/devices/platform/bt-dev/rfkill/*/state: No such file or directory
+Unable to chmod /sys/devices/platform/bt-dev/rfkill/*/state: No such file or directory
+/data/misc/bluedroid/bt_config.bak
+/data/misc/bluedroid/bt_config.conf
+[    3.441132@1]- unifykey: name: mac_bt, size 17
+and wifi mac changes,seting new wifi MAC addr.
+set system prompt languge to xx-WW
+mic enter mute mode
+Error: Write failed
+Error: Write failed
+[0101/010004.847094:WARNING:client_auth_manager.cc(87)] Pref service not available. This should only happen in tests.
+Playing WAVE '/usr/share/empty.wav' : Signed 16 bit Little Endian, Rate 44100 Hz, Stereo
+Serial Number: A1ZV42820
+Initializing random number generator...
+[    5.762841@3]- unifykey:  key_unify_init.part.2() already inited!
+[    5.774359@2]- unifykey: name: deviceid, size 15
+link failed File exists
+link failed No such file or directory
+[    5.940868@0]- mico_proc_l05g: loading out-of-tree module taints kernel.
+[    5.955575@2]- Miso kernel module inited
+sending ioctl 0x6d03 to /dev/wifi_power
+[    6.024567@2]- meson-mmc: [sdio_notify] finish
+[    6.431925@2]- meson-mmc: [sdio_notify] finish
+[    6.433426@0]h meson-mmc: sdio: resp_timeout,vstat:0xa1ff2800,virqc:3fff
+[    6.437394@0]h meson-mmc: sdio: err: wait for irq service, bus_fsm:0x8
+[    6.443969@2]- meson-mmc: meson_mmc_irq_thread_v3 661 sdio: cmd:52
+[    6.451056@0]h meson-mmc: sdio: resp_timeout,vstat:0xa1ff2800,virqc:3fff
+[    6.456622@0]h meson-mmc: sdio: err: wait for irq service, bus_fsm:0x8
+[    6.463193@2]- meson-mmc: meson_mmc_irq_thread_v3 661 sdio: cmd:52
+[    6.477730@2]- uhs = 1000000
+[    6.491940@2]- meson-aml-mmc ffe05000.sdio: divider requested rate 200000000 != actual rate 199999805: ret=0
+[    6.496118@2]- meson-mmc: actual_clock :199999805, HHI_nand: 0x0
+[    6.502093@2]- meson-mmc: [meson_mmc_set_ios_v3] after clock: 0x10000245
+[    6.508713@2]- meson-mmc: Data 1 aligned delay is 0
+[    6.513537@2]- meson-mmc: sdio: clk 199999805 tuning start
+[    6.523178@2]- meson-mmc: sdio: adj_win: < 0 2 3 4 >
+[    6.523887@2]- meson-mmc: step:4, delay1:0x104104, delay2:0x4000000
+[    6.534187@2]- meson-mmc: sdio: adj_win: < 0 2 3 4 >
+[    6.534999@2]- meson-mmc: step:8, delay1:0x208208, delay2:0x8000000
+[    6.545437@2]- meson-mmc: sdio: adj_win: < 0 2 3 4 >
+[    6.546125@2]- meson-mmc: step:12, delay1:0x30c30c, delay2:0xc000000
+[    6.556438@2]- meson-mmc: sdio: adj_win: < 0 2 3 4 >
+[    6.557337@2]- meson-mmc: step:16, delay1:0x410410, delay2:0x10000000
+[    6.566967@2]- meson-mmc: sdio: adj_win: < 0 3 4 >
+[    6.568481@2]- meson-mmc: left:3, right:0, mid:4, size:4
+[    6.573741@2]- meson-mmc: step:0, delay1:0x0, delay2:0x0
+[    6.579001@2]- meson-mmc: sdio: sd_emmc_regs->gclock=0x10000245,sd_emmc_regs->gadjust=0x42000
+[    6.587449@2]- meson-mmc: delay1:0x0, delay2:0x0
+[    6.601839@2]- sdio: new ultra high speed SDR104 SDIO card at address 0000
+[    6.603066@2]- sdio: clock 199999805, 4-bit-bus-width
+ [    6.609332@3]- meson-mmc: [sdio_reinit] finish
+[    6.627013@0]- aml_w1_sdio_probe(711): func->num 1 sdio block size=512, 
+[    6.628137@0]- aml_w1_sdio_probe(721): func->num 1 sdio_func=ffffffc0199de000, 
+[    6.635395@0]- aml_w1_sdio_probe(728):func_num=1, last func num=7
+[    6.641717@0]- aml_w1_sdio_probe(711): func->num 2 sdio block size=512, 
+[    6.648041@0]- aml_w1_sdio_probe(721): func->num 2 sdio_func=ffffffc0199dd800, 
+[    6.655270@0]- aml_w1_sdio_probe(728):func_num=2, last func num=7
+[    6.662607@0]- aml_w1_sdio_probe(711): func->num 3 sdio block size=512, 
+[    6.667957@0]- aml_w1_sdio_probe(721): func->num 3 sdio_func=ffffffc0199ddc00, 
+[    6.675208@0]- aml_w1_sdio_probe(728):func_num=3, last func num=7
+[    6.681637@0]- aml_w1_sdio_probe(711): func->num 4 sdio block size=512, 
+[    6.687940@0]- aml_w1_sdio_probe(721): func->num 4 sdio_func=ffffffc0199dd400, 
+[    6.695250@0]- aml_w1_sdio_probe(728):func_num=4, last func num=7
+[    6.701467@0]- aml_w1_sdio_probe(711): func->num 5 sdio block size=512, 
+[    6.707803@0]- aml_w1_sdio_probe(721): func->num 5 sdio_func=ffffffc0199dd000, 
+[    6.715031@0]- aml_w1_sdio_probe(728):func_num=5, last func num=7
+[    6.721381@0]- aml_w1_sdio_probe(711): func->num 6 sdio block size=512, 
+[    6.727806@0]- aml_w1_sdio_probe(721): func->num 6 sdio_func=ffffffc0199dc800, 
+[    6.734962@0]- aml_w1_sdio_probe(728):func_num=6, last func num=7
+[    6.741277@0]- aml_w1_sdio_probe(711): func->num 7 sdio block size=512, 
+[    6.747643@0]- aml_w1_sdio_probe(721): func->num 7 sdio_func=ffffffc019d28000, 
+[    6.754990@0]- w1_sdio->*****************aml sdio common driver is insmoded********************
+[    6.763507@0]- aml_w1_sdio_insmod(859) start...
+[    6.844091@3]- driver compile date: 2021-12-01 14:46:46,driver hash: b8e56b6e5203cf3f0f8b62d33627ea80fe2cffd2
+[    6.848371@3]- fw compile date: 2021-12-01 14:46:46,fw hash: b025630323dae4331edd48974428ab6691e22e10,fw size: 1071764
+[    6.858978@3]- driver version: v1.0.1_20211201-b b8e56b6e5203cf3f0f8b62d33627ea80fe2cffd2
+[    6.867076@3]- aml_insmod(942) dhcp_offload 0 set done.
+[    6.867076@3]- 
+[    6.873977@3]- SDIO_BUILD_IN aml_sdio_init
+[    6.878023@3]- =========== WLAN placed in POWER ON ========
+[    6.883549@3]- w1_sdio->Insmod WiFi sdio driver!
+[    6.888276@3]- aml wifi to create txok_thread thread !!!!
+[    6.888286@0]- hal_work_thread(2436)  =====creat thread hal_worl_thread<=====
+[    6.900681@3]- hal_rx_thread(2577)  =====creat thread hal_rx_thread<=====
+[    6.900773@0]- vm_cfg80211_set_parent_dev 312
+[    6.901077@2]- aml_sdio_calibration right, use this config: i:0, j:0, k:0, l:0
+[    6.901114@2]- config_pmu_reg wifi_pmu_status:0x6
+[    6.921137@2]- config_pmu_reg power on: before write A12=0x2a2c, A13=0xc0000006, A14=0x1, A15=0x6, A17=0x700, A18=0x1700, A20=0x0, A22=0x704
+[    6.947931@2]- config_pmu_reg wifi_pmu_status:0x6
+[    6.948627@2]- config_pmu_reg power on: after write A15=0x6, A17=0x700, A18=0x1700, A20=0x0, A22=0x704
+[    6.956265@2]- hal_priv->hal_call_back->dev_probe
+[    6.961127@2]- RG_SCFG_SRAM_FUNC ffffffff00000000 
+[    6.966792@2]- bbpll power on -------------->
+[    6.969959@2]- 1, start inter Ido 
+[    6.973781@2]- 2, start pll core 
+[    6.977426@2]- 3, check 
+[    6.979229@2]- bbpll done !
+[    6.981865@2]- bbpll  init ok!
+[    6.984956@2]- ++++++SRAM 64K++++++++++ 
+[    6.988821@2]- hal_download_wifi_fw_img(618): img len 0x28000, start download fw
+[    6.999581@2]- Host HAL: write ICCM SUCCESS!!!! 
+[    7.001832@2]- set sram zero for simulation, total=0x2000
+[    7.006315@2]- RG_SCFG_REG_FUNC redata 0 
+[    7.010059@2]- wifi_cpu_clk_switch(560):cpu_clk_reg=0x4f770033
+[    7.015886@2]- RG_WIFI_CPU_CTRL = 70b0 redata= 10000 
+[    7.021036@2]- RG_PMU_A22 = f02058 redata= 700 
+[    7.025249@2]- fw download success!
+[    7.028699@2]- Wifi_DeviceID = 0
+[    7.239982@2]- sectoin 0, size 459776
+[    7.240086@2]- Wifi_DeviceID = 0
+[    7.447879@2]- Wifi_DeviceID = 8888  already delayed=200ms
+[    7.450353@2]- efuse addr:00000008, chip_id is :50d28a65
+[    7.455524@2]- efuse addr:00000009, chip_id is :331f0015
+[    7.458356@2]- FUNCTION: storeToFile LINE: 217:openFile path:/data/vendor/wifi/wifimac.txt Fail, ret:-2
+[    7.467598@2]- for uart baudrate0x4c4b400
+[    7.471647@2]- uart mode 0x4c08=0x10ad
+[    7.475310@2]- set uart baudrate, apb_clk=80000000, addr=0x00004c08 data=0x000010ac
+[    7.482892@2]- hal_priv->beaconframeaddress  0xa107b8 
+[    7.487936@2]- hal_priv->rxframeaddress     0x91c000 
+[    7.492935@2]- hal_priv->txcompleteaddress  0xa1052c 
+[    7.497940@2]- hal_priv->txPageFreeNum 0xe0 
+[    7.504794@2]- aml wifi module SN:0000  the rf config: /etc/wifi/w1/aml_wifi_rf.txt
+[    7.520678@2]- aml_wifi_get_platform_verid(922) version name: gva
+[    7.521141@2]- ======>>>>>> version = 1
+[    7.524970@2]- ======>>>>>> cali_config = 0
+[    7.529087@2]- ======>>>>>> freq_offset = 0
+[    7.533226@2]- ======>>>>>> htemp_freq_offset = 0
+[    7.537883@2]- ======>>>>>> cca_ed_det = 0
+[    7.541936@2]- ======>>>>>> tssi_2g_offset = 0xff
+[    7.546632@2]- ======>>>>>> tssi_5g_offset_5200 = 0xea
+[    7.551685@2]- ======>>>>>> tssi_5g_offset_5400 = 0xef
+[    7.556766@2]- ======>>>>>> tssi_5g_offset_5600 = 0x6
+[    7.561774@2]- ======>>>>>> tssi_5g_offset_5800 = 0x6
+[    7.566783@2]- ======>>>>>> wf2g_spur_rmen = 0
+[    7.571176@2]- ======>>>>>> spur_freq = 24478
+[    7.575486@2]- ======>>>>>> rf_count = 2
+[    7.579368@2]- ======>>>>>> wftx_pwrtbl_en = 1
+[    7.583767@2]- ======>>>>>> platform_versionid = 1
+[    7.588511@2]- ======>>>>>> wftx_power_change_disable = 0
+[    7.593852@2]- ======>>>>>> initial_gain_change_disable = 0
+[    7.599381@2]- ======>>>>>> digital gain = min_2g:0x0 max_2g:0x0 min_5g:0x0 max_5g:0x0
+[    7.607263@2]- ======>>>>>>ce_band_pwr_tbl: 0
+[    7.611701@2]- hal_cfg_txpwr_cffc_param coefficient[57]:
+[    7.616801@2]-  0 0 0 0 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 1000
+[    7.639145@2]- ======>>>>>> parse_tx_power_param ===>>> aml_wifi_rf txt => 2g 20/40 5g 20/40/80
+[    7.647525@2]- calibration parameter: version 1, config 0, freq_offset 0, tssi_2g 255, tssi_5g 234 239 6 6 tx_en 1
+[    7.657770@2]- hal_cfg_cali_param:2183, set calibration parameter 
+[    7.664406@2]- hal_probe(1949) hal_priv->bhalOpen 0x0
+[    7.668914@2]- drv_dev_probe(2327) mac_addr set done.MAC_ADDR=d4:35:38:0a:c6:fb
+[    7.676182@2]- enter Here aml_driv_attach 1353 
+[    7.680636@2]- drv_hal_workitem_inital hal_priv->WorkFifo:ffffff8001bd6998
+[    7.687449@2]- hal_reg_task taskid 0
+[    7.690980@2]- <running> aml_driv_attach 1378 insmod country: WW
+[    7.696932@2]- drv_set_config(24) id 0x1a data 0x6464
+[    7.701932@2]- ************>set_long_retry_limit 100
+[    7.707008@2]- ************>phy_set_sretry_limit 100
+[    7.711880@2]- drv_channel_init 132 
+[    7.715286@2]- wifi_mac_chan_setup(1137) country code 0x0, support num 16
+[    7.722178@2]- <running> aml_driv_attach 1465  drv_priv->drv_ratectrl_size = 0
+[    7.722181@0]- hal_cfg_txpwr_cffc_param coefficient[57]:
+[    7.722288@0]-  0 0 0 0 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 1000
+[    7.756551@2]- wifi_mac_rate_init 810 maxrates 30 mode 14 
+[    7.762048@2]- <running> wifi_mac_entry 1652++ 
+[    7.766805@0]- wifi_mac_scan_timeout is ffffff8001af8278
+[    7.771730@0]- <running> wifi_mac_cap_attach 1557 
+[    7.776456@0]- sectoin 1, size 256000
+[    7.780222@0]-  wifi_mac_create_vmac 3713 cp.vm_param_opmode=1 vm_param_name wlan0 vid = 0 
+[    7.788511@0]- <running> wifi_mac_alloc_ndev 91 
+[    7.792938@0]- drv_add_wnet_vif(834) macaddr MAC_ADDR=d4:35:38:0a:c6:fb
+[    7.792938@0]- 
+[    7.801205@0]- <eth%d>  drv_add_wnet_vif 847 hal_opmode=1 
+[    7.806778@2]- phy_set_mac_addr-->d4:35:38:0a:c6:fb
+[    7.811513@2]- phy_set_cam_mode 1 
+[    7.815016@2]- <running> wifi_mac_setup 3260 opmode=1
+[    7.819863@2]- <eth%d> wifi_mac_sta_vattach wnet_vif->vm_mainsta=           (null) 
+[    7.827443@2]- scan all chans 
+[    7.830451@2]- vht cap init: sgi 0x1, ldpc 0x1, tx_stbc 0x0, rx_stbc 0x7 
+[    7.837175@2]- vm_cfg80211_get_parent_dev 306
+[    7.841519@2]- wifi_mac_alloc_wdev 6311
+[    7.845298@2]- wifi_mac_alloc_wdev 6344 pwdev_priv->scan_request=          (null) wnet_vif_id=0
+[    7.853915@2]- AML INFO:before register vendor cmd!!!
+ vm_register_cfg80211_vnd_cmd 6243
+[    7.862006@2]- vm_p2p_attach ++
+[    7.865115@2]- vm_p2p_initial
+[    7.868053@2]- wifi_mac_alloc_wdev 6367 ffffffc019d5d07a 1 wdev->iftype  2
+[    7.875413@2]- <running> vm_wlan_net_vif_register 3394 
+[    7.880590@2]- enter vm_cfg80211_get_channel, no support yet
+[    7.885687@2]- vm_cfg80211_get_tx_power 2243
+[    7.889878@2]- ---drv_curtxpower:-64
+[    7.893727@2]- wifi_mac_mode_vattach_ex wnet_vif->vm_mac_mode=14
+[    7.899376@2]- wifi_mac_create_vmac wnet_vif->vm_mac_mode=14, wnet_vif:ffffffc019d5c8c0
+[    7.907314@2]-  wifi_mac_create_vmac 3713 cp.vm_param_opmode=2 vm_param_name uap0 vid = 1 
+[    7.915522@2]- <running> wifi_mac_alloc_ndev 91 
+[    7.920069@2]- drv_add_wnet_vif(834) macaddr MAC_ADDR=d4:35:48:0a:c6:fb
+[    7.920069@2]- 
+[    7.928478@2]-  phy_set_mac_bssid:wnet_vif_id= 1 bssid=d4:35:48:0a:c6:fb
+[    7.934990@2]- <eth%d>  drv_add_wnet_vif 847 hal_opmode=2 
+[    7.940589@2]- phy_set_mac_addr-->d4:35:48:0a:c6:fb
+[    7.945258@2]- phy_set_cam_mode 2 
+[    7.948731@2]- <running> wifi_mac_setup 3260 opmode=2
+[    7.953616@2]- <eth%d> wifi_mac_sta_vattach wnet_vif->vm_mainsta=           (null) 
+[    7.961200@2]- scan all chans 
+[    7.964226@2]- vht cap init: sgi 0x1, ldpc 0x1, tx_stbc 0x0, rx_stbc 0x7 
+[    7.970947@2]- vm_cfg80211_get_parent_dev 306
+[    7.975255@2]- wifi_mac_alloc_wdev 6311
+[    7.979096@2]- wifi_mac_alloc_wdev 6344 pwdev_priv->scan_request=          (null) wnet_vif_id=1
+[    7.987688@2]- AML INFO:before register vendor cmd!!!
+ vm_register_cfg80211_vnd_cmd 6243
+[    7.995769@2]- vm_p2p_attach ++
+[    7.998888@2]- vm_p2p_initial
+[    8.001827@2]- wifi_mac_alloc_wdev 6367 ffffffc019c9907a 1 wdev->iftype  3
+[    8.009367@2]- <running> vm_wlan_net_vif_register 3394 
+[    8.014413@2]- enter vm_cfg80211_get_channel, no support yet
+[    8.019456@2]- vm_cfg80211_get_tx_power 2243
+[    8.023655@2]- ---drv_curtxpower:-64
+[    8.027478@2]- wifi_mac_mode_vattach_ex wnet_vif->vm_mac_mode=14
+[    8.033146@2]- wifi_mac_create_vmac wnet_vif->vm_mac_mode=14, wnet_vif:ffffffc019c988c0
+[    8.041075@2]- wifi_mac_station_init 25
+[    8.044864@2]- wifi_mac_rst_bss, wnet_vif->wnet_vif_id= 0
+[    8.050262@2]- <running> wifi_mac_alloc_amsdu_node (638) amsdu_max_length=7935
+[    8.057419@2]- alloc_sta_node vid:0, sta:ffffffc019e04000
+[    8.062756@2]- wifi_mac_rst_bss add vm_mainsta:ffffffc019e04000
+[    8.068625@2]- wifi_mac_station_init 25
+[    8.072378@2]- wifi_mac_rst_bss, wnet_vif->wnet_vif_id= 1
+[    8.077769@2]- <running> wifi_mac_alloc_amsdu_node (638) amsdu_max_length=7935
+[    8.084909@2]- alloc_sta_node vid:1, sta:ffffffc019e05000
+[    8.090252@2]- wifi_mac_rst_bss add vm_mainsta:ffffffc019e05000
+[    8.096101@2]- FUNCTION: phy_set_bmfm_info LINE: 1317:group id null
+[    8.102304@2]- phy_set_coexist_en:1357, phy_set_coexist_en, enable 1 
+[    8.108821@2]- aml_sdio_init(1513): sg ops init
+[    8.113294@2]- amlhal_gpio_open(1159): -----------0x5C register=0x0
+[    8.119502@2]- SDIO GPIO IRQ CONFIG REG=0xfff
+[    8.123698@2]- aml_sdio_irq_path: b_gpio=1 
+[    8.127880@2]-  SDIO_CCCR_IEN=0x0 
+[    8.131213@2]-  SDIO CCCR IEN=0x0 
+[    8.134675@2]- aml_sdio_irq_path(1117) ck_reg 0x80000000
+[    8.139820@2]- aml_sdio_probe-- ret 0
+[    8.143431@2]- aml_insmod(970) start...
+[    8.161839@2]- btHAL->BTAML SDIOBT version:v1.0.1_20210930_sdiobt
+[    8.162292@2]- btHAL->++++++sdio bt driver insmod start.++++++
+[    8.168085@1]- w1_sdio->Insmod BT sdio driver!
+[    8.172680@1]- btHAL->host_req_status = 0x0
+[    8.177892@2]- btHAL->BT power on: before write A12=0x2a2c, A13=0xc0000006, A14=0x1, A15=0x6, A16=0x0, A17=0x700, A18=0x1700, A20=0x0, A22=4
+[    8.189666@2]- btHAL->BT power on:RG_BT_PMU_A14 = 0x1f
+[    8.223850@2]- btHAL->BT power on:RG_BT_PMU_A17 = 0x700
+[    8.235850@2]- btHAL->BT power on:RG_BT_PMU_A20 = 0x0
+[    8.236165@2]- btHAL->BT power on: config_bt_pmu_reg, line=90
+[    8.251844@2]- btHAL->BT power on:RG_BT_PMU_A18 = 0x1700
+[    8.271845@2]- btHAL->BT power on:RG_BT_PMU_A22 = 0x704
+[    8.319855@2]- btHAL->BT power on:RG_BT_PMU_A12 = 0x2a2c
+[    8.348092@2]- btHAL->config_bt_pmu_reg bt_pmu_status:0x6
+[    8.349286@2]- btHAL->BT power on: after write A12=0x2a2c, A13=0xc0000006, A14=0x1f, A15=0x6, A16=0x0, A17=0x700, A18=0x1700, A20=0x0, A22=4
+[    8.360810@2]- btHAL->BTAML_init
+[    8.363911@2]- btHAL->major number:510
+[    8.367604@2]- btHAL->BT_sdiodev driver(major 510) installed.
+[    8.373704@2]- btHAL->BTAML_init: BT_major 510
+[    8.377728@1]- btHAL->BTAML_init: devID 534773760
+[    8.382349@1]- btHAL->------sdio bt driver insmod end.------
+[    8.413173@3]- init: '/bin/sh' exited with status 0
+[    8.413310@3]- init: command 'exec' r=0
+[    8.416349@3]- init: executing '/bin/sh'
+[    8.705272@1]- init: '/bin/sh' exited with status 0
+[    8.705411@1]- init: command 'exec' r=0
+[    8.708779@1]- init: starting 'dhcpcd'
+[    8.712828@1]- init: starting 'cast_auth_check'
+[    8.717118@1]- init: command 'start' r=0
+[    8.720628@1]- init: starting 'iot_audio'
+[    8.724980@1]- init: command 'start' r=0
+[    8.737668@3]- unifykey:  key_unify_init.part.2() already inited!
+[    8.738349@3]- unifykey: name_store() 1302, name mac_wifi, 8
+[    8.753777@1]- unifykey: name_store() 1311
+[    8.765458@1]- unifykey: name: mac_wifi, size 17
+wifi mac is exit.
+[    8.778725@3]- unifykey: name_store() 1302, name country, 7
+[    8.780167@3]- unifykey: name_store() 1311
+[    8.793729@2]- capability: warning: `dhcpcd' uses 32-bit capabilities (legacy support in use)
+[    8.793771@3]- unifykey: name: country, size 2
+seting wifi country : WW
+[    8.869003@2]- aml_set_country_code, WW
+[    8.869048@2]- wifi_mac_set_country_code,570, arg=WW
+[    8.872195@2]- FUNCTION: wifi_mac_set_country_code LINE: 572:no need to set country code due to the same country code
+[    8.991639@2]- <running> wifi_mac_open 2339 dev = ffffffc019d5c000
+[    8.992244@2]- <wlan0>:<running> wifi_mac_initial
+[    8.996908@2]- wifi_mac_preempt_scan 6671 try to preempt scan 
+[    9.002697@2]- <wlan0>:wifi_mac_initial wm_nopened =0
+[    9.008023@2]d hal_tx_flush copy remain:0, queueid:0
+[    9.012549@2]d hal_tx_flush copy remain:0, queueid:1
+[    9.017479@2]d hal_tx_flush copy remain:0, queueid:2
+[    9.022393@2]d hal_tx_flush copy remain:0, queueid:3
+[    9.027311@2]d hal_tx_flush copy remain:0, queueid:4
+[    9.032207@2]d hal_tx_flush copy remain:0, queueid:5
+[    9.037124@2]d hal_tx_flush copy remain:0, queueid:6
+[    9.042067@2]d hal_tx_flush copy remain:0, queueid:7
+[    9.047486@2]- recover bhaltxdrop to 0, tx_frames_map:0, 0, page:224, vid:3
+[    9.053966@2]- hal_open++ 
+[    9.056583@2]- hal_open(1818) bhalOpen 0x1
+[    9.060767@2]- hal_open-- && clear irq 0x60 
+[    9.064858@2]- wifi_mac_netdev_open(1321) 
+[    9.069083@2]- phy_interface_enable:1552, vid 0, enable 1
+[    9.074256@2]- <wlan0>:vm_cfg80211_up 6470
+[    9.078292@2]- vm_cfg80211_up:6474, config 2G ht
+[    9.082877@2]- vm_cfg80211_init_ht_capab(5287)
+[    9.087289@2]- vm_cfg80211_up:6476, config 2G vht
+[    9.091972@2]- vm_cfg80211_init_vht_capab(5245)
+[    9.096422@2]- vm_cfg80211_up:6483, config 5G ht
+[    9.101029@2]- vm_cfg80211_init_ht_capab(5287)
+[    9.105385@2]- vm_cfg80211_up:6485, config 5G vht
+[    9.110040@2]- vm_cfg80211_init_vht_capab(5245)
+[    9.114532@2]- <wlan0> wifi_mac_sub_sm 2598  wifi_mac_sub_sm state INIT->SCAN
+[    9.121732@2]- vm_cfg80211_set_power_mgmt 2587 <wlan0> enabled=0 timeout=-1
+[    9.139975@2]s FUNCTION: wifi_mac_hardstart LINE: 409:WARNNING: no connection vif_id 0
+[    9.387934@2]s FUNCTION: wifi_mac_hardstart LINE: 409:WARNNING: no connection vif_id 0
+[    9.403101@1]- audio_ddr_mngr: toddrs[1] registered by device ff642000.audiobus:tdma
+[    9.406155@1]- asoc-aml-card auge_sound: tdm prepare capture
+[    9.636321@2]s FUNCTION: wifi_mac_hardstart LINE: 409:WARNNING: no connection vif_id 0
+[    9.888040@2]s FUNCTION: wifi_mac_hardstart LINE: 409:WARNNING: no connection vif_id 0
+[   10.179404@3]- enter vm_cfg80211_get_channel, no support yet
+[   10.179453@3]- vm_cfg80211_get_tx_power 2243
+[   10.183729@3]- ---drv_curtxpower:0
+[   10.187540@3]- enter vm_cfg80211_get_channel, no support yet
+[   10.192684@3]- vm_cfg80211_get_tx_power 2243
+[   10.196907@3]- ---drv_curtxpower:0
+[   10.200811@3]- enter vm_cfg80211_get_channel, no support yet
+[   10.205868@3]- vm_cfg80211_get_tx_power 2243
+[   10.210091@3]- ---drv_curtxpower:0
+[   10.252511@3]- aml_cfg80211_flush_pmksa
+[   10.273428@3]- <wlan0>:vm_cfg80211_scan vm_opmode:1, vm_state:1, connect_status:0, nssids:2
+[   10.276942@3]- <wlan0> vm_cfg80211_scan ssid=Bee, len=3
+[   10.281407@3]- <wlan0> vm_cfg80211_scan ssid=, len=0
+[   10.286321@3]- vm_cfg80211_scan lnssids 2, lssidlen 3, n_channels:51
+[   10.292614@3]- wifi_mac_start_scan vm_scanchan_rssi:0 
+[   10.297653@3]- wifi_mac_get_channel_rssi_before_scan last rssi:0
+[   10.303629@3]- wifi_mac_get_channel_rssi_before_scan current rssi:-65
+[   10.309999@3]- wifi_mac_set_channel_rssi channel rssi:191
+[   10.315385@3]- <running> wifi_mac_scan_flush 441 
+[   10.315609@0]- phy_set_channel_rssi channel rssi:191
+[   10.324898@3]- wifi_mac_start_scan vid:0---> scan start, CfgFlags is:0000008f, ss->ss_nssid:2
+[   10.333413@0]- scan_start_task wm_nrunning:0
+[   10.351965@0]s FUNCTION: wifi_mac_hardstart LINE: 409:WARNNING: no connection vif_id 0
+[   10.790776@1]- configfs-gadget ff400000.dwc2_a: failed to start amlogic: -19
