@@ -9,6 +9,11 @@ if [ "$LIBC_NEW" = "$LIBC_OLD" ]; then
   exit
 fi
 
+if [ -z "$LIBC_OLD" ]; then
+  echo "[*] libc not found (musl?), skipping."
+  exit
+fi
+
 echo "[!] Replacing libc version $LIBC_OLD by $LIBC_NEW"
 for FILE in $ROOTFS/lib/*${LIBC_OLD}; do
   rm -f $FILE
