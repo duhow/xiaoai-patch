@@ -38,21 +38,21 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 
 # Compatibility
 
-| Model | Name |
-|-------|------|
-| ![LX06 - supported][LX06] | Xiaoai Speaker Pro |
-| ![LX01 - supported][LX01] | Xiaomi Mi AI Speaker Mini |
-| ![L09A - supported][L09A] | Xiaoai Speaker Art (China) |
-| ![L09G - not supported][L09G] | Xiaomi Mi Smart Speaker (Global, Google Assistant) |
-| ![LX05 - encrypted, supported][LX05] | Xiaoai Speaker Play |
-| ![L05B - not supported][L05B] | Xiaoai Speaker Play Enhanced Edition, no Clock LED (NuttX) - [details](https://github.com/duhow/xiaoai-patch/issues/19) |
-| ![L05C - not supported][L05C] | Xiaoai Speaker Play Enhanced Edition, with Clock LED |
-| ![L15A - encrypted, not fully supported][L15A] | Xiaomi Mi AI Speaker 2 Gen |
-| ![L16A - not tested][L16A] | Xiaomi Sound by HARMAN AudioEFX |
-| ![L07A - not tested][L07A] | Redmi XiaoAI Speaker Play |
-| ![MDZ-25-DT - not tested][MDZ-25-DT] | Xiaomi Mi AI Speaker 1 Gen (?) - S12 |
-| ![XMYX01JY - not tested][XMYX01JY] | Xiaomi XiaoAI HD |
-| ![YLAI01YL - blocked (not tested)][YLAI01YL] | Yeelight Voice Control Assistant |
+| Model | Name | Target version (recommended) |
+|-------|------|------------------------------|
+| ![LX06 - supported][LX06] | Xiaoai Speaker Pro | 1.74.10 |
+| ![LX01 - supported][LX01] | Xiaomi Mi AI Speaker Mini | 1.32.6 |
+| ![L09A - supported][L09A] | Xiaoai Speaker Art (China) | |
+| ![L09G - not supported][L09G] | Xiaomi Mi Smart Speaker (Global, Google Assistant) | |
+| ![LX05 - encrypted, supported][LX05] | Xiaoai Speaker Play | |
+| ![L05B - not supported][L05B] | Xiaoai Speaker Play Enhanced Edition, no Clock LED (NuttX) - [details](https://github.com/duhow/xiaoai-patch/issues/19) | |
+| ![L05C - not supported][L05C] | Xiaoai Speaker Play Enhanced Edition, with Clock LED | |
+| ![L15A - encrypted, not fully supported][L15A] | Xiaomi Mi AI Speaker 2 Gen | |
+| ![L16A - not tested][L16A] | Xiaomi Sound by HARMAN AudioEFX | |
+| ![L07A - not tested][L07A] | Redmi XiaoAI Speaker Play | |
+| ![MDZ-25-DT - not tested][MDZ-25-DT] | Xiaomi Mi AI Speaker 1 Gen (?) - S12 | |
+| ![XMYX01JY - not tested][XMYX01JY] | Xiaomi XiaoAI HD | |
+| ![YLAI01YL - blocked (not tested)][YLAI01YL] | Yeelight Voice Control Assistant | |
 
 [LX06]: https://img.shields.io/badge/LX06-green?style=for-the-badge
 [LX01]: https://img.shields.io/badge/LX01-green?style=for-the-badge
@@ -67,6 +67,10 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 [MDZ-25-DT]: https://img.shields.io/badge/MDZ--25--DT-lightgrey?style=for-the-badge
 [XMYX01JY]: https://img.shields.io/badge/XMYX01JY-lightgrey?style=for-the-badge
 [YLAI01YL]: https://img.shields.io/badge/YLAI01YL-lightgrey?style=for-the-badge
+
+:information_source: **NOTE:** Target version is the recommended version to ensure all patches are working,
+  but other versions may be still supported and working.  
+:wrench: This is still Work in Progress.
 
 # Requirements
 
