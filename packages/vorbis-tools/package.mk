@@ -1,7 +1,7 @@
 PACKAGE_NAME="vorbis-tools"
 PACKAGE_VERSION="1.4.2"
 PACKAGE_SRC="https://github.com/xiph/vorbis-tools/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
-PACKAGE_DEPENDS="glibc libogg libvorbis libao curl flac speex"
+PACKAGE_DEPENDS="glibc libogg libvorbis libao curl flac speex opusfile"
 
 preconfigure_package() {
 	mv vorbis-tools-master/* .

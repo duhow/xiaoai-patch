@@ -38,5 +38,5 @@ install_package() {
 }
 
 postinstall_package() {
-        rm -rvf ${STAGING_DIR}/usr/share/ffmpeg
+	rm -rvf ${STAGING_DIR}/usr/share/ffmpeg
 }

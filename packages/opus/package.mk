@@ -3,7 +3,8 @@ PACKAGE_VERSION="1.3.1"
 PACKAGE_SRC="https://github.com/xiph/opus/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 
 preconfigure_package() {
-	autoreconf -fi
+	autoreconf -fi && \
+	echo "PACKAGE_VERSION=${PACKAGE_VERSION}" > ${PACKAGE_BUILD_DIR}/package_version
 }
 
 configure_package() {

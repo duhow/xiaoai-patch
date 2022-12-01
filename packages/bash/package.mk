@@ -1,5 +1,5 @@
 PACKAGE_NAME="bash"
-PACKAGE_VERSION="5.1"
+PACKAGE_VERSION="5.2"
 PACKAGE_SRC="https://github.com/bminor/bash/archive/refs/tags/bash-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="base glibc"
 
