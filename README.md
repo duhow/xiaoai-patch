@@ -40,7 +40,8 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 
 | Model | Name | Target version (recommended) |
 |-------|------|------------------------------|
-| ![LX06 - supported][LX06] | Xiaoai Speaker Pro | 1.74.10 |
+| ![LX06 - supported][LX06] | Xiaoai Speaker Pro (black, infrared) | 1.74.10 |
+| ![L06A - supported][L06A] | Xiaoai Speaker (white, no infrared) | 1.74.10 (build as LX06) |
 | ![LX01 - supported][LX01] | Xiaomi Mi AI Speaker Mini | 1.32.6 |
 | ![L09A - supported][L09A] | Xiaoai Speaker Art (China) | |
 | ![L09G - not supported][L09G] | Xiaomi Mi Smart Speaker (Global, Google Assistant) | |
@@ -56,6 +57,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 | ![YLAI01YL - blocked (not tested)][YLAI01YL] | Yeelight Voice Control Assistant | |
 
 [LX06]: https://img.shields.io/badge/LX06-green?style=for-the-badge
+[L06A]: https://img.shields.io/badge/L06A-green?style=for-the-badge
 [LX01]: https://img.shields.io/badge/LX01-green?style=for-the-badge
 [L09A]: https://img.shields.io/badge/L09A-green?style=for-the-badge
 [L09G]: https://img.shields.io/badge/L09G-red?style=for-the-badge

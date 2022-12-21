@@ -31,7 +31,7 @@ if [ "$CURVOL" -ge 0 ] && [ "$CURVOL" -le 100 ]; then
   BLACK="0x0"
 
   case "${MODEL}" in
-    LX06)
+    LX06 | L06A)
       LEDMAX=17
       LEDSYS=/sys/devices/i2c-0/0-003a/led_rgb
       # starts from play button
