@@ -78,7 +78,13 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 
 # Requirements
 
-You need a computer with Linux and:
+:warning: Supported and Tested setup is **Linux** OS with `amd64` arch.
+Other hosts (Apple M1, Windows) are **not tested nor supported**.
+Feel free to make a PR if you have a fix for this.
+
+**NOTE:** If using WSL, be sure to enable `setCaseSensitiveInfo`.
+
+You will also need the following tools:
 
 - `squashfs-tools`, provides `unsquashfs` and `mksquashfs`
 - `mtd-utils` (Only for model S12), provides utils for UBI images
@@ -86,7 +92,7 @@ You need a computer with Linux and:
 - `rsync`
 - `shasum`
 - Docker
-- patience. :)
+- patience - package build takes more than 1 hour. :)
 
 # Usage
 
