@@ -8,6 +8,7 @@
 /sound
 /mico_*.bin
 /mico_*/
+/tools/mico_*_*_1.*
 /firmware
 *.ubi
 
