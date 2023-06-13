@@ -1,0 +1,49 @@
+--- a/etc/init.d/bluetoothd	2021-06-28 04:23:39.000000000 +0200
++++ b/etc/init.d/bluetoothd	2023-06-13 18:12:07.413665433 +0200
+@@ -10,7 +10,7 @@
+ DEBUG=`cat /data/bt/debug`
+ fi
+ PROG=/usr/bin/bluetoothd
+-conf_dir=/data/bt/bluez/
++conf_dir=/data/bt/bluez
+ 
+ function bluetoothd_start() {
+     if [ $DEBUG = "1" ]; then
+@@ -81,28 +81,24 @@
+     else
+         start_marvell
+     fi
+-    if [ ! -d $conf_dir/bluetooth ];then
++    if [ ! -d $conf_dir/bluetooth ] || [ ! -f $conf_dir/bluetooth/main.conf ] ; then
+         /bin/mkdir -p $conf_dir/bluetooth
+         /bin/chmod 777 $conf_dir/bluetooth
+-    else
+-        if [ -f $conf_dir/bluetooth/main.conf ];then
+-            rm -rf $conf_dir/bluetooth/main.conf
+-        fi
++        cp /etc/bluetooth/* $conf_dir/bluetooth/
++
++        SN=$(echo -n `uci -c /data/etc get binfo.binfo.sn` | tail -c -4)
++        MODEL=$(uci -c /usr/share/mico get version.version.HARDWARE)
++        
++        BT_NAME="${MODEL}-${SN}"
++
++        sed -i "s|Name = .*|Name = ${BT_NAME}|" $conf_dir/bluetooth/main.conf
+     fi
+-    cp /etc/bluetooth/* $conf_dir/bluetooth/
+ 
+     if [ ! -d $conf_dir/lib/bluetooth ];then
+         /bin/mkdir -p $conf_dir/lib/bluetooth
+         /bin/chmod 777 $conf_dir/lib/bluetooth
+     fi
+ 
+-    BT_NAME=$(micocfg_bt_name)
+-    BT_ALIAS=$(micocfg_bt_alias)
+-    if [ x"$BT_ALIAS" != x"" ];then
+-         BT_NAME=$BT_ALIAS
+-    fi
+-
+-    sed -i "s|Name = .*|Name = ${BT_NAME}|" $conf_dir/bluetooth/main.conf
+     echo "Start	bluetoothd"
+     bluetoothd_start
+ }
