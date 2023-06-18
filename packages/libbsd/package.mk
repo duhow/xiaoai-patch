@@ -1,6 +1,6 @@
 PACKAGE_NAME="libbsd"
 PACKAGE_VERSION="0.10.0"
-PACKAGE_SRC="https://github.com/freedesktop/libbsd/archive/refs/tags/${PACKAGE_VERSION}.tar.gz"
+PACKAGE_SRC="https://github.com/guillemj/libbsd/archive/refs/tags/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc"
 
 preconfigure_package() {

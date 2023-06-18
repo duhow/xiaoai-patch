@@ -1,5 +1,5 @@
 PACKAGE_NAME="rpcsvc-proto"
-PACKAGE_VERSION="1.4.3"
+PACKAGE_VERSION="1.4.4"
 PACKAGE_SRC="https://github.com/thkukuk/rpcsvc-proto/releases/download/v${PACKAGE_VERSION}/rpcsvc-proto-${PACKAGE_VERSION}.tar.xz"
 
 configure_package() {

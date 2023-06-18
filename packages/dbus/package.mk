@@ -1,6 +1,6 @@
 PACKAGE_NAME="D-Bus"
-PACKAGE_VERSION="1.14.4"
-PACKAGE_SRC="https://github.com/freedesktop/dbus/archive/refs/tags/dbus-${PACKAGE_VERSION}.tar.gz"
+PACKAGE_VERSION="1.14.8"
+PACKAGE_SRC="https://gitlab.freedesktop.org/dbus/dbus/-/archive/dbus-${PACKAGE_VERSION}/dbus-dbus-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="expat"
 
 preconfigure_package() {

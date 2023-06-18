@@ -1,5 +1,5 @@
 PACKAGE_NAME="WildMIDI"
-PACKAGE_VERSION="0.4.4"
+PACKAGE_VERSION="0.4.5"
 PACKAGE_SRC="https://github.com/Mindwerks/wildmidi/archive/wildmidi-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
 

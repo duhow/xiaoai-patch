@@ -1,11 +1,11 @@
 PACKAGE_NAME="Low Latency Subband Codec"
 PACKAGE_VERSION="1.5"
 # NOTE: v2.0 does not add important changes. Mirror repository is not updated.
-PACKAGE_SRC="https://github.com/neverware-mirrors/sbc/archive/${PACKAGE_VERSION}.tar.gz"
+PACKAGE_SRC="https://salsa.debian.org/bluetooth-team/sbc/-/archive/${PACKAGE_VERSION}/sbc-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc gcc libsndfile"
 
 preconfigure_package() {
-	./bootstrap
+	autoreconf -fi
 }
 
 configure_package() {

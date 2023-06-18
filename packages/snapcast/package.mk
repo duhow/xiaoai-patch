@@ -13,7 +13,7 @@ fi
 preconfigure_package() {
 	if [ ! -e "${PACKAGE_SRC_DOWNLOAD_DIR}/${BOOST}.tar.gz" ]; then
 		echo_info "downloading boost lib"
-		wget -P ${PACKAGE_SRC_DOWNLOAD_DIR} https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/${BOOST}.tar.gz
+		wget -P ${PACKAGE_SRC_DOWNLOAD_DIR} https://boostorg.jfrog.io/artifactory/main/release/${BOOST_VERSION}/source/${BOOST}.tar.gz
 	fi
 	echo_info "extracting boost lib"
 	tar xzf ${PACKAGE_SRC_DOWNLOAD_DIR}/${BOOST}.tar.gz -C ${PACKAGE_SRC_DIR}
