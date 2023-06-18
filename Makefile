@@ -4,6 +4,7 @@ BUILD_DIR = squashfs-root
 FILE = mtd4
 DATE := $(shell date +%y%m%d-%H%M)
 MODEL ?= none
+override MODEL := $(shell echo $(MODEL) | tr '[:upper:]' '[:lower:]')
 IMAGE_NAME = image-$(DATE)
 DESTDIR ?= release/$(MODEL)
 BLOCKSIZE = 131072
