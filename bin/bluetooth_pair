@@ -12,7 +12,10 @@ bluetoothctl pairable on
 sleep 0.2
 hciconfig hci0 class $BT_CLASS
 
-timeout $TIMEOUT bluetoothctl --agent=NoInputNoOutput
+{
+  printf "default-agent\n\n"
+  sleep $TIMEOUT
+} | timeout $TIMEOUT bluetoothctl --agent=NoInputNoOutput
 
 bluetoothctl pairable off
 for BT_MAC in $(bluetoothctl devices | awk '{print $2}'); do
