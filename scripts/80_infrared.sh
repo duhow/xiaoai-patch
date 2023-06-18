@@ -6,6 +6,7 @@ if [ "${MODEL}" != "lx06" ]; then
 fi
 
 DEF_PORT=8766
+DEF_EXEC=cgi-bin/ir.cgi
 
 echo "[*] Creating folder structure" 
 
@@ -14,6 +15,22 @@ FOLDER=${ROOTFS}/usr/share/irplus
 mkdir -p ${FOLDER}
 
 echo "[*] Adding code"
+
+cat > ${FOLDER}/index.html << EOF
+<html>
+<head>
+<style>
+code { border: 2px solid black; display: inline-block; padding: 5px; clear: both; }
+</style>
+</head>
+<body>
+<h1>irplus remote service</h1>
+<p>Configure your Android app to connect remotely via Wifi to endpoint:</p>
+<code>http://SPEAKER_IP:${DEF_PORT}/${DEF_EXEC}</code>
+<p><a href="https://play.google.com/store/apps/details?id=net.binarymode.android.irpluslan">Download Android app</a></p>
+</body>
+</html>
+EOF
 
 cat > ${FOLDER}/ir.cgi << EOF
 #!/bin/sh
@@ -60,13 +77,14 @@ PORT=$DEF_PORT
 
 start_service() {
     mkdir -p \$WEBROOT
-    cp -rf /usr/share/irplus/* \${WEBROOT}/cgi-bin
+    ln -sf . \$WEBROOT/cgi-bin
+    cp -rf /usr/share/irplus/* \${WEBROOT}
 
     procd_open_instance
     procd_set_param command \$PROG -f -h \${WEBROOT} -p \${PORT}
     procd_set_param respawn
 
-    procd_add_mdns "irplus" "tcp" "\$PORT" "path=/cgi-bin/ir.cgi"
+    procd_add_mdns "irplus" "tcp" "\$PORT" "path=/$DEF_EXEC"
 
     procd_close_instance
 }
@@ -89,7 +107,7 @@ cat > ${FILE} << EOF
   <service>
    <type>_irplus._tcp</type>
    <port>$DEF_PORT</port>
-   <txt-record>path=/cgi-bin/ir.cgi</txt-record>
+   <txt-record>path=/$DEF_EXEC</txt-record>
   </service>
 </service-group>
 EOF
