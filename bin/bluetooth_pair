@@ -1,0 +1,22 @@
+#!/bin/sh
+
+TIMEOUT=60
+BT_CONFIG=/data/bt/bluez/bluetooth/main.conf
+BT_CLASS=$(grep -e '^Class' ${BT_CONFIG} | cut -d '=' -f2 | tr -d ' ')
+
+/bin/show_led 3
+
+bluetoothctl power on
+bluetoothctl discoverable on
+bluetoothctl pairable on
+sleep 0.2
+hciconfig hci0 class $BT_CLASS
+
+timeout $TIMEOUT bluetoothctl --agent=NoInputNoOutput
+
+bluetoothctl pairable off
+for BT_MAC in $(bluetoothctl devices | awk '{print $2}'); do
+  bluetoothctl trust $BT_MAC
+done
+
+/bin/shut_led 3

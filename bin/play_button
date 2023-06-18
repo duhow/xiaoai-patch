@@ -1,0 +1,54 @@
+#!/bin/sh
+
+STATFILE=/tmp/play_button
+CLICK_DELAY="0.3"
+CLICK_COUNT=1
+
+command_exists(){ command -v $1 >/dev/null; }
+
+# button is pressed multiple times
+if [ -f "$STATFILE" ]; then
+  echo $CLICK_COUNT >> $STATFILE
+  exit
+fi
+
+# count how many button clicks are done.
+echo $CLICK_COUNT > $STATFILE
+while true; do
+  sleep $CLICK_DELAY
+  CLICK_TOTAL=$(wc -l $STATFILE | awk '{print $1}')
+  if [ "$CLICK_COUNT" -eq "$CLICK_TOTAL" ] || [ "$CLICK_TOTAL" -ge 8 ]; then
+    unset CLICK_TOTAL
+    rm -f $STATFILE
+    break
+  fi
+  CLICK_COUNT=$CLICK_TOTAL
+done
+
+toggle_play_songs() {
+# if bluetooth playing, only play/pause there.
+# otherwise apply to MPC
+
+  if command_exists bluetoothctl; then
+    BT_STATUS=$(bluetoothctl player.show | grep -i status | awk '{print $2}')  
+
+    if [ -n "$BT_STATUS" ]; then
+      [ "$BT_STATUS" = "playing" ] && bluetoothctl player.pause
+      [ "$BT_STATUS" = "paused" ] && bluetoothctl player.play
+      exit
+    fi
+  fi
+
+  if command_exists mpc; then
+    mpc toggle
+  fi
+}
+
+[ "$CLICK_COUNT" = "1" ] && toggle_play_songs
+[ "$CLICK_COUNT" = "3" ] && {
+    (speak -v en "bluetooth pairing") &
+    /bin/bluetooth_pair
+}
+[ "$CLICK_COUNT" = "5" ] && {
+    /etc/init.d/heywifi start && (speak -v en "wifi pairing") &
+}
