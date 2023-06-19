@@ -23,6 +23,11 @@ RECORDING_CHANNEL=1
 [ -f /data/listener ] && . /data/listener
 [ -f /data/tts.conf ] && . /data/tts.conf
 
+log(){
+  echo "stt: $@" >> /dev/kmsg
+  echo "`date +'%D %T'` $@" >> /tmp/stt.log
+}
+
 WAV_INPUT=/tmp/input.wav
 WAV_STT=/tmp/stt.wav
 DATA_STT=/tmp/stt.json
@@ -35,7 +40,7 @@ MODEL=$(uci -c /usr/share/mico get version.version.HARDWARE)
 if [ "${MODEL}" = "LX06" ]; then
   amixer sset 'pdm dclk' 'pdm dclk 3.072m, support 8k/16k/32k/48k' &
   amixer sset 'HCIC shift gain from coeff' 'shift with -0x4'
-  CHANNEL=8
+  RECORDING_CHANNEL=8
 fi
 
 rm -f $WAV_INPUT $WAV_STT $DATA_STT
@@ -85,6 +90,7 @@ cat ${DATA_STT}
 if [ -n "${STT_SUCCESS}" ]; then
   # cleanup text before sending
   STT_TEXT=$(jq -r .text ${DATA_STT} | tr -d '.' | awk '{$1=$1;print}')
+  log "$STT_TEXT"
   curl \
      -H "Authorization: Bearer ${HA_TOKEN}" \
      -H "Content-Type: application/json" \
@@ -92,6 +98,7 @@ if [ -n "${STT_SUCCESS}" ]; then
      -XPOST ${HA_URL}/api/services/conversation/process
   ${SPEAK} "${STT_TEXT}"
 else
+  log "error"
   ${SPEAK} error
 fi
 
