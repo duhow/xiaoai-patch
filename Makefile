@@ -19,6 +19,11 @@ BLOCKSIZE := 262144
 COMPRESSION := gzip
 endif
 
+# only for CHROME partition, SYSTEM uses xz
+ifeq ($(MODEL), l09g)
+COMPRESSION := gzip
+endif
+
 ifeq ($(MODEL), s12)
 BUILD_DIR := /mnt/ubi.tmp
 endif
