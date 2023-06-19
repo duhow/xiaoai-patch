@@ -11,7 +11,13 @@ TIME=5
 NOTIFY_SOUND=/usr/share/sound/wakeup2.mp3
 PORCUPINE_FOLDER=/usr/share/porcupine
 SPEAK=tts_google
-LANGUAGE=en
+HA_STT_PROVIDER=stt.faster_whisper
+STT_LANGUAGE=en
+STT_RATE=8000
+STT_CHANNEL=1
+STT_MAX_TIME=25
+RECORDING_RATE=16000
+RECORDING_CHANNEL=1
 
 # import config file if exists
 [ -f /data/listener ] && . /data/listener
@@ -20,11 +26,9 @@ LANGUAGE=en
 WAV_INPUT=/tmp/input.wav
 WAV_STT=/tmp/stt.wav
 DATA_STT=/tmp/stt.json
-RATE=16000
-CHANNEL=1
 
 # Set lower rate if cannot convert later
-which ffmpeg &>/dev/null || RATE=8000
+which ffmpeg &>/dev/null || RECORDING_RATE=8000
 
 MODEL=$(uci -c /usr/share/mico get version.version.HARDWARE)
 
@@ -55,12 +59,15 @@ mpg123 -a notify -q $NOTIFY_SOUND &>/dev/null &
 # convert to PCM_S16_LE 1ch/8000 - tee to stt.wav
 # send data chuncked without waiting
 
-arecord -N -D$MIC -d $TIME -f S16_LE -c $CHANNEL -r $RATE - | tee ${WAV_INPUT} | \
-ffmpeg -hide_banner -loglevel error -i - -f wav -ac 1 -ar 8000 -y - | tee ${WAV_STT} | \
-curl -H "X-Speech-Content: format=wav; channel=1; codec=pcm; sample_rate=8000; bit_rate=16; language=${LANGUAGE}" \
+[ -f "${DATA_STT}" ] && rm -f ${DATA_STT}
+
+arecord -N -D$MIC -d $TIME -f S16_LE -c $RECORDING_CHANNEL -r $RECORDING_RATE - | tee ${WAV_INPUT} | \
+ffmpeg -hide_banner -loglevel error -i - -f wav -ac ${STT_CHANNEL} -ar ${STT_RATE} -y - | tee ${WAV_STT} | \
+curl -H "X-Speech-Content: format=wav; channel=${STT_CHANNEL}; codec=pcm; sample_rate=${STT_RATE}; bit_rate=16; language=${STT_LANGUAGE}" \
      -H "Authorization: Bearer ${HA_TOKEN}" \
      -H "Tranfer-Encoding: chunked" \
      -o ${DATA_STT} -D ${DATA_STT}.hdr \
+     --max-time ${STT_MAX_TIME} \
      -XPOST -T - ${HA_URL}/api/stt/${HA_STT_PROVIDER}
 
 # Start loading
@@ -72,8 +79,18 @@ cat ${DATA_STT}
 # Show speaking LED
 # /bin/show_led 3
 
-if [ "$(jq -r .result ${DATA_STT})" = "success" ]; then
-  ${SPEAK} $(jq .text ${DATA_STT})
+[ "$(jq -r .result ${DATA_STT})" = "success" ] && STT_SUCCESS=1
+
+# call Conversation.Process to execute action
+if [ -n "${STT_SUCCESS}" ]; then
+  # cleanup text before sending
+  STT_TEXT=$(jq -r .text ${DATA_STT} | tr -d '.' | awk '{$1=$1;print}')
+  curl \
+     -H "Authorization: Bearer ${HA_TOKEN}" \
+     -H "Content-Type: application/json" \
+     -d "{\"language\": \"${STT_LANGUAGE}\", \"text\": \"${STT_TEXT}\"}" \
+     -XPOST ${HA_URL}/api/services/conversation/process
+  ${SPEAK} "${STT_TEXT}"
 else
   ${SPEAK} error
 fi
