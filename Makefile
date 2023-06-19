@@ -12,6 +12,7 @@ COMPRESSION = xz
 
 ifeq ($(MODEL), lx01)
 BLOCKSIZE := 262144
+IMAGE_MAX_SIZE := 30408704
 endif
 
 ifeq ($(MODEL), lx05)
@@ -19,9 +20,15 @@ BLOCKSIZE := 262144
 COMPRESSION := gzip
 endif
 
+ifeq ($(MODEL), lx06)
+IMAGE_MAX_SIZE := 41943040
+endif
+
 # only for CHROME partition, SYSTEM uses xz
 ifeq ($(MODEL), l09g)
 COMPRESSION := gzip
+IMAGE_MAX_SIZE := 71303168
+# system: IMAGE_MAX_SIZE := 16777216
 endif
 
 ifeq ($(MODEL), s12)
@@ -68,6 +75,10 @@ postbuild:
 
 build_squashfs:
 	mksquashfs $(BUILD_DIR) $(DESTDIR)/$(IMAGE_NAME) -comp $(COMPRESSION) -noappend -all-root -always-use-fragments -b $(BLOCKSIZE)
+	@[ -n "$(IMAGE_MAX_SIZE)" ] && \
+	[ "`stat -L -c %s $(DESTDIR)/$(IMAGE_NAME)`" -ge "$(IMAGE_MAX_SIZE)" ] && \
+	  echo "!!! WARNING: Image built is larger than allowed! - $(IMAGE_MAX_SIZE)" && exit 1 \
+	|| true
 
 build_ubifs: make_ubifs ubi.ini
 	ubinize -o $(DESTDIR)/$(IMAGE_NAME) -p 131072 -m 2048 -s 2048 -O 2048 ubi.ini
