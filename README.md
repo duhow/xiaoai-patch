@@ -11,7 +11,7 @@ Patches and scripts can be tweaked, so if really want, you can keep the original
 The main purpose of this toolset is to have your DIY Voice Assistant (Alexa-like) and Smart Speaker, with lots of integrations for music and automation.
 
 By using [MPD], [Snapcast], [Shairport-Sync], [Upmpdcli] you can make your speaker a full media player compatible with multiple cast protocols,
-and also have a voice assistant powered by [Porcupine] and [Vosk] that can interact with your [Home Assistant].  
+and also have a voice assistant powered by [Porcupine] and [Whisper] that can interact with your [Home Assistant].  
 Everything powered by Open Source Software!
 
 [MPD]: https://www.musicpd.org/
@@ -19,7 +19,7 @@ Everything powered by Open Source Software!
 [Shairport-Sync]: https://github.com/mikebrady/shairport-sync
 [Upmpdcli]: https://www.lesbonscomptes.com/upmpdcli/
 [Porcupine]: https://github.com/Picovoice/porcupine
-[Vosk]: https://alphacephei.com/vosk/
+[Whisper]: https://github.com/home-assistant/addons/tree/master/whisper
 [Home Assistant]: https://www.home-assistant.io/
 
 # :warning: Warning
