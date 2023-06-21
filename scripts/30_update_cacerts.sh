@@ -16,7 +16,8 @@ chown root.root $FILE
 chmod 644 $FILE
 shasum $FILE
 
-URL=https://deb.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20210119_all.deb
+CA_VERSION=20230311
+URL=https://deb.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_${CA_VERSION}_all.deb
 
 echo "[*] Downloading ca-certificates: $URL"
 TARGET=$(mktemp -d)
