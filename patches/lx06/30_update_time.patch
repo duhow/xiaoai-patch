@@ -10,3 +10,15 @@
      aptimer_start
  }
  
+--- a/etc/init.d/wireless	2021-06-28 04:23:39.000000000 +0200
++++ b/etc/init.d/wireless	2023-06-21 16:57:33.908573570 +0200
+@@ -1156,6 +1156,9 @@
+ 
+     /etc/init.d/dhcpc restart >/dev/null 2>&1
+     /etc/init.d/odhcp6c restart >/dev/null 2>&1
++
++     # update time
++     (sleep 10; ntpd -q -p pool.ntp.org) &
+ }
+ 
+ 

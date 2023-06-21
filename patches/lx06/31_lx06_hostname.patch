@@ -1,0 +1,14 @@
+--- a/usr/sbin/boot_function.sh	2021-06-28 04:23:39.000000000 +0200
++++ b/usr/sbin/boot_function.sh	2023-06-21 16:45:18.306722919 +0200
+@@ -206,8 +206,9 @@
+ 
+ hostname_set()
+ {
+-    local myname=$(micocfg_model);
+-    echo "${myname:-mico}" > /proc/sys/kernel/hostname
++    SN=$(echo -n `uci -c /data/etc get binfo.binfo.sn` | tail -c -4)
++    MODEL=$(uci -c /usr/share/mico get version.version.HARDWARE)
++    echo "${MODEL}-${SN}" > /proc/sys/kernel/hostname
+ }
+ 
+ miio_fix_registed_file()

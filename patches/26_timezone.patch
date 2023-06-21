@@ -8,3 +8,14 @@
  
  config timeserver ntp
  	list server	0.openwrt.pool.ntp.org
+--- a/usr/sbin/boot_function.sh	2021-06-28 04:23:39.000000000 +0200
++++ b/usr/sbin/boot_function.sh	2023-06-21 16:29:48.790106977 +0200
+@@ -191,7 +191,7 @@
+ timezone_init()
+ {
+     #default PRC
+-    zonename="PRC"
++    zonename="CET"
+     [ -n "$zonename" ] && [ -f "/usr/share/zoneinfo/$zonename" ] && \
+         ln -sf "/usr/share/zoneinfo/$zonename" /tmp/localtime && rm -f /tmp/TZ
+     date -k

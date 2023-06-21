@@ -1,0 +1,13 @@
+--- a/usr/sbin/boot_function.sh	2021-06-28 04:23:39.000000000 +0200
++++ b/usr/sbin/boot_function.sh	2023-06-21 16:34:19.862173334 +0200
+@@ -200,7 +200,9 @@
+ time_init_buildtime()
+ {
+     timezone_init
+-    buildts=$(micocfg_build_time)
+-    [ "x$buildts" != "x" ] && date -s "$buildts"
++    curtime="$(date +%s)"
++    buildts="$(find /etc -type f -maxdepth 1 -exec date -r {} +%s \; | sort -nr | head -n1)"
++    [ "$curtime" -lt "$buildts" ] && date -s @$buildts
+ }
+ 

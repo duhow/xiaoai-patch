@@ -10,3 +10,17 @@
 +
  	. /etc/diag.sh
  	set_state done
+--- a/etc/init.d/done	2021-06-28 04:23:39.000000000 +0200
++++ b/etc/init.d/done	2023-06-21 16:51:03.230248193 +0200
+@@ -20,6 +20,11 @@
+ 
+ 	echo 0 4 0 7 > /proc/sys/kernel/printk
+ 
++ # set leds to normal state
++	/bin/show_led 13
++	sleep 2
++	/bin/shut_led 13 &
++
+ 	sleep 1
+ 	/etc/init.d/wireless boot_done
+ 
