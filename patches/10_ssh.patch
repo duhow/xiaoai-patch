@@ -23,3 +23,57 @@
  	[ -s /data/etc/dropbear/dropbear_rsa_host_key ] || keygen
  
  	. /lib/functions.sh
+--- a/etc/init.d/dropbear	2022-06-20 09:24:44.000000000 +0200
++++ b/etc/init.d/dropbear	2023-06-24 19:46:46.383658324 +0200
+@@ -30,11 +30,11 @@
+ validate_section_dropbear()
+ {
+ 	uci_validate_section dropbear dropbear "${1}" \
+-		'PasswordAuth:bool:0' \
++		'PasswordAuth:bool:1' \
+ 		'enable:bool:1' \
+ 		'Interface:string' \
+ 		'GatewayPorts:bool:0' \
+-		'RootPasswordAuth:bool:0' \
++		'RootPasswordAuth:bool:1' \
+ 		'RootLogin:bool:1' \
+ 		'rsakeyfile:file' \
+ 		'BannerFile:file' \
+@@ -54,7 +54,6 @@
+ 
+ 	validate_section_dropbear "${1}" || {
+ 		echo "validation failed"
+-		return 1
+ 	}
+ 
+ 	[ -n "${Interface}" ] && {
+--- a/etc/init.d/dropbear	2022-06-20 09:24:44.000000000 +0200
++++ b/etc/init.d/dropbear	2023-06-24 20:05:50.946841266 +0200
+@@ -64,7 +64,6 @@
+ 		}
+ 	}
+ 
+-	[ "${enable}" = "0" ] && return 1
+ 	PIDCOUNT="$(( ${PIDCOUNT} + 1))"
+ 	local pid_file="/var/run/${NAME}.${PIDCOUNT}.pid"
+ 
+@@ -113,18 +112,11 @@
+ 	config_get interface "$1" Interface
+ 	config_get enable "$1" enable 1
+ 
+-	[ "${enable}" = "1" ] && interfaces=" ${interface} ${interfaces}"
++	interfaces=" ${interface} ${interfaces}"
+ }
+ 
+ start_service()
+ {
+-	ssh_en=`cat /data/ssh_en 2>/dev/null`
+-	ssh_en_bind=`cat /data/.ssh_en 2>/dev/null`
+-	ssh_en_tmp=`cat /tmp/ssh_en 2>/dev/null`
+-	channel=`micocfg_channel 2>/dev/null`
+-	if [ "$ssh_en" != "1" -a "$ssh_en_bind" != "1" -a "$ssh_en_tmp" != "1" -a "$channel" = "release" ]; then
+-		return 0                                                                                  
+-	fi
+ 	[ -s /data/etc/dropbear/dropbear_rsa_host_key ] || keygen
+ 
+ 	. /lib/functions.sh

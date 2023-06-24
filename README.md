@@ -43,7 +43,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 | ![LX06 - supported][LX06] | Xiaoai Speaker Pro (black, infrared) | 1.74.10 |
 | ![L06A - supported][L06A] | Xiaoai Speaker (white, no infrared) | 1.74.10 (build as LX06) |
 | ![LX01 - supported][LX01] | Xiaomi Mi AI Speaker Mini | 1.32.6 |
-| ![L09A - supported][L09A] | Xiaoai Speaker Art (China) | |
+| ![L09A - supported][L09A] | Xiaoai Speaker Art (China) | 1.76.4 |
 | ![L09G - not supported][L09G] | Xiaomi Mi Smart Speaker (Global, Google Assistant) | |
 | ![LX05 - encrypted, supported][LX05] | Xiaoai Speaker Play | |
 | ![L05B - not supported][L05B] | Xiaoai Speaker Play Enhanced Edition, no Clock LED (NuttX) - [details](https://github.com/duhow/xiaoai-patch/issues/19) | |

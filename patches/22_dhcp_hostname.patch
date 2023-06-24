@@ -9,3 +9,14 @@
    
    procd_open_instance
    procd_set_param command udhcpc -f -S -s /bin/simple_dhcp.sh -R -t 0 -i wlan0 -T 1 -x "hostname:$h_name"
+--- a/etc/init.d/dhcpc	2022-06-20 09:24:44.000000000 +0200
++++ b/etc/init.d/dhcpc	2023-06-24 20:09:25.397376628 +0200
+@@ -11,7 +11,7 @@
+ 
+ 
+ start_service() {
+-  h_name=$(micocfg_dhcp_hostname)
++  h_name=$(hostname)
+   
+   procd_open_instance
+   procd_set_param command udhcpc -f -S -s /bin/simple_dhcp.sh -R -t 0 -T 1 -i wlan0 -x "hostname:$h_name"

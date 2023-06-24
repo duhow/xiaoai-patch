@@ -24,6 +24,10 @@ ifeq ($(MODEL), lx06)
 IMAGE_MAX_SIZE := 41943040
 endif
 
+ifeq ($(MODEL), l09a)
+IMAGE_MAX_SIZE := 41943040
+endif
+
 # only for CHROME partition, SYSTEM uses xz
 ifeq ($(MODEL), l09g)
 COMPRESSION := gzip

@@ -1,0 +1,17 @@
+--- a/etc/init.d/boot	2021-06-28 04:23:39.000000000 +0200
++++ b/etc/init.d/boot	2022-11-30 21:51:38.497638822 +0100
+@@ -203,6 +203,14 @@
+ 
+     /sbin/ifconfig lo up
+ 
++    # update persistent password
++    if [ ! -f /data/console/shadow ]; then
++        mkdir -p /data/console
++        cp /etc/shadow /data/console
++        cp /etc/passwd /data/console
++    fi
++    mount --bind /data/console/shadow /etc/shadow
++
+     # reset mrvl wifi
+     BOARD_TYPE=`fw_env -g board_id`  1>/dev/null 2>/dev/null
+     case "$BOARD_TYPE" in

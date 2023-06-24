@@ -7,7 +7,7 @@ for FILE in alarmd carrier_chinatelecom.sh carrier.sh mediaplayer messagingagent
   miplayer mphelper mibrain_level mibrain_net_check mibrain_oauth_manager mibrain_service  \
   mipns-xiaomi mipns-sai mipns-horizon \
   mico_ai_crontab mico_vendor_helper mico_model_helper mico_aivs_lab mico-helper \
-  heartbeatagent xiaomi_dns_server miio_helper \
+  heartbeatagent xiaomi_dns_server miio_helper miio_mpkg idmruntime \
   mijia_automation \
   miio_client miio_client_helper miio_recv_line miio_send_line miio_service notifyd pns_ubus_helper pns_upload_helper \
   mitv_pstream nano_httpd quickplayer mico_voip_applite voip_applite voip_helper voip_service work_day_sync_service \
