@@ -1,14 +1,26 @@
 #!/bin/sh
 
+# return 0-100% (real value is 0-255)
+current_volume(){ amixer get mysoftvol | awk '$0~/%/{print $4}' | tr -d '[]%' | head -n1; }
+
 if [ "$1" = "up" ]; then
   VOL="3%+"
 elif [ "$1" = "down" ]; then
   VOL="4%-"
+elif [ "$1" = "get" ]; then
+  echo `current_volume`
+  return
+elif [ ! -z "$1" ] && echo "$1" | grep -Eq "^[-+][0-9]{1,2}$"; then
+  let VOL=`current_volume`${1:0:1}${1:1}
+  let VOL=VOL*255/100
+  #echo $VOL
+  [ "$VOL" -lt 0 ] && VOL=0
+  [ "$VOL" -gt 255 ] && VOL=255
 elif [ ! -z "$1" ] && [ "$1" -ge 0 ] 2>/dev/null && [ "$1" -le 100 ]; then
   VOL=$1
   let VOL=VOL*255/100
 else
-  echo "Usage: $0 [up|down|NUMBER]"
+  echo "Usage: $0 [get|up|down|<+/- optional> NUMBER]"
   return
 fi
 
@@ -23,7 +35,7 @@ else
 fi
 
 # SHOW VOLUME LED
-CURVOL=$(amixer get mysoftvol | awk '$0~/%/{print $4}' | tr -d '[]%' | head -n1)
+CURVOL=`current_volume`
 if [ "$CURVOL" -ge 0 ] && [ "$CURVOL" -le 100 ]; then
 
   MODEL=$(uci -c /usr/share/mico get version.version.HARDWARE)
