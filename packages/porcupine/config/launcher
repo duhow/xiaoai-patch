@@ -18,6 +18,8 @@ STT_CHANNEL=1
 STT_MAX_TIME=25
 RECORDING_RATE=16000
 RECORDING_CHANNEL=1
+VOLUME_THRESHOLD=10
+VOLUME_DURING_STT=10
 
 # import config file if exists
 [ -f /data/listener ] && . /data/listener
@@ -26,6 +28,14 @@ RECORDING_CHANNEL=1
 log(){
   echo "stt: $@" >> /dev/kmsg
   echo "`date +'%D %T'` $@" >> /tmp/stt.log
+}
+
+current_volume(){ amixer get mysoftvol | awk '$0~/%/{print $4}' | tr -d '[]%' | head -n1; }
+set_volume(){
+  let VOL=$1*255/100
+  for SRC in mysoftvol bluetooth 'headphone volume'; do
+    amixer set "$SRC" $VOL &>/dev/null &
+  done
 }
 
 WAV_INPUT=/tmp/input.wav
@@ -53,6 +63,12 @@ while true; do
 if [ "$?" -gt 0 ]; then
   sleep 1
   continue
+fi
+
+SAVED_VOL=`current_volume`
+# lower volume EXCEPT for notifications
+if [ "$SAVED_VOL" -gt ${VOLUME_THRESHOLD} ]; then
+  set_volume ${VOLUME_DURING_STT}
 fi
 
 /bin/show_led 1
@@ -107,6 +123,9 @@ fi
 for NUM in 1 2 3; do
   /bin/shut_led ${NUM}
 done
+
+# restore volume
+set_volume $SAVED_VOL
 
 done
 # end while
