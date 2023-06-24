@@ -1,0 +1,12 @@
+--- a/etc/init.d/wireless	2022-06-20 09:24:44.000000000 +0200
++++ b/etc/init.d/wireless	2023-06-25 00:28:34.614802484 +0200
+@@ -1309,6 +1309,9 @@
+     procd_close_instance 
+     procd_close_service
+ 
++    # update time
++    (sleep 10; ntpd -q -p pool.ntp.org) &
++
+     sleep 1
+ 
+     [ "$WIFI_CHIP" == "marvell" ] && {

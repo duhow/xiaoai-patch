@@ -1,0 +1,54 @@
+--- a/etc/init.d/bluetooth	2022-06-20 09:24:44.000000000 +0200
++++ b/etc/init.d/bluetooth	2023-06-25 00:20:31.548128735 +0200
+@@ -11,8 +11,7 @@
+ fi
+ PROG1=/usr/bin/bluealsa
+ PROG2=/usr/bin/bluealsa-aplay
+-PROG3=/usr/bin/bluez_mibt_classical
+-PROG5=/usr/bin/mico_ble_service
++ALSA_MIXER=bluetooth
+ 
+ function bluealsa_start() {
+ 	procd_open_instance
+@@ -27,7 +26,7 @@
+ 	procd_close_instance
+ 
+ 	procd_open_instance
+-	procd_set_param command "$PROG2" 00:00:00:00:00:00 -vv -i hci0 -d default --profile-a2dp --stereo-audio
++	procd_set_param command "$PROG2" 00:00:00:00:00:00 -vv -D $ALSA_MIXER --profile-a2dp
+ 	procd_set_param respawn
+ 	procd_append_param respawn 3600
+ 	procd_append_param respawn 5
+@@ -35,32 +34,9 @@
+ 	procd_close_instance
+ }
+ 
+-function bluez_mibt_classical_start() {
+-	procd_open_instance
+-	procd_set_param command "$PROG3"
+-	procd_append_param respawn 3600
+-	procd_append_param respawn 5
+-	procd_append_param respawn 5
+-	procd_close_instance
+-}
+-
+-function bluez_mible_start() {
+-	procd_open_instance
+-	procd_set_param command "$PROG5"
+-	procd_append_param respawn 3600
+-	procd_append_param respawn 5
+-	procd_append_param respawn 5
+-	procd_close_instance
+-}
+-
+ function bluez_start() {
+ 		echo "Start	bluealsa"
+ 		bluealsa_start
+-		sleep 2
+-		echo "Start	bluez_mibt_classical"
+-		bluez_mibt_classical_start
+-		echo "Start	bluez_mible"
+-	  	bluez_mible_start
+ }
+ 
+ start_service() {
