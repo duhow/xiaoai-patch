@@ -4,6 +4,7 @@ START=98
 USE_PROCD=1
 
 EXTRA_COMMANDS="status"
+CONFIG=/data/listener
 
 start_service() {
   ps | grep -v grep | grep porcupine_launcher -q
@@ -28,8 +29,12 @@ start_service() {
 }
 
 stop_service() {
-  # mute led
-  /bin/show_led 7 &
+  [ -f "$CONFIG" ] && . $CONFIG
+
+  if [ -z "$MUTE_LED" ] || [ "$MUTE_LED" != "0" ]; then
+    # mute led
+    /bin/show_led 7 &
+  fi
 
   killall porcupine_launcher porcupine
 
