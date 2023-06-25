@@ -61,7 +61,7 @@ while true; do
 /usr/bin/porcupine /usr/lib/libpv_porcupine.so $PORCUPINE_FOLDER/model.pv $PORCUPINE_FOLDER/keywords/${WORD}_raspberry-pi.ppn $SENSITIVITY $MIC
 
 if [ "$?" -gt 0 ]; then
-  sleep 1
+  sleep 2
   continue
 fi
 
