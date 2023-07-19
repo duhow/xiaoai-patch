@@ -20,13 +20,14 @@ Create and configure the following files in the speaker:
 ```bash
 HA_URL="https://hass.example.net"
 HA_TOKEN="ey...."
-# change if using any other
+# change if using any other, for example "cloud".
 HA_STT_PROVIDER=stt.faster_whisper
 STT_RATE=16000
 
 # use any of Porcupine available
 # https://github.com/Picovoice/porcupine/tree/v1.9/resources/keyword_files/raspberry-pi
 WORD=alexa
+# NOTE: "cloud" provider uses two-letter language, for example "en-US", "es-ES"...
 STT_LANGUAGE=en
 ```
 
