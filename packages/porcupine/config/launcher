@@ -16,6 +16,7 @@ STT_LANGUAGE=en
 STT_RATE=8000
 STT_CHANNEL=1
 STT_MAX_TIME=25
+STT_REPEAT_MESSAGE=0
 RECORDING_RATE=16000
 RECORDING_CHANNEL=1
 VOLUME_THRESHOLD=10
@@ -107,12 +108,18 @@ if [ -n "${STT_SUCCESS}" ]; then
   # cleanup text before sending
   STT_TEXT=$(jq -r .text ${DATA_STT} | tr -d '.' | awk '{$1=$1;print}')
   log "$STT_TEXT"
-  curl \
+  CONVERSATION_RESPONSE=$(curl \
      -H "Authorization: Bearer ${HA_TOKEN}" \
      -H "Content-Type: application/json" \
      -d "{\"language\": \"${STT_LANGUAGE}\", \"text\": \"${STT_TEXT}\"}" \
-     -XPOST ${HA_URL}/api/services/conversation/process
-  ${SPEAK} "${STT_TEXT}"
+     -XPOST ${HA_URL}/api/conversation/process)
+  if [ "$STT_REPEAT_MESSAGE" = 1 ]; then
+    # repeat what the speaker heard (transcribed)
+    ${SPEAK} "${STT_TEXT}"
+    sleep 0.5
+  fi
+  TTS_TEXT=$(echo "${CONVERSATION_RESPONSE}" | jq -r .response.speech.plain.speech)
+  ${SPEAK} "${TTS_TEXT}"
 else
   log "error"
   ${SPEAK} error
