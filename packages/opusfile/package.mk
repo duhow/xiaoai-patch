@@ -5,6 +5,7 @@ PACKAGE_DEPENDS="openssl opus libogg"
 
 preconfigure_package() {
 	./autogen.sh
+	echo "PACKAGE_VERSION=${PACKAGE_VERSION}" > ${PACKAGE_BUILD_DIR}/package_version
 }
 
 configure_package() {
