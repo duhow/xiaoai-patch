@@ -4,16 +4,21 @@ PACKAGE_SRC="https://github.com/xiph/opus-tools/archive/ecd50e531fbf378499a3f71c
 PACKAGE_DEPENDS="opus libopusenc"
 
 preconfigure_package() {
-	autoreconf -fi && \
+	autoreconf -fis && \
 	echo "PACKAGE_VERSION=${PACKAGE_VERSION}" > ${PACKAGE_BUILD_DIR}/package_version
 }
 
 configure_package() {
+	OPUSDIR=${STAGING_DIR}/${INSTALL_PREFIX}/include/opus
+
 	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
-	   CXX="${BUILD_CXX}" CXXFLAGS="${BUILD_CFLAGS}" CPPFLAGS="${BUILD_CFLAGS}" \
-	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
+	   CXX="${BUILD_CXX}" \
+	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" \
 	   PKG_CONFIG_PATH="${BUILD_PKG_CONFIG_LIBDIR}" \
+		 OPUS_CFLAGS="-I${OPUSDIR}" \
+		 OPUSFILE_CFLAGS="-I${OPUSDIR}" \
 	   ./configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} \
+		 --with-sysroot=${STAGING_DIR} \
 		 --disable-oggtest \
 		 --disable-opustest \
 		 --disable-opusfiletest \
@@ -23,7 +28,7 @@ configure_package() {
 }
 
 make_package() {
-	make -j${MAKE_JOBS} && exit 1
+	make -j${MAKE_JOBS}
 }
 
 install_package() {
