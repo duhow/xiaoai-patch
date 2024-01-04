@@ -43,7 +43,8 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 | ![LX06 - supported][LX06] | Xiaoai Speaker Pro (black, infrared) | 1.74.10 |
 | ![L06A - supported][L06A] | Xiaoai Speaker (white, no infrared) | 1.74.10 (build as LX06) |
 | ![LX01 - supported][LX01] | Xiaomi Mi AI Speaker Mini | 1.32.6 |
-| ![L09A - supported][L09A] | Xiaoai Speaker Art (China) | 1.76.4 |
+| ![L09A - supported][L09A] | Xiaoai Speaker Art (China, white) | 1.76.4 |
+| ![L09B - supported][L09B] | Xiaoai Speaker Art Battery (Black) | |
 | ![L09G - not supported][L09G] | Xiaomi Mi Smart Speaker (Global, Google Assistant) | |
 | ![LX05 - encrypted, supported][LX05] | Xiaoai Speaker Play | |
 | ![L05B - not supported][L05B] | Xiaoai Speaker Play Enhanced Edition, no Clock LED (NuttX) - [details](https://github.com/duhow/xiaoai-patch/issues/19) | |
@@ -60,6 +61,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 [L06A]: https://img.shields.io/badge/L06A-green?style=for-the-badge
 [LX01]: https://img.shields.io/badge/LX01-green?style=for-the-badge
 [L09A]: https://img.shields.io/badge/L09A-green?style=for-the-badge
+[L09B]: https://img.shields.io/badge/L09B-green?style=for-the-badge
 [L09G]: https://img.shields.io/badge/L09G-red?style=for-the-badge
 [LX05]: https://img.shields.io/badge/LX05-yellowgreen?style=for-the-badge
 [L05B]: https://img.shields.io/badge/L05B-red?style=for-the-badge
