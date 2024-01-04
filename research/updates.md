@@ -80,6 +80,10 @@
 | l09a | 1.76.4   | 61c157b288598f279a083b9078024283 | firmware |
 | l09a | 1.76.5   | 9b5c905e314bfd988ee1b8d730d75deb | firmware |
 | l09a | 1.78.3   | 9a88cbc8d0c497a8a850aa07d4ed7009 | firmware |
+| l09b | 1.41.6   | 2c23c6b89bb4e77ed8977c4b8ad91550 | firmware |
+| l09b | 1.69.54  | 3d465a94ef7673b68576b7c1c8c8cdd1 | firmware |
+| l09b | 1.75.13  | bf710ae709d3455763b21c74c5defdeb | all |
+| l09b | 1.80.5   | 0ff1693f6a688c876a87891**a79198304** | firmware |
 | l15a | 1.70.105 | 5c9297b0fb22c101a87e2e82f3330a6e | all |
 | l15a | 1.81.4   | 612acf5eddf9fdb85d189540e4cb1a32 | all |
 | l15a | 1.81.11  | 34ec2c6ccf04f5f1485161848fae2969 | all |
