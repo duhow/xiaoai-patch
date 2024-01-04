@@ -35,6 +35,10 @@ stop_service() {
   [ "$SILENT" != "1" ] && play_sound /usr/share/sound/mute
 }
 
+service_triggers() {
+  procd_add_reload_trigger "$CONFIG"
+}
+
 play_sound() {
   if [ -f "${1}.mp3" ]; then
     mpg123 -a notify -q "${1}.mp3" &
