@@ -10,6 +10,17 @@
  	echo "bluez_mibt_classical_start"
  	bluez_mibt_classical_start
 
+--- a/etc/init.d/bluetooth	2021-06-04 04:34:20.000000000 +0200
++++ b/etc/init.d/bluetooth	2024-01-05 17:27:06.910099430 +0100
+@@ -56,7 +56,7 @@
+ function bluez_start() {
+ 		echo "Start	bluealsa"
+ 		bluealsa_start
+-		sleep 2
++		return 0
+ 		echo "Start	bluez_mibt_classical"
+ 		bluez_mibt_classical_start
+ 		echo "Start	bluez_mible"
 --- a/etc/init.d/bluetoothd	2019-12-25 04:18:35.000000000 +0100
 +++ b/etc/init.d/bluetoothd	2021-01-03 12:47:21.805259975 +0100
 @@ -21,7 +21,7 @@
@@ -57,3 +68,17 @@
    cp -f /tmp/${CONFIGNAMETMP} $BTCONFIGFILE
    rm -rf $LAST_CONFIG_FILE
    echo "Modify BT MAC(JSON):${mac_bt}"
+--- a/etc/init.d/check_mac	2021-06-04 04:34:20.000000000 +0200
++++ b/etc/init.d/check_mac	2024-01-05 17:31:52.984413254 +0100
+@@ -30,11 +30,6 @@
+ 		cp /etc/bt/bt_config.xml /data/bt
+ 	fi
+ 
+-	if ! grep -Fq bd_addr /data/bt/bt_config.xml
+-	then
+-		cp /etc/bt/bt_config.xml /data/bt/bt_config.xml
+-	fi
+-
+ 	KEYPATH=/sys/class/unifykeys
+ 	echo "mac_wifi" > $KEYPATH/name
+ 	mac_wifi=`cat $KEYPATH/read`

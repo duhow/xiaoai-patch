@@ -10,12 +10,34 @@
      procd_open_instance
      procd_set_param command /usr/bin/dlna
      procd_set_param respawn
+--- a/etc/init.d/dlnainit	2021-06-04 04:34:20.000000000 +0200
++++ b/etc/init.d/dlnainit	2024-01-05 18:02:51.135891420 +0100
+@@ -42,7 +42,8 @@
+ 	    if [ ! -f "/data/dlna/device.xml" ]; then
+ 		config_device_file
+ 	    fi
+-	    ota_updata_deicie
++	    #ota_updata_deicie
++	    [ -x /data/enable_dlna ] || return 0
+ 	    procd_open_instance
+ 	    procd_set_param command /usr/bin/dlna
+ 	    procd_set_param respawn 3600 5 0
 --- a/etc/init.d/mitv-disc	2019-12-25 04:18:35.000000000 +0100
 +++ b/etc/init.d/mitv-disc	2021-01-03 12:47:21.965260847 +0100
 @@ -7,6 +7,7 @@
  
  start_service() {
    channel=`/sbin/uci -q get /usr/share/mico/version.version.CHANNEL`
++  [ -x /data/enable_dlna ] || return 0
+   if [ "$channel" = "release" ]; then
+      /etc/init.d/pns mitv_off 1>/dev/null 2>&1
+      #return
+--- a/etc/init.d/mitv-disc	2021-06-04 04:34:20.000000000 +0200
++++ b/etc/init.d/mitv-disc	2024-01-05 18:03:19.711936012 +0100
+@@ -7,6 +7,7 @@
+ 
+ start_service() {
+   channel=`micocfg_channel`
 +  [ -x /data/enable_dlna ] || return 0
    if [ "$channel" = "release" ]; then
       /etc/init.d/pns mitv_off 1>/dev/null 2>&1
@@ -38,5 +60,15 @@
      
 +    [ -x /data/enable_pns ] || return 0
      local vendor_name=$(/usr/bin/mico_vendor_helper vendor_name_get);
+     if [ "nuance" = $vendor_name ]; then
+         _start_mipns_nuance
+--- a/etc/init.d/pns	2021-06-04 04:34:20.000000000 +0200
++++ b/etc/init.d/pns	2024-01-05 18:31:13.378301209 +0100
+@@ -215,6 +215,7 @@
+         fi
+     fi
+ 
++    [ -x /data/enable_pns ] || return 0
+     local vendor_name=$(micocfg_speech_vendor);
      if [ "nuance" = $vendor_name ]; then
          _start_mipns_nuance

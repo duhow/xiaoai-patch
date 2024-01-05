@@ -23,6 +23,21 @@
  	[ -s /data/etc/dropbear/dropbear_rsa_host_key ] || keygen
  
  	. /lib/functions.sh
+--- a/etc/init.d/dropbear	2021-06-04 04:34:20.000000000 +0200
++++ b/etc/init.d/dropbear	2024-01-05 17:13:56.640077587 +0100
+@@ -118,12 +118,6 @@
+ 
+ start_service()
+ {
+-	ssh_en=`cat /data/ssh_en 2>/dev/null`
+-	ssh_en_bind=`cat /data/.ssh_en 2>/dev/null`
+-	channel=`micocfg_channel 2>/dev/null`
+-	if [ "$ssh_en" != "1" -a "$ssh_en_bind" != "1" -a "$channel" = "release" ]; then
+-		return 0                                                                                  
+-	fi
+ 	[ -s /data/etc/dropbear/dropbear_rsa_host_key ] || keygen
+ 
+ 	. /lib/functions.sh
 --- a/etc/init.d/dropbear	2022-06-20 09:24:44.000000000 +0200
 +++ b/etc/init.d/dropbear	2023-06-24 19:46:46.383658324 +0200
 @@ -30,11 +30,11 @@
