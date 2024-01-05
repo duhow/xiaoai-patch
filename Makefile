@@ -101,7 +101,7 @@ ifeq ($(MODEL),none)
 endif
 	@for PATCH in scripts/??_*.sh; do \
 		echo ">> $$PATCH"; \
-		ROOTFS=$(BUILD_DIR) MODEL=$(MODEL) sh $$PATCH; \
+		ROOTFS=$(BUILD_DIR) MODEL=$(MODEL) sh $$PATCH 2>&1; \
 		echo "----"; \
 	done | tee -a patch.log
 	@touch $(BUILD_DIR)/patched
