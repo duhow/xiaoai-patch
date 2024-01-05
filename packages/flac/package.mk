@@ -1,5 +1,5 @@
 PACKAGE_NAME="Free Lossless Audio Codec"
-PACKAGE_VERSION="1.4.2"
+PACKAGE_VERSION="1.4.3"
 PACKAGE_SRC="https://github.com/xiph/flac/archive/master.zip"
 PACKAGE_DEPENDS="libogg gcc"
 

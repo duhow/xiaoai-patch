@@ -1,5 +1,5 @@
 PACKAGE_NAME="libmpdclient"
-PACKAGE_VERSION="2.20"
+PACKAGE_VERSION="2.22"
 PACKAGE_SRC="https://github.com/MusicPlayerDaemon/libmpdclient/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
 

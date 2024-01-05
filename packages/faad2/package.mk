@@ -1,5 +1,5 @@
 PACKAGE_NAME="FAAD2"
-PACKAGE_VERSION="2.10.1"
+PACKAGE_VERSION="2.11.1"
 PACKAGE_SRC="https://github.com/knik0/faad2/archive/${PACKAGE_VERSION}.tar.gz"
 
 preconfigure_package() {
