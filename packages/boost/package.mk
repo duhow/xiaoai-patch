@@ -1,5 +1,5 @@
 PACKAGE_NAME="Boost C++ libraries"
-PACKAGE_VERSION="1.76.0"
+PACKAGE_VERSION="1.84.0"
 PACKAGE_SRC="https://boostorg.jfrog.io/artifactory/main/release/${PACKAGE_VERSION}/source/boost_${PACKAGE_VERSION//./_}.tar.gz"
 
 configure_package() {

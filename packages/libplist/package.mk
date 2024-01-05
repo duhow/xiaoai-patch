@@ -1,5 +1,5 @@
 PACKAGE_NAME="libplist"
-PACKAGE_VERSION="2.3.0"
+PACKAGE_VERSION="2.2.0"
 # required to satisfy versioning error:
 # configure: error: PACKAGE_VERSION is not defined. Make sure to configure a source tree checked out from git or that .tarball-version is present.
 PACKAGE_SRC="https://github.com/libimobiledevice/libplist/releases/download/${PACKAGE_VERSION}/libplist-${PACKAGE_VERSION}.tar.bz2"
