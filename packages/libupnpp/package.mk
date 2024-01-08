@@ -1,5 +1,5 @@
 PACKAGE_NAME="libupnpp"
-PACKAGE_VERSION="0.21.0"
+PACKAGE_VERSION="0.25.0"
 PACKAGE_SRC="https://www.lesbonscomptes.com/upmpdcli/downloads/libupnpp-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc libupnp libnpupnp curl expat"
 

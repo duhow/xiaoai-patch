@@ -1,5 +1,5 @@
 PACKAGE_NAME="Libsndfile"
-PACKAGE_VERSION="1.2.0"
+PACKAGE_VERSION="1.2.2"
 PACKAGE_SRC="https://github.com/libsndfile/libsndfile/archive/refs/tags/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="flac libogg libvorbis sqlite3 alsa-lib"
 

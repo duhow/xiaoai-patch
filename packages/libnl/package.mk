@@ -1,5 +1,5 @@
 PACKAGE_NAME="libnl"
-PACKAGE_VERSION="3.7.0"
+PACKAGE_VERSION="3.9.0"
 PACKAGE_VERSION_TAG="$(echo "${PACKAGE_VERSION}" | tr . _)"
 PACKAGE_SRC="https://github.com/thom311/libnl/releases/download/libnl${PACKAGE_VERSION_TAG}/libnl-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="base openssl"

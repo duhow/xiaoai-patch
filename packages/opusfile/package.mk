@@ -9,12 +9,17 @@ preconfigure_package() {
 }
 
 configure_package() {
+	OPUSDIR=${STAGING_DIR}/${INSTALL_PREFIX}/include/opus
+
 	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
-	   CXX="${BUILD_CXX}" CXXFLAGS="${BUILD_CFLAGS}" CPPFLAGS="${BUILD_CFLAGS}" \
-	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
-	   ./configure \
-	   --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} \
-	   --enable-fixed-point --disable-doc --disable-examples
+	   CXX="${BUILD_CXX}" \
+	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" \
+	   PKG_CONFIG_PATH="${BUILD_PKG_CONFIG_LIBDIR}" \
+	   DEPS_CFLAGS="-I${OPUSDIR}" \
+	   ./configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} \
+	   --enable-fixed-point \
+		 --disable-doc \
+		 --disable-examples
 }
 
 make_package() {

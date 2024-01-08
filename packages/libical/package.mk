@@ -1,5 +1,5 @@
 PACKAGE_NAME="libical"
-PACKAGE_VERSION="3.0.16"
+PACKAGE_VERSION="3.0.17"
 PACKAGE_SRC="https://github.com/libical/libical/releases/download/v${PACKAGE_VERSION}/libical-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc glib libxml"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
