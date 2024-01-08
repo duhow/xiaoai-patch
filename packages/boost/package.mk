@@ -1,6 +1,7 @@
 PACKAGE_NAME="Boost C++ libraries"
 PACKAGE_VERSION="1.84.0"
-PACKAGE_SRC="https://boostorg.jfrog.io/artifactory/main/release/${PACKAGE_VERSION}/source/boost_${PACKAGE_VERSION//./_}.tar.gz"
+#PACKAGE_SRC="https://boostorg.jfrog.io/artifactory/main/release/${PACKAGE_VERSION}/source/boost_${PACKAGE_VERSION//./_}.tar.gz"
+PACKAGE_SRC="https://sourceforge.net/projects/boost/files/boost/${PACKAGE_VERSION}/boost_${PACKAGE_VERSION//./_}.tar.gz/download"
 
 configure_package() {
 	./bootstrap.sh

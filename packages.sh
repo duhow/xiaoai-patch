@@ -161,16 +161,27 @@ prepare_clean_dir() {
     fi
 }
 
+get_src_filename() {
+    local src_filename=$(basename "${PACKAGE_SRC}")
+    # if last part is "download", return previous folder.
+    # used for Sourceforge
+    if [[ "${src_filename}" = 'download' ]]; then
+        echo "${PACKAGE_SRC}" | awk -F/ '{print $(NF-1)}'
+    else
+        echo ${src_filename}
+    fi
+}
+
 download_package_src() {
     if [[ ! -z "${PACKAGE_SRC}" ]]; then
-        local src_filename=$(basename "${PACKAGE_SRC}")
+        local src_filename=`get_src_filename`
         if [[ ! -z "${src_filename}" ]]; then
             if [[ -e "${PACKAGE_SRC_DOWNLOAD_DIR}/${src_filename}" ]] && [[ "`stat -c %s ${PACKAGE_SRC_DOWNLOAD_DIR}/${src_filename}`" -gt 1024 ]]; then
                 echo "Using cached download"
             else
                 echo "Downloading package source..."
                 wget --no-check-certificate --tries=5 --retry-connrefused --waitretry=5 \
-                  --progress=bar:force:noscroll \
+                   --trust-server-names --progress=bar:force:noscroll \
                   -O ${src_filename} -P ${PACKAGE_SRC_DOWNLOAD_DIR} "${PACKAGE_SRC}"
             fi
         else
@@ -182,7 +193,7 @@ download_package_src() {
 
 unpack_package_src() {
     if [[ ! -z "${PACKAGE_SRC}" ]]; then
-        local src_filename=$(basename "${PACKAGE_SRC}")
+        local src_filename=`get_src_filename`
         local src_file="${PACKAGE_SRC_DOWNLOAD_DIR}/${src_filename}"
         if [[ -e "${src_file}" ]]; then
             echo "Unpacking ${src_file}..."
