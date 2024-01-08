@@ -172,6 +172,16 @@ get_src_filename() {
     fi
 }
 
+download_file() {
+    local filename="$1"
+    local download_dir="$2"
+    local url="$3"
+
+    wget --no-check-certificate --tries=5 --retry-connrefused --waitretry=5 \
+         --trust-server-names --progress=bar:force:noscroll \
+         -O ${filename} -P "${download_dir}" "${url}"
+}
+
 download_package_src() {
     if [[ ! -z "${PACKAGE_SRC}" ]]; then
         local src_filename=`get_src_filename`
@@ -180,9 +190,7 @@ download_package_src() {
                 echo "Using cached download"
             else
                 echo "Downloading package source..."
-                wget --no-check-certificate --tries=5 --retry-connrefused --waitretry=5 \
-                   --trust-server-names --progress=bar:force:noscroll \
-                  -O ${src_filename} -P ${PACKAGE_SRC_DOWNLOAD_DIR} "${PACKAGE_SRC}"
+                download_file "${src_filename}" "${PACKAGE_SRC_DOWNLOAD_DIR}" "${PACKAGE_SRC}"
             fi
         else
             echo_error "Error: Invalid package source specified!"

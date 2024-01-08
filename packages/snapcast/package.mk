@@ -2,7 +2,7 @@ PACKAGE_NAME="Snapcast"
 PACKAGE_VERSION="0.25.0"
 PACKAGE_SRC="https://github.com/badaix/snapcast/archive/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="alsa libvorbis opus flac soxr avahi expat"
-BOOST_VERSION="1.84.0"
+BOOST_VERSION="1.76.0"
 BOOST="boost_${BOOST_VERSION//./_}"
 BUILD_TARGETS="server client"
 
@@ -10,17 +10,23 @@ if [ "${BUILD_MODEL}" = "LX01" ]; then
 BUILD_TARGETS="client"
 fi
 
-preconfigure_package() {
-	if [ ! -e "${PACKAGE_SRC_DOWNLOAD_DIR}/${BOOST}.tar.gz" ]; then
-		echo_info "downloading boost lib"
-		wget -P ${PACKAGE_SRC_DOWNLOAD_DIR} https://boostorg.jfrog.io/artifactory/main/release/${BOOST_VERSION}/source/${BOOST}.tar.gz
+prepare_boost() {
+	BOOST_PKG="${PACKAGE_SRC_DOWNLOAD_DIR}/../boost/${BOOST}.tar.gz"
+	BOOST_SRC="https://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/${BOOST}.tar.gz/download"
+	if [ ! -e "${BOOST_PKG}" ]; then
+			echo_info "downloading boost lib"
+			download_file "${BOOST_PKG}" "`dirname ${BOOST_PKG}`" "${BOOST_SRC}"
 	fi
 	echo_info "extracting boost lib"
-	tar xzf ${PACKAGE_SRC_DOWNLOAD_DIR}/${BOOST}.tar.gz -C ${PACKAGE_SRC_DIR}
+	tar xzf "${BOOST_PKG}" -C "${PACKAGE_SRC_DIR}"
+}
+
+preconfigure_package() {
+	prepare_boost
 }
 
 make_package() {
-	ADD_FLAGS="-I${PACKAGE_SRC_DIR} -I${STAGING_DIR}/${INSTALL_PREFIX}/${BUILD_TARGET}/include ${BUILD_CFLAGS} --sysroot=${STAGING_DIR}"
+	ADD_FLAGS="-I${PACKAGE_SRC_DIR}/${BOOST} -I${STAGING_DIR}/${INSTALL_PREFIX}/${BUILD_TARGET}/include ${BUILD_CFLAGS} --sysroot=${STAGING_DIR}"
 
 	make -j${MAKE_JOBS} \
 	   CC="${BUILD_CC}" CXX="${BUILD_CXX}" \
