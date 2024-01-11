@@ -1,5 +1,8 @@
 .DEFAULT_GOAL := help
 
+OCI_REPO = ghcr.io/duhow/xiaoai-patch
+OCI_DIR = docker_pull
+
 BUILD_DIR = squashfs-root
 FILE = mtd4
 DATE := $(shell date +%y%m%d-%H%M)
@@ -39,7 +42,7 @@ ifeq ($(MODEL), s12)
 BUILD_DIR := /mnt/ubi.tmp
 endif
 
-.PHONY: all clean extract patch build help
+.PHONY: all clean pull extract patch build help
 
 all: extract patch build
 
@@ -112,6 +115,18 @@ ifeq ($(MODEL), s12)
 	-rmmod ubifs ubi nandsim
 endif
 	rm -rf $(BUILD_DIR) 2>/dev/null
+
+pull:
+ifeq ($(MODEL),none)
+	$(error Please specify MODEL)
+endif
+	@if [ -n "$(wildcard $(BUILD_DIR)/*)" ]; then echo "$(BUILD_DIR) is not empty, clean before pulling"; exit 1; fi
+	@mkdir -p $(OCI_DIR) $(BUILD_DIR)
+	docker inspect $(OCI_REPO)/$(MODEL):base >/dev/null || docker pull $(OCI_REPO)/$(MODEL):base
+	docker image save $(OCI_REPO)/$(MODEL):base | tar x -C $(OCI_DIR)
+	@IMAGE=`jq -r '.[0].Layers[0]' $(OCI_DIR)/manifest.json`; \
+	  tar xf $(OCI_DIR)/$$IMAGE -C $(BUILD_DIR)
+	@rm -rf $(OCI_DIR)
 
 $(BUILD_DIR): extract
 $(BUILD_DIR)/patched: patch
