@@ -15,13 +15,13 @@ concurrency:
 jobs:
   lx01:
     name: LX01
-    if: contains(github.event.pull_request.labels.*.name, 'LX01')
+    if: ${{ github.repository == 'duhow/xiaoai-patch' }}
     uses: duhow/xiaoai-patch/.github/workflows/build-packages.yaml@master
     with:
       model: LX01
   lx06:
     name: LX06
-    if: contains(github.event.pull_request.labels.*.name, 'LX06')
+    if: ${{ github.repository == 'duhow/xiaoai-patch' }}
     uses: duhow/xiaoai-patch/.github/workflows/build-packages.yaml@master
     with:
       model: LX06
