@@ -1,5 +1,5 @@
 PACKAGE_NAME="Advanced Linux Sound Architecture - firmware"
-PACKAGE_VERSION="1.2.4"
+PACKAGE_VERSION="1.2.10"
 PACKAGE_SRC="https://www.alsa-project.org/files/pub/firmware/alsa-firmware-${PACKAGE_VERSION}.tar.bz2"
 
 configure_package() {
