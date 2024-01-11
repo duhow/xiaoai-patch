@@ -1,25 +1,30 @@
 PACKAGE_NAME="GNU Toolchain for the A-profile Architecture"
-PACKAGE_VERSION="7.4.1-2019.02"
-PACKAGE_SUBVERSION="7.4-2019.02"
-BUILD_TARGET="arm-linux-gnueabihf"
+PACKAGE_VERSION="13.2.rel1" # 2023.11
+#PACKAGE_SUBVERSION="7.4-2019.02"
+BUILD_TARGET="arm-none-linux-gnueabihf"
 
 if [ "${BUILD_ARCH}" = "aarch64" ] || [ "${MODEL}" = "S12" ]; then
 BUILD_TARGET="aarch64-linux-gnu"
-fi
-
-PACKAGE_SRC="https://releases.linaro.org/components/toolchain/binaries/${PACKAGE_SUBVERSION}/${BUILD_TARGET}/gcc-linaro-${PACKAGE_VERSION}-x86_64_${BUILD_TARGET}.tar.xz"
-
-if [ "${HOST_ARCH}" = "aarch64" ]; then
 PACKAGE_VERSION="10.2-2020.11"
 PACKAGE_SRC="https://developer.arm.com/-/media/Files/downloads/gnu-a/${PACKAGE_VERSION}/binrel/gcc-arm-${PACKAGE_VERSION}-aarch64-arm-none-linux-gnueabihf.tar.xz"
 fi
 
+#PACKAGE_SRC="https://releases.linaro.org/components/toolchain/binaries/7.4-2019.02/arm-linux-gnueabihf/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf.tar.xz"
+#PACKAGE_SRC="https://releases.linaro.org/components/toolchain/binaries/${PACKAGE_SUBVERSION}/${BUILD_TARGET}/gcc-linaro-${PACKAGE_VERSION}-x86_64_${BUILD_TARGET}.tar.xz"
+PACKAGE_SRC="https://developer.arm.com/-/media/Files/downloads/gnu/${PACKAGE_VERSION}/binrel/arm-gnu-toolchain-${PACKAGE_VERSION}-x86_64-${BUILD_TARGET}.tar.xz"
+# ?rev=adb0c0238c934aeeaa12c09609c5e6fc&hash=68DA67DE12CBAD82A0FA4B75247E866155C93053
 
 on_exit_build() {
 	TOOLCHAIN_DIR=$(pwd)
 	case ${BUILD_ARCH} in
-	"armv7")
+	"arm")	
+		BUILD_TARGET="arm-none-linux-gnueabihf"
+        BUILD_LDFLAGS="-L${STAGING_DIR}/${INSTALL_PREFIX}/lib -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib/pulseaudio -Wl,--rpath-link=${STAGING_DIR}/${INSTALL_PREFIX}/lib/private -Wl,--rpath-link=${TOOLCHAIN_DIR}/${BUILD_TARGET}/libc/lib -Wl,--rpath=${INSTALL_PREFIX}/${BUILD_TARGET}/lib -Wl,--rpath=${INSTALL_PREFIX}/lib -Wl,--dynamic-linker=${INSTALL_PREFIX}/${BUILD_TARGET}/lib/ld-linux-armhf.so.3"
+		;;
+	"armv7")	
 		LIBPATH="lib"
+		BUILD_TARGET="arm-none-linux-gnueabihf"
+
 		# using GCC-10
 		[[ "${HOST_ARCH}" = "aarch64" ]] && BUILD_TARGET="arm-none-linux-gnueabihf"
 
