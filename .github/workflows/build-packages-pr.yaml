@@ -2,6 +2,7 @@ name: Build packages PR
 
 on:
   pull_request:
+    types: [ labeled ]
     paths:
       - 'packages/**'
       - 'packages.sh'
@@ -24,3 +25,9 @@ jobs:
     uses: duhow/xiaoai-patch/.github/workflows/build-packages.yaml@master
     with:
       model: LX06
+  s12:
+    name: S12
+    if: contains(github.event.pull_request.labels.*.name, 'S12')
+    uses: duhow/xiaoai-patch/.github/workflows/build-packages.yaml@master
+    with:
+      model: S12
