@@ -64,7 +64,8 @@ class Firmware():
         m.update(self.fd.read())
         hash = m.hexdigest()
         logging.info(f'computed md5 hash: {hash}')
-        assert hash[-5:] == os.path.basename(self.path).split('_')[-2]
+        filename_hash = os.path.basename(self.path).split('_')[-2]
+        assert hash[(len(filename_hash) * -1):] == filename_hash
 
         self.fd.seek(0)
         return True
