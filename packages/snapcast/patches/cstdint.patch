@@ -1,0 +1,10 @@
+--- a/common/sample_format.hpp	2024-01-12 14:11:35.041836115 +0100
++++ b/common/sample_format.hpp	2024-01-12 14:11:50.401846387 +0100
+@@ -20,6 +20,7 @@
+ #define SAMPLE_FORMAT_H
+ 
+ #include <string>
++#include <cstdint>
+ 
+ 
+ /**

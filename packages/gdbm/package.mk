@@ -1,5 +1,5 @@
 PACKAGE_NAME="GNU dbm"
-PACKAGE_VERSION="1.18.1"
+PACKAGE_VERSION="1.23"
 PACKAGE_SRC="https://ftp.gnu.org/gnu/gdbm/gdbm-${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {

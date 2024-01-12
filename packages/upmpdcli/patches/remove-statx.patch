@@ -1,0 +1,11 @@
+--- a/src/pathut.cpp	2023-09-11 14:58:07.000000000 +0200
++++ b/src/pathut.cpp	2024-01-11 18:29:45.347142294 +0100
+@@ -1103,7 +1103,7 @@
+ #endif
+ }
+ 
+-#if defined(STATX_TYPE)
++#if !defined(STATX_TYPE)
+ 
+ #include <sys/syscall.h>
+ 
