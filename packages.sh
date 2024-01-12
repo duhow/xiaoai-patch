@@ -481,7 +481,7 @@ staging_to_target() {
 
     # cleanup unused data
     cd ${STAGING_TO_TARGET_DIR}
-    for name in libexec/gcc lib/gcc lib/cmake include man arm-linux-gnueabihf; do
+    for name in libexec/gcc lib/gcc lib/cmake include man arm-linux-gnueabihf arm-none-linux-gnueabihf; do
         echo "rm usr/${name}"
         rm -rf usr/${name}
     done
@@ -497,7 +497,7 @@ staging_to_target() {
 
     # delete unused compilers in target dir
     cd ${STAGING_TO_TARGET_DIR}/usr/bin
-    rm gcov* gcc* g++ cpp c++ arm-linux-gnueabihf-*
+    rm gcov* gcc* g++ cpp c++ arm-linux-gnueabihf-* arm-none-linux-gnueabihf-* lto-dump
 
     # remove .la and .pc files
     echo "cd ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}"
