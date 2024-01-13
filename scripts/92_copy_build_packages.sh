@@ -27,8 +27,15 @@ for FILE in libxml2.so.2.9.7 libxml2.so.2.9.3 libstdc++.so.6.0.22* libsbc.so.1.2
 	libgio-2.0.so.0.5000.1 libglib-2.0.so.0.5000.1 libgmodule-2.0.so.0.5000.1 libgobject-2.0.so.0.5000.1 \
 	libdbus-1.so.3.14.5 dbus-1/dbus-daemon-launch-helper \
 	libcurl.so.4.4.0 libbluetooth.so.3.18.10 libpcre.so.1.2.9 libpcre.so.1.2.6 \
-	libpcreposix.so.0.0.5 libopus.so.0.6.1 libffi.so.6.0.4 libexpat.so.1.6.7 libcrypto.so.1.0.0 \
-	libz.so.1.2.8 libopus.so.0.5.3 libnghttp2.so.14.13.2; do
+	libpcreposix.so.0.0.5 \
+	libhistory.so.7.0 \
+	libfdk-aac.so.1.0.0 libFLAC.so.8.3.0 libspeexdsp.so.1.5.0 \
+	libopus.so.0.5.3 libopus.so.0.6.1 \
+	libopusfile.so.0.4.4 libopusurl.so.0.4.4 \
+	libsndfile.so.1.0.28 \
+	libffi.so.6.0.4 libexpat.so.1.6.7 libcrypto.so.1.0.0 \
+	libz.so.1.2.8 libz.so.1.2.11 \
+	libnghttp2.so.14.13.2; do
   rm -vf $ROOTFS/usr/lib/$FILE
 done
 
@@ -38,14 +45,34 @@ for FILE in l2test l2ping btmgmt gatttool bccmd sdptool ciptool wget-ssl; do
 done
 
 echo "[!] Fixing old libs"
-for FILE in libreadline.so.7 libicalvcal.so.0 libicalss.so.0 libical.so.0 libffi.so.6; do
-  rm -vf $ROOTFS/usr/lib/$FILE
+
+libraries_upgrade="
+libreadline.so.7 libreadline.so.8
+libicalvcal.so.0 libicalvcal.so.3
+libicalss.so.0 libicalss.so.3
+libical.so.0 libical.so.3
+libffi.so.6 libffi.so.7
+libfdk-aac.so.1 libfdk-aac.so.2
+libFLAC.so.8 libFLAC.so.12
+libhistory.so.7 libhistory.so.8
+libconfig.so.11.0.2 libconfig.so.11.1.0
+libconfig++.so.11.0.2 libconfig++.so.11.1.0
+"
+
+echo "$libraries_upgrade" | while read -r entry; do
+  libold=$(echo "$entry" | cut -d' ' -f1)
+  libnew=$(echo "$entry" | cut -d' ' -f2)
+
+  if [ -z "${libold}" ] || [ -z "${libnew}" ]; then
+    continue
+  fi
+
+  FILE="$ROOTFS/usr/lib/$libold"
+  if [ -e "$FILE" ]; then
+    rm -f $FILE
+    ln -sv $libnew $FILE
+  fi
 done
-ln -s libreadline.so.8 $ROOTFS/usr/lib/libreadline.so.7
-ln -s libicalvcal.so.3 $ROOTFS/usr/lib/libicalvcal.so.0
-ln -s libicalss.so.3 $ROOTFS/usr/lib/libicalss.so.0
-ln -s libical.so.3 $ROOTFS/usr/lib/libical.so.0
-ln -s libffi.so.7 $ROOTFS/usr/lib/libffi.so.6
 
 if [ -d "${ROOTFS}/usr/lib/gconv" ]; then
   echo "[*] Deleting some gconv files"

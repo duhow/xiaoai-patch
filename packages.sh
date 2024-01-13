@@ -281,6 +281,12 @@ strip_debug() {
        -exec ${BUILD_STRIP} --strip-debug {} \; > /dev/null 2>&1
 }
 
+strip_full() {
+    echo_stage "Stripping debug symbols from target..."
+    find ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/{bin,lib} -type f \
+       -exec ${BUILD_STRIP} {} \; > /dev/null 2>&1
+}
+
 in_to_out() {
     local in_file=$1
     local out_file=$2
@@ -709,7 +715,7 @@ if [[ ! $? -eq 0 ]]; then
     exit 1
 fi
 
-strip_debug
+strip_full
 
 create_target_package
 if [[ ! $? -eq 0 ]]; then
