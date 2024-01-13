@@ -34,8 +34,10 @@ mico_opt() {
 cleanup() {
   set -x
   cd "${OLDPWD}"
-  sudo rm -rf "${WORKDIR}"
+  rm -rf "${WORKDIR}"
 }
+
+if [ "$(id -u)" -ne 0 ]; then echo "run as root to ensure full access to files." >&2; exit 1; fi
 
 REGISTRY=ghcr.io
 REPO=duhow/xiaoai-patch
@@ -74,7 +76,7 @@ SQUASHFILE=""
 for N in root.squashfs rootfs.img; do
   [ -e "$N" ] && SQUASHFILE=$N
 done
-sudo unsquashfs -d ${SQUASHDIR} ${SQUASHFILE}
+unsquashfs -d ${SQUASHDIR} ${SQUASHFILE}
 
 # extract info
 ROOT_MODEL=`mico_opt HARDWARE`
