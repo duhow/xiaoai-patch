@@ -27,7 +27,7 @@ case $EXTENSION in
     command -v mpg123 > /dev/null || return
     mpg123 -q -a ${OUTPUT} ${FILE} &>/dev/null &
     ;;
-  ogg|OGG|flac)
+  ogg|OGG|opus|OPUS|flac)
     command -v ogg123 > /dev/null || return
     ogg123 -q -d alsa -o dev:${OUTPUT} ${FILE} &>/dev/null &
     ;;
