@@ -68,7 +68,7 @@ make_package() {
 install_package() {
 	make DESTDIR=${STAGING_DIR} PREFIX=${STAGING_DIR}/usr install V=1 \
 	CROSS_COMPILE=${BUILD_TARGET}- CC="${BUILD_CC}" \
-	CFLAGS_EXTRA="${BUILD_CFLAGS}" LDFLAGS_EXTRA="${BUILD_LDFLAGS}"
+	CFLAGS_EXTRA="${BUILD_CFLAGS} -Wno-error=enum-int-mismatch" LDFLAGS_EXTRA="${BUILD_LDFLAGS}"
 }
 
 postinstall_package() {
