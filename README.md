@@ -22,20 +22,6 @@ Everything powered by Open Source Software!
 [Whisper]: https://github.com/home-assistant/addons/tree/master/whisper
 [Home Assistant]: https://www.home-assistant.io/
 
-# :warning: Warning
-
-Looks like some new speakers or firmware upgrades change the rootfs partition and include a DER certificate to verify the system.
-This **may block** any changes on non-signed squashfs. **Recommended to NOT flash**, you may have an invalid rootfs and potentially lock yourself!
-You can check this by running `binwalk` if it contains a Certificate entry:
-
-```
-DECIMAL       HEXADECIMAL     DESCRIPTION
---------------------------------------------------------------------------------
-0             0x0             Squashfs filesystem, little endian, version 4.0, compression:xz, size: 32240378 bytes,
-                              2430 inodes, blocksize: 262144 bytes, created: 2021-04-28 06:34:34
-32243716      0x1EC0004       Certificate in DER format (x509 v3), header length: 4, sequence length: 830
-```
-
 # Compatibility
 
 | Model | Name | Target version (recommended) |
@@ -74,17 +60,35 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 [XMYX01JY]: https://img.shields.io/badge/XMYX01JY-lightgrey?style=for-the-badge
 [YLAI01YL]: https://img.shields.io/badge/YLAI01YL-lightgrey?style=for-the-badge
 
-:information_source: **NOTE:** Target version is the recommended version to ensure all patches are working,
+> [!TIP]  
+> Target version is the recommended version to ensure all patches are working,
   but other versions may be still supported and working.  
-:wrench: This is still Work in Progress.
+> :wrench: This is still Work in Progress.
+
+# :warning: Encrypted speaker partitions
+
+Some new speakers or firmware upgrades change the rootfs partition and include a DER certificate to verify the system.
+This **may block** any changes on non-signed squashfs. **Recommended to NOT flash**, you may have an invalid rootfs and potentially lock yourself!
+You can check this by running `binwalk` if it contains a Certificate entry:
+
+```
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             Squashfs filesystem, little endian, version 4.0, compression:xz, size: 32240378 bytes,
+                              2430 inodes, blocksize: 262144 bytes, created: 2021-04-28 06:34:34
+32243716      0x1EC0004       Certificate in DER format (x509 v3), header length: 4, sequence length: 830
+```
+
 
 # Requirements
 
-:warning: Supported and Tested setup is **Linux** OS with `amd64` arch.
-Other hosts (Apple M1, Windows) are **not tested nor supported**.
-Feel free to make a PR if you have a fix for this.
+> [!WARNING]  
+> Supported and Tested setup is **Linux** OS with `amd64` arch.
+  Other hosts (Apple M1, Windows) are **not tested nor supported**.
+  Feel free to make a PR if you have a fix for this.
 
-**NOTE:** If using WSL, be sure to enable `setCaseSensitiveInfo`.
+> [!IMPORTANT]  
+> If using WSL, be sure to enable `setCaseSensitiveInfo`.
 
 You will also need the following tools:
 
@@ -115,8 +119,10 @@ Optionally but recommended, prepare the packages you want to install by editing 
 
 [packages.sh]: https://github.com/duhow/xiaoai-patch/blob/master/packages.sh#L657
 
-Build the docker image and run it to build all the packages. Probably it will take more than an hour.  
-**NOTE:** Run the **build packages.sh** process with Docker, since the package build performs some patching to the system, otherwise it could harm your GNU/Linux installation.
+Build the docker image and run it to build all the packages. Probably it will take more than an hour.
+
+> [!CAUTION]  
+> Run the **build packages.sh** process with Docker, since the package build performs some patching to the system, otherwise it could harm your GNU/Linux installation.
 
 ```bash
 docker build -t xiaoai-patch packages
@@ -135,7 +141,8 @@ sudo make build MODEL=lx06
 sudo make clean all FILE=image-mtd4 MODEL=lx06
 ```
 
-**NOTE:** Ensure the image format is correct, by comparing the original and new images. Use `file` or other commands to check info.
+> [!TIP]  
+> Ensure the image format is correct, by comparing the original and new images. Use `file` or other commands to check info.
 
 After you have the new image ready, send it to the speaker, and **flash the not-in-use** `rootfs` partition, boot it and test.
 
