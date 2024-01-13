@@ -2,7 +2,7 @@ PACKAGE_NAME="Snapcast"
 PACKAGE_VERSION="0.25.0"
 PACKAGE_SRC="https://github.com/badaix/snapcast/archive/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="alsa libvorbis opus flac soxr avahi expat"
-BOOST_VERSION="1.76.0"
+BOOST_VERSION="1.80.0"
 BOOST="boost_${BOOST_VERSION//./_}"
 BUILD_TARGETS="server client"
 
@@ -30,7 +30,7 @@ make_package() {
 
 	make -j${MAKE_JOBS} \
 	   CC="${BUILD_CC}" CXX="${BUILD_CXX}" \
-	   ADD_LDFLAGS="${BUILD_LDFLAGS}" ADD_CFLAGS="${ADD_FLAGS}" \
+	   ADD_LDFLAGS="${BUILD_LDFLAGS} -lstdc++fs" ADD_CFLAGS="${ADD_FLAGS}" \
 	   PREFIX=${INSTALL_PREFIX} ARCH=arm
 }
 

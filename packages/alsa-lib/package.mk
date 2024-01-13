@@ -1,5 +1,5 @@
 PACKAGE_NAME="Advanced Linux Sound Architecture"
-PACKAGE_VERSION="1.2.4"
+PACKAGE_VERSION="1.2.7"
 PACKAGE_SRC="https://www.alsa-project.org/files/pub/lib/alsa-lib-${PACKAGE_VERSION}.tar.bz2"
 
 configure_package() {
@@ -8,6 +8,11 @@ configure_package() {
 
 make_package() {
 	make -j${MAKE_JOBS}
+}
+
+preinstall_package() {
+	echo_warning "dirty patching libatopology.la to fix build"
+	sed -i 's! /usr/lib/libasound.la ! !' ${PACKAGE_SRC_DIR}/src/topology/.libs/libatopology.lai
 }
 
 install_package() {

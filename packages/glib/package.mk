@@ -6,7 +6,7 @@ PACKAGE_USE_SEPARATE_BUILD_DIR="true"
 
 configure_package() {
 	PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
-		meson --cross-file ${TOOLCHAIN_MESON} ${PACKAGE_SRC_DIR} \
+		meson setup --cross-file ${TOOLCHAIN_MESON} ${PACKAGE_SRC_DIR} \
 		_build \
 		--prefix=${INSTALL_PREFIX} -Dlibmount=disabled -Dinstalled_tests=false
 }

@@ -1,6 +1,6 @@
 PACKAGE_NAME="espeak-ng"
-PACKAGE_VERSION="1.50"
-PACKAGE_SRC="https://github.com/espeak-ng/espeak-ng/releases/download/${PACKAGE_VERSION}/espeak-ng-${PACKAGE_VERSION}.tgz"
+PACKAGE_VERSION="1.51"
+PACKAGE_SRC="https://github.com/espeak-ng/espeak-ng/archive/refs/tags/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="base glibc"
 LANGUAGES_TO_INSTALL="es en ca"
 

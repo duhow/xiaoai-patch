@@ -1,5 +1,5 @@
 PACKAGE_NAME="Advanced Linux Sound Architecture - Plugins"
-PACKAGE_VERSION="1.2.2"
+PACKAGE_VERSION="1.2.7.1"
 PACKAGE_SRC="https://www.alsa-project.org/files/pub/plugins/alsa-plugins-${PACKAGE_VERSION}.tar.bz2"
 PACKAGE_DEPENDS="alsa-lib"
 
