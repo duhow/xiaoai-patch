@@ -47,14 +47,14 @@ done
 echo "[!] Fixing old libs"
 
 libraries_upgrade="
-libreadline.so.7 libreadline.so.8
-libicalvcal.so.0 libicalvcal.so.3
-libicalss.so.0 libicalss.so.3
-libical.so.0 libical.so.3
-libffi.so.6 libffi.so.7
-libfdk-aac.so.1 libfdk-aac.so.2
-libFLAC.so.8 libFLAC.so.12
-libhistory.so.7 libhistory.so.8
+libreadline.so.7 libreadline.so
+libicalvcal.so.0 libicalvcal.so
+libicalss.so.0 libicalss.so
+libical.so.0 libical.so
+libffi.so.6 libffi.so
+libfdk-aac.so.1 libfdk-aac.so
+libFLAC.so.8 libFLAC.so
+libhistory.so.7 libhistory.so
 libconfig.so.11.0.2 libconfig.so.11.1.0
 libconfig++.so.11.0.2 libconfig++.so.11.1.0
 "
@@ -68,7 +68,7 @@ echo "$libraries_upgrade" | while read -r entry; do
   fi
 
   FILE="$ROOTFS/usr/lib/$libold"
-  if [ -e "$FILE" ]; then
+  if [ -h "$FILE" ] || [ -e "$FILE" ]; then
     rm -f $FILE
     ln -sv $libnew $FILE
   fi
