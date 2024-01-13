@@ -1,14 +1,17 @@
 PACKAGE_NAME="BusyBox"
 PACKAGE_VERSION="1.36.1"
-PACKAGE_SRC="https://github.com/mirror/busybox/archive/refs/tags/${PACKAGE_VERSION//./_}.tar.gz"
+#PACKAGE_SRC="https://github.com/mirror/busybox/archive/refs/tags/${PACKAGE_VERSION//./_}.tar.gz"
+PACKAGE_SRC="https://busybox.net/downloads/busybox-${PACKAGE_VERSION}.tar.bz2"
 PACKAGE_DEPENDS="base"
 
-BUSYBOX_CONFIG=$(cat << EOF
+BUSYBOX_CONFIG="
 LOCK=y
 DPKG=n
 DPKG_DEB=n
 RPM=n
 RPM2CPIO=n
+FEATURE_PS_WIDE=y
+FEATURE_PS_LONG=y
 
 ACPID=n
 EJECT=n
@@ -25,15 +28,30 @@ WHOIS=n
 TRACEROUTE=n
 TRACEROUTE6=n
 
+ADDGROUP=n
+ADDUSER=n
+DELUSER=n
+DELGROUP=n
+SULOGIN=n
+FSCK=n
+BLKID=n
+FDISK=n
+FSCK_MINIX=n
+MKFS_MINIX=n
+HDPARM=n
+MAN=n
+TFTPD=n
+FTPD=n
+FTPGET=n
+FTPPUT=n
+
 LPD=n
 LPR=n
 LPQ=n
 
 SENDMAIL=n
 HUSH=n
-
-EOF)
-#FEATURE_PS_WIDE=y
+"
 
 configure_package() {
 	CC=${BUILD_CC} make defconfig CROSS_COMPILE=${BUILD_TARGET}- CFLAGS="${BUILD_CFLAGS}" CXXFLAGS="${BUILD_CFLAGS}" \
@@ -41,17 +59,22 @@ configure_package() {
 }
 
 premake_package() {
-	echo "configuring additional functions"
+	echo_info "configuring additional functions"
 	# https://busybox.net/FAQ.html#touch_config
 	sleep 1
 
-	for LINE in $(echo $BUSYBOX_CONFIG); do
+	echo "${BUSYBOX_CONFIG}" | while read -r LINE; do
 		CFG_KEY=$(echo $LINE | cut -d '=' -f1)
 		CFG_VAL=$(echo $LINE | cut -d '=' -f2)
 		if [ -z "${CFG_KEY}" ] || [ -z "${CFG_VAL}" ]; then
 		  continue
 		fi
-	  sed -i "/CONFIG_${CFG_KEY}=/c\\CONFIG_${CFG_KEY}=${CFG_VAL}" .config
+
+		CONFIG_LINE="CONFIG_${CFG_KEY}=${CFG_VAL}"
+	  sed -i "/CONFIG_${CFG_KEY}=/c\\${CONFIG_LINE}" .config
+		if ! grep -q "${CONFIG_LINE}" .config; then
+			echo ${CONFIG_LINE} >> .config
+		fi
 	done
 	sleep 1
 
