@@ -40,10 +40,10 @@ for FILE in libmibrain-common-sdk.so libmibrain-common-util.so libmibrainsdk.so 
 	libxiaomi_crypto.so libxiaomi_didi.so libxiaomi_heartbeat.so libxiaomi_http.so libxiaomi_json.so \
 	libxiaomimediaplayer.so libxiaomi_mico.so libxiaomi_miot.so libxiaomi_mosquitto.so libxiaomi_utils.so \
 	libmdspeech.so libmdplay.so libffmpeg-miplayer.so libmimc_sdk.so libiotdcm.so libiotdcm_mdplay.so \
-	libvoipengine.so libsai_miAPIs.so libmibrain-vendor-sdk.so libmibrain-util.so libota-burnboot.so \
+	libvad.so libvoip.so libvoipengine.so libsai_miAPIs.so libmibrain-vendor-sdk.so libmibrain-util.so libota-burnboot.so \
 	libDiracAPI_SHARED.so libdts.so libxaudio_engine.so libmesh.so libquark_lib.so libmivpm.so libvpm.so \
 	libaivs_sdk.so libaivs-message-util.so libxiaomimediaplayerlite.so libmijia_ble_api.so \
-	libsoup-2.4.so.1.8.0; do
+	libmilink.so libagora-rtc-sdk.so libsoup-2.4.so.1.8.0; do
   rm -vf $ROOTFS/usr/lib/$FILE
 done
 
