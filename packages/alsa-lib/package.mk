@@ -1,5 +1,5 @@
 PACKAGE_NAME="Advanced Linux Sound Architecture"
-PACKAGE_VERSION="1.2.7"
+PACKAGE_VERSION="1.2.4"
 PACKAGE_SRC="https://www.alsa-project.org/files/pub/lib/alsa-lib-${PACKAGE_VERSION}.tar.bz2"
 
 configure_package() {
