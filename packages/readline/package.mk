@@ -1,5 +1,5 @@
 PACKAGE_NAME="GNU Readline"
-PACKAGE_VERSION="8.1"
+PACKAGE_VERSION="8.2"
 PACKAGE_SRC="https://ftp.gnu.org/gnu/readline/readline-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="ncurses"
 

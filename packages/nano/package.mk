@@ -1,5 +1,5 @@
 PACKAGE_NAME="nano"
-PACKAGE_VERSION="7.0"
+PACKAGE_VERSION="7.2"
 PACKAGE_SRC="https://www.nano-editor.org/dist/v${PACKAGE_VERSION:0:1}/nano-${PACKAGE_VERSION}.tar.xz"
 PACKAGE_DEPENDS="glibc ncurses"
 

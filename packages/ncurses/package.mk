@@ -1,5 +1,5 @@
 PACKAGE_NAME="ncurses"
-PACKAGE_VERSION="6.2"
+PACKAGE_VERSION="6.4"
 PACKAGE_SRC="https://ftp.gnu.org/gnu/ncurses/ncurses-${PACKAGE_VERSION}.tar.gz"
 
 preconfigure_package() {

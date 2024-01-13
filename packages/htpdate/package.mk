@@ -1,5 +1,5 @@
 PACKAGE_NAME="htpdate"
-PACKAGE_VERSION="1.2.6"
+PACKAGE_VERSION="1.3.7"
 PACKAGE_SRC="https://github.com/angeloc/htpdate/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="openssl"
 
