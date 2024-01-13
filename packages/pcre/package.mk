@@ -20,3 +20,9 @@ make_package() {
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
 }
+
+postinstall_package() {
+	for NAME in pcregrep pcretest; do
+		rm -vf ${STAGING_DIR}/usr/bin/${NAME}
+	done
+}
