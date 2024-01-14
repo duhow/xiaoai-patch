@@ -45,6 +45,12 @@ for FILE in wget-ssl libtool libtoolize; do
   rm -vf $ROOTFS/usr/bin/$FILE
 done
 
+# delete bluez unused
+for FILE in isotest pcretest rctest mpris-proxy bluemoon \
+  l2test l2ping btmgmt gatttool bccmd sdptool ciptool; do
+  rm -vf $ROOTFS/usr/bin/$FILE
+done
+
 echo "[!] Fixing old libs"
 
 libraries_upgrade="
