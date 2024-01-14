@@ -1,6 +1,6 @@
 #!/bin/sh
 
-TIMEOUT=60
+TIMEOUT=45
 BT_CONFIG=/data/bt/bluez/bluetooth/main.conf
 BT_CLASS=$(grep -e '^Class' ${BT_CONFIG} | cut -d '=' -f2 | tr -d ' ')
 
