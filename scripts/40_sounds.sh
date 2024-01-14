@@ -28,18 +28,29 @@ else
   exit
 fi
 
+cd $BACK
+if [ -d "$USR_SHARE/common_sound" ]; then
+  echo "[*] Moving common sound"
+  FOLDER="$USR_SHARE/common_sound"
+
+  mv -vf $FOLDER/* $SOUND_FOLDER/original/
+  rm -rf $FOLDER
+  ln -sf `basename $SOUND_FOLDER`/original $FOLDER
+fi
+
 echo "[*] Remove original chinese voices"
 cd $BACK
 
 for NAME in aux_on aux_off aux_stop_tip \
   bluetooth_already_connected bluetooth_connect bluetooth_disconnect bluetooth_failure \
   bluetooth_noPhone ims_callout_prefix internet_disconnect init_wifi_config init_wifi_success \
-  mibrain_auth_failed mibrain_connect_timeout mibrain_network_unreachable mibrain_service_timeout \
-  mibrain_service_unreachable mibrain_start_failed mic_off mic_on network_done_miio no_channel \
+  mibrain_auth_failed mibrain_auth_failed_loading mibrain_connect_timeout mibrain_network_unreachable \
+  mibrain_service_timeout mibrain_service_unreachable mibrain_start_failed \
+  voip_ringback voip_ringing voip_alarm mic_off mic_on no_channel \
   reset_wait reset service_timeout setup_failure tts_vendor_demo unknown_action unknown_domain \
   unknown_service upgrade_later upgrade_now wakeup_ei_01 wakeup_ei_02 wakeup_mitv wakeup_wozai_01 \
   wakeup_zai_01 wakeup_zai_02 weak_network welcome wifi_disconnect alarmDefault first_voice \
-  voip_alarm network_done_init; do
+  network_done_init network_done_miio; do
   rm -vf $SOUND_FOLDER/original/$NAME.*
 done
 
