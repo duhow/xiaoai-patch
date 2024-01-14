@@ -49,6 +49,10 @@ toggle_play_songs() {
     (speak -v en "bluetooth pairing") &
     /bin/bluetooth_pair
 }
-[ "$CLICK_COUNT" = "5" ] && {
-    /etc/init.d/heywifi start && (speak -v en "wifi pairing") &
+[ "$CLICK_COUNT" = "5" ] && [ -e "/usr/bin/improv-wifi" ] && {
+    pgrep "improv-wifi" && (speak -v en "the speaker is already in wifi pairing mode") && exit
+
+    /usr/bin/improv-wifi -w /bin/wifi_connect &
+    sleep 0.5
+    pgrep "improv-wifi" && (speak -v en "wifi pairing, to connect the speaker, use a system compatible with, improv wifi")
 }
