@@ -1,0 +1,11 @@
+--- a/etc/init.d/bluetoothd	2022-06-20 09:24:44.000000000 +0200
++++ b/etc/init.d/bluetoothd	2024-01-14 13:50:52.254205595 +0100
+@@ -39,7 +39,7 @@
+         rtk_hciattach -n -s 115200 ttyS1 rtk_h5 > /dev/null 2>&1 &
+     fi
+     sleep 2
+-    btmgmt power on
++    timeout 4 btmgmt power on
+ 
+     if [ ! -d $conf_dir/bluetooth ];then
+         /bin/mkdir -p $conf_dir/bluetooth
