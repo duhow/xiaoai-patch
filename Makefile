@@ -42,7 +42,7 @@ ifeq ($(MODEL), s12)
 BUILD_DIR := /mnt/ubi.tmp
 endif
 
-.PHONY: all clean pull extract patch build help
+.PHONY: all clean clean-packages pull extract patch build help
 
 all: extract patch build
 
@@ -115,6 +115,11 @@ ifeq ($(MODEL), s12)
 	-rmmod ubifs ubi nandsim
 endif
 	rm -rf $(BUILD_DIR) 2>/dev/null
+
+clean-packages:
+	rm -rf build-packages/s2t
+	rm -rf build-packages/staging
+	rm -rf build-packages/build
 
 pull:
 ifeq ($(MODEL),none)
