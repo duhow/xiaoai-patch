@@ -30,7 +30,7 @@ toggle_play_songs() {
 # otherwise apply to MPC
 
   if command_exists bluetoothctl; then
-    BT_STATUS=$(bluetoothctl player.show | grep -i status | awk '{print $2}')  
+    BT_STATUS=$(timeout 1 bluetoothctl player.show | grep -i status | awk '{print $2}')  
 
     if [ -n "$BT_STATUS" ]; then
       [ "$BT_STATUS" = "playing" ] && bluetoothctl player.pause
