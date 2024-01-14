@@ -3,6 +3,7 @@
 TIMEOUT=45
 BT_CONFIG=/data/bt/bluez/bluetooth/main.conf
 BT_CLASS=$(grep -e '^Class' ${BT_CONFIG} | cut -d '=' -f2 | tr -d ' ')
+[ -z "$SILENT" ] && SILENT=0
 
 /bin/show_led 3
 
@@ -15,11 +16,21 @@ hciconfig hci0 class $BT_CLASS
 {
   printf "default-agent\n\n"
   sleep $TIMEOUT
-} | timeout $TIMEOUT bluetoothctl --agent=NoInputNoOutput
+} | timeout $TIMEOUT bluetoothctl --agent=NoInputNoOutput &
+
+start_time=$(date '+%s')
+end_time=$(expr $start_time + $TIMEOUT)
+
+while [ "$(date '+%s')" -lt "$end_time" ]; do
+  [ "$SILENT" = 0 ] && miplay sound mesh_scanning -w
+  [ "$SILENT" = 1 ] && sleep 1.5
+  sleep 2.5
+
+  for BT_MAC in $(bluetoothctl devices | awk '{print $2}'); do
+    bluetoothctl trust $BT_MAC
+  done
+done
 
 bluetoothctl pairable off
-for BT_MAC in $(bluetoothctl devices | awk '{print $2}'); do
-  bluetoothctl trust $BT_MAC
-done
 
 /bin/shut_led 3
