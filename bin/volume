@@ -28,11 +28,7 @@ for SRC in bluetooth mysoftvol notifyvol 'headphone volume'; do
   amixer set "$SRC" $VOL &>/dev/null &
 done
 
-if [ -e /usr/share/sound/volume.mp3 ]; then
-    mpg123 -q -a notify /usr/share/sound/volume.mp3 &
-else
-    aplay -Dnotify /usr/share/sound/volume.wav &>/dev/null &
-fi
+miplay sound volume &
 
 # SHOW VOLUME LED
 CURVOL=`current_volume`
