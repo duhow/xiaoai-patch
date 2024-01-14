@@ -1,6 +1,6 @@
 PACKAGE_NAME="nqptp"
-PACKAGE_VERSION="main" # 1.1-dev
-PACKAGE_SRC="https://github.com/mikebrady/nqptp/archive/refs/heads/${PACKAGE_VERSION}.tar.gz"
+PACKAGE_VERSION="1.2.4" # 1.1-dev
+PACKAGE_SRC="https://github.com/mikebrady/nqptp/archive/refs/tags/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc"
 
 preconfigure_package() {

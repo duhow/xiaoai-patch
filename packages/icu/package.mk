@@ -1,6 +1,6 @@
 PACKAGE_NAME="International Components for Unicode"
-PACKAGE_VERSION="69.1"
-PACKAGE_SRC="https://github.com/unicode-org/icu/releases/download/release-69-1/icu4c-69_1-src.tgz"
+PACKAGE_VERSION="74.1"
+PACKAGE_SRC="https://github.com/unicode-org/icu/releases/download/release-${PACKAGE_VERSION//./-}/icu4c-${PACKAGE_VERSION//./_}-src.tgz"
 
 # Cross-compile guide: http://starofrainnight-eng.blogspot.com/2013/08/cross-compile-icu-512.html
 

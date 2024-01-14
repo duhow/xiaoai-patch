@@ -29,7 +29,8 @@ for FILE in libxml2.so.2.9.7 libxml2.so.2.9.3 libstdc++.so.6.0.22* libsbc.so.1.2
 	libcurl.so.4.4.0 libbluetooth.so.3.18.10 libpcre.so.1.2.9 libpcre.so.1.2.6 \
 	libpcreposix.so.0.0.5 \
 	libhistory.so.7.0 \
-	libfdk-aac.so.1.0.0 libFLAC.so.8.3.0 libspeexdsp.so.1.5.0 \
+	libfdk-aac.so.1.0.0 libfdk-aac.so.2.0.2 \
+	libFLAC.so.8.3.0 libspeexdsp.so.1.5.0 \
 	libopus.so.0.5.3 libopus.so.0.6.1 \
 	libopusfile.so.0.4.4 libopusurl.so.0.4.4 \
 	libsndfile.so.1.0.28 \
@@ -39,8 +40,8 @@ for FILE in libxml2.so.2.9.7 libxml2.so.2.9.3 libstdc++.so.6.0.22* libsbc.so.1.2
   rm -vf $ROOTFS/usr/lib/$FILE
 done
 
-# bluez packages
-for FILE in l2test l2ping btmgmt gatttool bccmd sdptool ciptool wget-ssl; do
+# delete unwanted binaries, both from source root image or compiled
+for FILE in wget-ssl libtool libtoolize; do
   rm -vf $ROOTFS/usr/bin/$FILE
 done
 

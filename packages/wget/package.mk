@@ -1,5 +1,5 @@
 PACKAGE_NAME="wget"
-PACKAGE_VERSION="1.21.2"
+PACKAGE_VERSION="1.21.4"
 PACKAGE_SRC="https://ftp.gnu.org/gnu/wget/wget-${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc zlib bzip2 nghttp2 pcre openssl"
 

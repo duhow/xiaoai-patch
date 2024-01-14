@@ -28,7 +28,15 @@ install_package() {
 
 postinstall_package() {
 	# replace original
-	mv -f ${STAGING_DIR}/usr/libexec/bluetooth/bluetoothd ${STAGING_DIR}/usr/bin/bluetoothd
+	mv -vf ${STAGING_DIR}/usr/libexec/bluetooth/bluetoothd ${STAGING_DIR}/usr/bin/bluetoothd
+
+	rm -vf ${STAGING_DIR}/usr/lib/cups/backend/bluetooth
+	rm -vf ${STAGING_DIR}/usr/libexec/bluetooth/btmon-logger
+
+	for NAME in isotest pcretest rctest mpris-proxy bluemoon \
+		l2test l2ping btmgmt gatttool bccmd sdptool ciptool; do
+		rm -vf ${STAGING_DIR}/usr/bin/${NAME}
+	done
 
 	for NAME in ibeacon eddystone \
 		btproxy btmgmt btinfo btconfig btattach \
