@@ -1,13 +1,29 @@
 #!/bin/sh
 
 FILE=$1
+BACKGROUND=true
+SOUND_DIR=/usr/share/sound
+
+exists(){ command -v $1 > /dev/null; }
 
 # Compatibility with commands
-if [ "$0" = "miplayer" ] && [ "$1" = "-f" ]; then
+if [ "`basename $0`" = "miplayer" ] && [ "$1" = "-f" ]; then
   FILE=$2
   shift
-elif [ "$0" = "mphelper" ] && [ "$1" = "tone" ]; then
+elif [ "`basename $0`" = "mphelper" ] && [ "$1" = "tone" ]; then
   FILE=$2
+  shift
+elif [ "`basename $0`" = "miplay" ] && [ "$1" = "sound" ] && [ -n "$2" ]; then
+  for ext in opus ogg mp3 flac wav wave; do
+    FILE="${SOUND_DIR}/$2.${ext}"
+    [ -f "${FILE}" ] && shift && break
+    FILE=""
+  done
+  [ -z "$FILE" ] && exit
+fi
+
+if [ "$2" = "-w" ]; then
+  BACKGROUND=false
   shift
 fi
 
@@ -16,7 +32,7 @@ OUTPUT=notify
 
 # Help
 if [ -z "$FILE" ] || [ ! -f "$FILE" ]; then
-  echo "$0 <AUDIO_FILE> [OUTPUT]"
+  echo "$0 <AUDIO_FILE> [-w] [OUTPUT]"
   exit 0
 fi
 
@@ -24,14 +40,22 @@ EXTENSION=$(basename $FILE | cut -d '.' -f 2)
 
 case $EXTENSION in
   mp3|MP3)
-    command -v mpg123 > /dev/null || return
-    mpg123 -q -a ${OUTPUT} ${FILE} &>/dev/null &
+    exists mpg123 || return
+    COMMAND="mpg123 -q -a ${OUTPUT} ${FILE}"
     ;;
   ogg|OGG|opus|OPUS|flac)
-    command -v ogg123 > /dev/null || return
-    ogg123 -q -d alsa -o dev:${OUTPUT} ${FILE} &>/dev/null &
+    exists ogg123 || return
+    COMMAND="ogg123 -q -d alsa -o dev:${OUTPUT} ${FILE}"
     ;;
   wav|wave|WAV)
-    aplay -D${OUTPUT} ${FILE} &>/dev/null &
+    COMMAND="aplay -D${OUTPUT} ${FILE}"
     ;;
 esac
+
+[ -z "$COMMAND" ] && return
+
+if [ "$BACKGROUND" = "true" ]; then
+  $COMMAND &>/dev/null &
+else
+  $COMMAND &>/dev/null
+fi
