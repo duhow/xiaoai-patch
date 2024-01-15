@@ -10,6 +10,12 @@ PASSWORD=$2
 [ -z "$SILENT" ] && SILENT=0 # enable sounds
 WPA_CONFIG=/data/wifi/wpa_supplicant.conf
 
+if [ "${#PASSWORD}" -lt 8 ] || [ "${#PASSWORD}" -ge 64 ]; then
+    [ "$SILENT" = 0 ] && miplay sound notice &
+    echo "[!] Error, the password is invalid!"
+    exit 1
+fi
+
 if [ -e "$WPA_CONFIG" ]; then
     cp ${WPA_CONFIG} ${WPA_CONFIG}.bak
 fi
@@ -30,10 +36,10 @@ EOF
 touch /data/status/config_done
 
 [ "$SILENT" = 0 ] && miplay sound mesh_connecting &
-/etc/init.d/wireless restart
+timeout 30 /etc/init.d/wireless restart
 
 for n in `seq 10`; do
-    STATUS=$(wpa_cli status | grep wpa_state | cut -d'=' -f2)
+    STATUS=$(timeout 1 wpa_cli status | grep wpa_state | cut -d'=' -f2)
 
     if [ "$STATUS" = "COMPLETED" ]; then
         echo "All done!"
@@ -48,6 +54,8 @@ for n in `seq 10`; do
 done
 
 echo "Status is ${STATUS}, please check."
+
+killall -q -9 wpa_supplicant wpa_cli
 
 if [ -e "${WPA_CONFIG}.bak" ]; then
     echo "Reverting config"
