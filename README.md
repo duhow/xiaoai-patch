@@ -39,6 +39,7 @@ Everything powered by Open Source Software!
 | ![L15A - encrypted, not fully supported][L15A] | Xiaomi Mi AI Speaker 2 Gen | |
 | ![L16A - not tested][L16A] | Xiaomi Sound by HARMAN AudioEFX | |
 | ![L07A - not tested][L07A] | Redmi XiaoAI Speaker Play | |
+| ![M03A - not tested][M03A] | Xiaomi Sound Move | |
 | ![MDZ-25-DT - not tested][MDZ-25-DT] | Xiaomi Mi AI Speaker 1 Gen (?) - S12 | |
 | ![XMYX01JY - not tested][XMYX01JY] | Xiaomi XiaoAI HD | |
 | ![YLAI01YL - blocked (not tested)][YLAI01YL] | Yeelight Voice Control Assistant | |
@@ -56,6 +57,7 @@ Everything powered by Open Source Software!
 [L15A]: https://img.shields.io/badge/L15A-yellow?style=for-the-badge
 [L16A]: https://img.shields.io/badge/L16A-lightgrey?style=for-the-badge
 [L07A]: https://img.shields.io/badge/L07A-lightgrey?style=for-the-badge
+[M03A]: https://img.shields.io/badge/M03A-lightgrey?style=for-the-badge
 [MDZ-25-DT]: https://img.shields.io/badge/MDZ--25--DT-lightgrey?style=for-the-badge
 [XMYX01JY]: https://img.shields.io/badge/XMYX01JY-lightgrey?style=for-the-badge
 [YLAI01YL]: https://img.shields.io/badge/YLAI01YL-lightgrey?style=for-the-badge
