@@ -40,14 +40,17 @@ if [ "$CURVOL" -ge 0 ] && [ "$CURVOL" -le 100 ]; then
 
   case "${MODEL}" in
     LX06 | L06A)
+      LEDI2C=0
+      LEDID="0-003a"
+      (lsmod | grep -q et6037) && LEDID="0-0023"
       LEDMAX=17
-      LEDSYS=/sys/devices/i2c-0/0-003a/led_rgb
       # starts from play button
       LEDSEQ="$(seq 10 17) $(seq 0 9)"
       ;;
-    L09A)
+    L09A | L09B)
+      LEDI2C=0
+      LEDID="0-003b"
       LEDMAX=23
-      LEDSYS=/sys/devices/i2c-0/0-003b/led_rgb
       LEDSEQ="$(seq 12 23) $(seq 0 11)"
       ;;
     LX01 | LX05)
@@ -61,6 +64,8 @@ if [ "$CURVOL" -ge 0 ] && [ "$CURVOL" -le 100 ]; then
       exit 0
       ;;
   esac
+
+  [ -z "${LEDSYS}" ] && LEDSYS=/sys/devices/i2c-${LEDI2C}/${LEDID}/led_rgb
 
   let AMOUNT=1+CURVOL*LEDMAX/100
 
