@@ -24,6 +24,29 @@ categories:
       - 'bugfix'
       - 'bug'
 
+autolabeler:
+  - label: 'packages'
+    files:
+      - 'packages.sh'
+      - 'packages/**'
+  - label: 'research'
+    files:
+      - 'research/**'
+  - label: 'LX06'
+    title:
+      - '/lx06/i'
+      - '/l06a/i'
+  - label: 'LX01'
+    title:
+      - '/lx01/i'
+  - label: 'L09A'
+    title:
+      - '/l09a/i'
+  - label: 'L09B'
+    title:
+      - '/l09b/i'
+
+
 template: |
   ## Changelog
   $CHANGES
