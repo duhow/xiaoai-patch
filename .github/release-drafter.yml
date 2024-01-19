@@ -1,0 +1,29 @@
+name-template: "Xiao Ai Patched v$NEXT_PATCH_VERSION"
+tag-template: "$NEXT_PATCH_VERSION"
+version-template: "$MAJOR.$MINOR.$PATCH"
+change-template: "* #$NUMBER - $TITLE"
+categories:
+  - title: 'Packages'
+    labels:
+      - 'packages'
+  - title: 'Speaker patches'
+    labels:
+      - 'LX01'
+      - 'LX06'
+      - 'L09A'
+      - 'L09B'
+      - 'S12'
+  - title: 'Features'
+    labels:
+      - 'feature'
+      - 'research'
+      - 'enhancement'
+  - title: 'Bugs killed'
+    labels:
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+
+template: |
+  ## Changelog
+  $CHANGES
