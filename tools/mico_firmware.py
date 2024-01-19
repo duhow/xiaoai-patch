@@ -40,7 +40,10 @@ class Firmware():
 
         # magic
         logging.info(f'firmware magic: {hex(self.image_header.magic)}')
-        assert self.image_header.magic == 0x31524448
+        assert self.image_header.magic in [0x31524448, 0x32524448]
+
+        if self.image_header.magic == 0x32524448:
+            logging.info("NOTE: firmware seems to be encrypted?")
 
         # signature
         self.fd.seek(self.image_header.signature_offset)

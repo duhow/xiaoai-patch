@@ -12,6 +12,8 @@
 | s12a | 1.73.23  | ddc2efab4736422f2829ce2710521fc2 | firmware |
 | s12a | 1.73.41  | 91e7c7e2e93d0bd6b07eec54b3a4a04e | firmware |
 | s12a | 1.74.4   | 7fcfb4fe73c7554d96f15be761aa5b14 | firmware |
+| s12a | 1.75.23  | 7c12a18a1dd86dee06afb61e0adc7597 | firmware |
+| s12a | 1.76.54  | e409f117df7ca1fed17601adf684babb | firmware |
 | s12  | 1.50.1   | ed3949e46129c97b79322e4630c3d1e6 | firmware |
 | s12  | 1.52.1   | bf456d334512a978bc03bf19c6f0d292 | firmware |
 | s12  | 1.54.1   | cc82bbfa5cd305c7af57f2fa98ff07b1 | firmware |
@@ -20,6 +22,7 @@
 | s12  | 1.59.28  | 2d2ab3bf0d9b4703a80741a1b6748c1e | firmware |
 | s12  | 1.72.2   | 25d618c295d3c86d80b44dff9aa668e1 | firmware |
 | s12  | 1.74.15  | deecb2952302da106a704a1e128e51dd | firmware |
+| s12  | 1.74.18  | 35d00dd8495ee5400de60ceadd6be70f | firmware |
 | lx01 | 1.6.21   | 29fe264a2d19531259ce150965d19129 | all |
 | lx01 | 1.21.50  | N/A | (CHANNEL=current) |
 | lx01 | 1.32.1   | f52b52ce3d270b2a74b8161203734ffc | all |
@@ -47,14 +50,19 @@
 | lx01 | 1.59.3   | 5d2c40853b21443d8d2152bfe99ec686 | firmware |
 | lx01 | 1.60.2   | d4e7823412f1bf548bb539e419780bcc | firmware |
 | lx01 | 1.62.4   | ebef27ffe98d1fd457917bc7701d7170 | firmware |
+| lx01 | 1.62.6   | bd7330bef6f845fa2729e364215788a8 | firmware |
 | lx05 | 1.50.10  | b0a532ef70469dcc8e6ccf33c741a045 | skr_firmware |
 | lx05 | 1.74.7   | 2bf440d5d3ad371f47c87549e3974be6 | skr_firmware |
 | lx05 | 1.79.13  | 6937ee01a0c4aff0c3c91ab1e3d82551 | skr_all |
 | lx05 | 1.80.2   | f2d8fc1c3cf4749f4037f1abd332ee81 | skr_firmware |
+| lx05 | 1.82.8   | 3bdd15abf389d8f59ca12475217fc27b | skr_firmware |
+| lx05 | 1.82.10  | fdab242dde28ef2303ad9da**dad7d194e** | skr_firmware |
 | l05b | 1.59.22  | 423918ea0e863eff6dce8d8cd44091de | nuttx (from l05c family) |
 | l05b | 1.62.25  | 2d5309e54547a1218456278d36d0cb85 | nuttx |
 | l05c | 1.59.27  | ce81a217d82d0e1b997b2f3973d110eb | nuttx |
 | l05c | 1.62.1   | fce0058d34f23526d3c32f7a102821af | nuttx |
+| l05c | 1.62.26  | 554999e9a3f7d8209b5a0269d6d94327 | nuttx |
+| l05c | 1.63.11  | 00243f7513f6d282d94a5ef1dcdf944a | nuttx |
 | lx06 | 1.58.13  | 892f50c64a55d9187736f7ff0288b63c | firmware |
 | lx06 | 1.62.5   | 7cf399e755dfb9c734a812213a2a9c77 | all |
 | lx06 | 1.66.7   | a82cce43a0d99895fd8c6959968801e0 | firmware |
@@ -70,6 +78,7 @@
 | lx06 | 1.83.261 | 50e31ef1e6109b3057706f1e7de55b26 | firmware |
 | l07a | 1.76.2   | 39e4b4666c963a633bec59cdc7cd3027 | skr_firmware |
 | l07a | 1.80.4   | a1513a09312e8f493c86602225367517 | skr_firmware |
+| l07a | 1.80.53  | c20814992b6239685c9849a64bc450d2 | skr_firmware |
 | l09g | 1.44.21  | b2204ae2c465296e78607669d4300107 | l09g |
 | l09g | 1.44.27  | 8b98549f604d4fca1e3f75200ea6c5c9 | l09g |
 | l09a | 1.54.0   | 9376a09e3c23e68102b4ad7c449d632e | all |
@@ -80,6 +89,7 @@
 | l09a | 1.76.4   | 61c157b288598f279a083b9078024283 | firmware |
 | l09a | 1.76.5   | 9b5c905e314bfd988ee1b8d730d75deb | firmware |
 | l09a | 1.78.3   | 9a88cbc8d0c497a8a850aa07d4ed7009 | firmware |
+| l09a | 1.78.4   | c901c74c6ad94101f59c2061c348abf8 | firmware |
 | l09b | 1.41.6   | 2c23c6b89bb4e77ed8977c4b8ad91550 | firmware |
 | l09b | 1.69.54  | 3d465a94ef7673b68576b7c1c8c8cdd1 | firmware |
 | l09b | 1.75.13  | bf710ae709d3455763b21c74c5defdeb | all |
@@ -88,19 +98,28 @@
 | l15a | 1.81.4   | 612acf5eddf9fdb85d189540e4cb1a32 | all |
 | l15a | 1.81.11  | 34ec2c6ccf04f5f1485161848fae2969 | all |
 | l15a | 1.82.103 | 88798f4f7e46eaf6dd933add8b0bc95e | all |
+| l15a | 1.84.27  | 0536b0deb8abbdc1f576125922954633 | all |
 | l16a | 1.80.1   | 9f60968b0f3f8e96c19c779d024c4193 | all |
 | l16a | 1.83.24  | 678b1884700bf4dd88105d1d7806c122 | all |
 | l16a | 1.87.91  | 5adb3e86021c87927a37847d7e4da4fc | all |
 | l16a | 1.88.3   | a948a3dc641dee1b1aac001601d681b7 | all |
+| l16a | 1.89.166 | fb2535c8c42818225c96425dfc6b3f3b | all |
+| l16a | 1.90.13  | 4331661a8cbb20458b5581dced0622a2 | all |
 | x08a | 1.20.11  | 71e0f132f6474da1785926c9b37dbc2f | payload |
 | x08a | 1.27.10  | e2f51a3b886bbb02d41032583e43e554 | payload |
 | x08a | 2.7.103  | 337342c7775c8494e711b41f6e4285cb | payload |
 | x08a | 2.9.6    | ca7fff56dd301737e35ccdefbf0576a6 | payload |
 | x08a | 2.9.103  | d493dc43691e24b79dd698be8dbe30a1 | payload |
+| x08a | 2.17.6   | cfd37664e797b2380f1451ef578d24fd | payload |
+| x08a | 2.17.108 | a976692a8a061460e2333ccaac6468d2 | payload |
 | x08c | 1.27.10  | ff5682d361bb293eb098d41d7d27f4c5 | payload |
 | x08c | 2.9.103  | f143b416fd3a104159804147c5eb0e2b | payload |
+| x08c | 2.17.12  | f11d4e4416bf42a4c32c44c141e2e467 | payload |
+| x08c | 2.17.108 | 0f9618d0ba33f3a4e181c059c4d446f8 | payload |
 | x08e | 1.27.10  | 3d9343a508992cd936c5de83a9fe55cc | payload |
 | x08e | 2.9.103  | fd1f1e96a40e33f46dc64e73d26fc055 | payload |
+| x08e | 2.17.12  | 9daf3d7fc19f538057ce176cab9cf464 | payload |
+| x08e | 2.17.108 | 527d627f3c78f45a3eb78735a9fc3058 | payload |
 
 This is a list of all the updates found for different speakers / devices.
 You can download from two hosts:
@@ -115,4 +134,5 @@ For `l05b/c`, file name is `mico_{md5}_{version}_nuttx.bin.lzma`.
 For `x08a`, file name is `payload_{version}_{md5}.bin`.  
 
 MD5 is the **last 5** characters of the MD5 from same file.
+**UPDATE 2024:** MD5 can be **last 9** characters of the MD5. This affects most latest Smart Speakers updates.
 (file is named after being hashed)
