@@ -25,15 +25,3 @@ start_service() {
     procd_set_param respawn ${respawn_threshold:-3600} ${respawn_timeout:-5} ${respawn_retry:-5}
     procd_close_instance
 }
-
-stop_service() {
-    service_stop /usr/bin/${PROG}
-    if [ -e "$NQPTP" ]; then
-      service_stop $NQPTP
-    fi
-}
-
-restart() {
-    stop
-    start
-}
