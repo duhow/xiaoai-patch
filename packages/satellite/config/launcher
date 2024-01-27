@@ -1,0 +1,16 @@
+#!/bin/sh
+
+echo 'START' > /tmp/satellite.log
+
+amixer sset 'pdm dclk' 'pdm dclk 3.072m, support 8k/16k/32k/48k' & amixer sset 'HCIC shift gain from coeff' 'shift with -0x4' >> /tmp/satellite.log
+amixer set notifyvol 60% >> /tmp/satellite.log
+python3 -m venv .venv >> /tmp/satellite.log
+
+script/run --name $HOSTNAME --uri 'tcp://0.0.0.0:10700' --no-zeroconf \
+--mic-command '/data/satellite/recorder' \
+--snd-command 'aplay -D notify -r 22050 -c 1 -f S16_LE -t raw' \
+--awake-wav sounds/sound1.wav --done-wav sounds/sound7.wav \
+--startup-command '/bin/show_led 10' --detect-command '/bin/show_led 0' \
+--detection-command '/bin/show_led 1' --stt-stop-command '/bin/show_led 2' --transcript-command '/bin/show_led 0' \
+--error-command '/bin/show_led 7; sleep 1; /bin/show_led 0' \
+--debug >> /tmp/satellite.log 2>&1

@@ -40,7 +40,12 @@ toggle_play_songs() {
   fi
 
   if command_exists mpc; then
-    mpc toggle
+    if mpc status | grep playing >/dev/nul
+    then
+      mpc stop
+    else
+      mpc play
+    fi
   fi
 }
 

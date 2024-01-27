@@ -1,0 +1,62 @@
+#!/bin/sh /etc/rc.common
+
+START=98
+USE_PROCD=1
+
+EXTRA_COMMANDS="status toggle"
+PIDFILE=/var/run/satellite.pid
+
+start_service() {
+  /bin/shut_led 7 &
+
+  procd_open_instance
+  procd_set_param command /data/satellite/launcher
+  procd_set_param respawn 3600 5 0
+  procd_set_param pidfile ${PIDFILE}
+  procd_close_instance
+}
+
+stop_service() {
+  /bin/show_led 7 &
+
+  kill_child_processes 1 `cat ${PIDFILE}`
+}
+
+reload_service() {
+  stop
+  sleep 1
+  start
+}
+
+toggle() {
+  if [ -f "${PIDFILE}" ] && [ -e /proc/`cat ${PIDFILE}`/status ]; then
+    stop
+  else
+    start
+  fi
+}
+
+status() {
+  if [ -f "${PIDFILE}" ] && [ -e /proc/`cat ${PIDFILE}`/status ]; then
+    echo "satellite is running."
+    return 0
+  else
+    echo "satellite is stopped."
+    return 1
+  fi
+}
+
+kill_child_processes() {
+    isTopmost=$1
+    curPid=$2
+    childPids=`pgrep -P ${curPid}`
+
+    for childPid in $childPids
+    do
+        kill_child_processes 0 $childPid
+    done
+
+    if [ $isTopmost -eq 0 ]; then
+        kill -9 $curPid 2> /dev/null
+    fi
+}
