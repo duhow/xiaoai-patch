@@ -21,17 +21,21 @@ preconfigure_package() {
 }
 
 configure_package() {
-	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS} -static" \
-	   CXX="${BUILD_CXX}" CXXFLAGS="${BUILD_CFLAGS}" CPPFLAGS="${BUILD_CFLAGS}" \
-	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
-	   ./configure --build=${MACHTYPE} --host=${BUILD_TARGET} --target=${BUILD_TARGET} \
-	   --prefix=${INSTALL_PREFIX} \
-	   ac_cv_file__dev_ptmx=no \
-	   ac_cv_file__dev_ptc=no \
-	   ac_cv_have_long_long_format=yes \
-	   --disable-ipv6 \
-	   --disable-shared \
-	   --enable-optimizations
+        CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
+           CXX="${BUILD_CXX}" CXXFLAGS="${BUILD_CFLAGS}" CPPFLAGS="${BUILD_CFLAGS}" \
+           PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
+           ./configure --build=${MACHTYPE} --host=${BUILD_TARGET} --target=${BUILD_TARGET} \
+           --prefix=${INSTALL_PREFIX} \
+           ac_cv_file__dev_ptmx=no \
+           ac_cv_file__dev_ptc=no \
+           ac_cv_have_long_long_format=yes \
+           --enable-optimizations \
+           --with-lto \
+           --enable-shared \
+           --disable-ipv6 \
+           --disable-test-modules \
+           --without-doc-strings \
+           --with-ensurepip=no
 }
 
 make_package() {
@@ -43,8 +47,22 @@ make_package() {
 }
 
 install_package() {
-	# python build takes too much space, this needs to build static or perform a lot of cleaning
-	return 0
-
 	make DESTDIR=${STAGING_DIR} install
+
+	# optimize size
+        rm -rvf /xiaoai/build-packages/staging/armv7/usr/lib/python3.*/pydoc_data
+        rm -rvf /xiaoai/build-packages/staging/armv7/usr/lib/python3.*/ensurepip
+
+        rm -rvf /xiaoai/build-packages/staging/armv7/usr/lib/python3.*/asyncio/windows_*.py
+        rm -rvf /xiaoai/build-packages/staging/armv7/usr/lib/python3.*/_osx_support.py
+
+        rm -rvf /xiaoai/build-packages/staging/armv7/usr/lib/python3.*/test
+        rm -rvf /xiaoai/build-packages/staging/armv7/usr/lib/python3.*/**/test
+
+        rm -rvf /xiaoai/build-packages/staging/armv7/usr/lib/python3.*/unittest
+        rm -rvf /xiaoai/build-packages/staging/armv7/usr/lib/python3.*/*/idle_test
+        rm -rvf /xiaoai/build-packages/staging/armv7/usr/lib/python3.*/*/tests
+
+        rm -rvf /xiaoai/build-packages/staging/armv7/usr/lib/python3.*/__pycache__
+        rm -rvf /xiaoai/build-packages/staging/armv7/usr/lib/python3.*/**/__pycache__
 }
