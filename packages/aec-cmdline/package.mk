@@ -1,6 +1,5 @@
 PACKAGE_NAME="aec_cmdline"
 PACKAGE_VERSION="master"
-#PACKAGE_SRC="https://github.com/voice-engine/ec/archive/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_SRC="https://github.com/dr-ni/aec_cmdline/archive/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="alsa-lib speexdsp"
 

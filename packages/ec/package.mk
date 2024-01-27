@@ -1,7 +1,8 @@
 PACKAGE_NAME="echo canceller"
 PACKAGE_VERSION="master"
-PACKAGE_SRC="https://github.com/voice-engine/ec/archive/${PACKAGE_VERSION}.tar.gz"
-PACKAGE_DEPENDS="alsa-lib speexdsp"
+#PACKAGE_SRC="https://github.com/voice-engine/ec/archive/${PACKAGE_VERSION}.tar.gz"
+PACKAGE_SRC="https://github.com/danielk117/ec/archive/${PACKAGE_VERSION}.tar.gz"
+PACKAGE_DEPENDS="alsa-lib alsa-plugin-fifo speexdsp"
 
 make_package() {
 	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" \
