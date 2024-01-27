@@ -8,7 +8,7 @@ on:
 jobs:
   check:
     name: Check
-    if: ${{ github.repository == 'duhow/xiaoai-patch' }}
+    if: ${{ github.repository == 'danielk117/xiaoai-patch' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

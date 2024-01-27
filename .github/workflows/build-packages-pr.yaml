@@ -12,21 +12,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lx01:
-    name: LX01
-    if: ${{ github.repository == 'duhow/xiaoai-patch' }}
-    uses: duhow/xiaoai-patch/.github/workflows/build-packages.yaml@master
-    with:
-      model: LX01
   lx06:
     name: LX06
-    if: ${{ github.repository == 'duhow/xiaoai-patch' }}
-    uses: duhow/xiaoai-patch/.github/workflows/build-packages.yaml@master
+    if: ${{ github.repository == 'danielk117/xiaoai-patch' }}
+    uses: danielk117/xiaoai-patch/.github/workflows/build-packages.yaml@master
     with:
       model: LX06
-  s12:
-    name: S12
-    if: contains(github.event.pull_request.labels.*.name, 'S12')
-    uses: duhow/xiaoai-patch/.github/workflows/build-packages.yaml@master
-    with:
-      model: S12

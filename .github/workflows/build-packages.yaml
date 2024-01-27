@@ -17,7 +17,7 @@ on:
 jobs:
   build:
     name: Build for ${{ github.event.inputs.model || inputs.model || 'LX06' }}
-    if: ${{ github.repository == 'duhow/xiaoai-patch' }}
+    if: ${{ github.repository == 'danielk117/xiaoai-patch' }}
     env:
       MODEL: ${{ github.event.inputs.model || inputs.model || 'LX06' }}
     runs-on: ubuntu-latest
