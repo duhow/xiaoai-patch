@@ -1,0 +1,29 @@
+--- a/etc/asound.conf	2019-12-25 04:18:35.000000000 +0100
++++ b/etc/asound.conf	2021-01-03 12:47:22.255262429 +0100
+@@ -132,5 +132,26 @@
+    }
+ }
+
++pcm.mic_downmix {
++     type plug
++     slave.pcm mic_downmix_table
++     slave.channels 2
++}
++
++pcm.mic_downmix_table {
++     type route
++     slave.pcm noop
++     slave.channels 8
++     ttable {
++          0.0 1
++          0.1 1
++          0.2 1
++          0.3 1
++          0.4 1
++          0.5 1
++          1.6 1
++          1.7 1
++      }
++}
+
+ defaults.pcm.rate_converter "speexrate_medium"
