@@ -10,6 +10,8 @@ PASSWORD=$2
 [ -z "$SILENT" ] && SILENT=0 # enable sounds
 WPA_CONFIG=/data/wifi/wpa_supplicant.conf
 
+#echo "password lenght: ${#PASSWORD}"
+
 if [ "${#PASSWORD}" -lt 8 ] || [ "${#PASSWORD}" -ge 64 ]; then
     [ "$SILENT" = 0 ] && miplay sound notice &
     echo "[!] Error, the password is invalid!"
