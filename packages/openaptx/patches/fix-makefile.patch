@@ -1,0 +1,26 @@
+--- a/Makefile	2021-04-25 17:02:50.000000000 +0200
++++ b/Makefile	2024-01-28 19:00:45.061965098 +0100
+@@ -27,15 +27,15 @@
+ MKDIR = mkdir -p
+ PRINTF = printf
+ 
+-CFLAGS = -W -Wall -O3
+-LDFLAGS = -s
+-ARFLAGS = -rcs
++CFLAGS ?= -W -Wall -O3
++LDFLAGS ?= -s
++ARFLAGS ?= -rcs
+ 
+-PREFIX = /usr/local
+-BINDIR = bin
+-LIBDIR = lib
+-INCDIR = include
+-PKGDIR = $(LIBDIR)/pkgconfig
++PREFIX ?= /usr/local
++BINDIR ?= bin
++LIBDIR ?= lib
++INCDIR ?= include
++PKGDIR ?= $(LIBDIR)/pkgconfig
+ 
+ NAME = openaptx
+ MAJOR = 0

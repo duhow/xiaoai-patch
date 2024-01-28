@@ -14,7 +14,7 @@ preconfigure_package() {
 }
 
 configure_package() {
-	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS} -DOPENAPTX_DECODER" LDFLAGS="${BUILD_LDFLAGS}" \
+	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
 	   CXX="${BUILD_CXX}" CXXFLAGS="${BUILD_CFLAGS}" CPPFLAGS="${BUILD_CFLAGS}" \
 	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
 	   PKG_CONFIG_PATH="${BUILD_PKG_CONFIG_LIBDIR}" \
@@ -28,7 +28,7 @@ configure_package() {
 	   --enable-aac \
 	   --enable-ldac \
 	   --enable-ofono \
-	   --enable-aptx --enable-aptx-hd \
+	   --with-libopenaptx --enable-aptx --enable-aptx-hd \
 	   --with-sysroot="${STAGING_DIR}"
 }
 
