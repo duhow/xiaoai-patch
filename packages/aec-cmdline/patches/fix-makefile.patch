@@ -1,0 +1,8 @@
+--- a/Makefile	2023-07-31 15:06:36.000000000 +0200
++++ b/Makefile	2024-01-28 16:49:53.723771329 +0100
+@@ -1,4 +1,4 @@
+-CC=gcc
++CC?=gcc
+ CFLAGS?=-Wall -O3
+ LDFLAGS?=-lspeexdsp
+ AR?=ar
