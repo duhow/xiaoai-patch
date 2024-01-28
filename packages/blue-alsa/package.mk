@@ -1,7 +1,31 @@
 PACKAGE_NAME="Bluetooth Audio ALSA Backend"
 PACKAGE_VERSION="master"
 PACKAGE_SRC="https://github.com/Arkq/bluez-alsa/archive/${PACKAGE_VERSION}.tar.gz"
-PACKAGE_DEPENDS="alsa-lib bluez sbc mpg123 lame libldac openaptx fdk-aac dbus glib readline libbsd ncurses"
+PACKAGE_DEPENDS="alsa-lib bluez sbc dbus glib readline libbsd ncurses"
+BUILD_CODECS=""
+
+build_opts_extend() {
+	PACKAGE_DEPENDS="${PACKAGE_DEPENDS} $1"
+	BUILD_CODECS="${BUILD_CODECS} --enable-$2"
+}
+
+[ -z "${ENABLE_MPG123}" ] && ENABLE_MPG123=1
+[ -z "${ENABLE_MP3LAME}" ] && ENABLE_MP3LAME=1
+[ -z "${ENABLE_AAC}" ] && ENABLE_AAC=1
+[ -z "${ENABLE_LDAC}" ] && ENABLE_LDAC=1
+[ -z "${ENABLE_APTX}" ] && ENABLE_APTX=1
+[ -z "${ENABLE_LC3PLUS}" ] && ENABLE_LC3PLUS=0
+[ -z "${ENABLE_MSBC}" ] && ENABLE_MSBC=0
+[ -z "${ENABLE_FASTSTREAM}" ] && ENABLE_FASTSTREAM=1
+
+[ "${ENABLE_MPG123}" = 1 ] && build_opts_extend mpg123 mpg123
+[ "${ENABLE_MP3LAME}" = 1 ] && build_opts_extend lame mp3lame
+[ "${ENABLE_AAC}" = 1 ] && build_opts_extend fdk-aac aac
+[ "${ENABLE_LDAC}" = 1 ] && build_opts_extend libldac ldac
+[ "${ENABLE_APTX}" = 1 ] && build_opts_extend openaptx "aptx --enable-aptx-hd --with-libopenaptx"
+[ "${ENABLE_LC3PLUS}" = 1 ] && build_opts_extend lc3plus lc3plus
+[ "${ENABLE_MSBC}" = 1 ] && build_opts_extend spandsp msbc
+[ "${ENABLE_FASTSTREAM}" = 1 ] && build_opts_extend "" faststream
 
 preconfigure_package() {
 	autoreconf --install
@@ -23,12 +47,8 @@ configure_package() {
 	   --enable-rfcomm \
 	   --enable-a2dpconf \
 	   --enable-hcitop \
-	   --enable-mp3lame \
-	   --enable-mpg123 \
-	   --enable-aac \
-	   --enable-ldac \
+	   ${BUILD_CODECS} \
 	   --enable-ofono \
-	   --with-libopenaptx --enable-aptx --enable-aptx-hd \
 	   --with-sysroot="${STAGING_DIR}"
 }
 
