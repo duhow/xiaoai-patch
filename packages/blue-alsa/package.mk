@@ -28,8 +28,9 @@ configure_package() {
 	   --enable-aac \
 	   --enable-ldac \
 	   --enable-ofono \
-	   --enable-aptx --enable-aptx-hd \
 	   --with-sysroot="${STAGING_DIR}"
+
+	   #--enable-aptx --enable-aptx-hd \ # aptx codec throws build error
 }
 
 premake_package() {
