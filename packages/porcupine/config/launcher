@@ -47,6 +47,21 @@ set_volume(){
   done
 }
 
+check_date(){
+  YEAR=2024
+  COUNT=0
+  until [ "$COUNT" -ge 5 ]; do
+    if [ "`date +%Y`" -ge "$YEAR" ]; then
+      log "all good"
+      break
+    fi
+    log "updating time - times $COUNT"
+    ntpd -q -p pool.ntp.org
+    sleep 4
+    let COUNT=COUNT+1
+  done
+}
+
 get_stt_settings(){
   #echo "start $(date)"
   cleanup
@@ -109,10 +124,15 @@ if [ "${MODEL}" = "LX06" ]; then
   RECORDING_CHANNEL=8
 fi
 
+log "check date for valid TLS"
+check_date
 log "getting stt settings"
 get_stt_settings
 log "ready"
 cleanup
+
+# clear mute LED
+/bin/shut_led 7
 
 while true; do
 
