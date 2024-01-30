@@ -22,6 +22,7 @@ RECORDING_RATE=16000
 RECORDING_CHANNEL=1
 VOLUME_THRESHOLD=10
 VOLUME_DURING_STT=10
+SOX_SILENCE_ARGS="1 0.2 1% 0.5 1.2 1%"
 
 # import config file if exists
 [ -f /data/listener ] && . /data/listener
@@ -47,6 +48,7 @@ set_volume(){
 }
 
 get_stt_settings(){
+  #echo "start $(date)"
   cleanup
   curl -H "Authorization: Bearer ${HA_TOKEN}" \
        -o ${DATA_STT} -D ${DATA_STT}.hdr \
@@ -60,6 +62,7 @@ get_stt_settings(){
     SILENT=1 MUTE_LED=1 /etc/init.d/listener stop
     exit 1
   fi
+  #echo "data $(date)"
 
   STT_CONFIG_RATE=$(jq -r '.sample_rates[0]' ${DATA_STT})
   STT_CONFIG_CHANNEL=$(jq -r '.channels[0]' ${DATA_STT})
@@ -84,6 +87,15 @@ get_stt_settings(){
     log "stt language invalid for provider ${HA_STT_PROVIDER}; ${STT_LANGUAGE} truncating"
     STT_LANGUAGE=${STT_LANGUAGE:0:2}
   fi
+  #echo "end $(date)"
+}
+
+which arecord &>/dev/null && {
+  RECORD_COMMAND="arecord -N -D$MIC -d $TIME -f S16_LE -c $RECORDING_CHANNEL -r $RECORDING_RATE -"
+}
+which sox &>/dev/null && {
+  log "using sox"
+  RECORD_COMMAND="timeout ${TIME} rec -t alsa $MIC -b ${STT_BITRATE} -c ${RECORDING_CHANNEL} -r ${RECORDING_RATE} -e signed-integer -t wav - silence ${SOX_SILENCE_ARGS}"
 }
 
 # Set lower rate if cannot convert later
@@ -128,8 +140,10 @@ miplay sound ${NOTIFY_SOUND}
 
 [ -f "${DATA_STT}" ] && rm -f ${DATA_STT}
 
+log "activated"
+
 #log "curl -H X-Speech-Content: format=${STT_FORMAT}; channel=${STT_CHANNEL}; codec=${STT_CODEC}; sample_rate=${STT_RATE}; bit_rate=${STT_BITRATE}; language=${STT_LANGUAGE}"
-arecord -N -D$MIC -d $TIME -f S16_LE -c $RECORDING_CHANNEL -r $RECORDING_RATE - | tee ${WAV_INPUT} | \
+${RECORD_COMMAND} | tee ${WAV_INPUT} | \
 ffmpeg -hide_banner -loglevel error -i - -f ${STT_FORMAT} -ac ${STT_CHANNEL} -ar ${STT_RATE} -y - | tee ${WAV_STT} | \
 curl -H "X-Speech-Content: format=${STT_FORMAT}; channel=${STT_CHANNEL}; codec=${STT_CODEC}; sample_rate=${STT_RATE}; bit_rate=${STT_BITRATE}; language=${STT_LANGUAGE}" \
      -H "Authorization: Bearer ${HA_TOKEN}" \
@@ -154,6 +168,8 @@ if [ -n "${STT_SUCCESS}" ]; then
   # cleanup text before sending
   STT_TEXT=$(jq -r .text ${DATA_STT} | tr -d '.' | awk '{$1=$1;print}')
   log "$STT_TEXT"
+  echo ""
+  echo "> ${STT_TEXT}"
   CONVERSATION_RESPONSE=$(curl \
      -H "Authorization: Bearer ${HA_TOKEN}" \
      -H "Content-Type: application/json" \
