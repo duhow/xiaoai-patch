@@ -8,12 +8,13 @@ MIC="mico_record"
 SENSITIVITY="0.6"
 WORD=alexa
 TIME=5
-NOTIFY_SOUND=/usr/share/sound/wakeup2.mp3
+NOTIFY_SOUND=wakeup2
 PORCUPINE_FOLDER=/usr/share/porcupine
 SPEAK=tts_google
 HA_STT_PROVIDER=stt.faster_whisper
 STT_LANGUAGE=en
 STT_RATE=8000
+STT_BITRATE=16
 STT_CHANNEL=1
 STT_MAX_TIME=25
 STT_REPEAT_MESSAGE=0
@@ -25,6 +26,12 @@ VOLUME_DURING_STT=10
 # import config file if exists
 [ -f /data/listener ] && . /data/listener
 [ -f /data/tts.conf ] && . /data/tts.conf
+
+WAV_INPUT=/tmp/input.wav
+WAV_STT=/tmp/stt.wav
+DATA_STT=/tmp/stt.json
+
+cleanup(){ rm -f $WAV_INPUT $WAV_STT $DATA_STT; }
 
 log(){
   echo "stt: $@" >> /dev/kmsg
@@ -39,9 +46,45 @@ set_volume(){
   done
 }
 
-WAV_INPUT=/tmp/input.wav
-WAV_STT=/tmp/stt.wav
-DATA_STT=/tmp/stt.json
+get_stt_settings(){
+  cleanup
+  curl -H "Authorization: Bearer ${HA_TOKEN}" \
+       -o ${DATA_STT} -D ${DATA_STT}.hdr \
+       --max-time ${STT_MAX_TIME} \
+       -s -f ${HA_URL}/api/stt/${HA_STT_PROVIDER}
+
+  if [ "$?" -gt 0 ]; then
+    log "stt config error: $(cat ${DATA_STT})"
+    sleep 1
+    miplay sound notify -w
+    SILENT=1 MUTE_LED=1 /etc/init.d/listener stop
+    exit 1
+  fi
+
+  STT_CONFIG_RATE=$(jq -r '.sample_rates[0]' ${DATA_STT})
+  STT_CONFIG_CHANNEL=$(jq -r '.channels[0]' ${DATA_STT})
+  STT_CONFIG_BITRATE=$(jq -r '.bit_rates[0]' ${DATA_STT})
+  STT_FORMAT=$(jq -r '.formats[0]' ${DATA_STT})
+  STT_CODEC=$(jq -r '.codecs[0]' ${DATA_STT})
+
+  if [ "$STT_RATE" -ne "$STT_CONFIG_RATE" ]; then
+    log "stt rate invalid; setting from $STT_RATE to $STT_CONFIG_RATE"
+    STT_RATE=${STT_CONFIG_RATE}
+  fi
+  if [ "$STT_CHANNEL" -ne "$STT_CONFIG_CHANNEL" ]; then
+    log "stt channel invalid; setting from $STT_CHANNEL to $STT_CONFIG_CHANNEL"
+    STT_CHANNEL=${STT_CONFIG_CHANNEL}
+  fi
+  if [ "$STT_BITRATE" -ne "$STT_CONFIG_BITRATE" ]; then
+    log "stt bitrate invalid; setting from $STT_BITRATE to $STT_CONFIG_BITRATE"
+    STT_BITRATE=${STT_CONFIG_BITRATE}
+  fi
+
+  if [ "${HA_STT_PROVIDER}" != "cloud" ] && [ "${#STT_LANGUAGE}" -gt 2 ]; then
+    log "stt language invalid for provider ${HA_STT_PROVIDER}; ${STT_LANGUAGE} truncating"
+    STT_LANGUAGE=${STT_LANGUAGE:0:2}
+  fi
+}
 
 # Set lower rate if cannot convert later
 which ffmpeg &>/dev/null || RECORDING_RATE=8000
@@ -54,7 +97,10 @@ if [ "${MODEL}" = "LX06" ]; then
   RECORDING_CHANNEL=8
 fi
 
-rm -f $WAV_INPUT $WAV_STT $DATA_STT
+log "getting stt settings"
+get_stt_settings
+log "ready"
+cleanup
 
 while true; do
 
@@ -73,8 +119,7 @@ if [ "$SAVED_VOL" -gt ${VOLUME_THRESHOLD} ]; then
 fi
 
 /bin/show_led 1
-#aplay -Dnotify $NOTIFY_SOUND &>/dev/null &
-mpg123 -a notify -q $NOTIFY_SOUND &>/dev/null &
+miplay sound ${NOTIFY_SOUND}
 
 # Do all at once:
 # Start recording user response - tee to input.wav
@@ -83,9 +128,10 @@ mpg123 -a notify -q $NOTIFY_SOUND &>/dev/null &
 
 [ -f "${DATA_STT}" ] && rm -f ${DATA_STT}
 
+#log "curl -H X-Speech-Content: format=${STT_FORMAT}; channel=${STT_CHANNEL}; codec=${STT_CODEC}; sample_rate=${STT_RATE}; bit_rate=${STT_BITRATE}; language=${STT_LANGUAGE}"
 arecord -N -D$MIC -d $TIME -f S16_LE -c $RECORDING_CHANNEL -r $RECORDING_RATE - | tee ${WAV_INPUT} | \
-ffmpeg -hide_banner -loglevel error -i - -f wav -ac ${STT_CHANNEL} -ar ${STT_RATE} -y - | tee ${WAV_STT} | \
-curl -H "X-Speech-Content: format=wav; channel=${STT_CHANNEL}; codec=pcm; sample_rate=${STT_RATE}; bit_rate=16; language=${STT_LANGUAGE}" \
+ffmpeg -hide_banner -loglevel error -i - -f ${STT_FORMAT} -ac ${STT_CHANNEL} -ar ${STT_RATE} -y - | tee ${WAV_STT} | \
+curl -H "X-Speech-Content: format=${STT_FORMAT}; channel=${STT_CHANNEL}; codec=${STT_CODEC}; sample_rate=${STT_RATE}; bit_rate=${STT_BITRATE}; language=${STT_LANGUAGE}" \
      -H "Authorization: Bearer ${HA_TOKEN}" \
      -H "Tranfer-Encoding: chunked" \
      -o ${DATA_STT} -D ${DATA_STT}.hdr \
