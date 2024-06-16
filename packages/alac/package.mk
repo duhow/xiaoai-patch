@@ -1,9 +1,10 @@
 PACKAGE_NAME="Apple Lossless Audio Codec"
-PACKAGE_VERSION="master"
+PACKAGE_VERSION="34b327964c2287a49eb79b88b0ace278835ae95f"
 PACKAGE_SRC="https://github.com/mikebrady/alac/archive/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc"
 
 preconfigure_package() {
+	touch README
 	autoreconf -fi
 }
 
