@@ -42,6 +42,10 @@ ifeq ($(MODEL), s12)
 BUILD_DIR := /mnt/ubi.tmp
 endif
 
+ifeq ($(MODEL), s12a)
+COMPRESSION := gzip
+endif
+
 .PHONY: all clean clean-packages pull extract patch build help
 
 all: extract patch build
