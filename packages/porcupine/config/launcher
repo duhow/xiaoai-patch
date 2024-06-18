@@ -82,6 +82,7 @@ get_stt_settings(){
   STT_CONFIG_RATE=$(jq -r '.sample_rates[0]' ${DATA_STT})
   STT_CONFIG_CHANNEL=$(jq -r '.channels[0]' ${DATA_STT})
   STT_CONFIG_BITRATE=$(jq -r '.bit_rates[0]' ${DATA_STT})
+  STT_LANGUAGE_AVAILABLE=$(jq -r '.languages | contains(["'${STT_LANGUAGE}'"])' ${DATA_STT})
   STT_FORMAT=$(jq -r '.formats[0]' ${DATA_STT})
   STT_CODEC=$(jq -r '.codecs[0]' ${DATA_STT})
 
@@ -98,7 +99,7 @@ get_stt_settings(){
     STT_BITRATE=${STT_CONFIG_BITRATE}
   fi
 
-  if [ "${HA_STT_PROVIDER}" != "cloud" ] && [ "${#STT_LANGUAGE}" -gt 2 ]; then
+  if [ "${STT_LANGUAGE_AVAILABLE}" != "true" ] && [ "${HA_STT_PROVIDER}" != "cloud" ] && [ "${#STT_LANGUAGE}" -gt 2 ]; then
     log "stt language invalid for provider ${HA_STT_PROVIDER}; ${STT_LANGUAGE} truncating"
     STT_LANGUAGE=${STT_LANGUAGE:0:2}
   fi
