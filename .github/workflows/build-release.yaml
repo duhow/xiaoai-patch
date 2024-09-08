@@ -50,8 +50,6 @@ jobs:
         env:
           IMAGE: ghcr.io/${{ github.repository }}/${{ matrix.model }}:base
         run: |
-          sudo ls -la /root/.docker/config.json
-          sudo cat /root/.docker/config.json
           sudo ln -svf $HOME/.docker/config.json /root/.docker/config.json
           sudo make pull MODEL=$MODEL
 
@@ -60,11 +58,13 @@ jobs:
 
       - name: Pull build packages
         uses: actions/download-artifact@v4
+        if: false
         with:
           name: build-${{ matrix.model }}
           path: build-packages/targets/
 
       - name: Extract build packages
+        if: false
         env:
           SOURCE_DIR: build-packages/targets
           TARGET: build-packages/s2t/armv7
