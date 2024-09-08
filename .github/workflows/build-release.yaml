@@ -50,8 +50,9 @@ jobs:
         env:
           IMAGE: ghcr.io/${{ github.repository }}/${{ matrix.model }}:base
         run: |
-          sudo mkdir -p /root/.docker
-          sudo ln -s $HOME/.docker/config.json /root/.docker/config.json
+          sudo ls -la /root/.docker/config.json
+          sudo cat /root/.docker/config.json
+          sudo ln -svf $HOME/.docker/config.json /root/.docker/config.json
           sudo make pull MODEL=$MODEL
 
           VERSION=`docker inspect ${IMAGE} | jq -r '.[0].Config.Labels["org.opencontainers.image.version"]'`
