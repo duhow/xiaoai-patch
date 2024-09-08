@@ -10,8 +10,6 @@ on:
   push:
     tags:
       - '*.*.*'
-    branches:
-      - build-release
 
 jobs:
   packages:
@@ -27,10 +25,10 @@ jobs:
 
   image:
     name: Image
-    #needs: [packages]
+    needs: [packages]
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         model: [lx01, lx06, l09a, l09b]
     env:
@@ -58,13 +56,11 @@ jobs:
 
       - name: Pull build packages
         uses: actions/download-artifact@v4
-        if: false
         with:
           name: build-${{ matrix.model }}
           path: build-packages/targets/
 
       - name: Extract build packages
-        if: false
         env:
           SOURCE_DIR: build-packages/targets
           TARGET: build-packages/s2t/armv7
@@ -91,12 +87,14 @@ jobs:
           SIZE=`stat -c%s ${NAME}`
           echo "size=${SIZE}" | tee -a ${GITHUB_OUTPUT}
 
+          echo "```json" >> ${GITHUB_STEP_SUMMARY}
           jq -nc \
             --arg name "$NAME" \
             --argjson size "$SIZE" \
             --arg hash "$HASH" \
             --arg version "$BASE_VERSION" \
             '{"name": $name, "size": $size, "hash": $hash, "base_version": $version}' >> ${GITHUB_STEP_SUMMARY}
+          echo "```" >> ${GITHUB_STEP_SUMMARY}
 
       - name: Upload image
         uses: softprops/action-gh-release@v2
