@@ -1,0 +1,107 @@
+name: Build Release
+
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+    branches:
+
+jobs:
+  packages:
+    name: Packages
+    if: false
+    strategy:
+      fail-fast: true
+      matrix:
+        model: [lx01, lx06, l09a, l09b]
+    uses: ./.github/workflows/build-packages.yaml
+    with:
+      model: ${{ matrix.model }}
+
+  image:
+    name: Image
+    #needs: [packages]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        model: [lx01, lx06, l09a, l09b]
+    env:
+      MODEL: ${{ matrix.model }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull base image
+        id: base
+        env:
+          IMAGE: ghcr.io/${{ github.repository }}/${{ matrix.model }}:base
+        run: |
+          sudo make pull MODEL=$MODEL
+
+          VERSION=`docker inspect ${IMAGE} | jq -r '.[0].Config.Labels["org.opencontainers.image.version"]'`
+          echo "version=${VERSION}" >> ${GITHUB_OUTPUT}
+
+      - name: Pull build packages
+        uses: actions/download-artifact@v4
+        with:
+          name: build-${{ matrix.model }}
+          path: build-packages/targets/
+
+      - name: Extract build packages
+        env:
+          SOURCE_DIR: build-packages/targets
+          TARGET: build-packages/s2t/armv7
+        run: |
+          mkdir -p ${TARGET}
+          sudo tar xzvf ${SOURCE_DIR}/bin-*.tar.gz -C ${TARGET}
+
+      - name: Build image
+        run: sudo make patch build MODEL=${MODEL}
+
+      - name: Prepare image
+        id: image
+        env:
+          FILE: release/${{ env.MODEL }}/latest
+          BASE_VERSION: ${{ steps.base.outputs.version }}
+        run: |
+          HASH=`md5sum ${FILE} | awk '{print $1}'`
+          echo "hash=${HASH}" | tee -a ${GITHUB_OUTPUT}
+          NAME="mico_firmware_${HASH: -5}_$(date +"%y%m%d")_${MODEL}.img"
+          echo "name=${NAME}" | tee -a ${GITHUB_OUTPUT}
+
+          cp -vf ${FILE} ${NAME}
+
+          SIZE=`stat -c%s ${NAME}`
+          echo "size=${SIZE}" | tee -a ${GITHUB_OUTPUT}
+
+          jq -nc \
+            --arg name "$NAME" \
+            --argjson size "$SIZE" \
+            --arg hash "$HASH" \
+            --arg version "$BASE_VERSION" \
+            '{"name": $name, "size": $size, "hash": $hash, "base_version": $version}' >> ${GITHUB_STEP_SUMMARY}
+
+      - name: Upload image
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.image.outputs.name }}
+          draft: true
+
+      - name: Attest Build Provenance
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ${{ steps.image.outputs.name }}
+          show-summary: false
+
