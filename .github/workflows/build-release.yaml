@@ -14,7 +14,6 @@ on:
 jobs:
   packages:
     name: Packages
-    if: false
     strategy:
       fail-fast: true
       matrix:
