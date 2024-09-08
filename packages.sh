@@ -643,7 +643,7 @@ if [[ -f "squashfs-root/usr/share/mico/version" ]]; then
 	BUILD_MODEL=$(grep HARDWARE squashfs-root/usr/share/mico/version | awk '{print $3}' | tr -d "'" | tr "[:lower:]" "[:upper:]")
 fi
 if [[ ! -z "${MODEL}" ]]; then
-	BUILD_MODEL="${MODEL}"
+	BUILD_MODEL=$(echo ${MODEL} | tr "[:lower:]" "[:upper:]")
 fi
 if [[ "${BUILD_MODEL}" = "S12" ]]; then
   BUILD_ARCH="aarch64"
