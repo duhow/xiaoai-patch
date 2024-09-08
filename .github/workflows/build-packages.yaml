@@ -22,17 +22,19 @@ jobs:
       MODEL: ${{ github.event.inputs.model || inputs.model || 'LX06' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v6
         with:
           context: packages
           tags: xiaoai-patch
           load: true
       - name: Build packages
-        uses: ./
+        uses: docker://xiaoai-patch
       - name: Upload packages
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-${{ env.MODEL }}
           path: build-packages/targets/bin-*.tar.gz
+          retention-days: 7
+          compression-level: 0
