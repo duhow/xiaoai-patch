@@ -23,14 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build image
-        uses: docker/build-push-action@v6
-        with:
-          context: packages
-          tags: xiaoai-patch
-          load: true
       - name: Build packages
-        uses: docker://xiaoai-patch
+        uses: docker://ghcr.io/duhow/xiaoai-patch:latest
       - name: Upload packages
         uses: actions/upload-artifact@v4
         with:
