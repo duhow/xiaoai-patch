@@ -10,6 +10,7 @@ on:
     tags:
       - '*.*.*'
     branches:
+      - build-release
 
 jobs:
   packages:
