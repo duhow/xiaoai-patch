@@ -35,7 +35,7 @@ configure_package() {
 	--disable-ipv6 \
 	--disable-test-modules \
 	--without-doc-strings \
-	--with-ensurepip=upgrade \
+	--with-ensurepip=install \
 	--with-system-expat=${INSTALL_PREFIX} \
 	--with-threads
 }
