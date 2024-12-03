@@ -1,7 +1,7 @@
 PACKAGE_NAME="python3"
 PACKAGE_VERSION="3.9.18"
 PACKAGE_SRC="https://www.python.org/ftp/python/${PACKAGE_VERSION}/Python-${PACKAGE_VERSION}.tar.xz"
-PACKAGE_DEPENDS="glibc ncurses"
+PACKAGE_DEPENDS="glibc ncurses expat"
 
 preconfigure_package() {
 	# build on self host
@@ -35,7 +35,9 @@ configure_package() {
 	--disable-ipv6 \
 	--disable-test-modules \
 	--without-doc-strings \
-	--with-ensurepip=install
+	--with-ensurepip=upgrade \
+	--with-system-expat=${INSTALL_PREFIX} \
+	--with-threads
 }
 
 make_package() {
