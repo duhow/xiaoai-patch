@@ -109,6 +109,11 @@ endif
 	@for PATCH in scripts/??_*.sh; do \
 		echo ">> $$PATCH"; \
 		ROOTFS=$(BUILD_DIR) MODEL=$(MODEL) sh $$PATCH 2>&1; \
+		EXITCODE=$$? ; \
+		if [ $$EXITCODE -ne 0 ]; then \
+			echo "!!! ERROR: $$PATCH failed with exit code $$EXITCODE"; \
+			kill $$PPID ; \
+		fi; \
 		echo "----"; \
 	done | tee -a patch.log
 	@touch $(BUILD_DIR)/patched
