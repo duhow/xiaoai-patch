@@ -20,8 +20,10 @@ Create and configure the following files in the speaker:
 ```bash
 HA_URL="https://hass.example.net"
 HA_TOKEN="ey...."
-# change if using any other, for example "cloud".
-HA_STT_PROVIDER=stt.faster_whisper
+# if you have Home Assistant Cloud, you can use it.
+HA_STT_PROVIDER=stt.home_assistant_cloud
+# change if using any other, for example local.
+# HA_STT_PROVIDER=stt.faster_whisper
 STT_RATE=16000
 
 # use any of Porcupine available
