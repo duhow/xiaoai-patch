@@ -1,0 +1,13 @@
+Flask>=3
+requests>2,<3
+certifi>=2024
+paho-mqtt==2.1.0
+
+wyoming==1.6.0
+
+# tflite-runtime requests numpy. 
+# numpy exceeds max memory free in TMP, so cannot install.
+#tflite-runtime>2,<3
+#numpy<2
+
+pyring-buffer
