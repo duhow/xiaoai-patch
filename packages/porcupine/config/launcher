@@ -138,7 +138,7 @@ cleanup
 while true; do
 
 # program lib model keyword sensitivity ALSA_INPUT
-/usr/bin/porcupine /usr/lib/libpv_porcupine.so $PORCUPINE_FOLDER/model.pv $PORCUPINE_FOLDER/keywords/${WORD}_raspberry-pi.ppn $SENSITIVITY $MIC
+/usr/bin/porcupine /usr/lib/libpv_porcupine.so "$PORCUPINE_FOLDER/model.pv" "$PORCUPINE_FOLDER/keywords/${WORD}_raspberry-pi.ppn" $SENSITIVITY $MIC
 
 if [ "$?" -gt 0 ]; then
   sleep 2
