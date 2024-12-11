@@ -133,7 +133,7 @@ def home_assistant_refresh_token():
 
 @app.route('/services')
 def list_services():
-  files = [f for f in os.listdir(const.services_dir) if os.access(os.path.join(const.services_dir, f), os.X_OK) and f not in const.services_ignored]
+  files = [f for f in os.listdir(const.services_dir) if os.access(os.path.join(const.services_dir, f), os.X_OK) and f in const.services_allowed]
   return jsonify({'data': {'services': files}})
 
 @app.route('/services/<service>/<action>')
@@ -143,7 +143,7 @@ def manage_service(service, action):
   if not os.path.exists(service_path) or not os.access(service_path, os.X_OK):
     return jsonify({'error': 'Service not found or not executable'}), 404
 
-  if service in const.services_ignored:
+  if service not in const.services_allowed:
     return jsonify({'error': 'Service not allowed'}), 403
 
   if action not in ['start', 'stop', 'restart']:
