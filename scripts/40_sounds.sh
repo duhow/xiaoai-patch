@@ -50,7 +50,7 @@ for NAME in aux_on aux_off aux_stop_tip \
   reset_wait reset service_timeout setup_failure tts_vendor_demo unknown_action unknown_domain \
   unknown_service upgrade_later upgrade_now wakeup_ei_01 wakeup_ei_02 wakeup_mitv wakeup_wozai_01 \
   wakeup_zai_01 wakeup_zai_02 weak_network welcome wifi_disconnect alarmDefault first_voice \
-  network_done_init network_done_miio; do
+  network_done_init network_done_miio reminder_default timer_default alarmDefault7s; do
   rm -vf $SOUND_FOLDER/original/$NAME.*
 done
 

@@ -40,6 +40,11 @@ for FILE in libxml2.so.2.9.7 libxml2.so.2.9.3 libstdc++.so.6.0.22* libsbc.so.1.2
   rm -vf $ROOTFS/usr/lib/$FILE
 done
 
+# delete alsa sounds, keep only Front_Left
+for FILE in Front_Right Front_Center Noise ; do
+  rm -vf $ROOTFS/usr/share/sounds/alsa/${FILE}.wav
+done
+
 # delete unwanted binaries, both from source root image or compiled
 for FILE in wget-ssl libtool libtoolize; do
   rm -vf $ROOTFS/usr/bin/$FILE
