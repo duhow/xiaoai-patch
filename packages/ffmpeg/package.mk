@@ -6,7 +6,7 @@ PACKAGE_DEPENDS="openssl libxml lame opus soxr speex libvorbis"
 configure_package() {
 	export PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}"
 	export PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}"
-	# compile with -fpic flag, otherwise the soxr package will fail to build
+
 	ENCODERS=""
 	for COD in aac ac3 alac aptx aptx_hd flac g723_1 opus vorbis zlib \
 		pcm_alaw pcm_mulaw pcm_s16be pcm_s16le pcm_s24be pcm_s24le pcm_u16be pcm_u16le pcm_u24be pcm_u24le ; do
@@ -16,7 +16,7 @@ configure_package() {
 	DIS_DECODERS=""
 	for COD in h261 h263 h263_v4l2m2m h263p h264_v4l2m2m h264 hevc \
 		mpeg1video mpeg2video mpeg4 mpeg4_v4l2m2m msmpeg4v2 msmpeg4v3 ; do
-		DIS_DECODERS="${DIS_DECODERS} --disable-decoder=${COD}"
+		DIS_DECODERS="${DIS_DECODERS} --disable-encoder=${COD} --disable-decoder=${COD}"
 	done
 
 	VID_FILTERS=""
@@ -34,12 +34,13 @@ configure_package() {
 	done
 
 	DIS_OPTS=""
-	for OPT in libx264 libx265 crystalhd dxva2 cuda cuvid nvenc avisynth frei0r \
+	for OPTS in libx264 libx265 crystalhd dxva2 cuda cuvid nvenc avisynth frei0r \
 		libopencore-amrnb libopencore-amrwb libdc1394 libgsm libilbc libvo-amrwbenc \
 		symver swscale ; do
-		DIS_OPTS="${DIS_OPTS} --disable-${OPT}"
+		DIS_OPTS="${DIS_OPTS} --disable-${OPTS}"
 	done
 
+	# compile with -fpic flag, otherwise the soxr package will fail to build
 	./configure \
 		--prefix=${INSTALL_PREFIX} \
 		--arch=${BUILD_TARGET} \
@@ -56,16 +57,20 @@ configure_package() {
 		--disable-runtime-cpudetect \
 		--disable-doc --disable-htmlpages --disable-manpages \
 		--enable-gpl --enable-nonfree \
-		${ENCODERS} \
+		--disable-ffprobe \
+		--enable-ffmpeg \
+		--enable-ffplay \
 		${DIS_DECODERS} \
-		${VID_FILTERS} \
+		${DIS_OPTS} \
 		--enable-libfdk-aac \
 		--enable-libmp3lame \
 		--enable-libvorbis \
 		--enable-libspeex \
 		--enable-libopus \
-		--enable-libsoxr \
-		${DIS_OPTS}
+		--enable-libsoxr
+
+		#${VID_FILTERS} \
+		#${DIS_OPTS} \
 
 		# --disable-avfilter # REQUIRED by MPD
 
@@ -81,4 +86,9 @@ install_package() {
 
 postinstall_package() {
 	rm -rvf ${STAGING_DIR}/usr/share/ffmpeg
+
+	if [ ! -f "${STAGING_DIR}/${INSTALL_PREFIX}/bin/ffmpeg" ]; then
+		echo_error "Error: ffmpeg binary not found!"
+		return 1
+	fi
 }
