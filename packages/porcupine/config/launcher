@@ -153,6 +153,7 @@ fi
 
 /bin/show_led 1
 miplay sound ${NOTIFY_SOUND}
+sleep 0.15
 
 # Do all at once:
 # Start recording user response - tee to input.wav
