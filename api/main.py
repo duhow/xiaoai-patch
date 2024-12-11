@@ -13,13 +13,56 @@ speaker_ip = get_ip_address('wlan0')
 app = Flask(__name__)
 
 config = ConfigManager(const.config_listener)
+config_tts = ConfigManager(const.config_tts)
 
 @app.route('/')
 def index():
   return app.send_static_file('index.html')
 
+@app.route('/app.js')
+def app_js():
+  return app.send_static_file('app.js')
+
+@app.get('/config')
+def get_config():
+  data = {
+    'listener': config.to_dict(),
+    'tts': config_tts.to_dict(),
+  }
+  return jsonify({'data': data})
+
+@app.post('/config')
+def set_config():
+  """ Update config files and reload listener service """
+  keys_accepted = ['ha_stt_provider', 'stt_language', 'tts_language', 'word']
+  updated = False
+  for key in keys_accepted:
+    value = request.form.get(key, '').strip()
+    if value:
+      if config.set(key.upper(), value) is not True:
+        updated = True
+
+  if request.form.get('tts_language'):
+    config_tts.LANGUAGE = request.form.get('tts_language')
+    updated = True
+
+  if updated:
+    service_path = os.path.join(const.services_dir, 'listener')
+    os.system(f'{service_path} reload')
+
+  return redirect('/', code=302)
+
+@app.get('/config/wakewords')
+def get_wakewords():
+  """ Get the wakewords from Porcupine, remove the file name, and only get the wakeword name """
+  wakewords = []
+  if os.path.exists(const.wakewords_porcupine) and os.path.isdir(const.wakewords_porcupine):
+    wakewords = [f.replace('_raspberry-pi.ppn', '') for f in os.listdir(const.wakewords_porcupine) if f.endswith('.ppn')]
+  return jsonify({'data': {'wakewords': wakewords, 'current': config.WORD or None}})
+
 @app.get('/discover')
 def info():
+  """ Return Home Assistant instances found on the network via mDNS / avahi"""
   service_search_name = '_home-assistant._tcp'
   def parse_avahi_output(output):
     instances = list()
@@ -62,6 +105,7 @@ def home_assistant_auth():
 
   config.HA_URL = ha_url
   config.HA_TOKEN = "none"
+  config.HA_AUTH_SETUP = False
 
   data = {
     'client_id': f'http://{speaker_ip}',
@@ -104,10 +148,12 @@ def home_assistant_auth_callback():
   if store_token:
     config.HA_TOKEN = token['access_token']
     config.HA_REFRESH_TOKEN = token['refresh_token']
+    config.HA_AUTH_SETUP = True
 
   return jsonify({'message': 'Auth configured'})
 
 def home_assistant_refresh_token():
+  """ Call manually to trigger refresh token """
   ha_url = config.HA_URL
   if not ha_url:
     return False
@@ -133,6 +179,7 @@ def home_assistant_refresh_token():
 
 @app.route('/services')
 def list_services():
+  """ List of system services available to manage, only via allowed list """
   files = [f for f in os.listdir(const.services_dir) if os.access(os.path.join(const.services_dir, f), os.X_OK) and f in const.services_allowed]
   return jsonify({'data': {'services': files}})
 
@@ -157,6 +204,7 @@ def manage_service(service, action):
 
 @app.get('/ir')
 def send_infrared():
+  """ Send IR RAW code """
   code = request.args.get('code')
   carrier = request.args.get('carrier')
 

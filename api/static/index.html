@@ -15,41 +15,37 @@
   </nav>
 
   <div class="container">
-    <p class="flow-text">Home Assistant instances found:</p>
-    <div class="row"></div>
+    <div class="row" id="discover" style="display: none;">
+      <p class="flow-text">Home Assistant instances found:</p>
+    </div>
+    <div class="row" id="config" style="display: none;">
+      <p class="flow-text">Configuration</p>
+      <form id="config-form" method="post" action="/config">
+        <div class="input-field col s12">
+          <input type="text" id="ha_stt_provider" name="ha_stt_provider" placeholder="stt.home_assistant_cloud" required value="">
+          <label for="ha_stt_provider">STT Provider</label>
+        </div>
+        <div class="input-field col s12">
+          <input type="text" id="stt_language" name="stt_language" required value="">
+          <label for="stt_language">STT Language</label>
+        </div>
+        <div class="input-field col s12">
+          <input type="text" id="tts_language" name="tts_language" required value="">
+          <label for="tts_language">TTS Language</label>
+        </div>
+        <div class="input-field col s12">
+          <select id="word" name="word" required>
+            <option value="" disabled>Choose your wake word</option>
+          </select>
+          <label for="word">Wake Word</label>
+        </div>
+        <button class="btn waves-effect waves-light" type="submit">Save</button>
+      </form>
+    </div>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      fetch('/discover')
-        .then(response => response.json())
-        .then(data => {
-          const hostname = data.hostname;
-          document.querySelector('.brand-logo').textContent = hostname;
-          data.instances.forEach(instance => {
-            const card = `
-              <div class="col s12 m12 l6">
-                <div class="card">
-                  <div class="card-content">
-                    <span class="card-title">${instance.location_name}</span>
-                    <p>${instance.base_url} - ${instance.version}</p>
-                  </div>
-                  <div class="card-action">
-                    <form action="/auth" method="post">
-                      <input type="hidden" name="url" value="${instance.base_url}">
-                      <button type="submit" class="btn">Authenticate</button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            `;
-            document.querySelector('.container .row').insertAdjacentHTML('beforeend', card);
-          });
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error);
-        });
-    });
-  </script>
+  <script src="/app.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', initPage);</script>
 </body>
 </html>

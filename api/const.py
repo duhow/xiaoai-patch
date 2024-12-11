@@ -15,6 +15,10 @@ services_allowed = [
   'dropbear', 'listener', 'mpd', 'upmpdcli', 'shairport-sync',
   'snapclient', 'snapserver', 'triggerhappy',
 ]
+
 config_listener = '/data/listener'
+config_tts = '/data/tts.conf'
+
+wakewords_porcupine = '/usr/share/porcupine/keywords'
 
 lx06_infrared = '/sys/ir_tx_gpio/ir_data'

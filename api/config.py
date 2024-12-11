@@ -19,6 +19,18 @@ class ConfigManager:
   def __iter__(self):
     return iter(self.to_dict().items())
 
+  def _process_value(self, value):
+    """ Transform value from string to type """
+    if value.startswith('"') and value.endswith('"'):
+      value = value[1:-1]
+    if value.lower() == 'true':
+      return True
+    if value.lower() == 'false':
+      return False
+    if value.isdigit():
+      return int(value)
+    return value
+
   def to_dict(self):
     result = {}
     with open(self.file_path, 'r') as f:
@@ -27,6 +39,9 @@ class ConfigManager:
           continue
         if '=' in line:
           key, value = line.strip().split('=', 1)
+          if 'token' in key.lower():
+            continue
+          value = self._process_value(value)
           result[key] = value
     return result
 
@@ -36,12 +51,18 @@ class ConfigManager:
         if line.startswith('#'):
           continue
         if line.startswith(key + '='):
-          return line[len(key) + 1:].strip()
+          value = line[len(key) + 1:].strip()
+          value = self._process_value(value)
+          return value
     return None
 
   def set(self, key, value):
     lines = []
     found = False
+    if isinstance(value, bool):
+      value = str(value).lower()
+    if ' ' in value:
+      value = f'"{value}"'
     new_value = f'{key}={value}\n'
     with open(self.file_path, 'r') as f:
       for line in f:
