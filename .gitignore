@@ -5,15 +5,22 @@
 /build-packages
 /include
 /include-*
+/config
 /sound
 /mico_*.bin
 /mico_*/
+/oci
 /tools/mico_*_*_1.*
 /firmware
 *.ubi
+
+/lx01
+/lx06
 
 /test
 /release
 
 /*.log
 /*.pdf
+/*.htm
+/*.html
