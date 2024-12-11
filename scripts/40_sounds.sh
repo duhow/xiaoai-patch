@@ -41,13 +41,13 @@ fi
 echo "[*] Remove original chinese voices"
 cd $BACK
 
-for NAME in aux_on aux_off aux_stop_tip \
+for NAME in aux_on aux_on_stereo aux_off aux_stop_tip \
   bluetooth_already_connected bluetooth_connect bluetooth_disconnect bluetooth_failure \
   bluetooth_noPhone ims_callout_prefix internet_disconnect init_wifi_config init_wifi_success \
   mibrain_auth_failed mibrain_auth_failed_loading mibrain_connect_timeout mibrain_network_unreachable \
   mibrain_service_timeout mibrain_service_unreachable mibrain_start_failed \
   voip_ringback voip_ringing voip_alarm mic_off mic_on no_channel \
-  reset_wait reset service_timeout setup_failure tts_vendor_demo unknown_action unknown_domain \
+  reset_wait reset service_timeout setup_failure tts_vendor_demo unknown_action unknown_domai unknown_domain \
   unknown_service upgrade_later upgrade_now wakeup_ei_01 wakeup_ei_02 wakeup_mitv wakeup_wozai_01 \
   wakeup_zai_01 wakeup_zai_02 weak_network welcome wifi_disconnect alarmDefault first_voice \
   network_done_init network_done_miio reminder_default timer_default alarmDefault7s; do
