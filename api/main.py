@@ -94,6 +94,15 @@ def info():
   except Exception as e:
     return jsonify({'hostname': hostname, 'error': str(e)}), 500
 
+@app.route('/mute')
+@app.route('/unmute')
+def manage_listener():
+  action = 'stop' if request.path == '/mute' else 'start'
+  silent = 'SILENT=1' if 'silent' in request.args else ''
+  service = os.path.join(const.services_dir, 'listener')
+  os.system(f'{silent} {service} {action}')
+  return ""
+
 @app.post('/auth')
 def home_assistant_auth():
   ha_url = request.form.get('url', '').rstrip('/')
