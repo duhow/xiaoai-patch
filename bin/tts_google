@@ -17,6 +17,10 @@ HASH="$(echo "$TEXT" | md5sum | cut -c 1-20)-${LANGUAGE}"
 
 [ -z "$TEXT" ] && return
 
+# Convert text to URL encoded
+TEXT=$(echo "$TEXT" | sed 's/á/%C3%A1/g; s/é/%C3%A9/g; s/í/%C3%AD/g; s/ó/%C3%B3/g; s/ú/%C3%BA/g; s/ñ/%C3%B1/g; s/Á/%C3%81/g; s/É/%C3%89/g; s/Í/%C3%8D/g; s/Ó/%C3%93/g; s/Ú/%C3%9A/g; s/Ñ/%C3%91/g')
+TEXT=$(echo "$TEXT" | sed 's/à/%C3%A0/g; s/è/%C3%A8/g; s/ì/%C3%AC/g; s/ò/%C3%B2/g; s/ù/%C3%B9/g; s/À/%C3%80/g; s/È/%C3%88/g; s/Ì/%C3%8C/g; s/Ò/%C3%92/g; s/Ù/%C3%99/g')
+
 mkdir -p ${TTS_FOLDER}
 
 FILE="${TTS_FOLDER}/${HASH}.mp3"
@@ -24,6 +28,13 @@ FILE="${TTS_FOLDER}/${HASH}.mp3"
 if [ ! -e "$FILE" ]; then
   curl -o "$FILE" -A "$USERAGENT" -sLk \
   "https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${LANGUAGE}&q=${TEXT}"
+
+  if [ $(stat -c%s "$FILE") -lt 2000 ] && grep -q "Error 400" "$FILE"; then
+    rm "$FILE"
+    echo "Error: Failed to generate TTS audio."
+    /bin/shut_led 1
+    exit 1
+  fi
 fi
 
 sleep 0.2
