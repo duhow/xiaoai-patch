@@ -1,6 +1,6 @@
 PACKAGE_NAME="Bluetooth Audio ALSA Backend"
-PACKAGE_VERSION="master"
-PACKAGE_SRC="https://github.com/Arkq/bluez-alsa/archive/${PACKAGE_VERSION}.tar.gz"
+PACKAGE_VERSION="4.3.0"
+PACKAGE_SRC="https://github.com/Arkq/bluez-alsa/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="alsa-lib bluez sbc dbus glib readline libbsd ncurses"
 BUILD_CODECS=""
 
