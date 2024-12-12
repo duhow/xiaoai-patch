@@ -40,13 +40,13 @@ for FILE in libxml2.so.2.9.7 libxml2.so.2.9.3 libstdc++.so.6.0.22* libsbc.so.1.2
   rm -vf $ROOTFS/usr/lib/$FILE
 done
 
-# delete alsa sounds, keep only Front_Left
-for FILE in Front_Right Front_Center Noise ; do
+# delete alsa sounds
+for FILE in Front_Left Front_Right Front_Center Noise ; do
   rm -vf $ROOTFS/usr/share/sounds/alsa/${FILE}.wav
 done
 
 # delete unwanted binaries, both from source root image or compiled
-for FILE in wget-ssl libtool libtoolize; do
+for FILE in wget-ssl libtool libtoolize iperf drill dlna usb_monitor strace; do
   rm -vf $ROOTFS/usr/bin/$FILE
 done
 
@@ -54,6 +54,11 @@ done
 for FILE in isotest pcretest rctest mpris-proxy bluemoon \
   l2test l2ping btmgmt gatttool bccmd sdptool ciptool; do
   rm -vf $ROOTFS/usr/bin/$FILE
+done
+
+# deleting sbin unused (!)
+for FILE in rtwpriv rtlbtmp mlanutl ptp4l timemaster; do
+  rm -vf $ROOTFS/usr/sbin/$FILE
 done
 
 echo "[!] Fixing old libs"
@@ -88,8 +93,8 @@ done
 
 if [ -d "${ROOTFS}/usr/lib/gconv" ]; then
   echo "[*] Deleting some gconv files"
-  GCONV_KEEP="ANSI_X3.110 ARMSCII-8 BIG5HKSCS BIG5 CP1252 ECMA-CYRILLIC IBM850 ISO8859-1 ISO8859-11 \
-	      UNICODE UTF-16 UTF-32 libCNS libGB libISOIR165 libJIS libJISX0213 libKSC"
+  GCONV_KEEP="ANSI_X3.110 ARMSCII-8 BIG5 CP1252 ECMA-CYRILLIC IBM850 ISO8859-1 ISO8859-11 \
+	      UNICODE UTF-16 UTF-32"
   for FILE in ${ROOTFS}/usr/lib/gconv/*.so; do
     (echo "${GCONV_KEEP}" | grep -q "$(basename $FILE .so)") || rm -vf ${FILE}
   done

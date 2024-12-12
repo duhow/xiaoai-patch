@@ -492,6 +492,8 @@ staging_to_target() {
         rm -rf usr/${name}
     done
 
+    rm -rfv usr/lib/.*_installed
+
     # some data in usr/share is required, clean the rest
     for name in applications aclocal doc i18n icons info locale man pixmaps tabset gtk-doc; do
         echo "rm usr/share/${name}"
