@@ -11,6 +11,9 @@ configure_package() {
 install_package() {
 	rm -rf ${STAGING_DIR}/usr/share/api
 	cp -rvf ${WORKSPACE_DIR}/../api ${STAGING_DIR}/usr/share/api
+
+	cp -v ${PACKAGE_DIR}/config/api.init ${STAGING_DIR}/etc/init.d/api
+	ln -sf ../init.d/api ${STAGING_DIR}/etc/rc.d/S98api
 }
 
 postinstall_package() {
