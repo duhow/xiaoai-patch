@@ -3,9 +3,13 @@ import os
 import re
 import requests
 import subprocess
+import signal
+import json
+import base64
+import time
 
-from config import ConfigManager
-from utils import get_ip_address
+from config import ConfigManager, ConfigUci
+from utils import get_ip_address, get_wifi_mac_address, get_bt_mac_address, get_device_id
 import const
 
 hostname = os.uname()[1]
@@ -14,14 +18,38 @@ app = Flask(__name__)
 
 config = ConfigManager(const.config_listener)
 config_tts = ConfigManager(const.config_tts)
+system_version = ConfigUci(const.mico_version)
+
+def get_hass_token() -> str:
+  token = config.HA_TOKEN
+  if not token:
+    return ""
+  try:
+    token_parts = token.split('.')
+    if len(token_parts) != 3:
+      raise ValueError('Invalid HA token format')
+
+    payload = token_parts[1]
+    payload += '=' * (4 - len(payload) % 4)  # Add padding if necessary
+    decoded_payload = json.loads(base64.urlsafe_b64decode(payload).decode('utf-8'))
+
+    if decoded_payload['exp'] < time.time():
+      if config.HA_REFRESH_TOKEN:
+        if home_assistant_refresh_token():
+          token = config.HA_TOKEN
+        else:
+          raise ValueError('Failed to refresh token')
+      else:
+        raise ValueError('Token expired and no refresh token available')
+    return token
+  except Exception as e:
+    raise ValueError(f'Failed to get HA token: {e}')
 
 @app.route('/')
-def index():
-  return app.send_static_file('index.html')
-
 @app.route('/app.js')
-def app_js():
-  return app.send_static_file('app.js')
+def files():
+  file = 'index.html' if request.path == '/' else request.path.lstrip('/')
+  return app.send_static_file(file)
 
 @app.get('/config')
 def get_config():
@@ -43,14 +71,36 @@ def set_config():
         updated = True
 
   if request.form.get('tts_language'):
-    config_tts.LANGUAGE = request.form.get('tts_language')
-    updated = True
+    if config_tts.set("LANGUAGE", request.form.get('tts_language')) is not True:
+      updated = True
 
   if updated:
     service_path = os.path.join(const.services_dir, 'listener')
     os.system(f'{service_path} reload')
 
   return redirect('/', code=302)
+
+@app.get('/config/stt')
+def get_stt_providers():
+  """ Get all state entities from HA, and filter for STT ones only """
+  token = get_hass_token()
+  url = f'{config.HA_URL}/api/states'
+  headers = {
+    'Authorization': f'Bearer {token}',
+    'Content-Type': 'application/json',
+  }
+
+  req = requests.get(url, headers=headers)
+  req.raise_for_status()
+
+  providers = list()
+  data = req.json()
+  for entity in data:
+    if entity['entity_id'].startswith('stt.'):
+      entry = {"entity_id": entity['entity_id'], "name": entity['attributes'].get('friendly_name', entity['entity_id'])}
+      providers.append(entry)
+
+  return jsonify({'data': {'providers': providers, 'current': config.get('HA_STT_PROVIDER') or None}})
 
 @app.get('/config/wakewords')
 def get_wakewords():
@@ -94,6 +144,21 @@ def info():
   except Exception as e:
     return jsonify({'hostname': hostname, 'error': str(e)}), 500
 
+@app.get('/device/info')
+def device_info():
+  data = {
+    'hostname': hostname,
+    'ip': speaker_ip,
+    'model': system_version.HARDWARE,
+    'serial_number': get_device_id(),
+    'wifi': get_wifi_mac_address(),
+    'bluetooth': get_bt_mac_address(),
+    'version': system_version.to_dict(),
+  }
+  response = jsonify({'data': data})
+  response.cache_control.max_age = 3600
+  return response
+
 @app.route('/mute')
 @app.route('/unmute')
 def manage_listener():
@@ -102,6 +167,20 @@ def manage_listener():
   service = os.path.join(const.services_dir, 'listener')
   os.system(f'{silent} {service} {action}')
   return ""
+
+@app.route('/wake')
+def trigger_wake():
+  process_name = '/usr/bin/porcupine'
+  try:
+    result = subprocess.run(['pgrep', '-x', process_name], capture_output=True, text=True)
+    if result.returncode == 0:
+      pid = result.stdout.strip()
+      os.kill(int(pid), signal.SIGINT)
+      return "", 200
+    else:
+      return "", 425
+  except Exception as e:
+    return jsonify({'error': str(e)}), 500
 
 @app.post('/auth')
 def home_assistant_auth():

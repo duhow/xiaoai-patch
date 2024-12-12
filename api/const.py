@@ -18,6 +18,8 @@ services_allowed = [
 
 config_listener = '/data/listener'
 config_tts = '/data/tts.conf'
+mico_version = '/usr/share/mico/version'
+board_info = '/data/etc/binfo'
 
 wakewords_porcupine = '/usr/share/porcupine/keywords'
 
