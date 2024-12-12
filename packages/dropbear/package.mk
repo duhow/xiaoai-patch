@@ -1,5 +1,5 @@
 PACKAGE_NAME="Dropbear SSH"
-PACKAGE_VERSION="2022.83"
+PACKAGE_VERSION="2024.86"
 PACKAGE_SRC="https://github.com/mkj/dropbear/archive/refs/tags/DROPBEAR_${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="base"
 

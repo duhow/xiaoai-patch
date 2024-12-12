@@ -1,5 +1,5 @@
 PACKAGE_NAME="Expat XML parser"
-PACKAGE_VERSION="2.5.0"
+PACKAGE_VERSION="2.6.4"
 PACKAGE_SRC="https://github.com/libexpat/libexpat/releases/download/R_${PACKAGE_VERSION//./_}/expat-${PACKAGE_VERSION}.tar.bz2"
 
 configure_package() {
