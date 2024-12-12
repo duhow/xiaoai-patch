@@ -9,6 +9,7 @@ configure_package() {
 }
 
 install_package() {
+	rm -rf ${STAGING_DIR}/usr/share/api
 	cp -rvf ${WORKSPACE_DIR}/../api ${STAGING_DIR}/usr/share/api
 }
 
