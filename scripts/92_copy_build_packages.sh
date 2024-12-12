@@ -61,6 +61,10 @@ for FILE in rtwpriv rtlbtmp mlanutl ptp4l timemaster; do
   rm -vf $ROOTFS/usr/sbin/$FILE
 done
 
+for FILE in sln ldconfig; do
+  rm -vf $ROOTFS/sbin/$FILE
+done
+
 echo "[!] Fixing old libs"
 
 libraries_upgrade="
