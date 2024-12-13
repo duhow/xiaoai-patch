@@ -47,6 +47,18 @@ for n in `seq 10`; do
         echo "All done!"
         [ "$SILENT" = 0 ] && miplay sound multirounds_tone &
         [ -e "${WPA_CONFIG}.bak" ] && rm ${WPA_CONFIG}.bak
+
+        if [ -e "/etc/init.d/api" ] ; then
+            /etc/init.d/api restart
+
+            until curl -so /dev/null 127.0.0.1 ; do
+                sleep 1
+            done
+
+            IP_ADDRESS=$(ifconfig wlan0 | grep 'inet ' | awk '{print $2}' | cut -d':' -f2)
+            echo "Configuration available at:"
+            echo "http://${IP_ADDRESS}:80"
+        fi
         exit 0
     fi
 
