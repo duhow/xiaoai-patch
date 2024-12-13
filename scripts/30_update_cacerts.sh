@@ -16,7 +16,7 @@ chown root.root $FILE
 chmod 644 $FILE
 shasum $FILE
 
-CA_VERSION=20230311
+CA_VERSION=20240203
 URL=https://deb.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_${CA_VERSION}_all.deb
 
 echo "[*] Downloading ca-certificates: $URL"
