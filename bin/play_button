@@ -3,6 +3,7 @@
 STATFILE=/tmp/play_button
 CLICK_DELAY="0.3"
 CLICK_COUNT=1
+HOLD_COUNT=0
 
 command_exists(){ command -v $1 >/dev/null; }
 
@@ -25,12 +26,18 @@ while true; do
   CLICK_COUNT=$CLICK_TOTAL
 done
 
+is_button_pressed() {
+  PLAY_BUTTON=`getevent -p /dev/input/event0 | grep KEY | awk -F" " '{print $4}'`
+  [ $PLAY_BUTTON == 0072'*' ] && return 0
+  return 1
+}
+
 toggle_play_songs() {
 # if bluetooth playing, only play/pause there.
 # otherwise apply to MPC
 
   if command_exists bluetoothctl; then
-    BT_STATUS=$(timeout 1 bluetoothctl player.show | grep -i status | awk '{print $2}')  
+    BT_STATUS=$(timeout 1 bluetoothctl player.show | grep -i status | awk '{print $2}')
 
     if [ -n "$BT_STATUS" ]; then
       [ "$BT_STATUS" = "playing" ] && bluetoothctl player.pause
@@ -46,7 +53,44 @@ toggle_play_songs() {
 
 say() { speak -v en "$1"; }
 
+while is_button_pressed; do
+  sleep 0.1
+  HOLD_COUNT=$((HOLD_COUNT + 1))
+  #echo "$HOLD_COUNT $(date)" >> /tmp/count_hold
+
+  if [ "$HOLD_COUNT" = "85" ] ; then
+    /bin/show_led 5
+    miplay sound shutdown -w
+    # TODO switch partitions?
+    reboot
+  elif [ "$HOLD_COUNT" = "50" ] ; then
+    /bin/show_led 4
+  fi
+done
+
+[ "$HOLD_COUNT" -ge 50 ] && /bin/shut_led 4
+
+[ "$HOLD_COUNT" -ge 15 ] && [ "$HOLD_COUNT" -le 50 ] && {
+  if command_exists bluetoothctl; then
+    BT_STATUS=$(timeout 1 bluetoothctl player.show | grep -i status | awk '{print $2}')
+
+    if [ -n "$BT_STATUS" ]; then
+      timeout 8 bluetoothctl disconnect &
+      miplay sound shutdown
+      exit
+    fi
+  fi
+}
+
+[ "$HOLD_COUNT" -ge 10 ] && exit # HACK to stop click normal
+
 [ "$CLICK_COUNT" = "1" ] && toggle_play_songs
+[ "$CLICK_COUNT" = "2" ] && {
+    PIDP=$(pgrep -x "/usr/bin/porcupine")
+    if [ -n "$PIDP" ] ; then
+      kill -SIGINT $PIDP
+    fi
+}
 [ "$CLICK_COUNT" = "3" ] && {
     if ! bluetoothctl list | grep -q .; then
       say "bluetooth not available"
