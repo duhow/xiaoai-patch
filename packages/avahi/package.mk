@@ -29,5 +29,8 @@ postinstall_package() {
 
 	cp -vf ${PACKAGE_DIR}/config/avahi-daemon.init ${STAGING_DIR}/etc/init.d/avahi-daemon
 	chmod 755 ${STAGING_DIR}/etc/init.d/avahi-daemon
+	for NAME in ssh sftp-ssh ; do
+		rm -fv ${STAGING_DIR}/etc/avahi/services/${NAME}.service
+	done
 	ln -sf ../init.d/avahi-daemon ${STAGING_DIR}/etc/rc.d/S61avahi
 }

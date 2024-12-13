@@ -9,6 +9,13 @@
  	option Port         '22'
  #	option BannerFile   '/etc/banner'
  	option rsakeyfile '/data/etc/dropbear/dropbear_rsa_host_key'
+--- a/etc/config/dropbear	2021-06-28 04:23:39.000000000 +0200
++++ b/etc/config/dropbear	2024-12-13 09:56:06.923586509 +0100
+@@ -4,3 +4,4 @@
+ 	option Port         '22'
+ #	option BannerFile   '/etc/banner'
+ 	option rsakeyfile '/data/etc/dropbear/dropbear_rsa_host_key'
++	option mdns '0'
 --- a/etc/init.d/dropbear	2019-12-25 04:18:35.000000000 +0100
 +++ b/etc/init.d/dropbear	2021-01-03 12:47:21.335257411 +0100
 @@ -118,11 +118,6 @@
