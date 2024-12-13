@@ -27,8 +27,7 @@ while true; do
 done
 
 is_button_pressed() {
-  PLAY_BUTTON=`getevent -p /dev/input/event0 | grep KEY | awk -F" " '{print $4}'`
-  [ $PLAY_BUTTON == 0072'*' ] && return 0
+  getevent -p /dev/input/event0 | grep -q ' 0072\*' && return 0
   return 1
 }
 

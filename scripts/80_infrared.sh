@@ -76,6 +76,8 @@ PROG=/bin/httpd
 PORT=$DEF_PORT
 
 start_service() {
+    MODEL=\$(uci -c /usr/share/mico get version.version.HARDWARE)
+    [ "\$MODEL" != "LX06" ] && return
     mkdir -p \$WEBROOT
     ln -sf . \$WEBROOT/cgi-bin
     cp -rf /usr/share/irplus/* \${WEBROOT}

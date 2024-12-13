@@ -188,7 +188,7 @@ def home_assistant_auth():
   if not ha_url or not ha_url.startswith('http'):
     return jsonify({'error': 'Missing url parameter'}), 400
 
-  if config.HA_URL == ha_url and config.HA_TOKEN and len(config.HA_TOKEN) > 30:
+  if config.HA_URL == ha_url and config.HA_TOKEN and len(config.HA_TOKEN) > 30 and config.HA_AUTH_SETUP:
     return jsonify({'message': 'Instance already configured'})
 
   config.HA_URL = ha_url

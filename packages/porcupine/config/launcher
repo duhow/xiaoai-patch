@@ -31,6 +31,7 @@ SOX_SILENCE_ARGS="1 0.2 1% 0.5 1.2 1%"
 WAV_INPUT=/tmp/input.wav
 WAV_STT=/tmp/stt.wav
 DATA_STT=/tmp/stt.json
+ERROR_LISTENER=0
 
 cleanup(){ rm -f $WAV_INPUT $WAV_STT $DATA_STT; }
 
@@ -142,9 +143,22 @@ while true; do
 
 if [ "$?" -gt 0 ]; then
   sleep 2
+  ERROR_LISTENER=$((ERROR_LISTENER + 1))
+  if [ "$ERROR_LISTENER" -ge 5 ]; then
+    log "too many errors in porcupine, stopping listener"
+    miplay sound notify -w
+    SILENT=1 MUTE_LED=1 /etc/init.d/listener stop
+    exit 1
+  fi
   continue
 fi
 
+# Trigger wakeword activated event
+
+log "activated"
+ubus send wakeword '{"name": "'${WORD}'"}'
+
+ERROR_LISTENER=0
 SAVED_VOL=`current_volume`
 # lower volume EXCEPT for notifications
 if [ "$SAVED_VOL" -gt ${VOLUME_THRESHOLD} ]; then
@@ -161,8 +175,6 @@ sleep 0.15
 # send data chuncked without waiting
 
 [ -f "${DATA_STT}" ] && rm -f ${DATA_STT}
-
-log "activated"
 
 #log "curl -H X-Speech-Content: format=${STT_FORMAT}; channel=${STT_CHANNEL}; codec=${STT_CODEC}; sample_rate=${STT_RATE}; bit_rate=${STT_BITRATE}; language=${STT_LANGUAGE}"
 ${RECORD_COMMAND} | tee ${WAV_INPUT} | \
