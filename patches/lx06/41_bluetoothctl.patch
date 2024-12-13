@@ -5,7 +5,7 @@
      fi
      sleep 2
 -    btmgmt power on
-+    bluetoothctl power on
++    timeout 20 bluetoothctl power on &
  }
  
  start_service() {
