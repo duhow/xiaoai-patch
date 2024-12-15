@@ -1,0 +1,47 @@
+# L06A creates a copy of RO system info and modifies
+# to patch LX06 to L06A.
+# Instead of writing to Flash on each boot,
+# let's write into RAMFS.
+--- a/etc/init.d/boot	2024-12-13 16:34:29.472957769 +0100
++++ b/etc/init.d/boot	2024-12-15 13:20:03.180659443 +0100
+@@ -61,26 +61,21 @@
+ l06a_board_config_fix()
+ {
+ if [ x"$board_id" == x"12" ] || [ x"$board_id" == x"9" ] || [ x"$board_id" == x"8" ] || [ x"$board_id" == x"7" ]; then
+-    mkdir -p /data/mico
+-    cp /usr/share/mico/system.cfg /data/mico/
+-    micocfg_set /data/mico/system.cfg model L06A
+-    cp /usr/share/mico.l06a/*.cfg /data/mico/
+-    cfglist=$(cd /usr/share/mico;ls *.cfg)
+-    for onecfg in $cfglist;
+-    do
+-        mount --bind /data/mico/$onecfg  /usr/share/mico/$onecfg
+-    done
++    CONFIG_L06A=/tmp/mico.l06a
++    CONFIG_ORIG=/usr/share/mico
++    mkdir -p ${CONFIG_L06A}
++    cp -rf ${CONFIG_ORIG}/* ${CONFIG_L06A}/
++    cp -rf ${CONFIG_ORIG}.l06a/* ${CONFIG_L06A}/
+ 
+-    #stil need uci
+-    cp /usr/share/mico/version /data/mico/
+-    cp /usr/share/mico/manifest /data/mico/
+-    uci -c /data/mico set version.version.HARDWARE=L06A
+-    uci -c /data/mico set manifest.manifest.APPID=461124604870524928
+-    uci -c /data/mico set version.miio.module=xiaomi.wifispeaker.l06a
+-    uci -c /data/mico set version.miio.ssid_prefix=xiaomi-wifispeaker-l06a_miap
+-    uci -c /data/mico commit
+-    mount --bind /data/mico/version /usr/share/mico/version
+-    mount --bind /data/mico/manifest  /usr/share/mico/manifest
++    micocfg_set ${CONFIG_L06A}/system.cfg model L06A
++    uci -c ${CONFIG_L06A} set version.version.HARDWARE=L06A
++    uci -c ${CONFIG_L06A} set manifest.manifest.APPID=461124604870524928
++    uci -c ${CONFIG_L06A} set version.miio.module=xiaomi.wifispeaker.l06a
++    uci -c ${CONFIG_L06A} set version.miio.ssid_prefix=xiaomi-wifispeaker-l06a_miap
++    uci -c ${CONFIG_L06A} commit
++
++    mount --bind ${CONFIG_L06A} ${CONFIG_ORIG}
++    chmod a-w ${CONFIG_L06A}/*
+ fi
+ }
+ 
