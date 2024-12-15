@@ -28,7 +28,8 @@ for SRC in bluetooth mysoftvol notifyvol 'headphone volume'; do
   amixer set "$SRC" $VOL &>/dev/null &
 done
 
-miplay sound volume &
+[ "$SILENT" != "1" ] && miplay sound volume &
+[ "$MUTE_LED" = "1" ] && return
 
 # SHOW VOLUME LED
 CURVOL=`current_volume`

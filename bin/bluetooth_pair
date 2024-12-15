@@ -5,7 +5,7 @@ BT_CONFIG=/data/bt/bluez/bluetooth/main.conf
 BT_CLASS=$(grep -e '^Class' ${BT_CONFIG} | cut -d '=' -f2 | tr -d ' ')
 [ -z "$SILENT" ] && SILENT=0
 
-/bin/show_led 3
+[ "$MUTE_LED" != "1" ] && /bin/show_led 3
 
 bluetoothctl power on
 bluetoothctl discoverable on

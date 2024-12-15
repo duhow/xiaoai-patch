@@ -10,7 +10,7 @@ if [ -z "$LANGUAGE" ]; then
   LANGUAGE="$DEFAULT_LANGUAGE"
 fi
 
-/bin/show_led 1 &
+[ "$MUTE_LED" != "1" ] && /bin/show_led 1 &
 
 TEXT=$(echo "$@" | tr ' ' '+')
 HASH="$(echo "$TEXT" | md5sum | cut -c 1-20)-${LANGUAGE}"
