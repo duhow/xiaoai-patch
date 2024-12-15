@@ -9,7 +9,7 @@ import base64
 import time
 
 from config import ConfigManager, ConfigUci
-from utils import get_ip_address, get_wifi_mac_address, get_bt_mac_address, get_device_id
+from utils import get_ip_address, get_wifi_mac_address, get_bt_mac_address, get_device_id, get_uptime, get_load_avg, get_memory_usage, get_volume
 import const
 
 hostname = os.uname()[1]
@@ -154,9 +154,12 @@ def device_info():
     'wifi': get_wifi_mac_address(),
     'bluetooth': get_bt_mac_address(),
     'version': system_version.to_dict(),
+    'volume': get_volume(),
+    'uptime': get_uptime(),
+    'load_avg': get_load_avg(),
+    'memory_used': get_memory_usage(),
   }
   response = jsonify({'data': data})
-  response.cache_control.max_age = 3600
   return response
 
 @app.route('/mute')
