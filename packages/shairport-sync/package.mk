@@ -44,8 +44,8 @@ configure_package() {
 	   --with-stdout --with-pipe --with-avahi --with-external-mdns --with-ssl=openssl \
 	   --with-soxr --with-apple-alac --with-convolution \
 	   --with-piddir=/var --with-metadata \
-		 ${EXTRA_FLAGS}
-     #--with-dbus-interface  --with-mpris-interface
+	   --with-dbus-interface --with-mpris-interface \
+	   ${EXTRA_FLAGS}
 }
 
 make_package() {

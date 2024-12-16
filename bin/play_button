@@ -46,7 +46,14 @@ toggle_play_songs() {
   fi
 
   if command_exists mpc; then
-    mpc toggle
+    if mpc status | grep -qE '^\[playing\]|\[paused\]' ; then
+      mpc toggle
+      exit
+    fi
+  fi
+
+  if command_exists dbus-send && command_exists shairport-sync; then
+    dbus-send --system --type=method_call --dest=org.gnome.ShairportSync '/org/gnome/ShairportSync' org.gnome.ShairportSync.RemoteControl.PlayPause
   fi
 }
 
