@@ -7,6 +7,9 @@ if [ "$1" = "up" ]; then
   VOL="3%+"
 elif [ "$1" = "down" ]; then
   VOL="4%-"
+elif [ "$1" = "color" ]; then
+  VOL=""
+  [ "$2" = "-q" ] && SILENT=1
 elif [ "$1" = "get" ]; then
   echo `current_volume`
   return
@@ -20,13 +23,15 @@ elif [ ! -z "$1" ] && [ "$1" -ge 0 ] 2>/dev/null && [ "$1" -le 100 ]; then
   VOL=$1
   let VOL=VOL*255/100
 else
-  echo "Usage: $0 [get|up|down|<+/- optional> NUMBER]"
+  echo "Usage: $0 [color|get|up|down|<+/- optional> NUMBER]"
   return
 fi
 
-for SRC in bluetooth mysoftvol notifyvol 'headphone volume'; do
-  amixer set "$SRC" $VOL &>/dev/null &
-done
+if [ -n "$VOL" ] ; then
+  for SRC in bluetooth mysoftvol notifyvol 'headphone volume'; do
+    amixer set "$SRC" $VOL &>/dev/null &
+  done
+fi
 
 [ "$SILENT" != "1" ] && miplay sound volume &
 [ "$MUTE_LED" = "1" ] && return
