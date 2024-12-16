@@ -9,7 +9,7 @@ import base64
 import time
 
 from config import ConfigManager, ConfigUci
-from utils import get_ip_address, get_wifi_mac_address, get_bt_mac_address, get_device_id, get_uptime, get_load_avg, get_memory_usage, get_volume
+from utils import get_ip_address, get_wifi_mac_address, get_bt_mac_address, get_device_id, get_uptime, get_load_avg, get_memory_usage, get_volume, set_volume
 import const
 
 hostname = os.uname()[1]
@@ -83,7 +83,11 @@ def set_config():
 @app.get('/config/stt')
 def get_stt_providers():
   """ Get all state entities from HA, and filter for STT ones only """
-  token = get_hass_token()
+  try:
+    token = get_hass_token()
+  except ValueError:
+    return jsonify({'error': 'Failed to get HA token, config missing?'}), 404
+
   url = f'{config.HA_URL}/api/states'
   headers = {
     'Authorization': f'Bearer {token}',
@@ -161,6 +165,42 @@ def device_info():
   }
   response = jsonify({'data': data})
   return response
+
+@app.get('/volume')
+def get_volume_level():
+  """ Find available volume controls and return current volume """
+  mixers = list()
+  for mixer, name in const.volume_controls.items():
+    volume = get_volume(mixer)
+    if volume is not None:
+      mixers.append({'name': name, 'mixer': mixer, 'volume': volume})
+  return jsonify({'data': mixers})
+
+@app.post('/volume')
+@app.put('/volume')
+def set_volume_level():
+  """ Set volume for available volume controls """
+  mixer = request.form.get('mixer') or request.args.get('mixer', 'mysoftvol')
+  volume = request.form.get('volume') or request.args.get('volume', 0)
+  try:
+    volume = int(volume)
+  except ValueError:
+    return jsonify({'error': 'Invalid volume value'}), 400
+
+  if volume < 0 or volume > 100:
+    return jsonify({'error': 'Volume out of range'}), 400
+
+  if mixer not in const.volume_controls.keys():
+    return jsonify({'error': 'Invalid mixer name'}), 400
+
+  try:
+    result = set_volume(mixer, volume)
+    if not result:
+      raise
+  except:
+    return jsonify({'error': 'Failed to set volume'}), 500
+
+  return jsonify({'message': 'Volume set successfully'})
 
 @app.route('/mute')
 @app.route('/unmute')

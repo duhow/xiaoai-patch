@@ -4,6 +4,7 @@ import struct
 import subprocess
 import re
 from typing import Union
+import const
 
 def get_ip_address(ifname) -> str:
   s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -22,7 +23,7 @@ def get_load_avg(full: bool = False) -> Union[float, list[float]]:
     if not full:
       return float(f.readline().split()[0])
     return [float(x) for x in f.readline().split()[:3]]
-  
+
 def get_memory_usage() -> int:
   with open('/proc/meminfo', 'r') as f:
     total = 0
@@ -35,22 +36,38 @@ def get_memory_usage() -> int:
       if total and free:
         break
     return (total - free)
-  
-def get_volume(mixer: str = "mysoftvol") -> int:
-  """ Returns volume 0-100 """
-  mixers = ["mysoftvol", "bluetooth", "notifyvol", "headphone volume"]
+
+def get_volume(mixer: str = "mysoftvol") -> Union[int, None]:
+  """ Returns volume 0-100%, ALSA value is 0-255 """
+  mixers = const.volume_controls.keys()
   if mixer not in mixers:
     raise ValueError(f"Invalid mixer name: {mixer}")
-  
+
   try:
-    result = subprocess.run(f"amixer get {mixer}".split(" "), capture_output=True, text=True)
+    result = subprocess.run(['amixer', 'get', mixer], capture_output=True, text=True)
     if result.returncode == 0:
       match = re.search(r'\[([0-9]+)%\]', result.stdout)
       if match:
         return int(match.group(1))
   except Exception as e:
     pass
-  return 0
+  return None
+
+def set_volume(mixer: str = "mysoftvol", volume: int = 0) -> bool:
+  """ Sets volume 0-100 """
+  volume = max(0, min(100, volume))
+  volume = int(volume * 255 / 100)
+
+  mixers = const.volume_controls.keys()
+  if mixer not in mixers:
+    raise ValueError(f"Invalid mixer name: {mixer}")
+
+  try:
+    result = subprocess.run(['amixer', 'set', mixer, f'{volume}'], capture_output=True, check=True)
+    return result.returncode == 0
+  except Exception as e:
+    pass
+  return False
 
 def get_unify_key(key: str) -> str:
   try:

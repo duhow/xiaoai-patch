@@ -15,6 +15,12 @@ services_allowed = [
   'dropbear', 'listener', 'mpd', 'upmpdcli', 'shairport-sync',
   'snapclient', 'snapserver', 'triggerhappy',
 ]
+volume_controls = {
+  'mysoftvol': 'Main',
+  'headphone volume': 'Main',
+  'notifyvol': 'Notification',
+  'bluetooth': 'Bluetooth',
+}
 
 config_listener = '/data/listener'
 config_tts = '/data/tts.conf'
