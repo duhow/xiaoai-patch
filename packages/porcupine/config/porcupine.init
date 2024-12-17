@@ -17,7 +17,9 @@ start_service() {
   # unmute led
   /bin/shut_led 7 &
 
+  if [ `cat /proc/uptime | awk '{print $1}' | cut -d '.' -f1` -ge 30 ]; then
   [ "$SILENT" != "1" ] && miplay sound unmute
+  fi
 
   procd_open_instance
   procd_set_param command /usr/bin/porcupine_launcher
