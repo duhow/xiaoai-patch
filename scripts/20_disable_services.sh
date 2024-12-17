@@ -17,4 +17,5 @@ rm -vf $ROOTFS/etc/config/cmcc
 
 echo "[*] Removing cronjobs"
 shasum $ROOTFS/etc/crontabs/*
-rm -vf $ROOTFS/etc/crontabs/*
+rm -rvf $ROOTFS/etc/crontabs
+ln -svf /data/etc/crontabs $ROOTFS/etc/crontabs
