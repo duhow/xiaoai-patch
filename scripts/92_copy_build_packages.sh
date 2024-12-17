@@ -78,6 +78,7 @@ libFLAC.so.8 libFLAC.so
 libhistory.so.7 libhistory.so
 libconfig.so.11.0.2 libconfig.so.11.1.0
 libconfig++.so.11.0.2 libconfig++.so.11.1.0
+libcrypto.so.1.0.0 libcrypto.so
 "
 
 echo "$libraries_upgrade" | while read -r entry; do
@@ -90,9 +91,9 @@ echo "$libraries_upgrade" | while read -r entry; do
 
   FILE="$ROOTFS/usr/lib/$libold"
   if [ -h "$FILE" ] || [ -e "$FILE" ]; then
-    rm -f $FILE
-    ln -sv $libnew $FILE
+    rm -fv $FILE
   fi
+  ln -sv $libnew $FILE
 done
 
 if [ -d "${ROOTFS}/usr/lib/gconv" ]; then
