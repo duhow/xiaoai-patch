@@ -8,11 +8,20 @@ EXTRA_COMMANDS="status toggle"
 PIDFILE=/var/run/api.pid
 
 start_service() {
-  procd_open_instance
-  #procd_add_mdns "http" "tcp" "80"
+  MODEL=$(uci -c /usr/share/mico get version.version.HARDWARE)
+  VERSION=$(uci -c /usr/share/mico get version.version.ROM)
+  lport=80
+
+  procd_open_instance web
   procd_set_param command /usr/bin/python3 "${APP_PATH}"
   procd_set_param respawn 3600 5 0
   procd_set_param pidfile ${PIDFILE}
+  procd_close_instance
+
+  procd_open_instance mdns
+  procd_set_param command /usr/bin/avahi-publish -s "Xiaoai Assist @ $(hostname)" _xiaoai._tcp $lport
+  procd_append_param command "name=$(hostname)" "version=${VERSION}" "model=${MODEL}"
+  procd_set_param pidfile ${PIDFILE}.mdns
   procd_close_instance
 }
 
