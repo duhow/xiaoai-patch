@@ -18,6 +18,8 @@ sed -i "/BUILDTS/s/'.*/'$(date +%s)'/" ${MICO_FILE}
 sed -i "/BUILDTIME/s/'.*/'$(date -R)'/" ${MICO_FILE}
 sed -i "/ROM/s/'.*/'$(date +%Y.%m.%d)'/" ${MICO_FILE}
 sed -i "/ROOTFS/s/'.*/'${ROM_VERSION}'/" ${MICO_FILE}
+# TODO check how much does this change
+sed -i "/LINUX/s/'.*/'${ROM_VERSION}'/" ${MICO_FILE}
 sed -i "/CHANNEL/s/'.*/'custom'/" ${MICO_FILE}
 if [ -n "$GITHUB_ACTIONS" ]; then
   sed -i "/CHANNEL/s/'.*/'release'/" ${MICO_FILE}
@@ -31,6 +33,7 @@ sed -i '/buildtime/s/".*"/"'"$(uci_get "BUILDTIME")"'"/' ${SYSTEM_FILE}
 sed -i '/version/s/".*"/"'"$(uci_get "ROM")"'"/' ${SYSTEM_FILE}
 sed -i '/channel/s/".*"/"'"$(uci_get "CHANNEL")"'"/' ${SYSTEM_FILE}
 sed -i '/rootfs/s/".*"/"'"$(uci_get "ROOTFS")"'"/' ${SYSTEM_FILE}
+sed -i '/linux/s/".*"/"'"$(uci_get "LINUX")"'"/' ${SYSTEM_FILE}
 sed -i '/gtag/s/".*"/"'"$(uci_get "GTAG" | cut -d ' ' -f2)"'"/' ${SYSTEM_FILE}
 
 echo "[*] Updating os-release info"

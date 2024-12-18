@@ -95,30 +95,28 @@ ROM_VERSION = $(shell grep 'option ROM' $(MICO_VERSION) | awk '{print $$3}' | tr
 
 release_set_config:
 	mkdir -p $(RELEASE_DIR)
-	cp -f $(MICO_VERSION) $(RELEASE_DIR)/metadata
+	@cp -vf $(MICO_VERSION) $(RELEASE_DIR)/metadata
 	@IMAGE_MD5=$(shell md5sum $(DESTDIR)/$(IMAGE_NAME) | cut -d ' ' -f 1); \
 	echo "config core 'hash'" >> $(RELEASE_DIR)/metadata; \
 	echo -e "\toption ROOTFS '$$IMAGE_MD5'" >> $(RELEASE_DIR)/metadata
-ifeq ($(LINUX),none)
-	@true
-else
+ifneq ($(LINUX),none)
 	@LINUX_MD5=$(shell md5sum $(LINUX) | cut -d ' ' -f 1); \
 	echo -e "\toption LINUX '$$LINUX_MD5'" >> $(RELEASE_DIR)/metadata
 endif
 
 release_pack:
-	@cp $(DESTDIR)/$(IMAGE_NAME) $(RELEASE_DIR)/root.squashfs
-ifeq ($(LINUX),none)
-	@true
-else
-	@cp $(LINUX) $(RELEASE_DIR)/boot.img
+	@cp -v $(DESTDIR)/$(IMAGE_NAME) $(RELEASE_DIR)/root.squashfs
+	@cp -v $(BUILD_DIR)/bin/update.sh $(RELEASE_DIR)/
+ifneq ($(LINUX),none)
+	@cp -v $(LINUX) $(RELEASE_DIR)/boot.img
 endif
 	tar -cf $(RELEASE_FILE) -C $(RELEASE_DIR) .
 
 release: get_version release_set_config release_pack
-	MD5TAR=$(shell md5sum $(RELEASE_FILE) | cut -d ' ' -f 1); \
-	mv $(RELEASE_FILE) $(DESTDIR)/mico_firmware_$${MD5TAR: -7}_$(DATE)_$(MODEL).tar
-	rm -rf $(RELEASE_DIR)
+	@MD5TAR=$(shell md5sum $(RELEASE_FILE) | cut -d ' ' -f 1); \
+	mv $(RELEASE_FILE) $(DESTDIR)/mico_firmware_$${MD5TAR: -7}_$(DATE)_$(MODEL).tar ; \
+	echo "> Release created: mico_firmware_$${MD5TAR: -7}_$(DATE)_$(MODEL).tar - $${MD5TAR}"
+	@rm -rf $(RELEASE_DIR)
 
 build_squashfs:
 	mksquashfs $(BUILD_DIR) $(DESTDIR)/$(IMAGE_NAME) -comp $(COMPRESSION) -noappend -all-root -always-use-fragments -b $(BLOCKSIZE)
