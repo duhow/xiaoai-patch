@@ -1,5 +1,5 @@
 PACKAGE_NAME="nqptp"
-PACKAGE_VERSION="1.2.4" # 1.1-dev
+PACKAGE_VERSION="1.2.4"
 PACKAGE_SRC="https://github.com/mikebrady/nqptp/archive/refs/tags/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc"
 

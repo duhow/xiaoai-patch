@@ -1,5 +1,5 @@
 PACKAGE_NAME="Opus Codec"
-PACKAGE_VERSION="1.4"
+PACKAGE_VERSION="1.5.2"
 PACKAGE_SRC="https://github.com/xiph/opus/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 
 preconfigure_package() {

@@ -1,5 +1,5 @@
 PACKAGE_NAME="sndio"
-PACKAGE_VERSION="1.9.0"
+PACKAGE_VERSION="1.10.0"
 PACKAGE_SRC="https://github.com/ratchov/sndio/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 
 configure_package() {

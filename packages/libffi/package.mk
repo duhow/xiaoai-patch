@@ -1,5 +1,5 @@
 PACKAGE_NAME="libffi"
-PACKAGE_VERSION="3.4.4"
+PACKAGE_VERSION="3.4.6"
 PACKAGE_SRC="https://github.com/libffi/libffi/releases/download/v${PACKAGE_VERSION}/libffi-${PACKAGE_VERSION}.tar.gz"
 
 

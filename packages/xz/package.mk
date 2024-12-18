@@ -1,5 +1,5 @@
 PACKAGE_NAME="XZ Utils"
-PACKAGE_VERSION="5.2.5"
+PACKAGE_VERSION="5.6.3"
 PACKAGE_SRC="https://github.com/tukaani-project/xz/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 
 preconfigure_package() {

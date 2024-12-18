@@ -1,5 +1,5 @@
 PACKAGE_NAME="libsodium"
-PACKAGE_VERSION="1.0.19"
+PACKAGE_VERSION="1.0.20"
 PACKAGE_SRC="https://github.com/jedisct1/libsodium/archive/refs/tags/${PACKAGE_VERSION}-RELEASE.tar.gz"
 
 preconfigure_package() {
