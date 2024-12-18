@@ -38,6 +38,7 @@ Everything powered by Open Source Software!
 | ![L05G - not supported][L05G] | Xiaomi Smart Speaker IR Control (Global, Google Assistant) | |
 | ![L15A - encrypted, not fully supported][L15A] | Xiaomi Mi AI Speaker 2 Gen | |
 | ![L16A - not tested][L16A] | Xiaomi Sound by HARMAN AudioEFX | |
+| ![L17A - not tested][L17A] | Xiaomi Sound Pro | |
 | ![L07A - not tested][L07A] | Redmi XiaoAI Speaker Play | |
 | ![M03A - not tested][M03A] | Xiaomi Sound Move | |
 | ![MDZ-25-DT - not tested][MDZ-25-DT] | Xiaomi Mi AI Speaker 1 Gen (?) - S12 | |
@@ -56,6 +57,7 @@ Everything powered by Open Source Software!
 [L05G]: https://img.shields.io/badge/L05G-red?style=for-the-badge
 [L15A]: https://img.shields.io/badge/L15A-yellow?style=for-the-badge
 [L16A]: https://img.shields.io/badge/L16A-lightgrey?style=for-the-badge
+[L17A]: https://img.shields.io/badge/L17A-lightgrey?style=for-the-badge
 [L07A]: https://img.shields.io/badge/L07A-lightgrey?style=for-the-badge
 [M03A]: https://img.shields.io/badge/M03A-lightgrey?style=for-the-badge
 [MDZ-25-DT]: https://img.shields.io/badge/MDZ--25--DT-lightgrey?style=for-the-badge
