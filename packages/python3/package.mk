@@ -67,6 +67,14 @@ postinstall_package() {
 		find "${STAGING_PYTHON}" -mindepth 2 -type d -name "${NAME}" -exec rm -rf {} \;
 	done
 
+	export PYTHONPATH=""
+	unset PYTHONPATH
+
+	# IMPORTANT: remove built python for host, as causes conflict
+	for NAME in python3 pip3 ; do
+	  rm -vf /usr/local/bin/${NAME}
+	done
+
 	# ignore if failed
 	return 0
 }
