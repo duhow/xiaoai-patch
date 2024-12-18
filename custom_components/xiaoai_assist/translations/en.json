@@ -1,0 +1,19 @@
+{
+  "config": {
+    "flow_title": "{name}",
+    "step": {
+      "user": {
+        "title": "Add your Xiaoai Speaker",
+        "description": "Set up your Xiaomi Smart Speaker to integrate with Home Assistant.",
+        "data": {
+          "host": "Hostname / IP",
+          "port": "Port"
+        }
+      },
+      "zeroconf_confirm": {
+        "title": "Discovered Xiaoai Speaker",
+        "description": "Do you want to set up {name}?"
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+DOMAIN = 'xiaoai_assist'

@@ -1,0 +1,19 @@
+{
+  "config": {
+    "flow_title": "{name}",
+    "step": {
+      "user": {
+        "title": "Afegeix el teu Altaveu Xiaoai",
+        "description": "Configura el teu Xiaomi Smart Speaker per integrar amb Home Assistant.",
+        "data": {
+          "host": "Adreça IP",
+          "port": "Port"
+        }
+      },
+      "zeroconf_confirm": {
+        "title": "S'ha descobert un Altaveu Xiaoai",
+        "description": "Vols configurar {name}?"
+      }
+    }
+  }
+}
