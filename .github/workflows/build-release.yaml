@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        model: [lx01, lx06, l09a, l09b]
+        model: [lx06, l09a, l09b]
     uses: ./.github/workflows/build-packages.yaml
     with:
       model: ${{ matrix.model }}
@@ -29,7 +29,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        model: [lx01, lx06, l09a, l09b]
+        model: [lx06, l09a, l09b]
     env:
       MODEL: ${{ matrix.model }}
     steps:
