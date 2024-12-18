@@ -1,0 +1,112 @@
+--- a/etc/init.d/wireless	2021-06-28 04:23:39.000000000 +0200
++++ b/etc/init.d/wireless	2024-12-17 23:01:18.810575971 +0100
+@@ -912,10 +912,6 @@
+ 
+ app_restart_check()
+ {
+-    /etc/init.d/messagingagent restart >/dev/null 2>&1
+-    /etc/init.d/mediaplayer restart >/dev/null 2>&1
+-    /etc/init.d/alarm restart >/dev/null 2>&1
+-    /etc/init.d/pns restart >/dev/null 2>&1
+     sleep 1
+ }
+ 
+@@ -1374,9 +1370,7 @@
+ 
+ user_data_clean()
+ {
+-    /etc/init.d/mibt_mesh stop
+     rm /data/bt/mibt_mesh_config.json
+-    /etc/init.d/mibt_mesh_proxy restart
+     rm /data/alarm -r -f > /dev/null 2>&1;
+     rm /data/timer -r -f > /dev/null 2>&1;
+     # rm /data/status -r -f > /dev/null 2>&1;
+@@ -1400,14 +1394,6 @@
+     killall -9 mijia_automation
+ 
+     sync
+-    /etc/init.d/alarm restart;
+-    /etc/init.d/voip restart;
+-    /etc/init.d/mediaplayer restart;
+-    /etc/init.d/messagingagent restart;
+-    /etc/init.d/pns restart
+-    /etc/init.d/mico_aivs_lab restart
+-    /etc/init.d/mibrain_service restart
+-    /etc/init.d/sound_effect restart
+ }
+ 
+ wifi_nolock()
+@@ -1680,10 +1666,7 @@
+     wireless_log "boot done volume $VOL_VALUE"
+     amixer sset mysoftvol $VOL_VALUE
+     if [ ! -f "/data/status/config_done" ]; then
+-        ubus -t 10 wait_for mediaplayer
+-        /etc/init.d/pns stop    
+         miplay /usr/share/common_sound/welcome.opus
+-        /etc/init.d/pns start   
+     else
+         [ -x /bin/silentboot.sh ] && si_flag=`/bin/silentboot.sh get`
+         if [ "$si_flag" = "1" ]; then
+@@ -1730,10 +1713,7 @@
+     miplay /usr/share/sound/enter_config_mode.opus
+     #for mibt ble 
+ 
+-    /etc/init.d/mibt_mesh_proxy stop
+     /etc/init.d/bluetooth restart
+-    /etc/init.d/mibt_mesh_proxy restart
+-    /etc/init.d/voip restart
+ 
+     [ x"$MIOT_AUTO_PROVISION_SUPPORT" == x"yes" ] && {
+         file_mv $WIRELESS_CONF_BACKUP $WIRELESS_CONF
+@@ -1768,7 +1748,6 @@
+     wireless_log "test andlink enable, type $custom_type"
+     [ x"$custom_type" == x"CMCC" ]  && {
+         wireless_log "try andlink enabled"
+-        /etc/init.d/cmcc_andlink enable >/dev/null 2>&1
+     }
+ }
+ 
+@@ -1804,7 +1783,6 @@
+     /bin/shut_led 10
+     ( bootup_sound_custom >/dev/null 2>&1 ) &
+     andlink_enable >/dev/null 2>&1
+-    /etc/init.d/cmcc_ims restart  >/dev/null 2>&1
+     nice -n -10 miplayer -f /usr/share/common_sound/network_done_miio.opus &
+     unlock
+ }
+@@ -1951,10 +1929,7 @@
+     conf_save  >/dev/null 2>&1
+     /etc/init.d/dnsmasq restart  1
+     andlink_enable >/dev/null 2>&1
+-    /etc/init.d/cmcc_ims stop  >/dev/null 2>&1
+     miplay /usr/share/common_sound/network_done_miio.opus
+-    /etc/init.d/cmcc_ims start  >/dev/null 2>&1
+-    /etc/init.d/mico_aivs_lab restart >/dev/null 2>&1
+     ( bootup_sound_custom >/dev/null 2>&1 ) &
+     file_delete /tmp/in_config_mode_flag
+     shut_led 6 >/dev/null 2>&1
+@@ -2168,15 +2143,12 @@
+     conf_save  >/dev/null 2>&1
+     file_delete /tmp/in_config_mode_flag
+     /etc/init.d/dnsmasq restart  1 
+-    /etc/init.d/voip restart
+     is_bt_classical_discoverable
+     [ $? -eq 1 ] && {
+         ubus call mibt enable '{"btmode":"classic", "action":"close"}'
+     }
+     sync
+ 
+-    /etc/init.d/mico_aivs_lab restart >/dev/null 2>&1
+-    /etc/init.d/pns restart >/dev/null 2>&1
+     ( bootup_sound_custom >/dev/null 2>&1 ) &
+ 
+     ubus call mible enable '{"btmode":"ble", "connect":1,"discover":0}'
+@@ -2330,7 +2302,7 @@
+     wireless_log "ble exit ap config mode"
+ 
+     mphelper tone /usr/share/sound/init_wifi_success.opus  >/dev/null &
+-    (andlink_enable >/dev/null 2>&1; /etc/init.d/cmcc_ims restart >/dev/null 2>&1) &
++    (andlink_enable >/dev/null 2>&1) &
+     device_id=$(micocfg_device_id)
+     wireless_log "success:$device_id"
+     echo "success:$device_id"
