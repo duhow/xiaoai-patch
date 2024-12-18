@@ -5,11 +5,15 @@ OCI_DIR = docker_pull
 
 BUILD_DIR = squashfs-root
 FILE = mtd4
-DATE := $(shell date +%y%m%d-%H%M)
+LINUX ?= none
+DATETIME := $(shell date +%y%m%d-%H%M)
+DATE := $(shell date +%y%m%d)
 MODEL ?= none
 override MODEL := $(shell echo $(MODEL) | tr '[:upper:]' '[:lower:]')
-IMAGE_NAME = image-$(DATE)
+IMAGE_NAME = image-$(DATETIME)
 DESTDIR ?= release/$(MODEL)
+RELEASE_DIR = $(DESTDIR)/release_$(DATETIME)
+RELEASE_FILE = $(DESTDIR)/mico_firmware.tar
 BLOCKSIZE = 131072
 COMPRESSION = xz
 
@@ -46,9 +50,9 @@ ifeq ($(MODEL), s12a)
 COMPRESSION := gzip
 endif
 
-.PHONY: all clean clean-packages pull extract patch build help
+.PHONY: all clean clean-packages pull extract patch build release help
 
-all: extract patch build
+all: extract patch build release
 
 ifeq ($(MODEL), s12)
 extract: extract_ubifs
@@ -83,6 +87,38 @@ endif
 postbuild:
 	rm -f $(DESTDIR)/latest 2>/dev/null
 	ln -sf $(IMAGE_NAME) $(DESTDIR)/latest
+
+get_version:
+MICO_VERSION = $(BUILD_DIR)/usr/share/mico/version
+ROOTFS_VERSION = $(shell grep 'option ROOTFS' $(MICO_VERSION) | awk '{print $$3}' | tr -d "'")
+ROM_VERSION = $(shell grep 'option ROM' $(MICO_VERSION) | awk '{print $$3}' | tr -d "'")
+
+release_set_config:
+	mkdir -p $(RELEASE_DIR)
+	cp -f $(MICO_VERSION) $(RELEASE_DIR)/metadata
+	@IMAGE_MD5=$(shell md5sum $(DESTDIR)/$(IMAGE_NAME) | cut -d ' ' -f 1); \
+	echo "config core 'hash'" >> $(RELEASE_DIR)/metadata; \
+	echo -e "\toption ROOTFS '$$IMAGE_MD5'" >> $(RELEASE_DIR)/metadata
+ifeq ($(LINUX),none)
+	@true
+else
+	@LINUX_MD5=$(shell md5sum $(LINUX) | cut -d ' ' -f 1); \
+	echo -e "\toption LINUX '$$LINUX_MD5'" >> $(RELEASE_DIR)/metadata
+endif
+
+release_pack:
+	@cp $(DESTDIR)/$(IMAGE_NAME) $(RELEASE_DIR)/root.squashfs
+ifeq ($(LINUX),none)
+	@true
+else
+	@cp $(LINUX) $(RELEASE_DIR)/boot.img
+endif
+	tar -cf $(RELEASE_FILE) -C $(RELEASE_DIR) .
+
+release: get_version release_set_config release_pack
+	MD5TAR=$(shell md5sum $(RELEASE_FILE) | cut -d ' ' -f 1); \
+	mv $(RELEASE_FILE) $(DESTDIR)/mico_firmware_$${MD5TAR: -7}_$(DATE)_$(MODEL).tar
+	rm -rf $(RELEASE_DIR)
 
 build_squashfs:
 	mksquashfs $(BUILD_DIR) $(DESTDIR)/$(IMAGE_NAME) -comp $(COMPRESSION) -noappend -all-root -always-use-fragments -b $(BLOCKSIZE)
@@ -149,10 +185,12 @@ $(BUILD_DIR)/patched: patch
 help:
 	@echo "Usage (as root): "
 	@echo ""
-	@echo "  make extract FILE=mtd4 - Extract the content of the image."
-	@echo "                           Beware $(BUILD_DIR) will be deleted!"
+	@echo "  make extract FILE=mtd4   - Extract the content of the image."
+	@echo "                             Beware $(BUILD_DIR) will be deleted!"
 	@echo ""
-	@echo "  make patch MODEL=lx01  - Apply patches."
+	@echo "  make patch MODEL=lx01    - Apply patches."
 	@echo ""
-	@echo "  make build MODEL=lx01  - Create a new image in release folder."
+	@echo "  make build MODEL=lx01    - Create a new image in release folder."
+	@echo ""
+	@echo "  make release MODEL=lx01  - Creates a packed release image in release folder."
 	@echo ""
