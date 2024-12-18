@@ -9,9 +9,11 @@ DRY_RUN=0
 [ -e "$CONFIG" ] && source $CONFIG
 
 SKIP_DOWNLOAD=0
+GH_DOWNLOAD=0
 OTA_FILE=""
 [ -n "$OTA_URL" ] && OTA_FILE="/tmp/$(basename $OTA_URL)"
 OTA_RL=/tmp/ota_release.json
+OTA_ASSETS=/tmp/ota_assets.txt
 MIN_MEMORY=45000
 
 get_mico_version() { uci -c /usr/share/mico get version.version.$1; }
@@ -24,9 +26,15 @@ COMMANDS="wget grep awk tar md5sum dd tr jq"
 echo_debug(){ [ "$DEBUG" = 1 ] && echo "[*] $@"; }
 echo_error(){ echo "[!] $@"; }
 fail(){ echo_error "$2"; exit $1; }
-download_file() { wget -t3 -T30 -U "mico/${MODEL}/${ROM_VERSION}" "$1" -O "$2" ; }
+download_file() { wget -t3 -T30 -U "Mozilla/5.0 (X11; Linux arm) Chrome/128.0.0.0 ${MODEL}/${ROM_VERSION}" "$1" -O "$2" ; }
+download_gh_asset() {
+  update_ota_url_gh
+  local asset=$(grep "$1" $OTA_ASSETS | awk '{print $1}')
+  [ -z "$asset" ] && fail 1 "Asset $1 not found"
+  wget -t3 -T30 --header="Accept: application/octet-stream" "${OTA_URL}/$asset" -O "$2"
+}
 update_ota_release_gh() { OTA_GH_RELEASE_URL="https://api.github.com/repos/${OTA_GH_REPO}/releases/${OTA_VERSION}" ; }
-update_ota_url_gh() { OTA_URL="https://github.com/${OTA_GH_REPO}/releases/download/${OTA_VERSION}" ; }
+update_ota_url_gh() { OTA_URL="https://api.github.com/repos/${OTA_GH_REPO}/releases/assets" ; }
 check_commands() {
   for cmd in $COMMANDS; do
     command -v $cmd >/dev/null || fail 1 "Command $cmd not found"
@@ -184,12 +192,13 @@ get_latest_version() {
     if [ -z "${OTA_VERSION}" ]; then
       fail 1 "OTA version request was invalid!"
     fi
-    update_ota_url_gh
-
-    return get_latest_version
+    # extract ID asset and filename
+    jq -r '.assets[] | "\(.id) \(.name)"' $OTA_RL > $OTA_ASSETS
+    
+    rm -f $OTA_RL
   fi
 
-  download_file "${OTA_URL}/metadata.json" $OTA_RL
+  download_gh_asset metadata.json $OTA_RL
   local model_available=$(jq -r --arg model "$MODEL_LCASE" '.models | index($model) != null' $OTA_RL)
 
   if [ "$model_available" != "true" ]; then
@@ -209,8 +218,10 @@ get_latest_version() {
 
 download_ota() {
   local file=`basename ${OTA_FILE}`
+  if [ "$GH_DOWNLOAD" = 1 ]; then
+    download_gh_asset $file $OTA_FILE
   # if URL ends with file, then it's a direct download
-  if [ "${OTA_URL: -${#file}}" = "$file" ]; then
+  elif [ "${OTA_URL: -${#file}}" = "$file" ]; then
     download_file "${OTA_URL}" ${OTA_FILE}
   else
     download_file "${OTA_URL}/${file}" ${OTA_FILE}
@@ -249,6 +260,7 @@ run_ota() {
 
   if [ "$SKIP_DOWNLOAD" = 0 ]; then
     if [ -z "${OTA_URL}" ]; then
+      GH_DOWNLOAD=1
       get_latest_version
     fi
 
