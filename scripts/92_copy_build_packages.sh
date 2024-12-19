@@ -57,7 +57,8 @@ for FILE in isotest pcretest rctest mpris-proxy bluemoon \
 done
 
 # deleting sbin unused (!)
-for FILE in rtwpriv rtlbtmp mlanutl ptp4l timemaster; do
+for FILE in rtwpriv rtlbtmp mlanutl ptp4l timemaster \
+  zdump zic nscd iconvconfig ; do
   rm -vf $ROOTFS/usr/sbin/$FILE
 done
 
