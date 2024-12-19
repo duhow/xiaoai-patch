@@ -285,6 +285,8 @@ strip_full() {
     echo_stage "Stripping debug symbols from target..."
     find ${STAGING_TO_TARGET_DIR}/${INSTALL_PREFIX}/{sbin,bin,lib} -type f \
        -exec ${BUILD_STRIP} {} \; > /dev/null 2>&1
+    find ${STAGING_TO_TARGET_DIR}/lib -type f \
+       -exec ${BUILD_STRIP} {} \; > /dev/null 2>&1
 }
 
 in_to_out() {
