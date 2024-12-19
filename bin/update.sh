@@ -75,7 +75,7 @@ get_boot() {
 }
 
 stop_processes() {
-  local apps="mpd shairport-sync upmpdcli snapclient"
+  local apps="mpd shairport-sync upmpdcli snapclient squeezelite"
   for app in $apps; do
     [ -e "/etc/init.d/$app" ] && {
       echo_debug "stopping $app"
