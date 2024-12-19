@@ -1,0 +1,21 @@
+# dbus sets machine-id, and bluealsa persist bluetooth info
+--- a/usr/sbin/boot_function.sh	2021-06-28 04:23:39.000000000 +0200
++++ b/usr/sbin/boot_function.sh	2024-12-19 17:43:21.804002837 +0100
+@@ -83,7 +83,7 @@
+ 
+ data_dir_prepare()
+ {
+-    local dir_list="/data/etc/ /data/wifi /data/bt /data/miio"
++    local dir_list="/data/etc/ /data/lib /data/wifi /data/bt /data/miio"
+     for one_dir in $dir_list
+     do
+         mico_log "create dir $one_dir " 
+@@ -178,6 +178,8 @@
+     mkdir -p /var/lock
+     mkdir -p /var/state
+     mkdir -p /var/tmp
++    [ -e /var/lib ] && rm -rf /var/lib
++    ln -s /data/lib /var/lib
+     mkdir -p /tmp/.uci
+     chmod 0700 /tmp/.uci
+     touch /var/log/wtmp
