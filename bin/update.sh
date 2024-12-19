@@ -54,7 +54,8 @@ set_boot() {
 
 switch_boot(){
   [ "$DRY_RUN" != 0 ] && return 0
-  [ "$BOOTPART" = "boot0" ] && set_boot boot1 || set_boot boot0
+  [ "$BOOTPART" = "boot0" ] && set_boot boot1
+  [ "$BOOTPART" = "boot1" ] && set_boot boot0
 }
 
 get_boot_from_cmdline() {
@@ -100,9 +101,12 @@ set_target_partitions() {
   if [ "$BOOTPART" = "boot0" ]; then
     mtdkrn=3
     mtdroot=5 # update sys1
-  else
+  elif [ "$BOOTPART" = "boot1" ]; then
     mtdkrn=2
     mtdroot=4 # update sys0
+  else
+    echo "-----"
+    fail 1 "Invalid boot partition: $BOOTPART"
   fi
 }
 
@@ -251,6 +255,10 @@ download_ota() {
 }
 
 run_ota() {
+  if [ "$SKIP_DOWNLOAD" = 1 ]; then
+    MIN_MEMORY=5000
+  fi
+
   if [ `mem_available` -lt $MIN_MEMORY ]; then
     clean_memory
     if [ `mem_available` -lt $MIN_MEMORY ]; then
