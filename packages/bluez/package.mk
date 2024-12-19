@@ -34,11 +34,11 @@ postinstall_package() {
 	rm -vf ${STAGING_DIR}/usr/libexec/bluetooth/btmon-logger
 
 	for NAME in isotest pcretest rctest mpris-proxy bluemoon \
-		l2test l2ping btmgmt gatttool bccmd sdptool ciptool; do
+		hex2hcd l2test l2ping btmgmt gatttool bccmd sdptool ciptool; do
 		rm -vf ${STAGING_DIR}/usr/bin/${NAME}
 	done
 
-	for NAME in ibeacon eddystone \
+	for NAME in \
 		btproxy btmgmt btinfo btconfig btattach \
 		bluetooth-player bluemoon bdaddr bccmd; do
 	cp -v tools/${NAME} ${STAGING_DIR}/usr/bin/ || true
