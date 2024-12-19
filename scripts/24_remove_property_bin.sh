@@ -47,6 +47,15 @@ for FILE in libmibrain-common-sdk.so libmibrain-common-util.so libmibrainsdk.so 
   rm -vf $ROOTFS/usr/lib/$FILE
 done
 
+# not used in LX06 after removing bloatware
+for FILE in libldns.so.1.6.17 liblua.so.5.1.5 libthrift_c_glib.so.0.0.0 libxmdtransceiver.so \
+  libstack.so liblibma.so libmbedcrypto.so.2.6.0 libmbedtls.so.2.6.0 libmbedx509.so.2.6.0 libmbedtls.so.1.3.14 \
+  libgmp.so.10.3.2 libhogweed.so.4.3 libgnutls.so.30.14.8 \
+  libgupnp-1.0.so.4.0.1 libgssdp-1.0.so.3.0.1 \
+  libevent-2.0.so.5.1.10 libevent_{core,extra,openssl,pthreads}-2.0.so.5.1.10 ; do
+  rm -vf $ROOTFS/usr/lib/$FILE
+done
+
 # fix repeated libs
 for FILE in libnghttp2.so.14.13.2 libevtlog.so.0.0.0 libprocps.so.5.0.0; do
   if [ -f "${ROOTFS}/usr/lib/${FILE}" ]; then
