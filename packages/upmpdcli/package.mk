@@ -27,6 +27,8 @@ install_package() {
 
 postinstall_package() {
 	mkdir -p ${STAGING_DIR}/etc/init.d ${STAGING_DIR}/etc/rc.d
+	rm -rvf ${STAGING_DIR}/usr/share/upmpdcli/web
+	rm -rvf ${STAGING_DIR}/usr/share/upmpdcli/cdplugins/*
 
 	cp -vf ${PACKAGE_DIR}/config/icon.png ${STAGING_DIR}/${INSTALL_PREFIX}/share/upmpdcli
 	cp -vf ${PACKAGE_DIR}/config/upmpdcli.conf ${STAGING_DIR}/etc/
