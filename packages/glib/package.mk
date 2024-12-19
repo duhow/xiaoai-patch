@@ -47,6 +47,8 @@ install_package() {
 }
 
 postinstall_package() {
-        rm -rvf ${STAGING_DIR}/usr/share/gdb
+	rm -rvf ${STAGING_DIR}/usr/share/gdb
+	rm -rvf ${STAGING_DIR}/usr/share/glib-2.0/codegen
+
 	# /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.6702.0-gdb.py
 }
