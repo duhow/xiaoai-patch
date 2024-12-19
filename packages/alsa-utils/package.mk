@@ -23,4 +23,7 @@ install_package() {
 postinstall_package() {
 	rm -vrf ${STAGING_DIR}/usr/share/sounds/alsa/Rear_*.wav
 	rm -vrf ${STAGING_DIR}/usr/share/sounds/alsa/Side_*.wav
+	for FILE in alsa-info.sh alsabat-test.sh alsaconf ; do
+		rm -vf ${STAGING_DIR}/usr/sbin/${FILE}
+	done
 }

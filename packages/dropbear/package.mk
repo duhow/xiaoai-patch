@@ -31,6 +31,5 @@ make_package() {
 }
 
 install_package() {
-	echo "cp ${PACKAGE_SRC_DIR}/dropbearmulti ${STAGING_DIR}/${INSTALL_PREFIX}/sbin/dropbear"
-	cp ${PACKAGE_SRC_DIR}/dropbearmulti ${STAGING_DIR}/${INSTALL_PREFIX}/sbin/dropbear
+	cp -v ${PACKAGE_SRC_DIR}/dropbearmulti ${STAGING_DIR}/${INSTALL_PREFIX}/sbin/dropbear
 }
