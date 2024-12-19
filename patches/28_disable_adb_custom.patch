@@ -1,0 +1,50 @@
+# When starting adb, this creates a new NETWORK device
+# named usb0 .
+# This NIC every time has a new MAC address,
+# and when starting service applications which look for MAC,
+# the MAC reported will be different.
+# This causes that Shairport-sync (AirPlay), Snapcast, Squeezelite
+# will show different device entries each time the speaker
+# is restarted.
+# L09A would always use ADB.
+# LX06 would use ADB if image is not "release" (custom).
+# We set to disable ADB by default, except if file exists.
+--- a/etc/init.d/adbd	2021-06-28 04:23:39.000000000 +0200
++++ b/etc/init.d/adbd	2024-12-19 12:41:51.804563161 +0100
+@@ -61,10 +61,6 @@
+ }
+ 
+ start(){
+-	channel=`/sbin/uci -q get /usr/share/mico/version.version.CHANNEL`
+-	if [ "$channel" = "release" ]; then
+-		return 0
+-	fi
+ 	start_usbgadget &
+ }
+ 
+--- a/etc/init.d/adbd	2018-10-11 03:14:23.000000000 +0200
++++ b/etc/init.d/adbd	2024-12-19 12:58:33.032478316 +0100
+@@ -9,11 +9,7 @@
+ OOM_ADJ=-17
+ 
+ start_service() {
+-	channel=`/sbin/uci -q get /usr/share/mico/version.version.CHANNEL`
+-	if [ "$channel" = "release" ]; then
+-		return 0
+-	fi
+-
++    if [ ! -f "/data/adb_enable" ]; then return 0 ; fi
+     sn=`imiflash get sn | awk -F/ '{print $2}'`
+     adb_id=${sn:$((${#sn}-8))}
+     if [ "x$adb_id" == "x" ]; then
+
+--- a/etc/init.d/adbd	2021-06-28 04:23:39.000000000 +0200
++++ b/etc/init.d/adbd	2024-12-19 12:48:34.205439525 +0100
+@@ -61,6 +61,7 @@
+ }
+ 
+ start(){
++	if [ ! -f "/data/adb_enable" ]; then return 0 ; fi
+ 	start_usbgadget &
+ }
+ 
