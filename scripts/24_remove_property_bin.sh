@@ -21,6 +21,10 @@ done
   rm -vf $ROOTFS/usr/bin/procps-ng-*
   rm -vf $ROOTFS/bin/procps-ng-*
 
+for FILE in traceroute ssh_enable sound_effect qplayer usign urlcheck.sh upload_kernel_crash.sh dbus-launch.real ; do
+  rm -vf $ROOTFS/usr/bin/$FILE
+done
+
 for FILE in collect_log.sh network_probe.sh; do
   rm -vf $ROOTFS/usr/sbin/$FILE
 done
@@ -52,9 +56,18 @@ for FILE in libldns.so.1.6.17 liblua.so.5.1.5 libthrift_c_glib.so.0.0.0 libxmdtr
   libstack.so liblibma.so libmbedcrypto.so.2.6.0 libmbedtls.so.2.6.0 libmbedx509.so.2.6.0 libmbedtls.so.1.3.14 \
   libgmp.so.10.3.2 libhogweed.so.4.3 libgnutls.so.30.14.8 \
   libgupnp-1.0.so.4.0.1 libgssdp-1.0.so.3.0.1 \
-  libevent-2.0.so.5.1.10 libevent_{core,extra,openssl,pthreads}-2.0.so.5.1.10 ; do
+  libevent-2.0.so.5.1.10 libevent_{core,extra,openssl,pthreads}-2.0.so.5.1.10 \
+  libprotobuf-c.so.1.0.0 libprotobuf.so libglog.so.0 lib{ncurses,form,menu,panel}w.so.6.0 \
+  libnettle.so.6.3 libprocps.so.5.0.0 libgflags.so.2.2.2 libgflags_nothreads.so.2.2.2 libdplus.so libcares.so.2.2.0 \
+  libattr.so.1.1.2448 libuclient.so libutils.so libwrap.so.0.7.6 ; do
   rm -vf $ROOTFS/usr/lib/$FILE
 done
+
+rm -vf $ROOTFS/usr/lib/.*_installed
+rm -rvf $ROOTFS/usr/share/dlna
+rm -rvf $ROOTFS/usr/share/bash-completion
+rm -vf $ROOTFS/etc/diracmobile.config.* # S12?
+rm -vf $ROOTFS/usr/lib/alsa-lib/libasound_module*.la # only libtool library file, unused
 
 # fix repeated libs
 for FILE in libnghttp2.so.14.13.2 libevtlog.so.0.0.0 libprocps.so.5.0.0; do
