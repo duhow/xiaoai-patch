@@ -1,0 +1,45 @@
+--- a/src/floating_point/makefile	2024-12-20 12:38:41.542312373 +0100
++++ b/src/floating_point/makefile	2024-12-20 12:40:10.316467116 +0100
+@@ -19,7 +19,7 @@
+ # Paths
+ VPATH  = .
+ BUILD  = build
+-CC     = gcc
++CC     ?= gcc
+ LINK   = $(CC)
+ 
+ # Binary Name
+@@ -28,16 +28,16 @@
+ LIB_LC3    = libLC3plus.so
+ 
+ # Default tool settings
+-CC        = gcc
++CC        ?= gcc
+ RM        = rm -f
+ 
+ # Preprocessor(-I/-D) / Compiler / Linker flags
+-CFLAGS   += -std=c99 -fPIC                                            \
+-             -pedantic -Wcast-qual -Wall -W -Wextra -Wno-long-long     \
+-             -Wpointer-arith -Wstrict-prototypes -Wmissing-prototypes  \
+-             -Werror-implicit-function-declaration
++#CFLAGS   += -std=c99 -fPIC                                            \
++#             -pedantic -Wcast-qual -Wall -W -Wextra -Wno-long-long     \
++#             -Wpointer-arith -Wstrict-prototypes -Wmissing-prototypes  \
++#             -Werror-implicit-function-declaration
+ 
+-LDFLAGS += -lm -g
++LDFLAGS += -lm
+ # Include dependency flags
+ DEPFLAGS = -MT $@ -MMD -MP -MF $(BUILD)/$*.Td
+ 
+@@ -51,8 +51,8 @@
+     LDFLAGS += -fprofile-arcs -ftest-coverage
+ endif
+ 
+-OPTIM    ?= 0
+-CFLAGS   += -O$(OPTIM)
++#OPTIM    ?= 0
++#CFLAGS   += -O$(OPTIM)
+ CFLAGS   += $(foreach DIR,$(SRC_DIRS),-I$(DIR))
+ 
+ ifeq "$(NO_POST_REL_CHANGES_TEST)" "1"

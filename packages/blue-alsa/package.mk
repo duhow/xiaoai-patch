@@ -14,7 +14,7 @@ build_opts_extend() {
 [ -z "${ENABLE_AAC}" ] && ENABLE_AAC=1
 [ -z "${ENABLE_LDAC}" ] && ENABLE_LDAC=1
 [ -z "${ENABLE_APTX}" ] && ENABLE_APTX=1
-[ -z "${ENABLE_LC3PLUS}" ] && ENABLE_LC3PLUS=0
+[ -z "${ENABLE_LC3PLUS}" ] && ENABLE_LC3PLUS=1
 [ -z "${ENABLE_MSBC}" ] && ENABLE_MSBC=0
 [ -z "${ENABLE_FASTSTREAM}" ] && ENABLE_FASTSTREAM=1
 
