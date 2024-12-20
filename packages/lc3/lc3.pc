@@ -1,0 +1,10 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: lc3
+Description: Low Complexity Communication Codec (LC3)
+Version: 1.1.1
+Libs: -Wl,-rpath=${libdir} -L${libdir} -llc3
+Cflags: -I${includedir}

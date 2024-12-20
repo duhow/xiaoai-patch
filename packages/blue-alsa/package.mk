@@ -1,7 +1,7 @@
 PACKAGE_NAME="Bluetooth Audio ALSA Backend"
 PACKAGE_VERSION="4.3.0"
 PACKAGE_SRC="https://github.com/Arkq/bluez-alsa/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
-PACKAGE_DEPENDS="alsa-lib bluez sbc dbus glib readline libbsd ncurses"
+PACKAGE_DEPENDS="alsa-lib bluez sbc dbus glib"
 BUILD_CODECS=""
 
 build_opts_extend() {
@@ -11,21 +11,29 @@ build_opts_extend() {
 
 [ -z "${ENABLE_MPG123}" ] && ENABLE_MPG123=1
 [ -z "${ENABLE_MP3LAME}" ] && ENABLE_MP3LAME=1
+[ -z "${ENABLE_OPUS}" ] && ENABLE_OPUS=1
 [ -z "${ENABLE_AAC}" ] && ENABLE_AAC=1
 [ -z "${ENABLE_LDAC}" ] && ENABLE_LDAC=1
 [ -z "${ENABLE_APTX}" ] && ENABLE_APTX=1
+[ -z "${ENABLE_LC3_SWB}" ] && ENABLE_LC3_SWB=1
 [ -z "${ENABLE_LC3PLUS}" ] && ENABLE_LC3PLUS=1
 [ -z "${ENABLE_MSBC}" ] && ENABLE_MSBC=0
 [ -z "${ENABLE_FASTSTREAM}" ] && ENABLE_FASTSTREAM=1
+[ -z "${ENABLE_RFCOMM}" ] && ENABLE_RFCOMM=1
+[ -z "${ENABLE_HCITOP}" ] && ENABLE_HCITOP=1
 
 [ "${ENABLE_MPG123}" = 1 ] && build_opts_extend mpg123 mpg123
 [ "${ENABLE_MP3LAME}" = 1 ] && build_opts_extend lame mp3lame
+[ "${ENABLE_OPUS}" = 1 ] && build_opts_extend opus opus
 [ "${ENABLE_AAC}" = 1 ] && build_opts_extend fdk-aac aac
 [ "${ENABLE_LDAC}" = 1 ] && build_opts_extend libldac ldac
 [ "${ENABLE_APTX}" = 1 ] && build_opts_extend openaptx "aptx --enable-aptx-hd --with-libopenaptx"
+[ "${ENABLE_LC3_SWB}" = 1 ] && build_opts_extend lc3 lc3-swb
 [ "${ENABLE_LC3PLUS}" = 1 ] && build_opts_extend lc3plus lc3plus
 [ "${ENABLE_MSBC}" = 1 ] && build_opts_extend spandsp msbc
 [ "${ENABLE_FASTSTREAM}" = 1 ] && build_opts_extend "" faststream
+[ "${ENABLE_RFCOMM}" = 1 ] && build_opts_extend readline rfcomm
+[ "${ENABLE_HCITOP}" = 1 ] && build_opts_extend "libbsd ncurses" hcitop
 
 preconfigure_package() {
 	autoreconf --install
@@ -44,9 +52,7 @@ configure_package() {
 	   PKG_CONFIG_PATH="${BUILD_PKG_CONFIG_LIBDIR}" \
 	   ./configure --build=${MACHTYPE} --host=${BUILD_TARGET} \
 	   --prefix=${INSTALL_PREFIX} --sysconfdir=/etc --localstatedir=/var \
-	   --enable-rfcomm \
 	   --enable-a2dpconf \
-	   --enable-hcitop \
 	   ${BUILD_CODECS} \
 	   --enable-ofono \
 	   --with-sysroot="${STAGING_DIR}"
