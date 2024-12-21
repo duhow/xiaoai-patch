@@ -10,12 +10,10 @@ on:
   push:
     tags:
       - '*.*.*'
-  pull_request:
 
 jobs:
   packages:
     name: Packages
-    if: false
     strategy:
       fail-fast: true
       matrix:
@@ -26,7 +24,7 @@ jobs:
 
   image:
     name: Image
-    #needs: [packages]
+    needs: [packages]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -55,6 +53,7 @@ jobs:
           VERSION=`docker inspect ${IMAGE} | jq -r '.[0].Config.Labels["org.opencontainers.image.version"]'`
           echo "version=${VERSION}" >> ${GITHUB_OUTPUT}
 
+          # download update file and extract
           UPDATE=`docker inspect ${IMAGE} | jq -r '.[0].Config.Labels["org.opencontainers.image.source"]'`
           echo "::add-mask::${UPDATE}"
           echo "::add-mask::`basename ${UPDATE}`"
@@ -63,14 +62,12 @@ jobs:
           ./tools/mico_firmware.py -d mico_${MODEL} -e mico_${MODEL}.bin -i
 
       - name: Pull build packages
-        if: false
         uses: actions/download-artifact@v4
         with:
           name: build-${{ matrix.model }}
           path: build-packages/targets/
 
       - name: Extract build packages
-        if: false
         env:
           SOURCE_DIR: build-packages/targets
           TARGET: build-packages/s2t/armv7
@@ -110,14 +107,12 @@ jobs:
 
       - name: Upload artifact to release
         uses: softprops/action-gh-release@v2
-        if: false
         with:
           files: ${{ steps.artifact.outputs.name }}
           draft: true
 
       - name: Attest Build Provenance
         uses: actions/attest-build-provenance@v1
-        if: false
         with:
           subject-path: ${{ steps.artifact.outputs.name }}
           show-summary: false
