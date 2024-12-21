@@ -60,7 +60,7 @@ jobs:
           echo "::add-mask::`basename ${UPDATE}`"
           wget -q -O mico_${MODEL}.bin "${UPDATE}"
 
-          ./tools/mico_firmware.py -d mico_${MODEL} -e mico_${MODEL}.bin          
+          ./tools/mico_firmware.py -d mico_${MODEL} -e mico_${MODEL}.bin -i
 
       - name: Pull build packages
         if: false
