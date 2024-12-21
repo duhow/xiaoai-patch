@@ -53,6 +53,14 @@ jobs:
           VERSION=`docker inspect ${IMAGE} | jq -r '.[0].Config.Labels["org.opencontainers.image.version"]'`
           echo "version=${VERSION}" >> ${GITHUB_OUTPUT}
 
+          # download update file and extract
+          UPDATE=`docker inspect ${IMAGE} | jq -r '.[0].Config.Labels["org.opencontainers.image.source"]'`
+          echo "::add-mask::${UPDATE}"
+          echo "::add-mask::`basename ${UPDATE}`"
+          wget -q -O mico_${MODEL}.bin "${UPDATE}"
+
+          ./tools/mico_firmware.py -d mico_${MODEL} -e mico_${MODEL}.bin -i
+
       - name: Pull build packages
         uses: actions/download-artifact@v4
         with:
@@ -67,43 +75,45 @@ jobs:
           mkdir -p ${TARGET}
           sudo tar xzvf ${SOURCE_DIR}/bin-*.tar.gz -C ${TARGET}
 
-      - name: Build image
-        run: sudo make patch build MODEL=${MODEL}
+      - name: Build artifact
+        run: sudo make patch build release MODEL=${MODEL}
 
-      - name: Prepare image
-        id: image
+      - name: Prepare artifact
+        id: artifact
         env:
-          FILE: release/${{ env.MODEL }}/latest
           BASE_VERSION: ${{ steps.base.outputs.version }}
         run: |
+          FILE=`ls -1 release/${MODEL}/mico_*.tar | head -n 1`
           HASH=`md5sum ${FILE} | awk '{print $1}'`
           echo "hash=${HASH}" | tee -a ${GITHUB_OUTPUT}
-          NAME="mico_firmware_${HASH: -5}_$(date +"%y%m%d")_${MODEL}.img"
+          NAME=`basename ${FILE}`
           echo "name=${NAME}" | tee -a ${GITHUB_OUTPUT}
 
-          cp -vf ${FILE} ${NAME}
+          cp -vf ${FILE} .
 
           SIZE=`stat -c%s ${NAME}`
           echo "size=${SIZE}" | tee -a ${GITHUB_OUTPUT}
 
-          echo "```json" >> ${GITHUB_STEP_SUMMARY}
-          jq -nc \
-            --arg name "$NAME" \
-            --argjson size "$SIZE" \
-            --arg hash "$HASH" \
-            --arg version "$BASE_VERSION" \
-            '{"name": $name, "size": $size, "hash": $hash, "base_version": $version}' >> ${GITHUB_STEP_SUMMARY}
-          echo "```" >> ${GITHUB_STEP_SUMMARY}
+          {
+            echo '```json'
+            jq -nc \
+              --arg name "$NAME" \
+              --argjson size "$SIZE" \
+              --arg hash "$HASH" \
+              --arg version "$BASE_VERSION" \
+              '{"name": $name, "size": $size, "hash": $hash, "base_version": $version}'
+            echo '```'
+          } >> ${GITHUB_STEP_SUMMARY}
 
-      - name: Upload image
+      - name: Upload artifact to release
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ steps.image.outputs.name }}
+          files: ${{ steps.artifact.outputs.name }}
           draft: true
 
       - name: Attest Build Provenance
         uses: actions/attest-build-provenance@v1
         with:
-          subject-path: ${{ steps.image.outputs.name }}
+          subject-path: ${{ steps.artifact.outputs.name }}
           show-summary: false
 

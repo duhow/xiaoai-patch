@@ -114,8 +114,9 @@ endif
 
 release: get_version release_set_config release_pack
 	@MD5TAR=$(shell md5sum $(RELEASE_FILE) | cut -d ' ' -f 1); \
-	mv $(RELEASE_FILE) $(DESTDIR)/mico_firmware_$${MD5TAR: -7}_$(DATE)_$(MODEL).tar ; \
-	echo "> Release created: mico_firmware_$${MD5TAR: -7}_$(DATE)_$(MODEL).tar - $${MD5TAR}"
+	MD5TAR_SHORT=$$(echo $$MD5TAR | rev | cut -c 1-7 | rev); \
+	mv $(RELEASE_FILE) $(DESTDIR)/mico_firmware_$${MD5TAR_SHORT}_$(DATE)_$(MODEL).tar ; \
+	echo "> Release created: mico_firmware_$${MD5TAR_SHORT}_$(DATE)_$(MODEL).tar - $$MD5TAR"
 	@rm -rf $(RELEASE_DIR)
 
 build_squashfs:

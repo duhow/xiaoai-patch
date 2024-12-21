@@ -34,7 +34,7 @@ class Firmware():
         self.image_header = ImageHeader()
         self.fd = open(self.path, 'rb')
 
-    def verify(self):
+    def verify(self, ignore_hash=False):
         logging.info('[Jobs] Verifying firmware image...')
         assert self.fd.readinto(self.image_header) == ctypes.sizeof(self.image_header)
 
@@ -68,15 +68,24 @@ class Firmware():
         hash = m.hexdigest()
         logging.info(f'computed md5 hash: {hash}')
         filename_hash = os.path.basename(self.path).split('_')[-2]
-        assert hash[(len(filename_hash) * -1):] == filename_hash
+        try:
+            assert hash[(len(filename_hash) * -1):] == filename_hash
+        except AssertionError:
+            if ignore_hash:
+                logging.warning(f'Warning: hash "{filename_hash}" does not match expected!')
+                pass
+            else:
+                raise
 
         self.fd.seek(0)
         return True
 
-    def extract(self, dest):
+    def extract(self, dest: str = None):
         logging.info('[Jobs] Extracting firmware...')
         current_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
         self.dest_dir = os.path.join(dest, f'{os.path.basename(self.path).replace(".bin", "")}_{current_time}')
+        if dest is not None:
+            self.dest_dir = dest
         os.mkdir(self.dest_dir)
         logging.info(f'create destination directory: {self.dest_dir}')
 
@@ -92,10 +101,10 @@ class Firmware():
                     logging.info(f'extracting segment: {segment_header.segment_name.decode("ascii")}')
 
 
-def run(path, extract=False, dest=None):
+def run(path, extract=False, dest=None, ignore_hash=False):
     logging.info(f'[MSG] Input file: {path}')
     firmware = Firmware(path)
-    if firmware.verify():
+    if firmware.verify(ignore_hash):
         logging.info('[Jobs] Verification success: it\'s a genuine firmware from Xiaomi.')
 
         if extract:
@@ -108,6 +117,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--dest', help='Destination directory to store extracted files, default=current working directory', action='store')
+    parser.add_argument('-i', '--ignore-hash', help='Do not fail if md5 hash does not match', action='store_true')
     parser.add_argument('-e', '--extract', help='Input your firmware', action='store')
     parser.add_argument('-s', '--show', help='Show firmware info', action='store')
     args = parser.parse_args()
@@ -117,9 +127,9 @@ if __name__ == '__main__':
         dest_path = os.getcwd()
         if args.dest:
             dest_path = args.dest
-        run(firmware_path, extract=True, dest=dest_path)
+        run(firmware_path, extract=True, dest=dest_path, ignore_hash=args.ignore_hash)
     elif args.show:
         firmware_path = os.path.abspath(args.show)
-        run(firmware_path)
+        run(firmware_path, ignore_hash=args.ignore_hash)
     else:
         parser.print_help()
