@@ -97,23 +97,27 @@ jobs:
           SIZE=`stat -c%s ${NAME}`
           echo "size=${SIZE}" | tee -a ${GITHUB_OUTPUT}
 
-          echo "```json" >> ${GITHUB_STEP_SUMMARY}
-          jq -nc \
-            --arg name "$NAME" \
-            --argjson size "$SIZE" \
-            --arg hash "$HASH" \
-            --arg version "$BASE_VERSION" \
-            '{"name": $name, "size": $size, "hash": $hash, "base_version": $version}' >> ${GITHUB_STEP_SUMMARY}
-          echo "```" >> ${GITHUB_STEP_SUMMARY}
+          {
+            echo '```json'
+            jq -nc \
+              --arg name "$NAME" \
+              --argjson size "$SIZE" \
+              --arg hash "$HASH" \
+              --arg version "$BASE_VERSION" \
+              '{"name": $name, "size": $size, "hash": $hash, "base_version": $version}'
+            echo '```'
+          } >> ${GITHUB_STEP_SUMMARY}
 
-      - name: Upload image
+      - name: Upload artifact to release
         uses: softprops/action-gh-release@v2
+        if: false
         with:
           files: ${{ steps.artifact.outputs.name }}
           draft: true
 
       - name: Attest Build Provenance
         uses: actions/attest-build-provenance@v1
+        if: false
         with:
           subject-path: ${{ steps.artifact.outputs.name }}
           show-summary: false
