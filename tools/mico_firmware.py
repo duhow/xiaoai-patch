@@ -73,10 +73,12 @@ class Firmware():
         self.fd.seek(0)
         return True
 
-    def extract(self, dest):
+    def extract(self, dest: str = None):
         logging.info('[Jobs] Extracting firmware...')
         current_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
         self.dest_dir = os.path.join(dest, f'{os.path.basename(self.path).replace(".bin", "")}_{current_time}')
+        if dest is not None:
+            self.dest_dir = dest
         os.mkdir(self.dest_dir)
         logging.info(f'create destination directory: {self.dest_dir}')
 
