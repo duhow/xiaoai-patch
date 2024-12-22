@@ -14,7 +14,14 @@ flowchart TD
 
 ## Setup
 
-Create and configure the following files in the speaker:
+Connect to the speaker IP at port 80 (HTTP): `http://192.168.1.40`
+
+Follow the web configuration to connect your Speaker to your local Home Assistant installation.
+
+Then configure STT provider, languages and wakeword.
+
+If you want to follow the procedure manually or configure additional details,
+create and configure the following files in the speaker:
 
 `/data/listener`
 ```bash
