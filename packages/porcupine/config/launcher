@@ -224,10 +224,10 @@ cat ${DATA_STT}
 # Show speaking LED
 # /bin/show_led 3
 
-[ "$(jq -r .result ${DATA_STT})" = "success" ] && STT_SUCCESS=1
+[ "$(jq -r .result ${DATA_STT})" = "success" ] && STT_SUCCESS=1 || STT_SUCCESS=0
 
 # call Conversation.Process to execute action
-if [ -n "${STT_SUCCESS}" ]; then
+if [ "${STT_SUCCESS}" = 1 ]; then
   # cleanup text before sending
   STT_TEXT=$(jq -r .text ${DATA_STT} | tr -d '.' | awk '{$1=$1;print}')
   log "$STT_TEXT"
