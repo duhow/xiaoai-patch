@@ -25,7 +25,7 @@ for FILE in traceroute ssh_enable sound_effect qplayer usign urlcheck.sh upload_
   rm -vf $ROOTFS/usr/bin/$FILE
 done
 
-for FILE in collect_log.sh network_probe.sh; do
+for FILE in collect_log.sh network_probe.sh tcpdump; do
   rm -vf $ROOTFS/usr/sbin/$FILE
 done
 
@@ -58,8 +58,15 @@ for FILE in libldns.so.1.6.17 liblua.so.5.1.5 libthrift_c_glib.so.0.0.0 libxmdtr
   libgupnp-1.0.so.4.0.1 libgssdp-1.0.so.3.0.1 \
   libevent-2.0.so.5.1.10 libevent_{core,extra,openssl,pthreads}-2.0.so.5.1.10 \
   libprotobuf-c.so.1.0.0 libprotobuf.so libglog.so.0 lib{ncurses,form,menu,panel}w.so.6.0 \
-  libnettle.so.6.3 libprocps.so.5.0.0 libgflags.so.2.2.2 libgflags_nothreads.so.2.2.2 libdplus.so libcares.so.2.2.0 \
+  libnettle.so.6.3 libprocps.so.5.0.0 libprocps.so.5 libprocps.so \
+  libgflags.so.2.2.2 libgflags_nothreads.so.2.2.2 libdplus.so libcares.so.2.2.0 \
   libattr.so.1.1.2448 libuclient.so libutils.so libwrap.so.0.7.6 ; do
+  rm -vf $ROOTFS/usr/lib/$FILE
+done
+
+# removed from L09A
+for FILE in libnetfilter_conntrack.so.3.6.0 libnfnetlink.so.0.2.0 libpcap.so.1 libprotobuf-lite.so.13.0.0 \
+  libwebsockets.so ; do
   rm -vf $ROOTFS/usr/lib/$FILE
 done
 
