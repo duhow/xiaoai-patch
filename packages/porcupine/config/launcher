@@ -138,7 +138,7 @@ which arecord &>/dev/null && {
 }
 which sox &>/dev/null && {
   log "using sox"
-  RECORD_COMMAND="timeout ${TIME} rec -t alsa $MIC -b ${STT_BITRATE} -c ${RECORDING_CHANNEL} -r ${RECORDING_RATE} -e signed-integer -t wav - silence ${SOX_SILENCE_ARGS}"
+  RECORD_COMMAND="timeout ${TIME} rec -q -t alsa $MIC -b ${STT_BITRATE} -c ${RECORDING_CHANNEL} -r ${RECORDING_RATE} -e signed-integer -t wav - silence ${SOX_SILENCE_ARGS}"
 }
 
 # Set lower rate if cannot convert later
