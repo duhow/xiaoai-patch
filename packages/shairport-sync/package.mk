@@ -72,6 +72,7 @@ install_package() {
 postinstall_package() {
 	mkdir -p ${STAGING_DIR}/etc/init.d ${STAGING_DIR}/etc/rc.d
 
+	cp -vf ${PACKAGE_DIR}/config/shairport-sync.conf ${STAGING_DIR}/etc/shairport-sync.conf
 	cp -vf ${PACKAGE_DIR}/config/shairport.init ${STAGING_DIR}/etc/init.d/shairport-sync
 	chmod 755 ${STAGING_DIR}/etc/init.d/shairport-sync
 	ln -svf ../init.d/shairport-sync ${STAGING_DIR}/etc/rc.d/S98shairport-sync
