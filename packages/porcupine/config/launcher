@@ -51,11 +51,19 @@ set_volume(){
 }
 
 check_date(){
-  YEAR=2024
+  # get build time which matches the default time set in system
+  # when hot rebooting, this time is still set, so NTP is required
+
+  BUILD_TIME=$(date -d "`micocfg_build_time`" +%s)
+  if [ -z "$BUILD_TIME" ] || ! [ "$BUILD_TIME" -eq "$BUILD_TIME" ] 2>/dev/null; then
+    BUILD_TIME=$(find /etc -type f -maxdepth 1 -exec date -r {} +%s \; | sort -nr | head -n1)
+  fi
   COUNT=0
   until [ "$COUNT" -ge 5 ]; do
-    if [ "`date +%Y`" -ge "$YEAR" ]; then
-      log "all good"
+    CURRENT_TIME=$(date +%s)
+    DIFF=$((CURRENT_TIME - BUILD_TIME))
+    if [ "$DIFF" -gt 600 ]; then
+      log "time is ok, we are in sync"
       break
     fi
     log "updating time - times $COUNT"
