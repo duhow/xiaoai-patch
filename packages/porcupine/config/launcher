@@ -157,10 +157,13 @@ check_date
 log "getting stt settings"
 get_stt_settings
 log "ready"
+echo ready
 cleanup
 
-# clear mute LED
-/bin/shut_led 7
+# clear mute and other LED
+for NUM in 7 1 2 3; do
+  /bin/shut_led ${NUM}
+done
 
 while true; do
 
@@ -230,18 +233,24 @@ if [ -n "${STT_SUCCESS}" ]; then
   log "$STT_TEXT"
   echo ""
   echo "> ${STT_TEXT}"
-  CONVERSATION_RESPONSE=$(curl \
-     -H "Authorization: Bearer ${HA_TOKEN}" \
-     -H "Content-Type: application/json" \
-     -d "{\"language\": \"${STT_LANGUAGE}\", \"text\": \"${STT_TEXT}\"}" \
-     -XPOST ${HA_URL}/api/conversation/process)
-  if [ "$STT_REPEAT_MESSAGE" = 1 ]; then
-    # repeat what the speaker heard (transcribed)
-    ${SPEAK} "${STT_TEXT}"
-    sleep 0.5
+  if [ -z "${STT_TEXT}" ]; then
+    log "empty text"
+    # NOTE: if empty text received, there may be some error with recording or other.
+    miplay sound notice
+  else
+    CONVERSATION_RESPONSE=$(curl \
+      -H "Authorization: Bearer ${HA_TOKEN}" \
+      -H "Content-Type: application/json" \
+      -d "{\"language\": \"${STT_LANGUAGE}\", \"text\": \"${STT_TEXT}\"}" \
+      -XPOST ${HA_URL}/api/conversation/process)
+    if [ "$STT_REPEAT_MESSAGE" = 1 ]; then
+      # repeat what the speaker heard (transcribed)
+      ${SPEAK} "${STT_TEXT}"
+      sleep 0.5
+    fi
+    TTS_TEXT=$(echo "${CONVERSATION_RESPONSE}" | jq -r .response.speech.plain.speech)
+    ${SPEAK} "${TTS_TEXT}"
   fi
-  TTS_TEXT=$(echo "${CONVERSATION_RESPONSE}" | jq -r .response.speech.plain.speech)
-  ${SPEAK} "${TTS_TEXT}"
 else
   log "error"
   ${SPEAK} error
