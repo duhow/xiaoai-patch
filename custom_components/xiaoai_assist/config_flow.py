@@ -18,7 +18,7 @@ from homeassistant.exceptions import HomeAssistantError
 from homeassistant.components import zeroconf
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .const import DOMAIN
+from .const import DOMAIN, DEVICES_COMPATIBLE
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -48,7 +48,7 @@ async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
             raise HomeAssistantError("Cannot get device info")
         device_info = await response.json()
         device_info = device_info.get("data", {})
-        if device_info.get("model") not in ["LX06"]:
+        if device_info.get("model") not in DEVICES_COMPATIBLE:
             raise HomeAssistantError("Device not compatible")
 
     return {CONF_SERIAL: device_info["serial_number"], CONF_NAME: device_info["hostname"]}
@@ -56,10 +56,10 @@ async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
 class XiaoaiAssistConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     VERSION = 1
     stored_input = dict()
-    
+
     def __init__(self) -> None:
         self.discovery_info = {}
-    
+
     async def async_step_zeroconf(
         self, discovery_info: zeroconf.ZeroconfServiceInfo
     ) -> config_entries.ConfigFlowResult:
@@ -87,9 +87,9 @@ class XiaoaiAssistConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             # so we can avoid probing the device if its already
             # configured or ignored
             await self._async_set_unique_id_and_abort_if_already_configured(unique_id)
-        
+
         return await self.complete_setup()
-    
+
     async def async_step_zeroconf_confirm(
         self, user_input: dict[str, Any] | None = None
     ) -> config_entries.ConfigFlowResult:
@@ -105,7 +105,7 @@ class XiaoaiAssistConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             title=self.discovery_info[CONF_NAME],
             data=self.discovery_info,
         )
-        
+
     async def complete_setup(self):
         """ Common action, perform validation of input and create entity if success """
         unique_id = None
@@ -124,8 +124,13 @@ class XiaoaiAssistConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             await self._async_set_unique_id_and_abort_if_already_configured(unique_id)
 
         await self._async_handle_discovery_without_unique_id()
+
+        self.context.update({
+            "title_placeholders": {"name": info[CONF_NAME]},
+            "configuration_url": f"http://{self.discovery_info[CONF_HOST]}:{self.discovery_info[CONF_PORT]}",
+        })
         return await self.async_step_zeroconf_confirm()
-        
+
     async def async_step_user(self, user_input: dict[str, Any] | None = None) -> FlowResult:
         if user_input is not None:
             self.discovery_info = user_input
@@ -134,7 +139,7 @@ class XiaoaiAssistConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         return self.async_show_form(
             step_id="user", data_schema=CONFIG_SCHEMA
         )
-    
+
     async def _async_set_unique_id_and_abort_if_already_configured(
         self, unique_id: str
     ) -> None:
