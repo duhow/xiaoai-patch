@@ -24,8 +24,10 @@ VOLUME_THRESHOLD=10
 VOLUME_DURING_STT=10
 SOX_SILENCE_ARGS="1 0.2 1% 0.5 1.2 1%"
 
+CONFIG_FILE=/data/listener
+
 # import config file if exists
-[ -f /data/listener ] && . /data/listener
+[ -f "${CONFIG_FILE}" ] && . ${CONFIG_FILE}
 [ -f /data/tts.conf ] && . /data/tts.conf
 
 WAV_INPUT=/tmp/input.wav
@@ -63,6 +65,25 @@ check_date(){
   done
 }
 
+ha_refresh_token() {
+  log "refreshing token"
+
+  SPEAKER_IP=$(ip addr show wlan0 | grep 'inet ' | awk '{print $2}' | cut -d/ -f1)
+  curl -s -f -d "grant_type=refresh_token&client_id=http://${SPEAKER_IP}&refresh_token=${HA_REFRESH_TOKEN}" \
+       -o /tmp/ha_token.json ${HA_URL}/auth/token
+
+  if [ "$?" -gt 0 ]; then
+    log "refresh token error: $(cat /tmp/ha_token.json)"
+    sleep 1
+    miplay sound notify -w
+    SILENT=1 MUTE_LED=1 /etc/init.d/listener stop
+    exit 1
+  fi
+
+  HA_TOKEN=$(jq -r .access_token /tmp/ha_token.json)
+  sed -i "s/^HA_TOKEN=.*/HA_TOKEN=${HA_TOKEN}/" ${CONFIG_FILE}
+}
+
 get_stt_settings(){
   #echo "start $(date)"
   cleanup
@@ -73,6 +94,11 @@ get_stt_settings(){
 
   if [ "$?" -gt 0 ]; then
     log "stt config error: $(cat ${DATA_STT})"
+    if grep -q -E "HTTP/(1\.1|2) 401" ${DATA_STT}.hdr && [ -n "$HA_REFRESH_TOKEN" ]; then
+      ha_refresh_token
+      SILENT=1 MUTE_LED=1 /etc/init.d/listener reload
+      exit 1
+    fi
     sleep 1
     miplay sound notify -w
     SILENT=1 MUTE_LED=1 /etc/init.d/listener stop
