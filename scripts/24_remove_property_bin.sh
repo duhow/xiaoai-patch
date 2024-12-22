@@ -63,6 +63,10 @@ for FILE in libldns.so.1.6.17 liblua.so.5.1.5 libthrift_c_glib.so.0.0.0 libxmdtr
   rm -vf $ROOTFS/usr/lib/$FILE
 done
 
+# IMPORTANT! L09A micocfg uses libmbedtls.so.9 -> libmbedtls.so.1.3.14 , otherwise wifi is locked!
+# MAY BE BREAKING
+ln -svf libssl.so.1.1 $ROOTFS/usr/lib/libmbedtls.so.9
+
 rm -vf $ROOTFS/usr/lib/.*_installed
 rm -rvf $ROOTFS/usr/share/dlna
 rm -rvf $ROOTFS/usr/share/bash-completion
