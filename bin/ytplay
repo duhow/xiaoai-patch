@@ -1,0 +1,59 @@
+#!/bin/sh
+# Description: Uses Home Assistant to extract URL from YouTube (yt-dlp)
+
+fail() { echo_error "$2" ; exit $1 ; }
+echo_error() { echo "[!] $1" >&2 ; }
+query() { curl -s -H "Authorization: Bearer ${HA_TOKEN}" ${HA_URL}${1} ; }
+
+FORMAT=bestaudio
+SERVICE_NAME="media_extractor"
+PLAY=1
+source /data/listener
+
+if [ -z "$HA_URL" ] || [ -z "$HA_TOKEN" ]; then
+  fail 1 "HA_URL and HA_TOKEN are not available, configure your speaker with Home Assistant."
+fi
+
+if [ "$#" -le 1 ]; then
+  fail 1 "Usage: $0 [-u] <YouTube_URL>"
+fi
+
+if [ "$1" = "-u" ] && [ -n "$2" ]; then
+  PLAY=0
+  shift
+fi
+
+YOUTUBE_URL="$1"
+
+if ! echo "$YOUTUBE_URL" | grep -q "^http"; then
+  YOUTUBE_URL="https://www.youtube.com/watch?v=${YOUTUBE_URL}"
+fi
+
+SERVICE_AVAILABLE=`query "/api/services" | jq -r '.[] | select(.domain == "'$SERVICE_NAME'") | .domain'`
+
+if [ "$SERVICE_AVAILABLE" != "$SERVICE_NAME" ]; then
+  echo_error "Media Extractor service is not available in Home Assistant, please install it."
+  echo "https://my.home-assistant.io/redirect/config_flow_start/?domain=${SERVICE_NAME}"
+  exit 1
+fi
+
+RESPONSE=`curl -s -XPOST \
+    -H "Authorization: Bearer ${HA_TOKEN}" \
+    -H "Content-Type: application/json" \
+    -d '{"url": "'$YOUTUBE_URL'", "format_query": "'$FORMAT'"}' \
+    ${HA_URL}/api/services/${SERVICE_NAME}/extract_media_url?return_response`
+
+if ! echo $RESPONSE | grep -q "googlevideo.com/" ; then
+  fail 1 "Failed to extract media URL from YouTube."
+fi
+
+MEDIA_URL=`echo $RESPONSE | jq -r '.service_response.url'`
+
+if [ $PLAY -eq 0 ]; then
+  echo $MEDIA_URL
+  return
+fi
+
+mpc clear
+mpc add "$MEDIA_URL"
+mpc play
