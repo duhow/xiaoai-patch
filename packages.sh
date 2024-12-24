@@ -700,7 +700,10 @@ mkdir -p ${STAGING_TO_TARGET_DIR}
 write_build_config
 [[ ! $? -eq 0 ]] && exit 1
 
-PACKAGES_TO_BUILD="update-libs update-binaries support jq services music python3 aec-cmdline screen improv getevent core_api"
+PACKAGES_TO_BUILD="update-libs update-binaries support jq services music improv getevent core_api"
+if [[ "${BUILD_MODEL}" != "LX01" ]]; then
+  PACKAGES_TO_BUILD+=" aec-cmdline screen"
+fi
 
 for PKGN in $PACKAGES_TO_BUILD; do 
   process_package $PKGN
