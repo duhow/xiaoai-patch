@@ -76,8 +76,9 @@ Each section allows to input **32 bytes**. Values are stored as strings, no hex/
 | sys1_failed | `-a` | Sets rootfs1 as invalid, forces to boot to rootfs2. |
 | sys2_failed | `-d`  | Sets rootfs2 as invalid, forces to boot to rootfs1. |
 | boot_rootfs | `-r` | Indicates what rootfs is running at the moment. |
-| ota_reboot | `-o` | Self-explanatory. Indicates if reboot was triggered by OTA. |
+| ota_reboot | `-o` | Indicates if reboot was triggered by OTA. If true, will start the **other** partition than the `last_success`. |
 | last_success | `-l` | Used to change partition to boot. Value set in here will be the `boot_rootfs` to boot on next reboot. |
+| silent :new: | `-e` | Used to check if boot silent? |
 
 Programs `read_misc` and `write_misc` allow to interact with the misc partition `nandf`.
 **Required** to have ENV `partitions` defined. SSH sessions don't share this info, while console does.
@@ -120,6 +121,26 @@ root@LX01:~# write_misc -l 0
 root@LX01:~# read_misc last_success
 0
 ```
+
+## switch boot
+
+To switch boot partitions, let's assume the following:
+
+```
+boot_status:  1
+sys1_failed:  0
+sys2_failed:  0
+boot_rootfs:  0
+ota_reboot:   1
+last_success: 1
+```
+
+This currently is booting `nandc` / `rootfs1` (because `boot_rootfs: 0`) as part of an OTA update.
+If we want to switch to the other partition `nande` / `rootfs2`, we can either:
+
+- set `ota_reboot: 0` to mark as "failed", since `last_success` is still `rootfs2`
+- set `last_success: 0` from current `boot_rootfs: 0` and keep enabled `ota_reboot: 1`.
+
 
 ## private data
 
