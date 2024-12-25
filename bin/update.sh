@@ -288,6 +288,9 @@ run_ota() {
 
   [ "$SILENT" = 0 ] && show_led 10
 
+  # make sure that new version will not drop wifi settings
+  touch /data/status/config_done
+
   if package_contains boot.img && ! compare_version LINUX; then
     echo "Flashing kernel..."
     package_extract boot.img | flash_image - $mtdkrn
