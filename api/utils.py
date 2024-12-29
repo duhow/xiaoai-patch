@@ -27,15 +27,20 @@ def get_load_avg(full: bool = False) -> Union[float, list[float]]:
 def get_memory_usage() -> int:
   with open('/proc/meminfo', 'r') as f:
     total = 0
+    available = 0
     free = 0
     for line in f:
       if line.startswith('MemTotal:'):
         total = int(line.split()[1])
       elif line.startswith('MemAvailable:'):
+        available = int(line.split()[1])
+      elif line.startswith('MemFree:'):
         free = int(line.split()[1])
-      if total and free:
+      if total and available:
         break
-    return (total - free)
+    if not available and free:
+      return (total - free)
+    return (total - available)
 
 def get_volume(mixer: str = "mysoftvol") -> Union[int, None]:
   """ Returns volume 0-100%, ALSA value is 0-255 """
