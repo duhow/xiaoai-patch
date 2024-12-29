@@ -28,7 +28,7 @@ if [ "${MODEL}" = "lx01" ] ; then
   for FILE in libc libpthread ; do
     LIB_TARGET="$ROOTFS/usr/lib/${FILE}.so"
     rm -vf ${LIB_TARGET}
-    ln -svf ../../lib/${FILE}-${LIBC_NEW}.so ${LIB_TARGET}
+    ln -svf ../../lib/${FILE}-${LIBC_NEW} ${LIB_TARGET}
   done
 fi
 
