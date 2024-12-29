@@ -7,7 +7,7 @@ PACKAGE_DEPENDS="glibc openssl avahi alsa-lib popt libconfig soxr alac"
 ENABLE_AIRPLAY_2="1"
 
 [ "${ENABLE_AIRPLAY_2}" = "1" ] && \
-PACKAGE_DEPENDS="${PACKAGE_DEPENDS} nqptp libplist libsodium libgcrypt uuid"
+PACKAGE_DEPENDS="${PACKAGE_DEPENDS} nqptp libplist libsodium libgcrypt uuid ffmpeg"
 
 preconfigure_package() {
 	autoreconf -fi
