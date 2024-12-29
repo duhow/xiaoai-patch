@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        model: [lx06, l09a, l09b]
+        model: [lx01, lx06, l09a, l09b]
     uses: ./.github/workflows/build-packages.yaml
     with:
       model: ${{ matrix.model }}
@@ -29,7 +29,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        model: [lx06, l09a, l09b]
+        model: [lx01, lx06, l09a, l09b]
     env:
       MODEL: ${{ matrix.model }}
     steps:
@@ -60,6 +60,12 @@ jobs:
           wget -q -O mico_${MODEL}.bin "${UPDATE}"
 
           ./tools/mico_firmware.py -d mico_${MODEL} -e mico_${MODEL}.bin -i
+
+          # generate links for files
+          if [ "$MODEL" = "lx01" ]; then
+            ln -svf kernel.img mico_${MODEL}/boot.img
+            ln -svf rootfs.img mico_${MODEL}/root.squashfs
+          fi
 
       - name: Pull build packages
         uses: actions/download-artifact@v4
