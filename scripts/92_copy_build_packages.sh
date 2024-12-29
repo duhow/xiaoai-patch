@@ -34,7 +34,7 @@ for FILE in libxml2.so.2.9.7 libxml2.so.2.9.3 libstdc++.so.6.0.22* libsbc.so.1.2
 	libopus.so.0.5.3 libopus.so.0.6.1 \
 	libopusfile.so.0.4.4 libopusurl.so.0.4.4 \
 	libsndfile.so.1.0.28 \
-	libffi.so.6.0.4 libexpat.so.1.6.7 libcrypto.so.1.0.0 \
+	libffi.so.6.0.4 libexpat.so.1.6.7 \
 	libz.so.1.2.8 libz.so.1.2.11 \
 	libnghttp2.so.14.13.2; do
   rm -vf $ROOTFS/usr/lib/$FILE
@@ -79,7 +79,6 @@ libFLAC.so.8 libFLAC.so
 libhistory.so.7 libhistory.so
 libconfig.so.11.0.2 libconfig.so.11.1.0
 libconfig++.so.11.0.2 libconfig++.so.11.1.0
-libcrypto.so.1.0.0 libcrypto.so
 "
 
 echo "$libraries_upgrade" | while read -r entry; do

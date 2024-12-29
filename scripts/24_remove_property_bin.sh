@@ -53,8 +53,8 @@ done
 
 # not used in LX06 after removing bloatware
 for FILE in libldns.so.1.6.17 liblua.so.5.1.5 libthrift_c_glib.so.0.0.0 libxmdtransceiver.so \
-  libstack.so liblibma.so libmbedcrypto.so.2.6.0 libmbedtls.so.2.6.0 libmbedx509.so.2.6.0 libmbedtls.so.1.3.14 \
-  libgmp.so.10.3.2 libhogweed.so.4.3 libgnutls.so.30.14.8 \
+  libstack.so liblibma.so \
+  libgmp.so.10.3.2 libgmp.so.10.3.0 libgnutls.so.30.14.8 libgnutls.so.30.6.3 libhogweed.so.4.3 libhogweed.so.4.1 \
   libgupnp-1.0.so.4.0.1 libgssdp-1.0.so.3.0.1 \
   libevent-2.0.so.5.1.10 libevent_{core,extra,openssl,pthreads}-2.0.so.5.1.10 \
   libprotobuf-c.so.1.0.0 libprotobuf.so libglog.so.0 lib{ncurses,form,menu,panel}w.so.6.0 \
@@ -64,15 +64,16 @@ for FILE in libldns.so.1.6.17 liblua.so.5.1.5 libthrift_c_glib.so.0.0.0 libxmdtr
   rm -vf $ROOTFS/usr/lib/$FILE
 done
 
+# IMPORTANT! L09A micocfg uses libmbedtls.so.9 -> libmbedtls.so.1.3.14 , otherwise wifi is locked!
+# IMPORTANT! LX01 (new) micocfg uses libmbedtls.so.10 -> libmbedtls.so.2.6.0. CANNOT SWAP WITH libssl!
+# IMPORTANT! LX01 (new) micocfg uses libcrypto.1.0.0
+# libmbedcrypto.so.2.6.0 libmbedtls.so.2.6.0 libmbedtls.so.1.3.{14,16} libmbedx509.so.2.6.0 
+
 # removed from L09A
 for FILE in libnetfilter_conntrack.so.3.6.0 libnfnetlink.so.0.2.0 libpcap.so.1 libprotobuf-lite.so.13.0.0 \
   libwebsockets.so ; do
   rm -vf $ROOTFS/usr/lib/$FILE
 done
-
-# IMPORTANT! L09A micocfg uses libmbedtls.so.9 -> libmbedtls.so.1.3.14 , otherwise wifi is locked!
-# MAY BE BREAKING
-ln -svf libssl.so.1.1 $ROOTFS/usr/lib/libmbedtls.so.9
 
 rm -vf $ROOTFS/usr/lib/.*_installed
 rm -rvf $ROOTFS/usr/share/dlna
