@@ -1,5 +1,5 @@
 #!/bin/sh
-# version 0.1.0
+# version 0.1.1
 
 OTA_GH_REPO="duhow/xiaoai-patch"
 CONFIG=/data/ota.conf
@@ -21,6 +21,7 @@ MODEL=$(get_mico_version HARDWARE)
 MODEL_LCASE=$(echo "${MODEL}" | tr '[:upper:]' '[:lower:]')
 ROM_VERSION=$(get_mico_version ROM)
 BOOTPART="" # current boot partition
+SYSTEMPART=""
 COMMANDS="wget grep awk tar md5sum dd tr jq"
 
 echo_debug(){ [ "$DEBUG" = 1 ] && echo "[*] $@"; }
@@ -45,7 +46,9 @@ set_boot() {
   if [ "$1" != "boot0" ] && [ "$1" != "boot1" ]; then return 1; fi
 
   if [ "$MODEL" = "LX01" ]; then
-    write_misc -l ${1: -1}
+    # set current boot as last_success, set OTA reboot
+    write_misc -l `read_misc boot_rootfs`
+    write_misc -o 1
   else
     # LX06 and others
     fw_env -s boot_part $1
@@ -59,17 +62,25 @@ switch_boot(){
 }
 
 get_boot_from_cmdline() {
+  local root_part=$(grep -oE 'root=/dev/[^ ]+' /proc/cmdline | cut -d'=' -f2)
+  for part in /dev/by-name/*; do
+    if [ "$(readlink $part)" = "$root_part" ]; then
+      local name_part=$(basename $part)
+      local part_number=$(echo $name_part | grep -oE '[0-9]+$')
+      echo "boot$((part_number - 1))"
+      return
+    fi
+  done
   echo ""
-  # TODO fill for LX01
 }
 
-get_boot_from_uboot() { strings /dev/nand_env | grep -e '^boot_part' | cut -d'=' -f2 ; }
-get_boot_from_fwenv() { fw_env -g boot_part ; }
+get_boot_from_uboot() { strings /dev/nand_env 2>/dev/null | grep -e '^boot_part' | cut -d'=' -f2 ; }
+get_boot_from_fwenv() { fw_env -g boot_part 2>/dev/null ; }
 
 get_boot() {
   local boot=$(get_boot_from_fwenv)
   [ -z "$boot" ] && boot=$(get_boot_from_uboot)
-  #[ -z "$boot" ] && boot=$(get_boot_from_cmdline)
+  [ -z "$boot" ] && boot=$(get_boot_from_cmdline)
   BOOTPART=$boot
   echo $boot
 }
@@ -85,7 +96,16 @@ stop_processes() {
 }
 
 # in kb
-mem_available(){ grep MemAvailable /proc/meminfo | awk '{print $2}'; }
+mem_available(){
+  local mem=/proc/meminfo
+  if grep -q MemAvailable $mem; then
+    grep MemAvailable $mem | awk '{print $2}'
+  else
+    local mfree=$(grep MemFree $mem | awk '{print $2}')
+    local mcached=$(grep -E ^Cached $mem | awk '{print $2}')
+    echo $((mfree + mcached))
+  fi
+}
 
 clean_memory() {
   stop_processes
@@ -98,6 +118,21 @@ package_extract() { tar xf ${OTA_FILE} "./$1" -O ; }
 set_target_partitions() {
   # $1 -> boot0/boot1, set the opposite partition
 
+  if [ "$MODEL" = "LX01" ]; then
+    if [ "$BOOTPART" = "boot0" ]; then
+      mtdkrn=d
+      mtdroot=e # update rootfs2
+    elif [ "$BOOTPART" = "boot1" ]; then
+      mtdkrn=b
+      mtdroot=c # update rootfs1
+    else
+      echo "-----"
+      fail 1 "Invalid boot partition: $BOOTPART"
+    fi
+    SYSTEMPART=nand${mtdroot}
+    return
+  fi
+
   if [ "$BOOTPART" = "boot0" ]; then
     mtdkrn=3
     mtdroot=5 # update sys1
@@ -108,6 +143,7 @@ set_target_partitions() {
     echo "-----"
     fail 1 "Invalid boot partition: $BOOTPART"
   fi
+  SYSTEMPART=system$((mtdroot - 4))
 }
 
 flash_image(){
@@ -122,10 +158,24 @@ flash_image(){
     fail 1 "File $file not found"
   fi
 
-  echo "Flashing $file to mtd$mtd"
-  if [ "$DRY_RUN" = 0 ]; then
-    mtd write "$file" /dev/mtd${mtd} || echo_error "Error flashing $file to mtd$mtd"
-    # dd if=$file of=/dev/mtd$mtd
+  PART="mtd${mtd}"
+  if [ "$MODEL" = "LX01" ]; then
+    PART="nand${mtd}"
+  fi
+
+  echo "Flashing $file to $PART"
+  [ "$DRY_RUN" != 0 ] && return
+
+  if [ "$MODEL" = "LX01" ]; then
+    if [ "$file" != "-" ]; then
+      file="if=\"$file\""
+    else
+      file=""
+    fi
+
+    dd $file of=/dev/$PART bs=1024 || echo_error "Error flashing $file to $PART"
+  else
+    mtd write "$file" /dev/$PART || echo_error "Error flashing $file to $PART"
   fi
 }
 
@@ -282,7 +332,7 @@ run_ota() {
   get_boot
   set_target_partitions
 
-  echo "Ok, updating system$((mtdroot - 4)) in few seconds..."
+  echo "Ok, updating $SYSTEMPART in few seconds..."
 
   sleep 5
 
@@ -305,7 +355,7 @@ run_ota() {
   }
 
   echo "rebooting..."
-  sleep 2
+  sleep 4
 
   reboot
   shut_led 10
