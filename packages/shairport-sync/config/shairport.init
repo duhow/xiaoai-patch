@@ -16,8 +16,10 @@ start_service() {
       grep -ve '^//' /etc/${PROG}.conf > ${CONF}
 
       # set static identifier from MAC
-      # cat /sys/class/net/wlan0/address
-      MAC_ADDRESS=$(micocfg_mac | tr -d ':' | tr 'a-f' 'A-F')
+      # for older firmware without mico (LX01), get MAC directly from interface
+      MAC_ADDRESS=$(micocfg_mac 2>/dev/null)
+      [ -z "${MAC_ADDRESS}" ] && MAC_ADDRESS=$(cat /sys/class/net/wlan0/address)
+      MAC_ADDRESS=$(echo ${MAC_ADDRESS} | tr -d ':' | tr 'a-f' 'A-F')
       sed -i "s/%MAC%/${MAC_ADDRESS}/g" ${CONF}
     fi
 
