@@ -40,6 +40,8 @@ echo "[*] Updating os-release info"
 rm -vf ${ROOTFS}/etc/openwrt_release ${ROOTFS}/etc/openwrt_version
 OS_FILE=${ROOTFS}/etc/os-release
 
+# NOTE: file may not exist, we need to create or replace
+touch ${OS_FILE}
 sed -i "/NAME=/s/=.*/=\"Xiaomi Speaker\"/" ${OS_FILE}
 sed -i "/PRETTY_NAME=/s/=.*/=\"Xiaomi Speaker $(uci_get "HARDWARE") $(uci_get "ROM")\"/" ${OS_FILE}
 sed -i "/VERSION=/s/=.*/=\"$(uci_get "ROM")\"/" ${OS_FILE}
