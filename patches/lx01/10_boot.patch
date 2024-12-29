@@ -1,0 +1,49 @@
+# imei_key calls "mikey" binary which we don't use.
+# hostname is already set in S51hostname script
+# miio is not used.
+--- a/etc/init.d/boot	2023-11-28 15:22:49.000000000 +0100
++++ b/etc/init.d/boot	2024-12-29 16:19:02.651006474 +0100
+@@ -172,7 +172,6 @@
+     data_dir_prepare
+ 
+     binfo_check
+-    imei_key_fix_16byte_2_15byte
+     [ ! -f /data/etc/binfo ] && binfo_create_lx01
+     binfo_translate_to_config
+ 
+@@ -182,12 +181,9 @@
+     wifi_bt_driver_prepare_lx01
+ 
+     time_init_buildtime
+-    hostname_set
+ 
+     sound_vendor_prepare
+     bluetooth_init
+-
+-    miio_fix_registed_file
+ }
+ 
+ stop() {                            
+
+# This fixes larging grow file (sed executes everytime)
+--- a/usr/sbin/boot_function.sh	2023-11-28 15:22:49.000000000 +0100
++++ b/usr/sbin/boot_function.sh	2024-12-29 16:23:31.003377593 +0100
+@@ -20,16 +20,14 @@
+     touch $flag_file
+     fsync $flag_file
+ 
+-    [  -f "/data/etc/binfo"  ] && {
++    [ ! -f "/data/etc/device.info" ] && [  -f "/data/etc/binfo"  ] && {
+         cat /data/etc/binfo |awk -F "[ \']" '{if($1~/option/) printf tolower($2)" = \""$4"\";\n"}' > /data/etc/device.info
+         fsync /data/etc/device.info
+-        sed -i '1i\#这个文件已经废弃，新文件位置 /data/etc/device.info' /data/etc/binfo
+     }
+ 
+-    [ -f "/data/messagingagent/messaging" ] && {
++    [ ! -f "/data/etc/messaging.cfg" ] && [ -f "/data/messagingagent/messaging" ] && {
+         cat /data/messagingagent/messaging |awk -F "[ \']" '{if($1~/option/) printf tolower($2)" = \""$4"\";\n"}' > /data/etc/messaging.cfg
+         fsync /data/etc/messaging.cfg
+-        sed -i '1i\#这个文件已经废弃，新文件位置 /data/etc/messaging.cfg' /data/messagingagent/messaging
+     }
+ }
+ 

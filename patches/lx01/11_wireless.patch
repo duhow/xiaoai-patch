@@ -1,0 +1,12 @@
+# stored configuration gets overriden when coming from OTA 1.32.6
+--- a/etc/init.d/wireless	2023-11-28 15:22:49.000000000 +0100
++++ b/etc/init.d/wireless	2024-12-29 16:51:25.001555792 +0100
+@@ -1442,7 +1442,7 @@
+         _country=${_country:-CN}
+         #wpa_cli -i $STA_IF set country $_country
+     }
+-    conf_save > /dev/null 2>&1
++    #conf_save > /dev/null 2>&1
+ 
+     wireless_log "wpa config file:${conf_file}"
+ }
