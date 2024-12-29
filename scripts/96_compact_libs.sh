@@ -1,5 +1,15 @@
 #!/bin/sh
 
+
+LIBSTDCPP_OLD=$(basename $(ls $ROOTFS/lib/libstdc++.so.6.0.*))
+LIBSTDCPP_NEW=$(basename $(ls $ROOTFS/usr/lib/libstdc++.so.6.0.*))
+
+if [ -n "${LIBSTDCPP_OLD}" ] && [ -n "${LIBSTDCPP_NEW}" ]; then
+  echo "[*] Replacing libstdc++"
+  rm -vf $ROOTFS/lib/$LIBSTDCPP_OLD
+  ln -svf ../usr/lib/$LIBSTDCPP_NEW $ROOTFS/lib/$LIBSTDCPP_OLD
+fi
+
 LIBC_VERSIONS=$(find $ROOTFS/lib -name 'libc-*.so' -type f -exec basename {} \; | cut -d '-' -f2 | sort -n -r)
 LIBC_NEW=$(echo $LIBC_VERSIONS | awk '{print $1}')
 LIBC_OLD=$(echo $LIBC_VERSIONS | awk '{print $2}')
