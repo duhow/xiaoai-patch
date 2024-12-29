@@ -52,7 +52,8 @@ done
 
 # delete bluez unused
 for FILE in isotest pcretest rctest mpris-proxy bluemoon \
-  l2test l2ping btmgmt gatttool bccmd sdptool ciptool; do
+  l2test l2ping btmgmt gatttool bccmd sdptool ciptool \
+  glib-* ; do
   rm -vf $ROOTFS/usr/bin/$FILE
 done
 
@@ -79,6 +80,8 @@ libFLAC.so.8 libFLAC.so
 libhistory.so.7 libhistory.so
 libconfig.so.11.0.2 libconfig.so.11.1.0
 libconfig++.so.11.0.2 libconfig++.so.11.1.0
+libcurl.so.4.5.0 libcurl.so.4
+libnghttp2.so.14.16.2 libnghttp2.so.14
 "
 
 echo "$libraries_upgrade" | while read -r entry; do
