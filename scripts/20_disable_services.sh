@@ -7,13 +7,16 @@ for SERVICE in \
   nano_httpd pns_ubus_helper quickplayer voip mdplay mibt_mesh_proxy \
   mico_helper mico_voip_service mico_voip_ubus_helper mico_voip_ubus_service \
   mico_aivs_lab didiagent aw_upgrade_autorun miot_agent miio_mpkg idmruntime \
-  statpoints_daemon alarm notify dlnainit touchpad sound_effect linein; do
+  statpoints_daemon alarm notify dlnainit touchpad sound_effect linein \
+  volctl cmcc_andlink cmcc_dm telecom_plugin telecom_zhejiang; do
 
   rm -vf $ROOTFS/etc/rc.d/S??${SERVICE}
 done
 
 echo "[*] Deleting unused config cmcc"
 rm -vf $ROOTFS/etc/config/cmcc
+rm -rvf $ROOTFS/etc/tts
+rm -vf $ROOTFS/etc/miaudio.conf
 
 echo "[*] Removing cronjobs"
 shasum $ROOTFS/etc/crontabs/*

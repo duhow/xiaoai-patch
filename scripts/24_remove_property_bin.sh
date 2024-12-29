@@ -37,6 +37,7 @@ for FILE in collect_log.sh network_probe.sh tcpdump \
   rm -vf $ROOTFS/usr/sbin/$FILE
 done
 
+# NOTE: LX01 new ver. uses imiflash for binfo_create_lx01
 for FILE in imiflash; do
   rm -vf $ROOTFS/sbin/$FILE
 done
