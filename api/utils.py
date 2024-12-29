@@ -2,9 +2,11 @@ import socket
 import fcntl
 import struct
 import subprocess
+import os
 import re
 from typing import Union
 import const
+from config import ConfigUci
 
 def get_ip_address(ifname) -> str:
   s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -23,6 +25,10 @@ def get_load_avg(full: bool = False) -> Union[float, list[float]]:
     if not full:
       return float(f.readline().split()[0])
     return [float(x) for x in f.readline().split()[:3]]
+
+def get_model() -> str:
+  system_version = ConfigUci(const.mico_version)
+  return system_version.HARDWARE
 
 def get_memory_usage() -> int:
   with open('/proc/meminfo', 'r') as f:
@@ -84,22 +90,42 @@ def get_unify_key(key: str) -> str:
     pass
   return ""
 
+def get_private_lx01(key: str) -> str:
+  private = '/dev/by-name/private'
+  if not os.path.exists(private):
+    return False
+  try:
+    with open(private, 'rb') as f:
+      data = f.read(512).decode('utf-8', errors='ignore').strip()
+      key_values = {}
+      for line in data.split('\n'):
+        if '=' in line:
+          k, v = line.split('=', 1)
+          key_values[k.strip()] = v.strip()
+      return key_values.get(key, "")
+  except IOError as e:
+    pass
+  return ""
+
 def get_device_id() -> str:
-  did = get_unify_key('deviceid')
-  if did:
-    return did
+  for run in (lambda: get_unify_key('deviceid'), lambda: get_private_lx01('sn')):
+    did = run()
+    if did:
+      return did
   return ""
 
 def get_wifi_mac_address() -> str:
-  mac = get_unify_key('mac_wifi')
-  if mac:
-    return mac.upper()
+  for run in (lambda: get_unify_key('mac_wifi'), lambda: get_private_lx01('mac')):
+    mac = run()
+    if mac:
+      return mac.upper()
   return ""
 
 def get_bt_mac_address() -> str:
-  mac = get_unify_key('mac_bt')
-  if mac:
-    return mac.upper()
+  for run in (lambda: get_unify_key('mac_bt'), lambda: get_private_lx01('bt')):
+    mac = run()
+    if mac:
+      return mac.upper()
 
   try:
     result = subprocess.run('hciconfig hci0'.split(' '), capture_output=True, text=True)
