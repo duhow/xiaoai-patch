@@ -69,6 +69,20 @@
  	}
  
  	[ -n "${Interface}" ] && {
+--- a/etc/init.d/dropbear	2023-11-28 15:21:28.000000000 +0100
++++ b/etc/init.d/dropbear	2024-12-24 16:49:47.822703166 +0100
+@@ -118,11 +118,6 @@
+ 
+ start_service()
+ {
+-	[ x"bluetooth" == x`micocfg_work_mode` ] && {
+-        logger -t dropbear.init.d -p 3  "in bluetooth mode, will not start"
+-        return
+-    }
+-
+ 	ssh_en=`cat /data/ssh_en 2>/dev/null`
+ 	ssh_en_bind=`cat /data/.ssh_en 2>/dev/null`
+ 	ssh_en_tmp=`cat /tmp/ssh_en 2>/dev/null`
 --- a/etc/init.d/dropbear	2022-06-20 09:24:44.000000000 +0200
 +++ b/etc/init.d/dropbear	2023-06-24 20:05:50.946841266 +0200
 @@ -64,7 +64,6 @@

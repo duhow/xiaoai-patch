@@ -1,3 +1,13 @@
+--- a/etc/inittab	2023-11-28 15:21:32.000000000 +0100
++++ b/etc/inittab	2024-12-24 16:55:33.090562651 +0100
+@@ -1,3 +1,5 @@
+ ::sysinit:/etc/init.d/rcS S boot
+ ::shutdown:/etc/init.d/rcS K shutdown
+-::askconsole:/bin/login
++tts/0::askfirst:/bin/ash --login
++ttyS0::askfirst:/bin/login
++tty1::askfirst:/bin/ash --login
+
 --- a/etc/inittab	2021-06-28 04:23:39.000000000 +0200
 +++ b/etc/inittab	2022-11-30 21:28:14.680259636 +0100
 @@ -1,5 +1,5 @@

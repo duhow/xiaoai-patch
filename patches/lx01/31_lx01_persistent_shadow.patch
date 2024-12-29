@@ -12,3 +12,19 @@
 +       cp /etc/passwd /data/console
 +fi
 +mount --bind /data/console/shadow /etc/shadow
+--- a/etc/init.d/boot	2023-11-28 15:22:49.000000000 +0100
++++ b/etc/init.d/boot	2024-12-24 17:53:38.027540116 +0100
+@@ -140,6 +140,13 @@
+         done
+     }
+     /sbin/ifconfig lo up
++    # update persistent password
++    if [ ! -f /data/console/shadow ]; then
++        mkdir -p /data/console
++        cp /etc/shadow /data/console
++        cp /etc/passwd /data/console
++    fi
++    mount --bind /data/console/shadow /etc/shadow
+     echo 4 4 1 7 > /proc/sys/kernel/printk
+ 
+     /sbin/block mount
