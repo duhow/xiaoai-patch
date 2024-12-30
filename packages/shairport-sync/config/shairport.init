@@ -21,6 +21,14 @@ start_service() {
       [ -z "${MAC_ADDRESS}" ] && MAC_ADDRESS=$(cat /sys/class/net/wlan0/address)
       MAC_ADDRESS=$(echo ${MAC_ADDRESS} | tr -d ':' | tr 'a-f' 'A-F')
       sed -i "s/%MAC%/${MAC_ADDRESS}/g" ${CONF}
+
+      # set volume control name based on hostname (model). TODO improve
+      MODEL=$(uci -c /usr/share/mico get version.version.HARDWARE)
+      VOL_NAME="mysoftvol"
+      if [ "${MODEL}" = "LX01" ]; then
+        VOL_NAME="headphone volume"
+      fi
+      sed -i "s/%VOL%/${VOL_NAME}/g" ${CONF}
     fi
 
     if [ -e "$NQPTP" ]; then
