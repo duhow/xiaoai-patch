@@ -24,3 +24,9 @@ make_package() {
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
 }
+
+postinstall_package() {
+  for FILE in plistutil ; do
+    rm -vf ${STAGING_DIR}/usr/bin/${FILE}
+  done
+}

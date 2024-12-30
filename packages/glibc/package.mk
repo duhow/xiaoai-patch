@@ -25,7 +25,7 @@ install_package() {
 }
 
 postinstall_package() {
-  for FILE in sotruss ; do
-		rm -vf ${STAGING_DIR}/usr/bin/${FILE}
+  for FILE in sotruss catchsegv mtrace tzselect ; do
+    rm -vf ${STAGING_DIR}/usr/bin/${FILE}
   done
 }

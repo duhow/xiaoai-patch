@@ -51,4 +51,7 @@ postinstall_package() {
 	rm -rvf ${STAGING_DIR}/usr/share/glib-2.0/codegen
 
 	# /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.6702.0-gdb.py
+  for FILE in gio gio-querymodules gobject-query gresource gsettings gtester gtester-report gapplication ; do
+    rm -vf ${STAGING_DIR}/usr/bin/${FILE}
+  done
 }

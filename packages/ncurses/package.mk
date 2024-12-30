@@ -33,4 +33,8 @@ postinstall_package() {
 	for TERMNAME in ${STAGING_DIR}/${INSTALL_PREFIX}/lib/terminfo/?/*; do
 	  (echo ${TERMNAMES_KEEP} | grep `basename ${TERMNAME}` -q) || rm -vf ${TERMNAME}
 	done
+
+	for FILE in tic infotocap captoinfo clear capconvert infocmp tabs toe tput tset ncurses6-config ; do
+		rm -vf ${STAGING_DIR}/${INSTALL_PREFIX}/bin/${FILE}
+	done
 }

@@ -16,3 +16,9 @@ make_package() {
 install_package() {
 	make DESTDIR=${STAGING_DIR} install_sw install_ssldirs
 }
+
+postinstall_package() {
+  for FILE in c_rehash ; do
+    rm -vf ${STAGING_DIR}/usr/bin/${FILE}
+  done
+}
