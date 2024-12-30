@@ -97,11 +97,12 @@ release_set_config:
 	mkdir -p $(RELEASE_DIR)
 	@cp -vf $(MICO_VERSION) $(RELEASE_DIR)/metadata
 	@IMAGE_MD5=$(shell md5sum $(DESTDIR)/$(IMAGE_NAME) | cut -d ' ' -f 1); \
+	echo "" >> $(RELEASE_DIR)/metadata; \
 	echo "config core 'hash'" >> $(RELEASE_DIR)/metadata; \
-	echo -e "\toption ROOTFS '$$IMAGE_MD5'" >> $(RELEASE_DIR)/metadata
+	printf "\toption ROOTFS '%s'" "$$IMAGE_MD5" >> $(RELEASE_DIR)/metadata
 ifneq ($(LINUX),none)
 	@LINUX_MD5=$(shell md5sum $(LINUX) | cut -d ' ' -f 1); \
-	echo -e "\toption LINUX '$$LINUX_MD5'" >> $(RELEASE_DIR)/metadata
+	printf "\toption LINUX '%s'" "$$LINUX_MD5" >> $(RELEASE_DIR)/metadata
 endif
 
 release_pack:
