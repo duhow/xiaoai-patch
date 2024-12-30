@@ -10,6 +10,7 @@ configure_package() {
 		-DCMAKE_INSTALL_PREFIX=${INSTALL_PREFIX} \
 		-DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_CMAKE} \
 		-DBUILD_SHARED_LIBS=ON \
+		-DFAAD_BUILD_CLI=OFF \
 		${PACKAGE_SRC_DIR}
 }
 
@@ -19,4 +20,8 @@ make_package() {
 
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
+}
+
+postinstall_package() {
+  rm -vf ${STAGING_DIR}/usr/bin/faad
 }

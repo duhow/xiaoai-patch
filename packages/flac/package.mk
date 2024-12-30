@@ -1,6 +1,6 @@
 PACKAGE_NAME="Free Lossless Audio Codec"
 PACKAGE_VERSION="1.4.3"
-PACKAGE_SRC="https://github.com/xiph/flac/archive/master.zip"
+PACKAGE_SRC="https://github.com/xiph/flac/archive/refs/tags/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="libogg gcc"
 
 preconfigure_package() {
@@ -14,7 +14,7 @@ configure_package() {
 	   CXXFLAGS="${BUILD_CFLAGS}" CPPFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
 	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
 	   ./configure --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} \
-	   --disable-cpplibs
+	   --disable-cpplibs --disable-doxygen-docs --disable-oggtest --disable-programs --disable-examples
 }
 
 make_package() {

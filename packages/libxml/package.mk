@@ -9,6 +9,9 @@ configure_package() {
 	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
 	   --prefix=${INSTALL_PREFIX} --build=${MACHTYPE} --host=${BUILD_TARGET} \
 	   --with-minimum --without-python \
+		 --without-catalog \
+		 --without-history \
+     --without-debug \
 	   --with-zlib \
 	   --with-sysroot=${STAGING_DIR}
 }
@@ -19,4 +22,10 @@ make_package() {
 
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
+}
+
+postinstall_package() {
+  for FILE in xmllint xmlcatalog ; do
+		rm -rvf ${STAGING_DIR}/usr/bin/${FILE}
+	done
 }

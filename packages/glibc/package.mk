@@ -23,3 +23,9 @@ make_package() {
 install_package() {
 	make DESTDIR=${STAGING_DIR} install
 }
+
+postinstall_package() {
+  for FILE in sotruss ; do
+		rm -vf ${STAGING_DIR}/usr/bin/${FILE}
+  done
+}
