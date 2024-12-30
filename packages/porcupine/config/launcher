@@ -45,7 +45,7 @@ log(){
 current_volume(){ amixer get mysoftvol | awk '$0~/%/{print $4}' | tr -d '[]%' | head -n1; }
 set_volume(){
   let VOL=$1*255/100
-  for SRC in mysoftvol bluetooth 'headphone volume'; do
+  for SRC in mysoftvol bluetooth; do
     amixer set "$SRC" $VOL &>/dev/null &
   done
 }
