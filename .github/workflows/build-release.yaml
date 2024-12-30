@@ -10,12 +10,10 @@ on:
   push:
     tags:
       - '*.*.*'
-  pull_request:
 
 jobs:
   packages:
     name: Packages
-    if: false
     strategy:
       fail-fast: true
       matrix:
@@ -26,7 +24,7 @@ jobs:
 
   image:
     name: Image
-    #needs: [packages]
+    needs: [packages]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -34,8 +32,8 @@ jobs:
         model: [lx01, lx06, l09a, l09b]
     env:
       MODEL: ${{ matrix.model }}
-      PULL_PACKAGES: false
-      UPLOAD_RELEASE: false
+      PULL_PACKAGES: true
+      UPLOAD_RELEASE: true
     steps:
       - uses: actions/checkout@v4
 
