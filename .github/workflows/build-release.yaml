@@ -10,10 +10,12 @@ on:
   push:
     tags:
       - '*.*.*'
+  pull_request:
 
 jobs:
   packages:
     name: Packages
+    if: false
     strategy:
       fail-fast: true
       matrix:
@@ -24,7 +26,7 @@ jobs:
 
   image:
     name: Image
-    needs: [packages]
+    #needs: [packages]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -32,6 +34,8 @@ jobs:
         model: [lx01, lx06, l09a, l09b]
     env:
       MODEL: ${{ matrix.model }}
+      PULL_PACKAGES: false
+      UPLOAD_RELEASE: false
     steps:
       - uses: actions/checkout@v4
 
@@ -69,11 +73,13 @@ jobs:
 
       - name: Pull build packages
         uses: actions/download-artifact@v4
+        if: ${{ env.PULL_PACKAGES == 'true' }}
         with:
           name: build-${{ matrix.model }}
           path: build-packages/targets/
 
       - name: Extract build packages
+        if: ${{ env.PULL_PACKAGES == 'true' }}
         env:
           SOURCE_DIR: build-packages/targets
           TARGET: build-packages/s2t/armv7
@@ -82,7 +88,7 @@ jobs:
           sudo tar xzvf ${SOURCE_DIR}/bin-*.tar.gz -C ${TARGET}
 
       - name: Build artifact
-        run: sudo make patch build release MODEL=${MODEL}
+        run: sudo -E make patch build release MODEL=${MODEL}
 
       - name: Prepare artifact
         id: artifact
@@ -112,10 +118,20 @@ jobs:
           } >> ${GITHUB_STEP_SUMMARY}
 
       - name: Upload artifact to release
+        if: ${{ env.UPLOAD_RELEASE == 'true' }}
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ steps.artifact.outputs.name }}
           draft: true
+
+      - name: Upload artifact to Workflow Run
+        if: ${{ env.UPLOAD_RELEASE == 'false' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.artifact.outputs.name }}
+          path: ${{ steps.artifact.outputs.name }}
+          retention-days: 10
+          if-no-files-found: error
 
       - name: Attest Build Provenance
         uses: actions/attest-build-provenance@v1
