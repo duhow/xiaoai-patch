@@ -1,0 +1,39 @@
+# setting a lower max volume , and a higher min volume
+# max volume limit is REQUIRED to avoid a HARDWARE FREEZE
+# on playing louder music.
+# WARNING: Values lower than -25 dB may FREEZE.
+--- a/etc/asound.conf	2018-10-11 03:16:15.000000000 +0200
++++ b/etc/asound.conf	2024-12-30 09:51:38.575214151 +0100
+@@ -8,8 +8,8 @@
+ 	  name "mysoftvol"
+           card 0
+         }
+-	min_dB -100.0
+-        max_dB 0.0
++        min_dB -51.0
++        max_dB -25.0
+       }
+     channels 2
+     format S16_LE
+@@ -27,8 +27,8 @@
+         name "bluetooth"
+         card 0
+       }
+-      min_dB -100.0
+-      max_dB 0.0
++      min_dB -51.0
++      max_dB -25.0
+     }
+     channels 2
+     format S16_LE
+@@ -46,8 +46,8 @@
+         name "notifyvol"
+         card 0
+       }
+-      min_dB -100.0
+-      max_dB 0.0
++      min_dB -51.0
++      max_dB -25.0
+     }
+     channels 2
+     format S16_LE
