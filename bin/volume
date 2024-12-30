@@ -2,11 +2,14 @@
 
 # return 0-100% (real value is 0-255)
 current_volume(){ amixer get mysoftvol | awk '$0~/%/{print $4}' | tr -d '[]%' | head -n1; }
+MODEL=$(uci -c /usr/share/mico get version.version.HARDWARE)
 
 if [ "$1" = "up" ]; then
   VOL="3%+"
+  [ "$MODEL" = "LX01" ] && VOL="2%+"
 elif [ "$1" = "down" ]; then
   VOL="4%-"
+  [ "$MODEL" = "LX01" ] && VOL="2%-"
 elif [ "$1" = "color" ]; then
   VOL=""
   [ "$2" = "-q" ] && SILENT=1
@@ -40,7 +43,6 @@ fi
 CURVOL=`current_volume`
 if [ "$CURVOL" -ge 0 ] && [ "$CURVOL" -le 100 ]; then
 
-  MODEL=$(uci -c /usr/share/mico get version.version.HARDWARE)
   COLOR="0x903000" # HEX BGR
   BLACK="0x0"
 
