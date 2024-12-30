@@ -1,3 +1,23 @@
+# patch for old LX01 to set equal state
+--- a/etc/init.d/alsa	2018-10-11 03:18:54.000000000 +0200
++++ b/etc/init.d/alsa	2023-11-28 15:22:49.000000000 +0100
+@@ -5,8 +5,12 @@
+ 
+ boot() {
+     auen
+-    # set default volume and enable 
+-    alsactl -f /etc/asound.state restore
++    # set default volume and enable
++	if [ ! -f "/data/status/asound.state" ];then
++    	alsactl -f /etc/asound.state restore
++	else
++    	alsactl -f /data/status/asound.state restore
++	fi
+ }
+ 
+ stop() {
+
+# actual patch
 --- a/etc/init.d/alsa	2021-06-28 04:23:39.000000000 +0200
 +++ b/etc/init.d/alsa	2024-12-13 10:40:52.021905010 +0100
 @@ -1,18 +1,23 @@
