@@ -99,10 +99,10 @@ release_set_config:
 	@IMAGE_MD5=$(shell md5sum $(DESTDIR)/$(IMAGE_NAME) | cut -d ' ' -f 1); \
 	echo "" >> $(RELEASE_DIR)/metadata; \
 	echo "config core 'hash'" >> $(RELEASE_DIR)/metadata; \
-	printf "\toption ROOTFS '%s'" "$$IMAGE_MD5" >> $(RELEASE_DIR)/metadata
+	printf "\toption ROOTFS '%s'\n" "$$IMAGE_MD5" >> $(RELEASE_DIR)/metadata
 ifneq ($(LINUX),none)
 	@LINUX_MD5=$(shell md5sum $(LINUX) | cut -d ' ' -f 1); \
-	printf "\toption LINUX '%s'" "$$LINUX_MD5" >> $(RELEASE_DIR)/metadata
+	printf "\toption LINUX '%s'\n" "$$LINUX_MD5" >> $(RELEASE_DIR)/metadata
 endif
 
 release_pack:
