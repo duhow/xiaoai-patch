@@ -13,6 +13,8 @@ if [ -f "$STATFILE" ]; then
   exit
 fi
 
+MODEL=$(uci -c /usr/share/mico get version.version.HARDWARE)
+
 # count how many button clicks are done.
 echo $CLICK_COUNT > $STATFILE
 while true; do
@@ -27,7 +29,10 @@ while true; do
 done
 
 is_button_pressed() {
-  getevent -p /dev/input/event0 | grep -q ' 0072\*' && return 0
+  local device="event0"
+  local key="0072"
+  [ "$MODEL" = "LX01" ] && device="event1"
+  getevent -p /dev/input/$device 2>/dev/null | grep -q ' '"$key"'\*' && return 0
   return 1
 }
 
@@ -66,8 +71,22 @@ while is_button_pressed; do
 
   if [ "$HOLD_COUNT" = "85" ] ; then
     /bin/show_led 5
+    # switch partitions
+    if [ "$MODEL" = "LX01" ]; then
+      if [ `read_misc ota_reboot` = "1" ]; then
+        echo "Disabling OTA reboot"
+        write_misc -o 0
+      else
+        echo "Switching last success partition"
+        write_misc -l `read_misc boot_rootfs`
+      fi
+    else
+      bootpart="boot0"
+      [ "`fw_env -g boot_part`" = "boot0" ] && bootpart="boot1"
+      echo "Switching to $bootpart"
+      fw_env -s boot_part $bootpart
+    fi
     miplay sound shutdown -w
-    # TODO switch partitions?
     reboot
   elif [ "$HOLD_COUNT" = "50" ] ; then
     /bin/show_led 4
