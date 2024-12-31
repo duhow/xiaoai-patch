@@ -77,8 +77,10 @@ while is_button_pressed; do
         echo "Disabling OTA reboot"
         write_misc -o 0
       else
-        echo "Switching last success partition"
-        write_misc -l `read_misc boot_rootfs`
+        bootpart=`read_misc boot_rootfs`
+        [ "$bootpart" = "0" ] && bootpart="1" || bootpart="0"
+        echo "Switching last success partition to $bootpart"
+        write_misc -l $bootpart
       fi
     else
       bootpart="boot0"
