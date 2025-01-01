@@ -1,5 +1,5 @@
 PACKAGE_NAME="shairport-sync"
-PACKAGE_VERSION="4.3.2"
+PACKAGE_VERSION="4.3.5"
 PACKAGE_SRC="https://github.com/mikebrady/shairport-sync/archive/${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="glibc openssl avahi alsa-lib popt libconfig soxr alac"
 
