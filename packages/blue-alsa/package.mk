@@ -14,6 +14,7 @@ build_opts_extend() {
 [ -z "${ENABLE_OPUS}" ] && ENABLE_OPUS=1
 [ -z "${ENABLE_AAC}" ] && ENABLE_AAC=1
 [ -z "${ENABLE_LDAC}" ] && ENABLE_LDAC=1
+[ -z "${ENABLE_LDAC_DEC}" ] && ENABLE_LDAC_DEC=0 # !! not for release
 [ -z "${ENABLE_APTX}" ] && ENABLE_APTX=1
 [ -z "${ENABLE_LC3_SWB}" ] && ENABLE_LC3_SWB=1
 [ -z "${ENABLE_LC3PLUS}" ] && ENABLE_LC3PLUS=1
@@ -27,6 +28,7 @@ build_opts_extend() {
 [ "${ENABLE_OPUS}" = 1 ] && build_opts_extend opus opus
 [ "${ENABLE_AAC}" = 1 ] && build_opts_extend fdk-aac aac
 [ "${ENABLE_LDAC}" = 1 ] && build_opts_extend libldac ldac
+[ "${ENABLE_LDAC_DEC}" = 1 ] && build_opts_extend libldacdec ""
 [ "${ENABLE_APTX}" = 1 ] && build_opts_extend openaptx "aptx --enable-aptx-hd --with-libopenaptx"
 [ "${ENABLE_LC3_SWB}" = 1 ] && build_opts_extend lc3 lc3-swb
 [ "${ENABLE_LC3PLUS}" = 1 ] && build_opts_extend lc3plus lc3plus

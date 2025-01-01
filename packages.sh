@@ -346,8 +346,10 @@ commence_build() {
     unpack_package_src
     [[ ! $? -eq 0 ]] && return 1
 
-    apply_patches
-    [[ ! $? -eq 0 ]] && return 1
+    if [[ -n "$(ls ${PACKAGE_SRC_DIR})" ]]; then
+        apply_patches
+        [[ ! $? -eq 0 ]] && return 1
+    fi
 
     echo "Entering directory ${PACKAGE_BUILD_DIR}..."
     cd ${PACKAGE_BUILD_DIR}

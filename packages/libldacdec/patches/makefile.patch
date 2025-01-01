@@ -1,0 +1,11 @@
+--- a/Makefile	2025-01-01 15:43:07.177879855 +0100
++++ b/Makefile	2025-01-01 15:46:32.379901349 +0100
+@@ -5,7 +5,7 @@
+ 
+ GIT_VERSION ?= $(shell git describe --tags --abbrev=4 --dirty --always)
+ 
+-CFLAGS = -MMD -MP -O3 -g -march=native
++CFLAGS ?= -MMD -MP -O3
+ CFLAGS += -DVERSION="\"$(GIT_VERSION)\""
+ CFLAGS += -std=gnu11
+ CFLAGS += -Wall -Wextra
