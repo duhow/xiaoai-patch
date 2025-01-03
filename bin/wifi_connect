@@ -34,6 +34,9 @@ network={
 }
 EOF
 
+# if mute, conflicts color with config (orange)
+shut_led 7
+
 # required on new firmware versions
 touch /data/status/config_done
 
@@ -59,6 +62,7 @@ for n in `seq 10`; do
             echo "Configuration available at:"
             echo "http://${IP_ADDRESS}:80"
         fi
+        /etc/init.d/listener status >/dev/null || (shut_led 7; show_led 7)
         exit 0
     fi
 

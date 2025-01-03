@@ -95,7 +95,9 @@ if [ "$CURVOL" -ge 0 ] && [ "$CURVOL" -le 100 ]; then
   ( sleep $WAIT_TIME; \
     if [ -f "$TMPWAIT" ] && [ "$(cat ${TMPWAIT} 2>/dev/null)" -eq "$(cut -d'.' -f1 /proc/uptime)" ]; then \
     rm ${TMPWAIT} &>/dev/null; \
-    for LED in $(seq 0 $LEDMAX); do echo ${LED} ${BLACK} > ${LEDSYS}; done \
+    /etc/init.d/listener status >/dev/null && { \
+      for LED in $(seq 0 $LEDMAX); do echo ${LED} ${BLACK} > ${LEDSYS}; done; \
+    } || (shut_led 7; show_led 7) ; \
     fi \
   ) &
 fi
