@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="research/speakers.jpg" alt="XiaoAi Speakers" style="max-height: 150px;">
+  <img src="research/speakers.jpg" alt="XiaoAi Speakers" style="height: 150px;">
 </p>
 <p align="center">
   <i>XiaoAi Speakers patched</i>
