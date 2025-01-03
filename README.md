@@ -8,8 +8,6 @@
 
 ------------
 
-# Introduction
-
 This repo contains custom scripts and patches, to make a custom rootfs image free of propietary software, and installing open source programs.  
 Patches and scripts can be tweaked, so if really want, you can keep the original functions of the Chinese XiaoAi assistant, and install new programs as well.
 
