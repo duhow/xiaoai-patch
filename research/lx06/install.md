@@ -124,7 +124,11 @@ update.exe partition boot1 boot.img
 # [update]:Transfer size 0x600000B(6MB)
 # AmlUsbBulkCmd[download get_status]
 # [update]:mwrite success
+```
 
+Now flash the firmware system:
+
+```sh
 update.exe partition system0 root.squashfs
 
 update.exe partition system1 root.squashfs
