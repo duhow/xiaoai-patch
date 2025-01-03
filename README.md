@@ -1,5 +1,8 @@
 
-![XiaoAi Speakers](research/speakers.jpg)
+<p align="center">
+  <img src="research/speakers.jpg" alt="XiaoAi Speakers">
+  <p><small>XiaoAi Speakers patched</small></p>
+</p>
 
 ------------
 
