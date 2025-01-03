@@ -2,35 +2,74 @@
 
 TIMEOUT=45
 BT_CONFIG=/data/bt/bluez/bluetooth/main.conf
+bt=bluetoothctl # alias command to change all refs
 BT_CLASS=$(grep -e '^Class' ${BT_CONFIG} | cut -d '=' -f2 | tr -d ' ')
+BT_CONNECTED=$($bt devices Connected | wc -l)
 [ -z "$SILENT" ] && SILENT=0
 
 [ "$MUTE_LED" != "1" ] && /bin/show_led 3
 
-bluetoothctl power on
-bluetoothctl discoverable on
-bluetoothctl pairable on
+$bt power on
+$bt discoverable on
+$bt pairable on
 sleep 0.2
 hciconfig hci0 class $BT_CLASS
 
 {
   printf "default-agent\n\n"
   sleep $TIMEOUT
-} | timeout $TIMEOUT bluetoothctl --agent=NoInputNoOutput &
+} | timeout $TIMEOUT $bt --agent=NoInputNoOutput &
+BT_AGENT_PID=$!
 
 start_time=$(date '+%s')
 end_time=$(expr $start_time + $TIMEOUT)
+
+# check previously stored MAC
+TRUSTED_MACS=""
+for BT_MAC in $($bt devices | awk '{print $2}'); do
+  TRUSTED_MACS="$TRUSTED_MACS $BT_MAC"
+done
+
+bt_action_pair() {
+  # force Trust, as it may recently paired and Connected, but not trusted yet.
+  $bt trust $1
+  attempts=0
+  until $bt info $1 | grep -q 'Bonded: yes' || [ $attempts -ge 15 ]; do
+    sleep 1
+    attempts=$((attempts + 1))
+  done
+  # force reconnect, so we speed up everything
+  $bt disconnect $1
+  sleep 1
+  $bt connect $1
+}
 
 while [ "$(date '+%s')" -lt "$end_time" ]; do
   [ "$SILENT" = 0 ] && miplay sound mesh_scanning -w
   [ "$SILENT" = 1 ] && sleep 1.5
   sleep 2.5
 
-  for BT_MAC in $(bluetoothctl devices | awk '{print $2}'); do
-    bluetoothctl trust $BT_MAC
+  if [ "$BT_CONNECTED" -eq 0 ] && $bt info | grep -q 'Connected: yes' ; then
+    BT_MAC=$($bt info | head -n1 | awk '{print $2}')
+    if $bt info | grep -q 'Trusted: no' ; then
+      bt_action_pair $BT_MAC
+    fi
+    [ "$SILENT" = 0 ] && miplay sound multirounds_tone
+    break
+  fi
+
+  for BT_MAC in $($bt devices | awk '{print $2}'); do
+    if ! echo "$BT_MAC" | grep -Eq '^([0-9A-F]{2}:){5}[0-9A-F]{2}$'; then
+      continue
+    fi
+    if ! echo "$TRUSTED_MACS" | grep -q "$BT_MAC"; then
+      bt_action_pair $BT_MAC
+      [ "$SILENT" = 0 ] && miplay sound multirounds_tone
+      break
+    fi
   done
 done
 
-bluetoothctl pairable off
+$bt pairable off
 
 /bin/shut_led 3
