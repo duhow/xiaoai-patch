@@ -28,7 +28,7 @@ Everything powered by Open Source Software!
 
 ## Compatibility
 
-| Model | Name | Target version (recommended) |
+| Model | Name | Target version |
 |-------|------|------------------------------|
 | [![LX06 - supported][LX06]](./research/lx06/) | Xiaoai Speaker Pro (black, infrared) [📝](./research/lx06/) | 1.74.10 |
 | [![L06A - supported][L06A]](./research/lx06/) | Xiaoai Speaker (white, no infrared) [📝](./research/lx06/) | 1.74.10 (build as LX06) |
