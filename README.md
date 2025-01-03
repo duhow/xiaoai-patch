@@ -28,7 +28,7 @@ Everything powered by Open Source Software!
 [Whisper]: https://github.com/home-assistant/addons/tree/master/whisper
 [Home Assistant]: https://www.home-assistant.io/
 
-# Compatibility
+## Compatibility
 
 | Model | Name | Target version (recommended) |
 |-------|------|------------------------------|
@@ -75,7 +75,7 @@ Everything powered by Open Source Software!
   but other versions may be still supported and working.  
 > :wrench: This is still Work in Progress.
 
-## :warning: Encrypted speaker partitions
+### 🔐 Encrypted speaker partitions
 
 Some speakers such as **LX05** or **L15A**, change the rootfs partition and include a **DER** certificate to verify the system.
 This **may block** any changes on non-signed squashfs. **Recommended to NOT flash**, you may have an invalid rootfs and potentially lock yourself!
@@ -90,7 +90,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 ```
 
 
-# Requirements
+## Requirements
 
 > [!WARNING]  
 > Supported and Tested setup is **Linux** OS with `amd64` arch.
@@ -110,7 +110,7 @@ You will also need the following tools:
 - Docker
 - patience - package build takes more than 1 hour. :)
 
-# Usage
+## Usage
 
 Get a copy of your `rootfs` filesystem from your speaker. It can also be from a system upgrade file.
 It should be something similar as this:
@@ -156,7 +156,7 @@ sudo make clean all FILE=image-mtd4 MODEL=lx06
 
 After you have the new image ready, send it to the speaker, and **flash the not-in-use** `rootfs` partition, boot it and test.
 
-# :warning: Unbricking
+## :warning: Unbricking
 
 You should have some wires soldered to the board to perform TTL in case it is required.  
 As long as you perform steps as described and not flashing content in wrong partitions, you can reverse failed boot with Uboot safely.
