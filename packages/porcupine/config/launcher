@@ -23,6 +23,7 @@ RECORDING_CHANNEL=1
 VOLUME_THRESHOLD=10
 VOLUME_DURING_STT=10
 SOX_SILENCE_ARGS="1 0.2 1% 0.5 1.2 1%"
+API_AVAILABLE=$(/etc/init.d/api status >/dev/null && echo 1 || echo 0)
 
 CONFIG_FILE=/data/listener
 
@@ -141,6 +142,29 @@ get_stt_settings(){
   #echo "end $(date)"
 }
 
+intent_run(){
+  if [ "$1" = "BluetoothPair" ] ; then
+    if bluetoothctl list | grep -q .; then
+      /bin/bluetooth_pair &
+    fi
+  elif [ "$1" = "BluetoothDisconnect" ] ; then
+    BT_STATUS=$(timeout 1 bluetoothctl player.show | grep -i status | awk '{print $2}')
+    if [ -n "$BT_STATUS" ]; then
+      timeout 8 bluetoothctl disconnect &
+      miplay sound shutdown
+    fi
+  elif [ "$1" = "Pause" ] ; then
+    /bin/play_button
+  elif [ "$1" = "VolumeUp" ] ; then
+    # HACK! We are restoring volume after STT
+    #/bin/volume +10
+    SAVED_VOL=$((SAVED_VOL + 10))
+  elif [ "$1" = "VolumeDown" ] ; then
+    #/bin/volume -15
+    SAVED_VOL=$((SAVED_VOL - 15))
+  fi
+}
+
 which arecord &>/dev/null && {
   RECORD_COMMAND="arecord -N -D$MIC -d $TIME -f S16_LE -c $RECORDING_CHANNEL -r $RECORDING_RATE -"
 }
@@ -196,6 +220,8 @@ log "activated"
 ubus send wakeword '{"name": "'${WORD}'"}'
 
 ERROR_LISTENER=0
+INTENT=
+INTENT_SUCCESS=
 SAVED_VOL=`current_volume`
 # lower volume EXCEPT for notifications
 if [ "$SAVED_VOL" -gt ${VOLUME_THRESHOLD} ]; then
@@ -246,6 +272,17 @@ if [ "${STT_SUCCESS}" = 1 ]; then
     # NOTE: if empty text received, there may be some error with recording or other.
     miplay sound notice
   else
+    if [ "${API_AVAILABLE}" = "1" ]; then
+      # Attempt to check for local intents before asking HA
+      INTENT=$(curl -fs -XPOST -F "text=${STT_TEXT}" localhost/intent)
+      INTENT_SUCCESS=$?
+      if [ "$INTENT_SUCCESS" -eq 0 ] && [ -n "$INTENT" ]; then
+        echo "intent found: $INTENT"
+        log "intent: ${INTENT}"
+        intent_run $INTENT
+      fi
+    fi
+    if [ "${INTENT_SUCCESS}" != 0 ]; then
     CONVERSATION_RESPONSE=$(curl \
       -H "Authorization: Bearer ${HA_TOKEN}" \
       -H "Content-Type: application/json" \
@@ -258,6 +295,7 @@ if [ "${STT_SUCCESS}" = 1 ]; then
     fi
     TTS_TEXT=$(echo "${CONVERSATION_RESPONSE}" | jq -r .response.speech.plain.speech)
     ${SPEAK} "${TTS_TEXT}"
+    fi # INTENT_SUCCESS
   fi
 else
   log "error"

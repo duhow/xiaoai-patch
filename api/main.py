@@ -12,9 +12,13 @@ from config import ConfigManager, ConfigUci
 from utils import get_ip_address, get_wifi_mac_address, get_bt_mac_address, get_device_id, get_uptime, get_load_avg, get_memory_usage, get_volume, set_volume
 import const
 
+from intents import intents
+
 hostname = os.uname()[1]
 speaker_ip = get_ip_address('wlan0')
 app = Flask(__name__)
+
+app.register_blueprint(intents)
 
 config = ConfigManager(const.config_listener)
 config_tts = ConfigManager(const.config_tts)

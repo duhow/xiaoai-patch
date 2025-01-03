@@ -1,6 +1,6 @@
 Flask>=3
 Flask-APScheduler==1.13.1
-Flask-MQTT==1.2.1
+#Flask-MQTT==1.2.1
 
 requests>2,<3
 certifi>=2024
@@ -14,3 +14,5 @@ wyoming==1.6.0
 #numpy<2
 
 pyring-buffer
+
+pyyaml

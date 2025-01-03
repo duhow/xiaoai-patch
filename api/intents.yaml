@@ -1,0 +1,94 @@
+replaces:
+  bluetooth:
+  - bluetooh
+  - el blog
+  - blog
+  - brutus
+  - bruto
+  - lotus
+  - amb l'atom
+  desconecta:
+  - desconec
+  - desco
+  - desconnect
+  - desconnecte
+
+intents:
+- action: BluetoothPair
+  sentences:
+  - pair bluetooth
+  - pair bluetooth device
+  - connect bluetooth
+  - connect bluetooth device
+  - connect to my phone
+  # -- 
+  - pareja bluetooth
+  - en pareja bluetooth
+  - empareja bluetooth
+  - empareja dispositivo bluetooth
+  - empareja mi movil
+  - conecta bluetooth
+  - conectate a mi movil
+  - conecta dispositivo bluetooth
+  - busca bluetooth
+  - buscar bluetooth
+  # --
+  - connectar bluetooth
+  - emparella bluetooth
+  - en parella bluetooth
+  - amb parella bluetooth
+- action: BluetoothDisconnect
+  sentences:
+  - disconnect
+  - disconnect bluetooth
+  # --
+  - desconecta
+  - desconectar
+  - desconectate
+  - desconecta bluetooth
+  - desconectar bluetooth
+  - desconecta mi movil
+  # --
+  - desconnecta
+  - desconnectar
+  - desconnectat
+- action: Pause
+  sentences:
+  - pause
+  - stop
+  - pausa
+  - pausar
+  - paus
+  - para
+  - para la musica
+- action: Next
+  sentences:
+  - next
+  - siguiente
+  - siguiente canción
+  - siguiente pista
+  - pasa a la siguiente
+- action: VolumeUp
+  sentences:
+  - volume up
+  - sube
+  - sube volumen
+  - subir
+  - subir volumen
+  - puja
+  - puja volum
+  - pujar
+  - pujar volum
+- action: VolumeDown
+  sentences:
+  - volume down
+  - baja
+  - baja volumen
+  - baja la voz
+  - bajar
+  - bajar volumen
+  - baix
+  - baixa
+  - baixa volum
+  - baixar
+  - baixar volum
