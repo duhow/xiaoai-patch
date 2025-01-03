@@ -1,9 +1,12 @@
 
-![XiaoAi Speakers](research/speakers.jpg)
+<p align="center">
+  <img src="research/speakers.jpg" alt="XiaoAi Speakers" style="height: 150px;">
+</p>
+<p align="center">
+  <i>XiaoAi Speakers patched</i>
+</p>
 
 ------------
-
-# Introduction
 
 This repo contains custom scripts and patches, to make a custom rootfs image free of propietary software, and installing open source programs.  
 Patches and scripts can be tweaked, so if really want, you can keep the original functions of the Chinese XiaoAi assistant, and install new programs as well.
@@ -23,21 +26,21 @@ Everything powered by Open Source Software!
 [Whisper]: https://github.com/home-assistant/addons/tree/master/whisper
 [Home Assistant]: https://www.home-assistant.io/
 
-# Compatibility
+## Compatibility
 
-| Model | Name | Target version (recommended) |
+| Model | Name | Target version |
 |-------|------|------------------------------|
-| ![LX06 - supported][LX06] | Xiaoai Speaker Pro (black, infrared) | 1.74.10 |
-| ![L06A - supported][L06A] | Xiaoai Speaker (white, no infrared) | 1.74.10 (build as LX06) |
-| ![LX01 - supported][LX01] | Xiaomi Mi AI Speaker Mini | 1.32.6 |
+| [![LX06 - supported][LX06]](./research/lx06/) | Xiaoai Speaker Pro (black, infrared) [📝](./research/lx06/) | 1.74.10 |
+| [![L06A - supported][L06A]](./research/lx06/) | Xiaoai Speaker (white, no infrared) [📝](./research/lx06/) | 1.74.10 |
+| [![LX01 - supported][LX01]](./research/lx01/) | Xiaomi Mi AI Speaker Mini | 1.32.6 |
 | ![L09A - supported][L09A] | Xiaoai Speaker Art (China, white) | 1.76.4 |
-| ![L09B - supported][L09B] | Xiaoai Speaker Art Battery (Black) | 1.69.54 (untested) |
-| ![L09G - not supported][L09G] | Xiaomi Mi Smart Speaker (Global, Google Assistant) | |
-| ![LX05 - encrypted, supported][LX05] | Xiaoai Speaker Play | |
+| ![L09B - supported][L09B] | Xiaoai Speaker Art Battery (Black) - untested | 1.69.54 |
+| [![L09G - not supported][L09G]](./research/l09g/) | Xiaomi Mi Smart Speaker (Global, Google Assistant) | |
+| ![LX05 - encrypted, supported][LX05] | Xiaoai Speaker Play 🔐 | |
 | ![L05B - not supported][L05B] | Xiaoai Speaker Play Enhanced Edition, no Clock LED (NuttX) - [details](https://github.com/duhow/xiaoai-patch/issues/19) | |
 | ![L05C - not supported][L05C] | Xiaoai Speaker Play Enhanced Edition, with Clock LED (NuttX) | |
 | ![L05G - not supported][L05G] | Xiaomi Smart Speaker IR Control (Global, Google Assistant) | |
-| ![L15A - encrypted, not fully supported][L15A] | Xiaomi Mi AI Speaker 2 Gen | |
+| ![L15A - encrypted, not fully supported][L15A] | Xiaomi Mi AI Speaker 2 Gen 🔐 | |
 | ![L16A - not tested][L16A] | Xiaomi Sound by HARMAN AudioEFX | |
 | ![L17A - not tested][L17A] | Xiaomi Sound Pro | |
 | ![L07A - not tested][L07A] | Redmi XiaoAI Speaker Play | |
@@ -70,9 +73,9 @@ Everything powered by Open Source Software!
   but other versions may be still supported and working.  
 > :wrench: This is still Work in Progress.
 
-# :warning: Encrypted speaker partitions
+### 🔐 Encrypted speaker partitions
 
-Some new speakers or firmware upgrades change the rootfs partition and include a DER certificate to verify the system.
+Some speakers such as **LX05** or **L15A**, change the rootfs partition and include a **DER** certificate to verify the system.
 This **may block** any changes on non-signed squashfs. **Recommended to NOT flash**, you may have an invalid rootfs and potentially lock yourself!
 You can check this by running `binwalk` if it contains a Certificate entry:
 
@@ -85,7 +88,7 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 ```
 
 
-# Requirements
+## Requirements
 
 > [!WARNING]  
 > Supported and Tested setup is **Linux** OS with `amd64` arch.
@@ -105,7 +108,7 @@ You will also need the following tools:
 - Docker
 - patience - package build takes more than 1 hour. :)
 
-# Usage
+## Usage
 
 Get a copy of your `rootfs` filesystem from your speaker. It can also be from a system upgrade file.
 It should be something similar as this:
@@ -151,7 +154,7 @@ sudo make clean all FILE=image-mtd4 MODEL=lx06
 
 After you have the new image ready, send it to the speaker, and **flash the not-in-use** `rootfs` partition, boot it and test.
 
-# :warning: Unbricking
+## :warning: Unbricking
 
 You should have some wires soldered to the board to perform TTL in case it is required.  
 As long as you perform steps as described and not flashing content in wrong partitions, you can reverse failed boot with Uboot safely.
