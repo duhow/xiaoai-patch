@@ -1,184 +1,144 @@
-# Install Guide
+# L06A/LX06: Install guide
 
-- author: [@danielk117](https://github.com/danielk117)
+📝 [Old guide version](https://github.com/duhow/xiaoai-patch/blob/04dd4d8b1c38f1ca079cd9723898fa1e6c50ade5/research/lx06/install.md)
 
-This instruction is for a new LX06, bought in late 2021.
-Xiaomi did some things to make it hard to get access. Just the serial connection isn't working me.
-So I have found an another solution using the micro usb port on the board.
-A serial connection is helpful but not needed!
+## Prerequisites
 
-The latest revision of the speaker has some different chips on its board (i.e. wifi).
-So in my case the speaker doesn't work properbly when using an older firmware (before 1.74.x).
-Furthermore an older firmware doesn't remove the new magic password generation for root.
-So I'm using a 1.74.10 for the follwing steps.
+Download from [latest release](https://github.com/duhow/xiaoai-patch/releases/latest) the file ending with `lx06.tar`.
+This file works for both **L06A** and **LX06** models.
 
-I'm using the Windows versions of the "Amlogic Flash Tool" and the "WorldCup" driver. There are some sources on the internet. I was using the latest version (6.0.0) downloaded from https://androidmtk.com/download-amlogic-flash-tool.
+Extract `boot.img` and `root.squashfs` in any located folder.
 
-## prepare
+### Windows 10
 
-- download "Amlogic Flash Tool" and unzip
+Kudos to [@danielk117](https://github.com/danielk117) for the guide in Windows!
 
-- install the "WorldCup" driver from `drivers` folder of the zip
+Download `Amlogic_Flash_Tool_v6.0.0.zip` from https://androidmtk.com/download-amlogic-flash-tool .  
+MD5: `74d95ee04931e690a9e39f92bca32b40`
 
-- open the speaker (loosen the 6 screws under the rubber at the bottom, put the cap off and take the 2 cables out of the holder)
+Install the **WorldCup** driver from `drivers` folder of the zip.
 
-- try to push the inner part upwards until you see the board (be careful, as the power and aux jacks are still screwed to the case)
+The `update.exe` tool is inside the `bin` folder of the dowloaded zip.
 
-- connect a cable to the micro usb and your computer
+### Linux (Ubuntu 24.04)
 
-- (only for first run after installing the driver) power on -> windows recognize the devices and starts a service, which seems to be needed for using the update tool -> power speaker off
-
-- power on -> when windows plays a sound (or ~ 2 seconds after power on) -> run `update.exe identify` (update tool is inside the `bin` folder of the dowloaded zip)
-  - you should see a message like this...
+```sh
+# package may have other names in different distros: libusb-compat-0.1
+sudo apt install -y libusb-0.1-4
+git clone https://github.com/radxa/aml-flash-tool
+sudo cp -v aml-flash-tool/tools/_install_/70-persistent-usb-ubuntu14.rules /lib/udev/rules.d/
+# for guide compatibility
+ln -s update aml-flash-tool/tools/linux-x86/update.exe
 ```
+
+> [!IMPORTANT]
+> Make sure to reboot to apply `udev` changes!
+
+> [!TIP]
+> The guide will refer to the command `update` named as `update.exe`, located in `aml-flash-tool/tools/linux-x86`.
+> After rebooting, you may temporally update the `$PATH` to easily call your required commands.
+
+```sh
+export PATH=$HOME/aml-flash-tool/tools/linux-x86:$PATH
+```
+
+## Preparation
+
+Open the speaker by the bottom. Loosen the 6 screws under the rubber at the bottom, put the cap off and take the 2 cables out of the holder.
+
+Try to push the inner part upwards until you see the board.
+
+> [!WARNING]
+> Be careful, as the Power and AUX jacks are still screwed to the case. You may unscrew them to get access easily.
+
+Connect a micro USB cable to the speaker USB port, and your computer.
+
+⚠️ **Only in Windows**: After installing the driver for the first time, Power on the speaker while having it connected via USB port.
+Windows recognizes the device and starts a service, which seems to be needed for using the `update` tool. After it's done, power off the speaker.
+
+When powering on the speaker, in about ~2 seconds, you must run `update.exe identify`, until the firmware version appears in your console.
+
+```sh
 update.exe identify
-AmlUsbIdentifyHost
-This firmware version is 0-7-0-16-0-0-0-0
-```
-  
- - if you don't see this message then you wasn't successful and you need to try it again (power on -> wait -> run update identify)
-
-## backup
-
-- (optional, but recommended) restore uboot access
-  - when using serial connection, you aren't able the interrupt the autoboot of uboot. this is caused by the bootdelay which is setted to 0.
-  - I setted it to 30, because in my case, this aren't 30 seconds -> it counts really fast, so 30 are aproxomittly 3-4 seconds.
-
-```
-> update.exe bulkcmd "setenv bootdelay 30"
-AmlUsbBulkCmd[setenv bootdelay 30]
-> update.exe bulkcmd "saveenv"
-AmlUsbBulkCmd[setenv bootdelay 30]
+# AmlUsbIdentifyHost
+# This firmware version is 0-7-0-16-0-0-0-0
 ```
 
-- dump partitions (for backup)
-  - the update tool doesn't show any output from the speaker, so without serial connection,
-  we dont see stdout/stderr and we can't get the real size of the partitions.
-  so we assume a size of 1GB (1073741824 Bytes -> 0x40000000)
-    - the dump stops at the real end of the partition
-    - if you have a serial connection, then run `mtdparts` and calculate the real sizes
-  - the last argument of `update.exe mread` is the path on your local machine
-  - run this for `boot0`, `system0` and `data`:
+If you don't see the message, power off the speaker, wait a few seconds, and repeat the process again.
 
-```
-> update.exe mread store boot0 normal 0x40000000 boot0.dump
-AmlUsbBulkCmd[upload store boot1 normal 0x40000000]
-Want read 65536 bytes, actual len 0
-AmlReadMedia failed
-ERR: ReadMediaFile failed!
+> [!TIP]
+> You may run a `loop` to quickly trigger this until success.
 
-> update.exe mread store system0 normal 0x40000000 system0.dump
-AmlUsbBulkCmd[upload store system0 normal 0x40000000]
-Want read 65536 bytes, actual len 0
-AmlReadMedia failed
-ERR: ReadMediaFile failed!
-
-> update.exe mread store data normal 0x40000000 data.dump
-AmlUsbBulkCmd[upload store data normal 0x40000000]
-Want read 65536 bytes, actual len 0
-AmlReadMedia failed
-ERR: ReadMediaFile failed!
+```sh
+while true ; do update identify ; done
 ```
 
-- restart speaker and set it up using the Xiaomi Home app
-  (wifi access -> for me, only the official app is able to set all the config files correct, otherwise you need to it over serial connection)
-  - choose speaker -> Speaker Pro -> enter wifi credentials -> connect to local AP from Speaker `xiaomi-wifispealer-lx06...`
-  - turn off the speaker when setting in the app is done
+## Backup
 
-## create/prepare image
+> [!TIP]
+> For future recovery purposes, it's highly recommended you set a `bootdelay` to interrupt u-boot (bootloader).
 
-### option a: if you want to use `duhow/xiaoai-patch`
+```sh
+update.exe bulkcmd "setenv bootdelay 15"
+# AmlUsbBulkCmd[setenv bootdelay 15]
+# [AmlUsbRom]Inf:bulkInReply success
 
-- create a img file using `binwalk`
-- follow the main instructions from the readme
-  - build the docker and install packages
-  - extract and patch (edit the `squashfs-root/etc/shadow` file before building an image, otherwise you need calculate your root password using the serial number...)
-  - build a firmware
-- flash it
-
-### option b: the manual way (credits goes to http://javabin.cn/2021/xiaoai_fm.html)
-
-- download http://cdn.cnbj1.fds.api.mi-img.com/xiaoqiang/rom/lx06/mico_firmware_9c712_1.74.10.bin
-- `binwalk -e mico_firmware_9c712_1.74.10.bin`
-- `unsquashfs -dest unsquashed_image m5.img`
-- (optional) modify `unsquashed_image/etc/inittab` file and change `ttyS0::askfirst:/bin/login` to `ttyS0::askfirst:/bin/ash --login` to restore root access without password over serial connection
-- set a new root password in `unsquashed_image/etc/shadow`
-  - generate the hash of a password using `openssl passwd -1 -salt 'N0Iz0LLs' 'mysuperpassword'` -> `$1$N0Iz0LLs$8bU0h3Y9Imcgs4r.Kca0C1`
-  - replace the hash between the first two colons -> `root:$1$N0Iz0LLs$8bU0h3Y9Imcgs4r.Kca0C1:18128:0:99999:7:::`
-- modify `unsquashed_image/etc/rc.local` and add
-  ```
-  [ -d /data/dropbear ] || mkdir /data/dropbear
-  [ -s /data/dropbear/rsa.key ] || dropbearkey -t rsa -s 1024 -f /data/dropbear/rsa.key &> /dev/null
-  /usr/sbin/dropbear -E -P /var/run/dropbear.pid -r /data/dropbear/rsa.key > /tmp/ssh.log
-  ```
-- remove or comment out the line `* 3 * * * /bin/ota slient # check ota` in `unsquashed_image/etc/crontabs/root` to deativate the OTA update
-- build an image using `mksquashfs unsquashed_image my_prepared_image.img -b 131072 -comp xz -no-xattrs`
-- `my_prepared_image.img` should be ready for flashing
-
-
-## flash
-
-- power on -> when windows plays a sound (or 2 seconds after power on) -> run `update.exe identify`
-
-- for me, `boot1` and `system1` are empty on a new speaker, so i flashed my `boot0` dump to `boot1`...
-
-```
-> update.exe partition boot1 boot0.dump
-file size is 0x600000
-AmlUsbTplCmd = download store boot1 normal 0x600000 rettemp = 1 buffer = download store boot1 normal 0x600000
-AmlUsbReadStatus retusb = 1
-Downloading....
-[update]:Cost time 1Sec
-[update]:Transfer size 0x600000B(6MB)
-AmlUsbBulkCmd[download get_status]
-[update]:mwrite success
+update.exe bulkcmd "saveenv"
+# AmlUsbBulkCmd[saveenv]
+# [AmlUsbRom]Inf:bulkInReply success
 ```
 
-- ... and the prepared image to `system1` and `system0`
+Dump the current partitions for safety and recovery purposes.
+Check that the images are received correctly, check file sizes.
 
-```
-> update.exe partition system1 my_prepared_image.img
-file size is 0x23bf000
-AmlUsbTplCmd = download store system1 normal 0x23bf000 rettemp = 1 buffer = download store system1 normal 0x23bf000
-AmlUsbReadStatus retusb = 1
-Downloading....
-[update]:Cost time 11Sec
-[update]:Transfer size 0x23bf000B(35MB)
-AmlUsbBulkCmd[download get_status]
-[update]:mwrite success
+```sh
+update.exe mread store bootloader normal 0x200000 mtd0.img
+update.exe mread store tpl normal 0x800000 mtd1.img
+update.exe mread store boot0 normal 0x600000 mtd2.img
+update.exe mread store boot1 normal 0x600000 mtd3.img
+update.exe mread store system0 normal 0x2820000 mtd4.img
+update.exe mread store system1 normal 0x2800000 mtd5.img
+update.exe mread store data normal 0x13e0000 mtd6.img
 
-> update.exe partition system0 my_prepared_image.img
-file size is 0x23bf000
-AmlUsbTplCmd = download store system0 normal 0x23bf000 rettemp = 1 buffer = download store system0 normal 0x23bf000
-AmlUsbReadStatus retusb = 1
-Downloading....
-[update]:Cost time 10Sec
-[update]:Transfer size 0x23bf000B(35MB)
-AmlUsbBulkCmd[download get_status]
-[update]:mwrite success
+# --- expect this as a response:
+# [AmlUsbRom]Inf:bulkInReply success
+# [Uploading]OK:<6>MB in <0>Sec
 ```
 
-- (optional) if you want to get the factory installed firmware from the speaker and patch it (because the factory installed version might be newer, than the one we try to flash), then...
-  - skip flashing the `system0`
-  - change active partion to `boot1` (set `/usr/bin/fw_env -s boot_part boot1`)
-  - restart speaker, search it in your network and try connect to ssh (using root and the password you prepared in the image)
-  - get an copy of `mtd4`, i.e. by `dd if=/dev/mtd4 of=/tmp/system0.img` and `scp` for transfering to your computer
-  - repeat all steps from **create/prepare image** -> **option a**
+## Flash
 
-- restart speaker, search it in your network and try connect to ssh (using root and the password you prepared in the image)
+Locate the `boot.img` and `root.squashfs` files from the firmware downloaded or built.
 
+We will flash both partitions (A/B), note the number `0` and `1` in commands.
+
+```sh
+update.exe partition boot0 boot.img
+
+update.exe partition boot1 boot.img
+
+# file size is 0x600000
+# AmlUsbTplCmd = download store boot1 normal 0x600000 rettemp = 1 buffer = download store boot1 normal 0x600000
+# AmlUsbReadStatus retusb = 1
+#  Downloading....
+# [update]:Cost time 1Sec
+# [update]:Transfer size 0x600000B(6MB)
+# AmlUsbBulkCmd[download get_status]
+# [update]:mwrite success
+
+update.exe partition system0 root.squashfs
+
+update.exe partition system1 root.squashfs
+
+# file size is 0x23bf000
+# AmlUsbTplCmd = download store system1 normal 0x23bf000 rettemp = 1 buffer = download store system1 normal 0x23bf000
+# AmlUsbReadStatus retusb = 1
+# Downloading....
+# [update]:Cost time 11Sec
+# [update]:Transfer size 0x23bf000B(35MB)
+# AmlUsbBulkCmd[download get_status]
+# [update]:mwrite success
 ```
-  _____  _              __     __ __  ___  ___
- |     ||_| ___  ___   |  |   |  |  ||   ||  _|
- | | | || ||  _|| . |  |  |__ |-   -|| | || . |
- |_|_|_||_||___||___|  |_____||__|__||___||___|
-------------------------------------------------
 
-      ROM Type:release / Ver:1.74.10
-------------------------------------------------
-root@LX06-0239:~#
-```
+That's all! 😄
 
-- remove usb cable and reassemble your speaker
-
-- done 😄
+You may reassemble your speaker.

@@ -27,12 +27,12 @@ Everything powered by Open Source Software!
 
 | Model | Name | Target version (recommended) |
 |-------|------|------------------------------|
-| ![LX06 - supported][LX06] | Xiaoai Speaker Pro (black, infrared) | 1.74.10 |
-| ![L06A - supported][L06A] | Xiaoai Speaker (white, no infrared) | 1.74.10 (build as LX06) |
-| ![LX01 - supported][LX01] | Xiaomi Mi AI Speaker Mini | 1.32.6 |
+| ![LX06 - supported][LX06](./research/lx06/) | Xiaoai Speaker Pro (black, infrared) | 1.74.10 |
+| ![L06A - supported][L06A](./research/lx06/) | Xiaoai Speaker (white, no infrared) | 1.74.10 (build as LX06) |
+| ![LX01 - supported][LX01](./research/lx01/) | Xiaomi Mi AI Speaker Mini | 1.32.6 |
 | ![L09A - supported][L09A] | Xiaoai Speaker Art (China, white) | 1.76.4 |
 | ![L09B - supported][L09B] | Xiaoai Speaker Art Battery (Black) | 1.69.54 (untested) |
-| ![L09G - not supported][L09G] | Xiaomi Mi Smart Speaker (Global, Google Assistant) | |
+| ![L09G - not supported][L09G](./research/l09g/) | Xiaomi Mi Smart Speaker (Global, Google Assistant) | |
 | ![LX05 - encrypted, supported][LX05] | Xiaoai Speaker Play | |
 | ![L05B - not supported][L05B] | Xiaoai Speaker Play Enhanced Edition, no Clock LED (NuttX) - [details](https://github.com/duhow/xiaoai-patch/issues/19) | |
 | ![L05C - not supported][L05C] | Xiaoai Speaker Play Enhanced Edition, with Clock LED (NuttX) | |
