@@ -20,11 +20,9 @@ Wireless chip (WiFi + BT):
 - Realtek RTL8821CS
 - NXP 88W8977
 
-## Install
+## 📝 [Install guide](./install.md)
 
 To flash the firmware you will need a **micro USB** cable, and
 a computer with **Ubuntu 20.04** or higher (tested in **Ubuntu 24.04** successfully), or **Windows 10**.
 
 **Does not require** soldering, but it's **recommended** in case you need access for recovery or unlock.
-
-📝 [Follow the installation guide](./install.md)
