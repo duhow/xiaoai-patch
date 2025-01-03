@@ -1,7 +1,9 @@
 
 <p align="center">
   <img src="research/speakers.jpg" alt="XiaoAi Speakers">
-  <small>XiaoAi Speakers patched</small>
+</p>
+<p align="center">
+  <i>XiaoAi Speakers patched</i>
 </p>
 
 ------------
