@@ -4,7 +4,7 @@
 
 ## Prerequisites
 
-Download from [latest release](https://github.com/duhow/xiaoai-patch/releases/latest) the file ending with `lx06.tar`.
+💾 Download from [latest release](https://github.com/duhow/xiaoai-patch/releases/latest) the file ending with `lx06.tar`.
 This file works for both **L06A** and **LX06** models.
 
 Extract `boot.img` and `root.squashfs` in any located folder.
@@ -13,7 +13,7 @@ Extract `boot.img` and `root.squashfs` in any located folder.
 
 Kudos to [@danielk117](https://github.com/danielk117) for the guide in Windows!
 
-Download `Amlogic_Flash_Tool_v6.0.0.zip` from https://androidmtk.com/download-amlogic-flash-tool .  
+💾 Download `Amlogic_Flash_Tool_v6.0.0.zip` from https://androidmtk.com/download-amlogic-flash-tool .  
 MD5: `74d95ee04931e690a9e39f92bca32b40`
 
 Install the **WorldCup** driver from `drivers` folder of the zip.
@@ -53,10 +53,14 @@ Try to push the inner part upwards until you see the board.
 
 Connect a micro USB cable to the speaker USB port, and your computer.
 
-⚠️ **Only in Windows**: After installing the driver for the first time, Power on the speaker while having it connected via USB port.
-Windows recognizes the device and starts a service, which seems to be needed for using the `update` tool. After it's done, power off the speaker.
+⚠️ **Only in Windows**: After installing the driver for the first time, 🔌 Power on the speaker while having it connected via USB port.
+Windows recognizes the device and starts a service, which seems to be needed for using the `update` tool. After it's done, 🔌 power off the speaker.
 
-When powering on the speaker, in about ~2 seconds, you must run `update.exe identify`, until the firmware version appears in your console.
+> [!NOTE]
+> Read this first before 🔌 powering on the speaker!
+
+When 🔌 powering on the speaker, in about ~2 seconds, you must run `update.exe identify` (several times), until the firmware version appears in your console.
+This will stop the normal booting process and allow you to flash the speaker.
 
 ```sh
 update.exe identify
@@ -64,12 +68,13 @@ update.exe identify
 # This firmware version is 0-7-0-16-0-0-0-0
 ```
 
-If you don't see the message, power off the speaker, wait a few seconds, and repeat the process again.
+If you don't see the message, 🔌 power off the speaker, wait a few seconds, and repeat the process again.
 
 > [!TIP]
 > You may run a `loop` to quickly trigger this until success.
 
 ```sh
+# for Linux
 while true ; do update identify ; done
 ```
 
@@ -107,7 +112,7 @@ update.exe mread store data normal 0x13e0000 mtd6.img
 
 ## Flash
 
-Locate the `boot.img` and `root.squashfs` files from the firmware downloaded or built.
+💾 Locate the `boot.img` and `root.squashfs` files from the firmware downloaded or built.
 
 We will flash both partitions (A/B), note the number `0` and `1` in commands.
 
