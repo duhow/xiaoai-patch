@@ -1,8 +1,11 @@
 #!/bin/sh
 
 USERAGENT="Chrome/87.0.4280.88"
-DEFAULT_LANGUAGE=es
+DEFAULT_LANGUAGE=en
 TTS_FOLDER=/tmp/tts
+
+TEXT=$(echo "$@" | tr ' ' '+')
+[ -z "$TEXT" ] && return
 
 [ -f "/data/tts.conf" ] && . /data/tts.conf
 
@@ -12,10 +15,7 @@ fi
 
 [ "$MUTE_LED" != "1" ] && /bin/show_led 1 &
 
-TEXT=$(echo "$@" | tr ' ' '+')
 HASH="$(echo "$TEXT" | md5sum | cut -c 1-20)-${LANGUAGE}"
-
-[ -z "$TEXT" ] && return
 
 # Convert text to URL encoded
 TEXT=$(echo "$TEXT" | sed 's/á/%C3%A1/g; s/é/%C3%A9/g; s/í/%C3%AD/g; s/ó/%C3%B3/g; s/ú/%C3%BA/g; s/ñ/%C3%B1/g; s/Á/%C3%81/g; s/É/%C3%89/g; s/Í/%C3%8D/g; s/Ó/%C3%93/g; s/Ú/%C3%9A/g; s/Ñ/%C3%91/g')

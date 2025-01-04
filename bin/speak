@@ -1,5 +1,8 @@
 #!/bin/sh
 
+TEXT="$@"
+[ -z "$TEXT" ] && return
+
 ESPEAK_OPTS=""
 [ -f "/data/tts.conf" ] && . /data/tts.conf
 
@@ -7,10 +10,9 @@ if [ -n "$LANGUAGE" ]; then
   ESPEAK_OPTS="${ESPEAK_OPTS} -v ${LANGUAGE}"
 fi
 
-
 /bin/show_led 1
 sleep 0.2
 
-/usr/bin/espeak --stdout ${ESPEAK_OPTS} "$@" | /usr/bin/aplay -Dnotify &>/dev/null
+/usr/bin/espeak --stdout ${ESPEAK_OPTS} "$TEXT" | /usr/bin/aplay -Dnotify &>/dev/null
 
 /bin/shut_led 1
