@@ -22,6 +22,7 @@ RECORDING_RATE=16000
 RECORDING_CHANNEL=1
 VOLUME_THRESHOLD=10
 VOLUME_DURING_STT=10
+TTS_NO_MATCH=1
 SOX_SILENCE_ARGS="1 0.2 1% 0.5 1.2 1%"
 API_AVAILABLE=$(/etc/init.d/api status >/dev/null && echo 1 || echo 0)
 
@@ -294,6 +295,16 @@ if [ "${STT_SUCCESS}" = 1 ]; then
       sleep 0.5
     fi
     TTS_TEXT=$(echo "${CONVERSATION_RESPONSE}" | jq -r .response.speech.plain.speech)
+
+    # if enabled, don't say "I don't understand"
+    if [ "$TTS_NO_MATCH" != 1 ] ; then
+      RESPONSE_CODE=$(echo "${CONVERSATION_RESPONSE}" | jq -r .response.data.code)
+      if [ "$RESPONSE_CODE" = "no_intent_match" ] || [ "$RESPONSE_CODE" = "no_valid_targets" ]; then
+        TTS_TEXT=""
+        miplay sound notice
+      fi
+    fi
+
     ${SPEAK} "${TTS_TEXT}"
     fi # INTENT_SUCCESS
   fi
