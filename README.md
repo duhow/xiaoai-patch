@@ -28,21 +28,23 @@ Everything powered by Open Source Software!
 
 ## Compatibility
 
+🛒 *The page contains affiliated links, if you would like to purchase the speaker and support this project, feel free to use it!*
+
 | Model | Name | Target version |
 |-------|------|------------------------------|
-| [![LX06 - supported][LX06]](./research/lx06/) | Xiaoai Speaker Pro (black, infrared) [📝](./research/lx06/) | 1.74.10 |
-| [![L06A - supported][L06A]](./research/lx06/) | Xiaoai Speaker (white, no infrared) [📝](./research/lx06/) | 1.74.10 |
+| [![LX06 - supported][LX06]](./research/lx06/) | 🛒 [Xiaoai Speaker Pro (black, infrared)](https://s.click.aliexpress.com/e/_on7C0gx) ⭐[📝](./research/lx06/) | 1.74.10 |
+| [![L06A - supported][L06A]](./research/lx06/) | 🛒 [Xiaoai Speaker (white, no infrared)](https://s.click.aliexpress.com/e/_oC8xwNH) [📝](./research/lx06/) | 1.74.10 |
 | [![LX01 - supported][LX01]](./research/lx01/) | Xiaomi Mi AI Speaker Mini | 1.32.6 |
 | ![L09A - supported][L09A] | Xiaoai Speaker Art (China, white) | 1.76.4 |
 | ![L09B - supported][L09B] | Xiaoai Speaker Art Battery (Black) - untested | 1.69.54 |
 | [![L09G - not supported][L09G]](./research/l09g/) | Xiaomi Mi Smart Speaker (Global, Google Assistant) | |
-| ![LX05 - encrypted, supported][LX05] | Xiaoai Speaker Play 🔐 | |
+| ![LX05 - encrypted, supported][LX05] | 🛒 [Xiaoai Speaker Play](https://s.click.aliexpress.com/e/_onGQ8af) 🔐 | |
 | ![L05B - not supported][L05B] | Xiaoai Speaker Play Enhanced Edition, no Clock LED (NuttX) - [details](https://github.com/duhow/xiaoai-patch/issues/19) | |
-| ![L05C - not supported][L05C] | Xiaoai Speaker Play Enhanced Edition, with Clock LED (NuttX) | |
+| ![L05C - not supported][L05C] | 🛒 [Xiaoai Speaker Play Enhanced Edition, with Clock LED (NuttX)](https://s.click.aliexpress.com/e/_oFox6UT) | |
 | ![L05G - not supported][L05G] | Xiaomi Smart Speaker IR Control (Global, Google Assistant) | |
-| ![L15A - encrypted, not fully supported][L15A] | Xiaomi Mi AI Speaker 2 Gen 🔐 | |
-| ![L16A - not tested][L16A] | Xiaomi Sound by HARMAN AudioEFX | |
-| ![L17A - not tested][L17A] | Xiaomi Sound Pro | |
+| ![L15A - encrypted, not fully supported][L15A] | 🛒 [Xiaomi Mi AI Speaker 2 Gen](https://s.click.aliexpress.com/e/_oldb5I7) 🔐 | |
+| ![L16A - not tested][L16A] | 🛒 [Xiaomi Sound by HARMAN AudioEFX](https://s.click.aliexpress.com/e/_oDdCwl9) | |
+| ![L17A - not tested][L17A] | 🛒 [Xiaomi Sound Pro](https://s.click.aliexpress.com/e/_omC5yLv) | |
 | ![L07A - not tested][L07A] | Redmi XiaoAI Speaker Play | |
 | ![M03A - not tested][M03A] | Xiaomi Sound Move | |
 | ![MDZ-25-DT - not tested][MDZ-25-DT] | Xiaomi Mi AI Speaker 1 Gen (?) - S12 | |
@@ -67,11 +69,6 @@ Everything powered by Open Source Software!
 [MDZ-25-DT]: https://img.shields.io/badge/MDZ--25--DT-lightgrey?style=for-the-badge
 [XMYX01JY]: https://img.shields.io/badge/XMYX01JY-lightgrey?style=for-the-badge
 [YLAI01YL]: https://img.shields.io/badge/YLAI01YL-lightgrey?style=for-the-badge
-
-> [!TIP]  
-> Target version is the recommended version to ensure all patches are working,
-  but other versions may be still supported and working.  
-> :wrench: This is still Work in Progress.
 
 ### 🔐 Encrypted speaker partitions
 
