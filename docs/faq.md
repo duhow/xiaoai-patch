@@ -4,7 +4,7 @@ Last updated: `2024-12-23`
 
 ### Can I use Mi Home app with the speaker patch?
 
-No, by using default patching, all Xiaomi software gets removed and replaced with lots of
+:x: No, by using default patching, all Xiaomi software gets removed and replaced with lots of
 different software to play audio managed from multiple sources,
 such as AirPlay, MPD, UPNP, Squeezelite (LMS), or Snapcast.
 
@@ -30,6 +30,11 @@ Alternatively, use `/bin/bluetooth_pair` command.
 
 Use your phone or computer and connect to the IP of the speaker to port 80 (as a website).
 For example: http://192.168.1.40
+
+From here, you can connect the Speaker to Home Assistant, and configure STT / TTS options,
+this is **required** in order to have the Voice Assistant working.
+
+You can also `ssh` into the speaker, the patch will change the default password to `root`.
 
 ### How can I rename the Bluetooth speaker name?
 
