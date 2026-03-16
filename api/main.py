@@ -254,8 +254,6 @@ def home_assistant_auth():
 @app.get('/auth_callback')
 def home_assistant_auth_callback():
   code = request.args.get('code')
-  store_token = request.args.get('storeToken', 'false').lower() == 'true'
-  state = request.args.get('state')
 
   if not code:
     return jsonify({'error': 'Missing code parameter'}), 400
@@ -274,16 +272,18 @@ def home_assistant_auth_callback():
   if not ha_url:
     return jsonify({'error': 'Home Assistant URL not configured'}), 500
 
-  req = requests.post(f'{ha_url}/auth/token', data=data, headers=headers)
+  try:
+    req = requests.post(f'{ha_url}/auth/token', data=data, headers=headers)
+  except Exception as e:
+    return jsonify({'error': f'Failed to connect to Home Assistant: {e}'}), 500
 
   if req.status_code != 200:
     return jsonify({'error': 'Failed to get access token', 'code': req.status_code, 'response': req.json()}), 500
 
   token = req.json()
-  if store_token:
-    config.HA_TOKEN = token['access_token']
-    config.HA_REFRESH_TOKEN = token['refresh_token']
-    config.HA_AUTH_SETUP = True
+  config.HA_TOKEN = token['access_token']
+  config.HA_REFRESH_TOKEN = token.get('refresh_token')
+  config.HA_AUTH_SETUP = True
 
   return jsonify({'message': 'Auth configured'})
 
