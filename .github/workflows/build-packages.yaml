@@ -22,11 +22,11 @@ jobs:
       MODEL: ${{ github.event.inputs.model || inputs.model || 'LX06' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build packages
         uses: docker://ghcr.io/duhow/xiaoai-patch:latest
       - name: Upload packages
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: build-${{ env.MODEL }}
           path: build-packages/targets/bin-*.tar.gz
