@@ -151,3 +151,43 @@ update.exe partition system1 root.squashfs
 That's all! 😄
 
 You may reassemble your speaker.
+
+
+## Troubleshooting
+
+### Boot loop after flashing on newer LX06 units (Foresee/ESMT FSNS8A001G NAND)
+
+**Symptom:** after flashing the release `boot.img` (step **Flash** above), the speaker boot-loops.
+UART console shows:
+
+```
+nand: Unknown FSNS8A001G
+...
+No NAND device found!!!
+...
+nand init failed:-6
+```
+followed by a `reboot`.
+
+**Cause:** some newer production batches of LX06 ship with a Foresee/ESMT `FSNS8A001G` NAND chip
+(manufacturer ID `0xCD`, chip ID `0xF1`) that the kernel bundled in the `xiaoai-patch` release
+`boot.img` (built `Mon Jun 28 02:23:39 2021`, banner `jenkins@a69f86dfe04f`) does not recognize.
+Xiaomi's own factory firmware for these units ships a newer kernel build (seen dated as late as
+`Fri Feb 6 13:00:26 2026`, banner `jenkins@00c04d546a5e`) that does support this NAND chip.
+
+**Workaround:** if you took a factory backup before flashing (the **Backup** step above dumps
+`boot0` as `mtd2.img` and `boot1` as `mtd3.img`), that factory image already contains a kernel
+that supports your NAND chip. Instead of the release `boot.img`, flash your own factory-dumped
+`mtd2.img` back:
+
+```sh
+update.exe partition boot0 mtd2.img
+```
+
+Confirm over UART that the unit boots normally before repeating for `boot1`. No rebuild is
+required — it is the exact image that was already running on this unit.
+
+> [!TIP]
+> > If you did not keep a factory backup before flashing and hit this boot loop, check
+> > > [duhow/xiaoai-patch](https://github.com/duhow/xiaoai-patch) for a possible updated release
+> > > > `boot.img` or open an issue with your NAND chip's manufacturer/chip ID from the boot log.
