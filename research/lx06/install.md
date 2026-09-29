@@ -116,6 +116,15 @@ update.exe mread store data normal 0x13e0000 mtd6.img
 
 We will flash both partitions (A/B), note the number `0` and `1` in commands.
 
+> [!TIP]
+> Flashing `boot.img` here is only needed to recover a missing/broken boot partition, or to move to a
+> known-good kernel build — `xiaoai-patch` does not modify or rebuild the kernel at all, it just ships a
+> pre-extracted stock image. If your existing `boot0`/`boot1` already boots fine (you just dumped it in the
+> **Backup** step above), you can skip re-flashing it and keep your own — this is often safer. In practice:
+> the `boot.img` bundled here is a `Mon Jun 28 02:23:39 2021` kernel build, and some newer LX06 units ship
+> with NAND chips (e.g. Foresee/ESMT `FSNS8A001G`) that this older kernel doesn't recognize, causing a boot
+> loop — see **Troubleshooting** below.
+
 ```sh
 update.exe partition boot0 boot.img
 
@@ -151,3 +160,39 @@ update.exe partition system1 root.squashfs
 That's all! 😄
 
 You may reassemble your speaker.
+
+## Troubleshooting
+
+### Boot loop after flashing `boot.img` on newer LX06 units (Foresee/ESMT FSNS8A001G NAND)
+
+**Symptom:** after flashing the release `boot.img` (step **Flash** above), the speaker boot-loops.
+UART console shows:
+
+```
+nand: Unknown FSNS8A001G
+...
+No NAND device found!!!
+...
+nand init failed:-6
+```
+followed by a `reboot`.
+
+**Cause:** the release `boot.img` (kernel build `Mon Jun 28 02:23:39 2021`, banner
+`jenkins@a69f86dfe04f`) does not recognize a Foresee/ESMT `FSNS8A001G` NAND chip (manufacturer ID
+`0xCD`, chip ID `0xF1`) found on some newer LX06 units. See the tip in the **Flash** section above —
+in general you don't need to flash `boot.img` at all if your own `boot0`/`boot1` already works.
+
+**Fix:** flash your own factory `mtd2.img` (dumped as `boot0` in the **Backup** step above) back
+into `boot0` — and `mtd3.img` into `boot1` — instead of the release `boot.img`:
+
+```sh
+update.exe partition boot0 mtd2.img
+```
+
+Confirm over UART that the unit boots normally before repeating for `boot1`. No rebuild is
+required — it is the exact image that was already running on this unit.
+
+> [!TIP]
+> If you did not keep a factory backup before flashing and hit this boot loop, check
+> [duhow/xiaoai-patch](https://github.com/duhow/xiaoai-patch) for a possible updated release
+> `boot.img` or open an issue with your NAND chip's manufacturer/chip ID from the boot log.
