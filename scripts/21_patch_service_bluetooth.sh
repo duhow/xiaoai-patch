@@ -15,11 +15,9 @@ fi
 shasum $FILE
 
 FILE=$ROOTFS/etc/init.d/bluetooth
-SHA=$(shasum $FILE | awk '{print $1}')
-if [ "$SHA" = "f51dabcac09d6815356b85e43aab9884a36965a4" ]; then
+if grep -q '"\$PROG2" 00:00:00:00:00:00 -vv -i hci0' $FILE; then
+  SHA=$(shasum $FILE | awk '{print $1}')
   echo "[*] Patching Bluetooth start service"
-  sed -i 's/sleep .*/return 0/' $FILE # stop mibt services
-
   # new bluealsa params, fix start
   sed -i 's/"$PROG2".*/"$PROG2" 00:00:00:00:00:00 -v -D bluetooth --profile-a2dp/' $FILE
   AMOUNT=$(( $AMOUNT + 1 ))
