@@ -61,12 +61,19 @@ if [ "$CURVOL" -ge 0 ] && [ "$CURVOL" -le 100 ]; then
       LEDMAX=23
       LEDSEQ="$(seq 12 23) $(seq 0 11)"
       ;;
-    LX01 | LX05)
+    LX01)
       LEDMAX=0  # 1 but needed
       LEDSYS=/proc/ws2812/rgb0
       LEDSEQ=0
       COLOR="48 144" # HACK LEDSEQ+COLOR RGB
       BLACK="0 0"    # HACK LEDMAX+BLACK
+      ;;
+    LX05)
+      LEDMAX=0
+      LEDSYS=/sys/class/leds/sunxi_led0a/brightness # packed 24-bit GRB
+      LEDSEQ=3145872   # HACK COLOR GRB 0x300090, sysfs takes decimal
+      COLOR=
+      BLACK=
       ;;
     *)
       exit 0
@@ -91,11 +98,11 @@ if [ "$CURVOL" -ge 0 ] && [ "$CURVOL" -le 100 ]; then
   let AMOUNT=CURRENT+WAIT_TIME
   echo ${AMOUNT} > ${TMPWAIT}
 
-  # wait in background, only last execution counts
+  # wait in background, only last execution counts. Allow for no-listener (no porcupine) builds
   ( sleep $WAIT_TIME; \
     if [ -f "$TMPWAIT" ] && [ "$(cat ${TMPWAIT} 2>/dev/null)" -eq "$(cut -d'.' -f1 /proc/uptime)" ]; then \
     rm ${TMPWAIT} &>/dev/null; \
-    /etc/init.d/listener status >/dev/null && { \
+    { [ ! -x /etc/init.d/listener ] || /etc/init.d/listener status >/dev/null; } && { \
       for LED in $(seq 0 $LEDMAX); do echo ${LED} ${BLACK} > ${LEDSYS}; done; \
     } || (shut_led 7; show_led 7) ; \
     fi \
