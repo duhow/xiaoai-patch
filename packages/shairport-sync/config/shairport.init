@@ -36,6 +36,7 @@ start_service() {
       procd_set_param command $NQPTP
       procd_set_param respawn 3600 5 5
       procd_close_instance
+      sleep 1
     fi
 
     procd_open_instance shairport

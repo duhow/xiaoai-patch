@@ -1,5 +1,5 @@
 PACKAGE_NAME="Bluetooth Audio ALSA Backend"
-PACKAGE_VERSION="4.3.0"
+PACKAGE_VERSION="5.0.0"
 PACKAGE_SRC="https://github.com/Arkq/bluez-alsa/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_DEPENDS="alsa-lib bluez sbc dbus glib"
 BUILD_CODECS=""
@@ -54,6 +54,7 @@ configure_package() {
 	   PKG_CONFIG_PATH="${BUILD_PKG_CONFIG_LIBDIR}" \
 	   ./configure --build=${MACHTYPE} --host=${BUILD_TARGET} \
 	   --prefix=${INSTALL_PREFIX} --sysconfdir=/etc --localstatedir=/var \
+	   --enable-aplay \
 	   --enable-a2dpconf \
 	   ${BUILD_CODECS} \
 	   --enable-ofono \
@@ -61,9 +62,6 @@ configure_package() {
 }
 
 premake_package() {
-	# FIXME this build is unstable, as it uses mixed libs from ARM and system.
-	# Some commands used to fix this:
-
 	echo_warning "setting a horrible hack to fix the build"
 
 	FILE_LIBRESOLV=${TOOLCHAIN_DIR}/${BUILD_TARGET}/libc/lib/libresolv.so.2

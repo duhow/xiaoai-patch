@@ -284,16 +284,22 @@ if [ "${STT_SUCCESS}" = 1 ]; then
       fi
     fi
     if [ "${INTENT_SUCCESS}" != 0 ]; then
-    CONVERSATION_RESPONSE=$(curl \
-      -H "Authorization: Bearer ${HA_TOKEN}" \
-      -H "Content-Type: application/json" \
-      -d "{\"language\": \"${STT_LANGUAGE}\", \"text\": \"${STT_TEXT}\"}" \
-      -XPOST ${HA_URL}/api/conversation/process)
-    if [ "$STT_REPEAT_MESSAGE" = 1 ]; then
-      # repeat what the speaker heard (transcribed)
-      ${SPEAK} "${STT_TEXT}"
-      sleep 0.5
-    fi
+      JSON_PAYLOAD="{\"language\": \"${STT_LANGUAGE}\", \"text\": \"${STT_TEXT}\"}"
+      if [ -n "${HA_AGENT_ID}" ]; then
+        JSON_PAYLOAD="{\"language\": \"${STT_LANGUAGE}\", \"text\": \"${STT_TEXT}\", \"agent_id\": \"${HA_AGENT_ID}\"}"
+      fi
+
+      CONVERSATION_RESPONSE=$(curl -s \
+        -H "Authorization: Bearer ${HA_TOKEN}" \
+        -H "Content-Type: application/json" \
+        -d "${JSON_PAYLOAD}" \
+        -XPOST "${HA_URL}/api/conversation/process")
+
+      if [ "$STT_REPEAT_MESSAGE" = 1 ]; then
+        # repeat what the speaker heard (transcribed)
+        ${SPEAK} "${STT_TEXT}"
+        sleep 0.5
+      fi
     TTS_TEXT=$(echo "${CONVERSATION_RESPONSE}" | jq -r .response.speech.plain.speech)
 
     # if enabled, don't say "I don't understand"

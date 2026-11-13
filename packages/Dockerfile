@@ -15,6 +15,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
     python python3 python3-pip python3-dev python3-yaml \
     cmake autoconf autopoint autogen autoconf-archive \
     libtool libtool-bin \
+    libplist-utils \
     git pkg-config gettext intltool qemu-user-static \
     libgcrypt20-dev gperf libglib2.0-dev docbook-xsl \
     xsltproc libncurses-dev flex texinfo tcl \

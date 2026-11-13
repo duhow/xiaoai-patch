@@ -1,50 +1,44 @@
 PACKAGE_NAME="Snapcast"
-PACKAGE_VERSION="0.25.0"
+PACKAGE_VERSION="0.30.0"
 PACKAGE_SRC="https://github.com/badaix/snapcast/archive/v${PACKAGE_VERSION}.tar.gz"
-PACKAGE_DEPENDS="alsa libvorbis opus flac soxr avahi expat"
-BOOST_VERSION="1.80.0"
-BOOST="boost_${BOOST_VERSION//./_}"
+PACKAGE_DEPENDS="alsa-lib libvorbis opus flac soxr avahi expat boost"
 BUILD_TARGETS="server client"
 
 if [ "${BUILD_MODEL}" = "LX01" ]; then
-BUILD_TARGETS="client"
+	BUILD_TARGETS="client"
 fi
 
-prepare_boost() {
-	BOOST_PKG="${PACKAGE_SRC_DOWNLOAD_DIR}/../boost/${BOOST}.tar.gz"
-	BOOST_SRC="https://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/${BOOST}.tar.gz/download"
-	if [ ! -e "${BOOST_PKG}" ]; then
-			echo_info "downloading boost lib"
-			download_file "${BOOST_PKG}" "`dirname ${BOOST_PKG}`" "${BOOST_SRC}"
-	fi
-	echo_info "extracting boost lib"
-	tar xzf "${BOOST_PKG}" -C "${PACKAGE_SRC_DIR}"
+preconfigure_package() {
+	# Фикс для GCC 7.4.1: переводим filesystem на experimental/filesystem
+	grep -rl "filesystem" common/ server/ client/ | xargs -r sed -i 's|<filesystem>|<experimental/filesystem>|g; s|std::filesystem|std::experimental::filesystem|g'
 }
 
-preconfigure_package() {
-	prepare_boost
+configure_package() {
+	OPT_SERVER="OFF"
+	OPT_CLIENT="OFF"
+	[[ "${BUILD_TARGETS}" = *"server"* ]] && OPT_SERVER="ON"
+	[[ "${BUILD_TARGETS}" = *"client"* ]] && OPT_CLIENT="ON"
+
+	mkdir -p build && cd build
+	PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" \
+	PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
+	PKG_CONFIG_PATH="${BUILD_PKG_CONFIG_LIBDIR}" \
+	cmake .. \
+	   -DCMAKE_TOOLCHAIN_FILE="${TOOLCHAIN_DIR}/config/cmake-toolchain-sysroot.txt" \
+	   -DCMAKE_INSTALL_PREFIX="${INSTALL_PREFIX}" \
+	   -DCMAKE_CXX_STANDARD_LIBRARIES="-lstdc++fs -latomic" \
+	   -DBUILD_SERVER=${OPT_SERVER} \
+	   -DBUILD_CLIENT=${OPT_CLIENT} \
+	   -DBUILD_WITH_PULSE=OFF \
+	   -DBUILD_TESTS=OFF
 }
 
 make_package() {
-	ADD_FLAGS="-I${PACKAGE_SRC_DIR}/${BOOST} -I${STAGING_DIR}/${INSTALL_PREFIX}/${BUILD_TARGET}/include ${BUILD_CFLAGS} --sysroot=${STAGING_DIR}"
-
-	make -j${MAKE_JOBS} \
-	   CC="${BUILD_CC}" CXX="${BUILD_CXX}" \
-	   ADD_LDFLAGS="${BUILD_LDFLAGS} -lstdc++fs" ADD_CFLAGS="${ADD_FLAGS}" \
-	   PREFIX=${INSTALL_PREFIX} ARCH=arm
-}
-
-preinstall_package() {
-	for NAME in ${BUILD_TARGETS}; do
-		echo_info "patching install command in ${NAME}/Makefile"
-		sed -i -E "s;install -s (.*);install -s --strip-program=${BUILD_STRIP} \1;" ${NAME}/Makefile
-	done
+	make -j${MAKE_JOBS}
 }
 
 install_package() {
-	for NAME in ${BUILD_TARGETS}; do
-		make DESTDIR=${STAGING_DIR} install${NAME}
-	done
+	make DESTDIR=${STAGING_DIR} install/strip
 }
 
 postinstall_package() {
@@ -59,6 +53,6 @@ postinstall_package() {
 	if [[ "${BUILD_TARGETS}" = *"server"* ]]; then
 		mkdir -p ${STAGING_DIR}/${INSTALL_PREFIX}/share/snapserver/snapweb
 		cp -v ${PACKAGE_DIR}/config/snapserver.conf ${STAGING_DIR}/etc/snapserver.conf
-		cp -rvf server/etc/snapweb ${STAGING_DIR}/${INSTALL_PREFIX}/share/snapserver/
+		cp -rvf ../server/etc/snapweb ${STAGING_DIR}/${INSTALL_PREFIX}/share/snapserver/
 	fi
 }
