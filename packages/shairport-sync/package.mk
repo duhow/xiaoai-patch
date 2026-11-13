@@ -1,13 +1,13 @@
 PACKAGE_NAME="shairport-sync"
-PACKAGE_VERSION="4.3.5"
+PACKAGE_VERSION="5.6.3"
 PACKAGE_SRC="https://github.com/mikebrady/shairport-sync/archive/${PACKAGE_VERSION}.tar.gz"
-PACKAGE_DEPENDS="glibc openssl avahi alsa-lib popt libconfig soxr alac"
+PACKAGE_DEPENDS="glibc openssl avahi alsa-lib popt libconfig soxr ffmpeg"
 
 [ -z "${ENABLE_AIRPLAY_2}" ] && \
 ENABLE_AIRPLAY_2="1"
 
 [ "${ENABLE_AIRPLAY_2}" = "1" ] && \
-PACKAGE_DEPENDS="${PACKAGE_DEPENDS} nqptp libplist libsodium libgcrypt uuid ffmpeg"
+PACKAGE_DEPENDS="${PACKAGE_DEPENDS} nqptp libplist libsodium libgcrypt uuid"
 
 preconfigure_package() {
 	autoreconf -fi
@@ -42,7 +42,7 @@ configure_package() {
 	   --sysconfdir=/etc --with-sysroot=${STAGING_DIR} \
 	   --with-alsa \
 	   --with-stdout --with-pipe --with-avahi --with-external-mdns --with-ssl=openssl \
-	   --with-soxr --with-apple-alac --with-convolution \
+	   --with-soxr --with-convolution \
 	   --with-piddir=/var --with-metadata \
 	   --with-dbus-interface --with-mpris-interface \
 	   ${EXTRA_FLAGS}

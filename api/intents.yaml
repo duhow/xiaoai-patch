@@ -61,13 +61,6 @@ intents:
   - paus
   - para
   - para la musica
-- action: Next
-  sentences:
-  - next
-  - siguiente
-  - siguiente canción
-  - siguiente pista
-  - pasa a la siguiente
 - action: VolumeUp
   sentences:
   - volume up

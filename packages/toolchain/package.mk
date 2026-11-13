@@ -7,7 +7,8 @@ if [ "${BUILD_ARCH}" = "aarch64" ] || [ "${MODEL}" = "S12" ]; then
 BUILD_TARGET="aarch64-linux-gnu"
 fi
 
-PACKAGE_SRC="https://releases.linaro.org/components/toolchain/binaries/${PACKAGE_SUBVERSION}/${BUILD_TARGET}/gcc-linaro-${PACKAGE_VERSION}-x86_64_${BUILD_TARGET}.tar.xz"
+#PACKAGE_SRC="https://releases.linaro.org/components/toolchain/binaries/${PACKAGE_SUBVERSION}/${BUILD_TARGET}/gcc-linaro-${PACKAGE_VERSION}-x86_64_${BUILD_TARGET}.tar.xz"
+PACKAGE_SRC="https://mirrors.cstcloud.cn/armbian-releases/_toolchain/gcc-linaro-${PACKAGE_VERSION}-x86_64_${BUILD_TARGET}.tar.xz"
 
 if [ "${HOST_ARCH}" = "aarch64" ]; then
 PACKAGE_VERSION="10.2-2020.11"

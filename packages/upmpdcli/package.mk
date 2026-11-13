@@ -1,28 +1,27 @@
 PACKAGE_NAME="upmpdcli"
-PACKAGE_VERSION="1.8.6"
+PACKAGE_VERSION="1.10.1"
 PACKAGE_SRC="https://www.lesbonscomptes.com/upmpdcli/downloads/upmpdcli-${PACKAGE_VERSION}.tar.gz"
-#PACKAGE_SRC="https://framagit.org/medoc92/upmpdcli/-/archive/upmpdcli-v${PACKAGE_VERSION}/upmpdcli-upmpdcli-v${PACKAGE_VERSION}.tar.gz"
-PACKAGE_DEPENDS="libmpdclient libmicrohttpd jsoncpp libnpupnp libupnpp" # sc2mpd
+PACKAGE_DEPENDS="libmpdclient libmicrohttpd jsoncpp libnpupnp libupnpp"
 
 preconfigure_package() {
-	./autogen.sh
+	sed -i "s|executable(|add_project_arguments('-I${STAGING_DIR}/${INSTALL_PREFIX}/include/libupnpp', language : 'cpp')\n\nexecutable(|g" meson.build
 }
 
 configure_package() {
-	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" LDFLAGS="${BUILD_LDFLAGS}" \
-	   CXX="${BUILD_CXX}" CXXFLAGS="-I${STAGING_DIR}/${INSTALL_PREFIX}/${BUILD_TARGET}/include --sysroot=${STAGING_DIR} ${BUILD_CFLAGS}" CPPFLAGS="${BUILD_CFLAGS}" \
-	   PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
-	   ./configure --build=${MACHTYPE} --host=${BUILD_TARGET} \
-	   --prefix=${INSTALL_PREFIX} --sysconfdir=/etc
-
+	PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" \
+	PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
+		meson setup --cross-file ${TOOLCHAIN_MESON} . build \
+		--prefix=${INSTALL_PREFIX} \
+		--sysconfdir=/etc \
+		--libdir=${INSTALL_PREFIX}/lib
 }
 
 make_package() {
-	make -j${MAKE_JOBS}
+	ninja -C build
 }
 
 install_package() {
-	make DESTDIR=${STAGING_DIR} install
+	DESTDIR=${STAGING_DIR} ninja -C build install
 }
 
 postinstall_package() {

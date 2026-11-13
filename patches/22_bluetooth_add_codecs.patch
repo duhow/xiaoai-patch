@@ -8,7 +8,7 @@
  
 +function bluealsa_get_codecs() {
 +	CODECS=""
-+	for NAME in `bluealsa --help  | grep -i -A5 "Available BT audio codecs:" | grep "a2dp-sink:" | awk '{$1=""; print $0}' | tr -d ','` ; do
++	for NAME in `bluealsad --help  | grep -i -A5 "Available BT audio codecs:" | grep "a2dp-sink:" | awk '{$1=""; print $0}' | tr -d ','` ; do
 +		CODECS="${CODECS} -c ${NAME}"
 +	done
 +}

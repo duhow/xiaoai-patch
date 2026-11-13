@@ -1,5 +1,5 @@
 PACKAGE_NAME="MPD"
-PACKAGE_VERSION="0.23.16"
+PACKAGE_VERSION="0.23.17"
 PACKAGE_DEPENDS="curl alsa-lib flac opus libvorbis libogg faad2 libsndfile lame libid3tag soxr libao libshout chromaprint boost avahi libnfs yajl pcre sqlite3 sndio libupnp ffmpeg zziplib bzip2 libmpdclient"
 PACKAGE_SRC="https://github.com/MusicPlayerDaemon/MPD/archive/refs/tags/v${PACKAGE_VERSION}.tar.gz"
 PACKAGE_USE_SEPARATE_BUILD_DIR="true"
@@ -9,14 +9,16 @@ preconfigure_package() {
 	local install_rpath="\'${INSTALL_PREFIX}/${BUILD_TARGET}/lib:${INSTALL_PREFIX}/lib\'"
 	sed -i -e "s/mpd = build_target(/install_rpath = ${install_rpath//\//\\\/}\n\nmpd = build_target(/g" \
 		-e "s/install: not is_android and not is_haiku,/install: not is_android and not is_haiku,\n install_rpath: install_rpath,/g" \
+		-e "s/dependency('boost'.*)/declare_dependency()/g" \
 		${PACKAGE_SRC_DIR}/meson.build
 
+	# Фикс пути к заголовкам yajl
+	sed -i 's|<yajl_parse.h>|<yajl/yajl_parse.h>|g; s|<yajl_gen.h>|<yajl/yajl_gen.h>|g; s|<yajl_tree.h>|<yajl/yajl_tree.h>|g' ${PACKAGE_SRC_DIR}/src/lib/yajl/*.hxx ${PACKAGE_SRC_DIR}/src/lib/yajl/*.cxx
 }
 
 configure_package() {
 	# Specify --libdir, or library files will be installed to ${INSTALL_PREFIX}/lib/${BUILD_TARGET} instead of ${INSTALL_PREFIX}/lib
 	PKG_CONFIG_LIBDIR="${BUILD_PKG_CONFIG_LIBDIR}" PKG_CONFIG_SYSROOT_DIR="${BUILD_PKG_CONFIG_SYSROOT_DIR}" \
-		BOOST_ROOT=${BUILD_DIR}/boost \
 		meson --cross-file ${TOOLCHAIN_MESON} ${PACKAGE_SRC_DIR} output/release \
 		--prefix=${INSTALL_PREFIX}
 
