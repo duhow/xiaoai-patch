@@ -7,6 +7,8 @@ import signal
 import json
 import base64
 import time
+import secrets
+from urllib.parse import urlparse, urlencode
 
 from config import ConfigManager, ConfigUci
 from utils import get_ip_address, get_wifi_mac_address, get_bt_mac_address, get_device_id, get_uptime, get_load_avg, get_memory_usage, get_volume, set_volume
@@ -16,6 +18,8 @@ from intents import intents
 
 hostname = os.uname()[1]
 speaker_ip = get_ip_address('wlan0')
+# OAuth state -> pending Home Assistant URL, only persisted after a successful callback
+pending_auth = {}
 app = Flask(__name__)
 
 app.register_blueprint(intents)
@@ -231,32 +235,52 @@ def trigger_wake():
 
 @app.post('/auth')
 def home_assistant_auth():
-  ha_url = request.form.get('url', '').rstrip('/')
-  if not ha_url or not ha_url.startswith('http'):
-    return jsonify({'error': 'Missing url parameter'}), 400
+  ha_url = validate_ha_url(request.form.get('url', ''))
+  if not ha_url:
+    return jsonify({'error': 'Missing or invalid url parameter'}), 400
 
   if config.HA_URL == ha_url and config.HA_TOKEN and len(config.HA_TOKEN) > 30 and config.HA_AUTH_SETUP:
     return jsonify({'message': 'Instance already configured'})
 
-  config.HA_URL = ha_url
-  config.HA_TOKEN = "none"
-  config.HA_AUTH_SETUP = False
+  # Do not persist anything until the callback completes successfully
+  state = secrets.token_urlsafe(32)
+  pending_auth.clear()
+  pending_auth[state] = {'url': ha_url, 'expires': time.time() + 600}
 
   data = {
     'client_id': f'http://{speaker_ip}',
     'redirect_uri': f'http://{speaker_ip}/auth_callback',
+    'state': state,
   }
 
-  query_params = '&'.join([f'{key}={value}'.replace(':','%3A').replace('/','%2F') for key, value in data.items()])
-  return redirect(f'{ha_url}/auth/authorize?{query_params}', code=303)
+  return redirect(f'{ha_url}/auth/authorize?{urlencode(data)}', code=303)
+
+def validate_ha_url(value):
+  """ Accept only a plain http(s)://host[:port][/path] URL """
+  value = value.strip().rstrip('/')
+  try:
+    parsed = urlparse(value)
+    parsed.port  # raises ValueError on invalid port
+  except ValueError:
+    return None
+  if parsed.scheme not in ('http', 'https') or not parsed.hostname:
+    return None
+  if parsed.username or parsed.password or parsed.query or parsed.fragment:
+    return None
+  return value
 
 # https://developers.home-assistant.io/docs/auth_api/
 @app.get('/auth_callback')
 def home_assistant_auth_callback():
   code = request.args.get('code')
+  state = request.args.get('state', '')
 
   if not code:
     return jsonify({'error': 'Missing code parameter'}), 400
+
+  pending = pending_auth.pop(state, None) if state else None
+  if not pending or pending['expires'] < time.time():
+    return jsonify({'error': 'Invalid or expired auth state'}), 400
 
   data = {
     'grant_type': 'authorization_code',
@@ -268,20 +292,24 @@ def home_assistant_auth_callback():
     'Content-Type': 'application/x-www-form-urlencoded'
   }
 
-  ha_url = config.HA_URL
-  if not ha_url:
-    return jsonify({'error': 'Home Assistant URL not configured'}), 500
+  ha_url = pending['url']
 
   try:
-    req = requests.post(f'{ha_url}/auth/token', data=data, headers=headers)
-  except Exception as e:
-    return jsonify({'error': f'Failed to connect to Home Assistant: {e}'}), 500
+    req = requests.post(f'{ha_url}/auth/token', data=data, headers=headers, allow_redirects=False, timeout=10)
+  except Exception:
+    return jsonify({'error': 'Failed to connect to Home Assistant'}), 500
 
   if req.status_code != 200:
-    return jsonify({'error': 'Failed to get access token', 'code': req.status_code, 'response': req.json()}), 500
+    return jsonify({'error': 'Failed to get access token', 'code': req.status_code}), 500
 
-  token = req.json()
-  config.HA_TOKEN = token['access_token']
+  try:
+    token = req.json()
+    access_token = token['access_token']
+  except (ValueError, KeyError, TypeError):
+    return jsonify({'error': 'Invalid token response'}), 500
+
+  config.HA_URL = ha_url
+  config.HA_TOKEN = access_token
   config.HA_REFRESH_TOKEN = token.get('refresh_token')
   config.HA_AUTH_SETUP = True
 
