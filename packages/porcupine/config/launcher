@@ -236,7 +236,7 @@ sleep 0.15
 # Do all at once:
 # Start recording user response - tee to input.wav
 # convert to PCM_S16_LE 1ch/8000 - tee to stt.wav
-# send data chuncked without waiting
+# send data chunked without waiting
 
 [ -f "${DATA_STT}" ] && rm -f ${DATA_STT}
 
@@ -245,7 +245,7 @@ ${RECORD_COMMAND} | tee ${WAV_INPUT} | \
 ffmpeg -hide_banner -loglevel error -i - -f ${STT_FORMAT} -ac ${STT_CHANNEL} -ar ${STT_RATE} -y - | tee ${WAV_STT} | \
 curl -H "X-Speech-Content: format=${STT_FORMAT}; channel=${STT_CHANNEL}; codec=${STT_CODEC}; sample_rate=${STT_RATE}; bit_rate=${STT_BITRATE}; language=${STT_LANGUAGE}" \
      -H "Authorization: Bearer ${HA_TOKEN}" \
-     -H "Tranfer-Encoding: chunked" \
+     -H "Transfer-Encoding: chunked" \
      -o ${DATA_STT} -D ${DATA_STT}.hdr \
      --max-time ${STT_MAX_TIME} \
      -XPOST -T - ${HA_URL}/api/stt/${HA_STT_PROVIDER}

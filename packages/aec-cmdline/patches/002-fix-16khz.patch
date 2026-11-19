@@ -1,0 +1,57 @@
+--- a/src/aec_cmdline.c
++++ b/src/aec_cmdline.c
+@@ -1,9 +1,6 @@
+ /*
+  * aec_cmdline.c
+- * A straight forward AEC commandline tool based on speexdsp
+- * MIT License Copyright (c) 2022 U. Niethammer
+- * compile: gcc aec_cmdline.c -lspeexdsp -o aec_cmdline
+- * performs best with newest https://github.com/xiph/speexdsp.git
++ * Modified for 16000 Hz, preserved high frequencies (denoise=0) and built-in AGC
+  */
+
+ #ifdef HAVE_CONFIG_H
+@@ -19,10 +16,10 @@
+ #include <sys/stat.h>
+ #include <sys/types.h>
+
+-#define MONO_FRAME_SIZE 100
++#define MONO_FRAME_SIZE 160
+ #define STEREO_FRAME_SIZE ( MONO_FRAME_SIZE * 2 )
+-#define FILTER_SIZE 1024
+-#define SAMPLE_RATE 8000
++#define FILTER_SIZE 2048
++#define SAMPLE_RATE 16000
+
+ int main(int argc, char **argv) {
+
+@@ -45,6 +42,21 @@
+   speex_echo_ctl(st, SPEEX_ECHO_SET_SAMPLING_RATE, &sampleRate);
+   speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_ECHO_STATE, st);
+
++  // preserve high frequencies for wakeword & enable AGC
++  int denoise = 0;
++  int agc = 1;
++  float agc_level = 16000.0f;
++  int agc_max_gain = 30;
++  int echo_suppress = -40;
++  int echo_suppress_active = -20;
++
++  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_DENOISE, &denoise);
++  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_AGC, &agc);
++  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_AGC_LEVEL, &agc_level);
++  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_AGC_MAX_GAIN, &agc_max_gain);
++  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_ECHO_SUPPRESS, &echo_suppress);
++  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_ECHO_SUPPRESS_ACTIVE, &echo_suppress_active);
++
+   // read the first frame...
+   memset(input, 0, sizeof(input));
+   memset(output, 0, sizeof(output));
+@@ -63,6 +75,7 @@
+ 
+     //output the processed frame
+     output_size = fwrite(output, 1, sizeof(output), stdout);
++    fflush(stdout);
+     if (!output_size) {
+       fprintf(stderr, "\nError writing frame\n");
+       break;

@@ -14,7 +14,6 @@ start_service() {
     return 0
   fi
 
-  # Читаем путь к лаунчеру из отдельного файла
   LAUNCHER_CONF="/data/launcher.conf"
   if [ -f "${LAUNCHER_CONF}" ]; then
     . "${LAUNCHER_CONF}"
@@ -44,6 +43,7 @@ stop_service() {
 
   # stop listening process to avoid orphan
   killall -q /usr/bin/porcupine
+  killall -q /usr/bin/openwakeword
 
   [ "$SILENT" != "1" ] && miplay sound mute
 }
