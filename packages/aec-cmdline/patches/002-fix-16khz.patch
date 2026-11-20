@@ -1,17 +1,6 @@
 --- a/src/aec_cmdline.c
 +++ b/src/aec_cmdline.c
-@@ -1,9 +1,6 @@
- /*
-  * aec_cmdline.c
-- * A straight forward AEC commandline tool based on speexdsp
-- * MIT License Copyright (c) 2022 U. Niethammer
-- * compile: gcc aec_cmdline.c -lspeexdsp -o aec_cmdline
-- * performs best with newest https://github.com/xiph/speexdsp.git
-+ * Modified for 16000 Hz, preserved high frequencies (denoise=0) and built-in AGC
-  */
-
- #ifdef HAVE_CONFIG_H
-@@ -19,10 +16,10 @@
+@@ -18,10 +18,29 @@
  #include <sys/stat.h>
  #include <sys/types.h>
 
@@ -20,35 +9,77 @@
  #define STEREO_FRAME_SIZE ( MONO_FRAME_SIZE * 2 )
 -#define FILTER_SIZE 1024
 -#define SAMPLE_RATE 8000
-+#define FILTER_SIZE 2048
++#define FILTER_SIZE 4096
 +#define SAMPLE_RATE 16000
++
++/* Fast integer soft-knee boost (~3x for quiet whisper, no -lm needed) */
++static void boost_whisper(short *buf, int len) {
++  int i;
++  for (i = 0; i < len; i++) {
++    int x = buf[i];
++    int abs_x = (x < 0) ? -x : x;
++    if (abs_x > 32767) abs_x = 32767;
++
++    /* Cubic soft-knee curve in Q15 fixed-point: y = 3*x - 2*x^3 */
++    long long nx = abs_x;
++    long long nx2 = (nx * nx) >> 15;
++    long long factor = (3 << 15) - (2 * nx2);
++    int out = (int)((nx * factor) >> 15);
++
++    if (out > 32767) out = 32767;
++    buf[i] = (x < 0) ? (short)(-out) : (short)out;
++  }
++}
 
  int main(int argc, char **argv) {
 
-@@ -45,6 +42,21 @@
+@@ -40,6 +59,39 @@
    speex_echo_ctl(st, SPEEX_ECHO_SET_SAMPLING_RATE, &sampleRate);
    speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_ECHO_STATE, st);
 
-+  // preserve high frequencies for wakeword & enable AGC
-+  int denoise = 0;
++  // 1. Residual echo suppression ON, stationary noise suppression OFF (keeps whisper)
++  int denoise = 1;
++  int noise_suppress = 0;
++  int echo_suppress = -60;
++  int echo_suppress_active = -30;
++
++  // 2. Sensitive VAD so whisper is treated as active speech
++  int vad = 1;
++  int prob_start = 5;
++  int prob_continue = 3;
++
++  // 3. Fast AGC
 +  int agc = 1;
-+  float agc_level = 16000.0f;
-+  int agc_max_gain = 30;
-+  int echo_suppress = -40;
-+  int echo_suppress_active = -20;
++  float agc_level = 20000.0f;
++  int agc_max_gain = 25;
++  int agc_increment = 30;
++  int agc_decrement = -40;
 +
 +  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_DENOISE, &denoise);
++  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_NOISE_SUPPRESS, &noise_suppress);
++  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_ECHO_SUPPRESS, &echo_suppress);
++  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_ECHO_SUPPRESS_ACTIVE, &echo_suppress_active);
++
++  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_VAD, &vad);
++  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_PROB_START, &prob_start);
++  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_PROB_CONTINUE, &prob_continue);
++
 +  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_AGC, &agc);
 +  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_AGC_LEVEL, &agc_level);
 +  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_AGC_MAX_GAIN, &agc_max_gain);
-+  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_ECHO_SUPPRESS, &echo_suppress);
-+  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_ECHO_SUPPRESS_ACTIVE, &echo_suppress_active);
++  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_AGC_INCREMENT, &agc_increment);
++  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_AGC_DECREMENT, &agc_decrement);
 +
    // read the first frame...
    memset(input, 0, sizeof(input));
    memset(output, 0, sizeof(output));
-@@ -63,6 +75,7 @@
- 
+@@ -55,8 +107,12 @@
+     speex_echo_cancellation(st, rec, ref, output);
+     speex_preprocess_run(den, output);
+
++    // boost quiet whisper immediately without waiting for AGC attack
++    boost_whisper(output, MONO_FRAME_SIZE);
++
      //output the processed frame
      output_size = fwrite(output, 1, sizeof(output), stdout);
 +    fflush(stdout);
