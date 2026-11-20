@@ -1,9 +1,29 @@
 --- a/src/aec_cmdline.c
 +++ b/src/aec_cmdline.c
-@@ -18,10 +18,29 @@
+@@ -1,9 +1,7 @@
+ /*
+  * aec_cmdline.c
+- * A straight forward AEC commandline tool based on speexdsp
+- * MIT License Copyright (c) 2022 U. Niethammer
+- * compile: gcc aec_cmdline.c -lspeexdsp -o aec_cmdline
+- * performs best with newest https://github.com/xiph/speexdsp.git
++ * 16000 Hz linear Speex AEC with 125ms (2000 samples) mic delay buffer
++ * to align late loopback ref (-130ms hardware/ALSA buffer lag) + 140 Hz HPF.
+  */
+ 
+ #ifdef HAVE_CONFIG_H
+@@ -11,7 +9,6 @@
+ #endif
+ 
+ #include "speex/speex_echo.h"
+-#include "speex/speex_preprocess.h"
+ #include <fcntl.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+@@ -19,66 +16,102 @@
  #include <sys/stat.h>
  #include <sys/types.h>
-
+ 
 -#define MONO_FRAME_SIZE 100
 +#define MONO_FRAME_SIZE 160
  #define STEREO_FRAME_SIZE ( MONO_FRAME_SIZE * 2 )
@@ -11,78 +31,117 @@
 -#define SAMPLE_RATE 8000
 +#define FILTER_SIZE 4096
 +#define SAMPLE_RATE 16000
++#define REC_DELAY_SAMPLES 2240 /* 125 ms delay on mic so ref leads by ~5 ms */
 +
-+/* Fast integer soft-knee boost (~3x for quiet whisper, no -lm needed) */
-+static void boost_whisper(short *buf, int len) {
++typedef struct {
++  float prev_in;
++  float prev_out;
++} HPFState;
++
++/* Gentle 1st-order High-Pass Filter (~140 Hz @ 16000 Hz, alpha = 0.946) */
++static void apply_hpf(short *buf, int len, HPFState *st) {
 +  int i;
++  float prev_in = st->prev_in;
++  float prev_out = st->prev_out;
 +  for (i = 0; i < len; i++) {
-+    int x = buf[i];
-+    int abs_x = (x < 0) ? -x : x;
-+    if (abs_x > 32767) abs_x = 32767;
-+
-+    /* Cubic soft-knee curve in Q15 fixed-point: y = 3*x - 2*x^3 */
-+    long long nx = abs_x;
-+    long long nx2 = (nx * nx) >> 15;
-+    long long factor = (3 << 15) - (2 * nx2);
-+    int out = (int)((nx * factor) >> 15);
-+
-+    if (out > 32767) out = 32767;
-+    buf[i] = (x < 0) ? (short)(-out) : (short)out;
++    float x = (float)buf[i];
++    float y = 0.946f * (prev_out + x - prev_in);
++    prev_in = x;
++    prev_out = y;
++    if (y > 32767.0f) y = 32767.0f;
++    if (y < -32768.0f) y = -32768.0f;
++    buf[i] = (short)y;
 +  }
++  st->prev_in = prev_in;
++  st->prev_out = prev_out;
 +}
-
+ 
  int main(int argc, char **argv) {
-
-@@ -40,6 +59,39 @@
+ 
+   short input[STEREO_FRAME_SIZE];
+   short output[MONO_FRAME_SIZE];
+-  short rec[MONO_FRAME_SIZE];
++  short rec_in[MONO_FRAME_SIZE];
++  short rec_delayed[MONO_FRAME_SIZE];
+   short ref[MONO_FRAME_SIZE];
+ 
++  /* Ring buffer to delay mic signal by REC_DELAY_SAMPLES */
++  short delay_buf[REC_DELAY_SAMPLES];
++  int delay_idx = 0;
++
++  HPFState hpf_rec = {0.0f, 0.0f};
++  HPFState hpf_ref = {0.0f, 0.0f};
++
+   size_t input_size = 0;
+   size_t output_size = 0;
+   int counter = 0;
+ 
+   SpeexEchoState *st;
+-  SpeexPreprocessState *den;
+   int sampleRate = SAMPLE_RATE;
+-  
+-  // init speexdsp
++
++  memset(delay_buf, 0, sizeof(delay_buf));
++
++  // Pure linear AEC only (NO speex_preprocess_run distortion)
+   st = speex_echo_state_init(MONO_FRAME_SIZE, FILTER_SIZE);
+-  den = speex_preprocess_state_init(MONO_FRAME_SIZE, sampleRate);
    speex_echo_ctl(st, SPEEX_ECHO_SET_SAMPLING_RATE, &sampleRate);
-   speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_ECHO_STATE, st);
-
-+  // 1. Residual echo suppression ON, stationary noise suppression OFF (keeps whisper)
-+  int denoise = 1;
-+  int noise_suppress = 0;
-+  int echo_suppress = -60;
-+  int echo_suppress_active = -30;
-+
-+  // 2. Sensitive VAD so whisper is treated as active speech
-+  int vad = 1;
-+  int prob_start = 5;
-+  int prob_continue = 3;
-+
-+  // 3. Fast AGC
-+  int agc = 1;
-+  float agc_level = 20000.0f;
-+  int agc_max_gain = 25;
-+  int agc_increment = 30;
-+  int agc_decrement = -40;
-+
-+  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_DENOISE, &denoise);
-+  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_NOISE_SUPPRESS, &noise_suppress);
-+  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_ECHO_SUPPRESS, &echo_suppress);
-+  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_ECHO_SUPPRESS_ACTIVE, &echo_suppress_active);
-+
-+  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_VAD, &vad);
-+  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_PROB_START, &prob_start);
-+  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_PROB_CONTINUE, &prob_continue);
-+
-+  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_AGC, &agc);
-+  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_AGC_LEVEL, &agc_level);
-+  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_AGC_MAX_GAIN, &agc_max_gain);
-+  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_AGC_INCREMENT, &agc_increment);
-+  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_AGC_DECREMENT, &agc_decrement);
-+
-   // read the first frame...
+-  speex_preprocess_ctl(den, SPEEX_PREPROCESS_SET_ECHO_STATE, st);
+ 
+-  // read the first frame...
    memset(input, 0, sizeof(input));
    memset(output, 0, sizeof(output));
-@@ -55,8 +107,12 @@
-     speex_echo_cancellation(st, rec, ref, output);
-     speex_preprocess_run(den, output);
-
-+    // boost quiet whisper immediately without waiting for AGC attack
-+    boost_whisper(output, MONO_FRAME_SIZE);
+   input_size = fread(input, 1, sizeof(input), stdin);
+   do {
+-    // extract interleaved stereo frame S16_LE to separated mono frames
+-    // rec and ref
+     for (counter = 0; counter < STEREO_FRAME_SIZE; counter += 2) {
+-      rec[counter / 2] = input[counter];
++      rec_in[counter / 2] = input[counter];
+       ref[counter / 2] = input[counter + 1];
+     }
+ 
+-    // do the echo-cancelling
+-    speex_echo_cancellation(st, rec, ref, output);
+-    speex_preprocess_run(den, output);
++    // Strip low-frequency music bass/rumble (<140 Hz)
++    apply_hpf(rec_in, MONO_FRAME_SIZE, &hpf_rec);
++    apply_hpf(ref, MONO_FRAME_SIZE, &hpf_ref);
 +
-     //output the processed frame
++    // Delay mic signal by 125 ms so ref arrives 5 ms BEFORE mic echo
++    for (counter = 0; counter < MONO_FRAME_SIZE; counter++) {
++      rec_delayed[counter] = delay_buf[delay_idx];
++      delay_buf[delay_idx] = rec_in[counter];
++      delay_idx++;
++      if (delay_idx >= REC_DELAY_SAMPLES) {
++        delay_idx = 0;
++      }
++    }
++
++    // Pure linear echo cancellation (1:1 gain, aligned signals)
++    speex_echo_cancellation(st, rec_delayed, ref, output);
+ 
+-    //output the processed frame
      output_size = fwrite(output, 1, sizeof(output), stdout);
 +    fflush(stdout);
      if (!output_size) {
        fprintf(stderr, "\nError writing frame\n");
        break;
+-      // no data writable
+     }
+     if (input_size < sizeof(input)) {
+       break;
+-      // no data readable
+     }
+-    // Put the next frame in buffer
+     memset(input, 0, sizeof(input));
+     input_size = fread(input, 1, sizeof(input), stdin);
+   } while (input_size == sizeof(input));
+ 
+-  // all done
+   speex_echo_state_destroy(st);
+-  speex_preprocess_state_destroy(den);
+   return 0;
+ }
