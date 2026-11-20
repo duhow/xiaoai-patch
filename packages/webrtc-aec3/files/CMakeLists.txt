@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -include stddef.h")
 
 add_definitions(-DWEBRTC_POSIX -DWEBRTC_LINUX)
+add_definitions(-DWEBRTC_POSIX -DWEBRTC_LINUX -DWEBRTC_HAS_NEON)
 add_compile_options(-O2 -Wno-deprecated-declarations)
 
 file(GLOB_RECURSE AEC3_SOURCES
@@ -40,7 +41,6 @@ list(FILTER AEC3_SOURCES EXCLUDE REGEX ".*chi_square\\.cc$")
 list(FILTER AEC3_SOURCES EXCLUDE REGEX ".*_sse\\.cc$")
 list(FILTER AEC3_SOURCES EXCLUDE REGEX ".*_sse2\\.cc$")
 list(FILTER AEC3_SOURCES EXCLUDE REGEX ".*_avx2\\.cc$")
-list(FILTER AEC3_SOURCES EXCLUDE REGEX ".*_neon\\.cc$")
 list(FILTER AEC3_SOURCES EXCLUDE REGEX ".*_mips\\.cc$")
 list(FILTER AEC3_SOURCES EXCLUDE REGEX ".*_mips\\.c$")
 list(FILTER AEC3_SOURCES EXCLUDE REGEX ".*_win\\.cc$")

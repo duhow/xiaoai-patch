@@ -17,8 +17,8 @@ configure_package() {
 		-DCMAKE_SYSTEM_PROCESSOR=armv7l \
 		-DCMAKE_C_COMPILER="${BUILD_CC}" \
 		-DCMAKE_CXX_COMPILER="${BUILD_CXX}" \
-		-DCMAKE_C_FLAGS="-Os -march=armv7-a -mfloat-abi=hard -ffunction-sections -fdata-sections" \
-		-DCMAKE_CXX_FLAGS="-Os -march=armv7-a -mfloat-abi=hard -ffunction-sections -fdata-sections" \
+		-DCMAKE_C_FLAGS="-O3 -march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -ffunction-sections -fdata-sections" \
+		-DCMAKE_CXX_FLAGS="-O3 -march=armv7-a -mfpu=neon-vfpv4 -mfloat-abi=hard -ffunction-sections -fdata-sections" \
 		-DCMAKE_EXE_LINKER_FLAGS="-static-libstdc++ -static-libgcc -Wl,--gc-sections -s"
 }
 

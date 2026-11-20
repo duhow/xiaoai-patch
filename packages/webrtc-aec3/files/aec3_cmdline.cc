@@ -24,8 +24,8 @@ int main(int argc, char* argv[]) {
   int16_t out_mono[kSamplesPerFrame];
 
   EchoCanceller3Config aec_config;
-  aec_config.filter.export_linear_aec_output = true; // Чистый линейный выход для OWW (0.83 на музыке!)
-  aec_config.delay.default_delay = 2;               // Мгновенный захват +11 мс задержки тракта LX06
+  aec_config.filter.export_linear_aec_output = true;
+  aec_config.delay.default_delay = 2;
 
   EchoCanceller3Factory aec_factory(aec_config);
   std::unique_ptr<EchoControl> echo_controller = aec_factory.Create(kSampleRate, kChannels, kChannels);
@@ -76,7 +76,6 @@ int main(int argc, char* argv[]) {
     echo_controller->AnalyzeCapture(aec_audio.get());
     aec_audio->SplitIntoFrequencyBands();
     hp_filter->Process(aec_audio.get(), true);
-    echo_controller->SetAudioBufferDelay(0);
     echo_controller->ProcessCapture(aec_audio.get(), aec_linear_audio.get(), false);
     aec_audio->MergeFrequencyBands();
 

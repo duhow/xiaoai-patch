@@ -207,10 +207,10 @@ rm -f ${OWW_FIFO}
 mkfifo ${OWW_FIFO}
 
 start_oww_pipe() {
-  killall -9 openwakeword aec_cmdline 2>/dev/null
+  killall -9 openwakeword aec3_cmdline 2>/dev/null
   (
     arecord -D ${MIC} -c 2 -r 16000 -f S16_LE -t raw 2>/dev/null | \
-    /usr/bin/aec_cmdline | \
+    /usr/bin/aec3_cmdline | \
     sh -c "echo -900 > /proc/self/oom_score_adj; exec /usr/bin/openwakeword \
       --melspectrogram-model ${OWW_FOLDER}/melspectrogram.onnx \
       --embedding-model ${OWW_FOLDER}/embedding_model.onnx \
@@ -219,7 +219,7 @@ start_oww_pipe() {
   ) &
 }
 
-trap "killall -9 openwakeword aec_cmdline 2>/dev/null; rm -f ${OWW_FIFO}; exit 0" INT TERM EXIT
+trap "killall -9 openwakeword aec3_cmdline 2>/dev/null; rm -f ${OWW_FIFO}; exit 0" INT TERM EXIT
 
 start_oww_pipe
 
@@ -241,7 +241,7 @@ fi
 [ -z "$DETECTED_LINE" ] && continue
 
 # Pause detector (SIGSTOP) to free CPU & ALSA during voice command recording
-killall -STOP openwakeword aec_cmdline 2>/dev/null
+killall -STOP openwakeword aec3_cmdline 2>/dev/null
 
 # Trigger wakeword activated event
 
@@ -357,7 +357,7 @@ done
 set_volume $SAVED_VOL
 
 # Resume detector (SIGCONT)
-killall -CONT aec_cmdline openwakeword 2>/dev/null
+killall -CONT aec3_cmdline openwakeword 2>/dev/null
 
 done
 # end while
