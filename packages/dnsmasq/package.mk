@@ -1,5 +1,5 @@
 PACKAGE_NAME="dnsmasq"
-PACKAGE_VERSION="2.85"
+PACKAGE_VERSION="2.93"
 PACKAGE_SRC="https://thekelleys.org.uk/dnsmasq/dnsmasq-${PACKAGE_VERSION}.tar.xz"
 PACKAGE_DEPENDS="base"  # dbus is optional
 

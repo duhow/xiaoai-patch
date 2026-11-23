@@ -3,18 +3,33 @@
 BACK=$PWD
 USR_SHARE=$ROOTFS/usr/share
 
-if [ -d "$USR_SHARE/sound-vendor" ]; then
+# Если в проекте есть восстановленные звуки из старого раздела, копируем их в original
+if [ -d "$BACK/stock_sounds" ]; then
+  echo "[*] Restoring original sounds from stock_sounds"
+  rm -rf "$USR_SHARE/sound-vendor/original"
+  mkdir -p "$USR_SHARE/sound-vendor/original"
+  cp -avf "$BACK/stock_sounds/"* "$USR_SHARE/sound-vendor/original/"
+fi
+
+# Если звуки уже перенесены в original и это не битый симлинк — пропускаем перенос
+if [ -d "$USR_SHARE/sound-vendor/original" ] && [ ! -L "$USR_SHARE/sound-vendor/original" ]; then
+  echo "[*] Sound-vendor already patched, skipping relocation"
+  SOUND_FOLDER=sound-vendor
+elif [ -d "$USR_SHARE/sound-vendor" ]; then
   echo "[*] Mixing all sound-vendors"
 
   SOUND_FOLDER=$USR_SHARE/sound-vendor
   cd $SOUND_FOLDER
 
   for FOLDER in *; do
+    [ "$FOLDER" = "original" ] && continue
+    [ -L "$FOLDER" ] && continue
     mkdir -p original
     mv -vf $FOLDER/* original/
     rm -rf $FOLDER
     ln -sf original $FOLDER
   done
+  SOUND_FOLDER=sound-vendor
 elif [ -d "$USR_SHARE/sound" ]; then
   echo "[*] Moving sound content"
 
@@ -23,17 +38,18 @@ elif [ -d "$USR_SHARE/sound" ]; then
 
   mkdir -p original
   mv -vf * original/
+  SOUND_FOLDER=sound
 else
   echo "[!] Sound folder not detected! Skipping."
   exit
 fi
 
 cd $BACK
-if [ -d "$USR_SHARE/common_sound" ]; then
+if [ -d "$USR_SHARE/common_sound" ] && [ ! -L "$USR_SHARE/common_sound" ]; then
   echo "[*] Moving common sound"
   FOLDER="$USR_SHARE/common_sound"
 
-  mv -vf $FOLDER/* $SOUND_FOLDER/original/
+  mv -vf $FOLDER/* $USR_SHARE/$SOUND_FOLDER/original/
   rm -rf $FOLDER
   ln -sf `basename $SOUND_FOLDER`/original $FOLDER
 fi
@@ -52,7 +68,7 @@ for NAME in aux_on aux_on_stereo aux_off aux_stop_tip \
   wakeup_zai_01 wakeup_zai_02 weak_network welcome wifi_disconnect wifi_timeout_exit_config \
   alarmDefault first_voice \
   network_done_init network_done_miio reminder_default timer_default alarmDefault7s; do
-  rm -vf $SOUND_FOLDER/original/$NAME.*
+  rm -vf $USR_SHARE/$SOUND_FOLDER/original/$NAME.*
 done
 
 if [ "$MODEL" = "lx01" ] ; then
@@ -60,7 +76,7 @@ if [ "$MODEL" = "lx01" ] ; then
     enter_config_mode.wav wakeup2.wav voip_on.wav voip_off.wav network_done.wav minet_found.mp3 \
     brainTurnDownVol.wav brainTurnUpVol.wav \
     wakeup_ei.wav wakeup_wozai.wav wakeup_zai.wav ; do
-  rm -vf $SOUND_FOLDER/original/$NAME
+  rm -vf $USR_SHARE/$SOUND_FOLDER/original/$NAME
   done
 fi
 
@@ -71,7 +87,7 @@ if [ -d "$USR_SHARE/sound-vendor" ]; then
 
   echo "[*] Creating sound directory"
   cd $USR_SHARE
-  rm -f sound
+  rm -rf sound
   mkdir -p sound
   cd $BACK
 else

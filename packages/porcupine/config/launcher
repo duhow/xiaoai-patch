@@ -236,7 +236,7 @@ sleep 0.15
 # Do all at once:
 # Start recording user response - tee to input.wav
 # convert to PCM_S16_LE 1ch/8000 - tee to stt.wav
-# send data chuncked without waiting
+# send data chunked without waiting
 
 [ -f "${DATA_STT}" ] && rm -f ${DATA_STT}
 
@@ -245,7 +245,7 @@ ${RECORD_COMMAND} | tee ${WAV_INPUT} | \
 ffmpeg -hide_banner -loglevel error -i - -f ${STT_FORMAT} -ac ${STT_CHANNEL} -ar ${STT_RATE} -y - | tee ${WAV_STT} | \
 curl -H "X-Speech-Content: format=${STT_FORMAT}; channel=${STT_CHANNEL}; codec=${STT_CODEC}; sample_rate=${STT_RATE}; bit_rate=${STT_BITRATE}; language=${STT_LANGUAGE}" \
      -H "Authorization: Bearer ${HA_TOKEN}" \
-     -H "Tranfer-Encoding: chunked" \
+     -H "Transfer-Encoding: chunked" \
      -o ${DATA_STT} -D ${DATA_STT}.hdr \
      --max-time ${STT_MAX_TIME} \
      -XPOST -T - ${HA_URL}/api/stt/${HA_STT_PROVIDER}
@@ -284,16 +284,22 @@ if [ "${STT_SUCCESS}" = 1 ]; then
       fi
     fi
     if [ "${INTENT_SUCCESS}" != 0 ]; then
-    CONVERSATION_RESPONSE=$(curl \
-      -H "Authorization: Bearer ${HA_TOKEN}" \
-      -H "Content-Type: application/json" \
-      -d "{\"language\": \"${STT_LANGUAGE}\", \"text\": \"${STT_TEXT}\"}" \
-      -XPOST ${HA_URL}/api/conversation/process)
-    if [ "$STT_REPEAT_MESSAGE" = 1 ]; then
-      # repeat what the speaker heard (transcribed)
-      ${SPEAK} "${STT_TEXT}"
-      sleep 0.5
-    fi
+      JSON_PAYLOAD="{\"language\": \"${STT_LANGUAGE}\", \"text\": \"${STT_TEXT}\"}"
+      if [ -n "${HA_AGENT_ID}" ]; then
+        JSON_PAYLOAD="{\"language\": \"${STT_LANGUAGE}\", \"text\": \"${STT_TEXT}\", \"agent_id\": \"${HA_AGENT_ID}\"}"
+      fi
+
+      CONVERSATION_RESPONSE=$(curl -s \
+        -H "Authorization: Bearer ${HA_TOKEN}" \
+        -H "Content-Type: application/json" \
+        -d "${JSON_PAYLOAD}" \
+        -XPOST "${HA_URL}/api/conversation/process")
+
+      if [ "$STT_REPEAT_MESSAGE" = 1 ]; then
+        # repeat what the speaker heard (transcribed)
+        ${SPEAK} "${STT_TEXT}"
+        sleep 0.5
+      fi
     TTS_TEXT=$(echo "${CONVERSATION_RESPONSE}" | jq -r .response.speech.plain.speech)
 
     # if enabled, don't say "I don't understand"

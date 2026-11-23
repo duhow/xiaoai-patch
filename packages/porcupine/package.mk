@@ -12,7 +12,6 @@ make_package() {
 install_package() {
 	PORCUPINE_FOLDER="${STAGING_DIR}/${INSTALL_PREFIX}/share/porcupine"
 	mkdir -p ${PORCUPINE_FOLDER}/keywords
-	mkdir -p ${STAGING_DIR}/etc/init.d ${STAGING_DIR}/etc/rc.d
 
 	cp -v ${PORCUPINE_FILE} ${STAGING_DIR}/${INSTALL_PREFIX}/bin/porcupine
 	cp -v ${PACKAGE_DIR}/config/launcher ${STAGING_DIR}/${INSTALL_PREFIX}/bin/porcupine_launcher
@@ -23,12 +22,4 @@ install_package() {
 	cp -v lib/raspberry-pi/cortex-a7/libpv_porcupine.so ${STAGING_DIR}/${INSTALL_PREFIX}/lib/
 	cp -v lib/common/porcupine_params.pv ${PORCUPINE_FOLDER}/model.pv
 	cp -v resources/keyword_files/raspberry-pi/* ${PORCUPINE_FOLDER}/keywords/
-
-	cp -v ${PACKAGE_DIR}/config/porcupine.init ${STAGING_DIR}/etc/init.d/listener
-	ln -sf ../init.d/listener ${STAGING_DIR}/etc/rc.d/S98listener
-
-	TRIGGERHAPPY_FOLDER="${STAGING_DIR}/etc/triggerhappy/triggers.d"
-	mkdir -p ${TRIGGERHAPPY_FOLDER}
-
-	cp -v ${PACKAGE_DIR}/config/triggerhappy.conf ${TRIGGERHAPPY_FOLDER}/listener.conf
 }

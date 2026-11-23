@@ -1,0 +1,363 @@
+#!/bin/sh
+
+# This script will launch OpenWakeWord (hotword detector) on infinite loop.
+# Service can be stopped, same as pressing the MUTE button.
+
+MIC="mic_aec"
+
+WORD=alexa
+WORD_MODEL=/usr/share/openwakeword/models/alexa_v0.1.onnx
+OWW_THRESHOLD="0.45"
+OWW_REFRACTORY="25"
+OWW_STEP_FRAMES="3"
+OWW_FOLDER=/usr/share/openwakeword/models
+
+TIME=5
+NOTIFY_SOUND=wakeup2
+SPEAK=tts_google
+HA_STT_PROVIDER=stt.faster_whisper
+STT_LANGUAGE=en
+STT_RATE=8000
+STT_BITRATE=16
+STT_CHANNEL=1
+STT_MAX_TIME=25
+STT_REPEAT_MESSAGE=0
+RECORDING_RATE=16000
+RECORDING_CHANNEL=1
+VOLUME_THRESHOLD=10
+VOLUME_DURING_STT=10
+TTS_NO_MATCH=1
+SOX_SILENCE_ARGS="1 0.2 1% 0.5 1.2 1%"
+API_AVAILABLE=$(/etc/init.d/api status >/dev/null && echo 1 || echo 0)
+
+CONFIG_FILE=/data/listener
+
+# import config file if exists
+[ -f "${CONFIG_FILE}" ] && . ${CONFIG_FILE}
+[ -f /data/tts.conf ] && . /data/tts.conf
+
+WAV_INPUT=/tmp/input.wav
+WAV_STT=/tmp/stt.wav
+DATA_STT=/tmp/stt.json
+ERROR_LISTENER=0
+
+cleanup(){ rm -f $WAV_INPUT $WAV_STT $DATA_STT; }
+
+log(){
+  echo "stt: $@" >> /dev/kmsg
+  echo "`date +'%D %T'` $@" >> /tmp/stt.log
+}
+
+current_volume(){ amixer get mysoftvol | awk '$0~/%/{print $4}' | tr -d '[]%' | head -n1; }
+set_volume(){
+  let VOL=$1*255/100
+  for SRC in mysoftvol bluetooth; do
+    amixer set "$SRC" $VOL &>/dev/null &
+  done
+}
+
+check_date(){
+  # get build time which matches the default time set in system
+  # when hot rebooting, this time is still set, so NTP is required
+
+  BUILD_TIME=$(date -d "`micocfg_build_time`" +%s)
+  if [ -z "$BUILD_TIME" ] || ! [ "$BUILD_TIME" -eq "$BUILD_TIME" ] 2>/dev/null; then
+    BUILD_TIME=$(find /etc -type f -maxdepth 1 -exec date -r {} +%s \; | sort -nr | head -n1)
+  fi
+  COUNT=0
+  until [ "$COUNT" -ge 5 ]; do
+    CURRENT_TIME=$(date +%s)
+    DIFF=$((CURRENT_TIME - BUILD_TIME))
+    if [ "$DIFF" -gt 600 ]; then
+      log "time is ok, we are in sync"
+      break
+    fi
+    log "updating time - times $COUNT"
+    ntpd -q -p pool.ntp.org
+    sleep 4
+    let COUNT=COUNT+1
+  done
+}
+
+ha_refresh_token() {
+  log "refreshing token"
+
+  SPEAKER_IP=$(ip addr show wlan0 | grep 'inet ' | awk '{print $2}' | cut -d/ -f1)
+  curl -s -f -d "grant_type=refresh_token&client_id=http://${SPEAKER_IP}&refresh_token=${HA_REFRESH_TOKEN}" \
+       -o /tmp/ha_token.json ${HA_URL}/auth/token
+
+  if [ "$?" -gt 0 ]; then
+    log "refresh token error: $(cat /tmp/ha_token.json)"
+    sleep 1
+    miplay sound notify -w
+    SILENT=1 MUTE_LED=1 /etc/init.d/listener stop
+    exit 1
+  fi
+
+  HA_TOKEN=$(jq -r .access_token /tmp/ha_token.json)
+  sed -i "s/^HA_TOKEN=.*/HA_TOKEN=${HA_TOKEN}/" ${CONFIG_FILE}
+}
+
+get_stt_settings(){
+  #echo "start $(date)"
+  cleanup
+  curl -H "Authorization: Bearer ${HA_TOKEN}" \
+       -o ${DATA_STT} -D ${DATA_STT}.hdr \
+       --max-time ${STT_MAX_TIME} \
+       -s -f ${HA_URL}/api/stt/${HA_STT_PROVIDER}
+
+  if [ "$?" -gt 0 ]; then
+    log "stt config error: $(cat ${DATA_STT})"
+    if grep -q -E "HTTP/(1\.1|2) 401" ${DATA_STT}.hdr && [ -n "$HA_REFRESH_TOKEN" ]; then
+      ha_refresh_token
+      SILENT=1 MUTE_LED=1 /etc/init.d/listener reload
+      exit 1
+    fi
+    sleep 1
+    miplay sound notify -w
+    SILENT=1 MUTE_LED=1 /etc/init.d/listener stop
+    exit 1
+  fi
+  #echo "data $(date)"
+
+  STT_CONFIG_RATE=$(jq -r '.sample_rates[0]' ${DATA_STT})
+  STT_CONFIG_CHANNEL=$(jq -r '.channels[0]' ${DATA_STT})
+  STT_CONFIG_BITRATE=$(jq -r '.bit_rates[0]' ${DATA_STT})
+  STT_LANGUAGE_AVAILABLE=$(jq -r '.languages | contains(["'${STT_LANGUAGE}'"])' ${DATA_STT})
+  STT_FORMAT=$(jq -r '.formats[0]' ${DATA_STT})
+  STT_CODEC=$(jq -r '.codecs[0]' ${DATA_STT})
+
+  if [ "$STT_RATE" -ne "$STT_CONFIG_RATE" ]; then
+    log "stt rate invalid; setting from $STT_RATE to $STT_CONFIG_RATE"
+    STT_RATE=${STT_CONFIG_RATE}
+  fi
+  if [ "$STT_CHANNEL" -ne "$STT_CONFIG_CHANNEL" ]; then
+    log "stt channel invalid; setting from $STT_CHANNEL to $STT_CONFIG_CHANNEL"
+    STT_CHANNEL=${STT_CONFIG_CHANNEL}
+  fi
+  if [ "$STT_BITRATE" -ne "$STT_CONFIG_BITRATE" ]; then
+    log "stt bitrate invalid; setting from $STT_BITRATE to $STT_CONFIG_BITRATE"
+    STT_BITRATE=${STT_CONFIG_BITRATE}
+  fi
+
+  if [ "${STT_LANGUAGE_AVAILABLE}" != "true" ] && [ "${HA_STT_PROVIDER}" != "cloud" ] && [ "${#STT_LANGUAGE}" -gt 2 ]; then
+    log "stt language invalid for provider ${HA_STT_PROVIDER}; ${STT_LANGUAGE} truncating"
+    STT_LANGUAGE=${STT_LANGUAGE:0:2}
+  fi
+  #echo "end $(date)"
+}
+
+intent_run(){
+  if [ "$1" = "BluetoothPair" ] ; then
+    if bluetoothctl list | grep -q .; then
+      /bin/bluetooth_pair &
+    fi
+  elif [ "$1" = "BluetoothDisconnect" ] ; then
+    BT_STATUS=$(timeout 1 bluetoothctl player.show | grep -i status | awk '{print $2}')
+    if [ -n "$BT_STATUS" ]; then
+      timeout 8 bluetoothctl disconnect &
+      miplay sound shutdown
+    fi
+  elif [ "$1" = "Pause" ] ; then
+    /bin/play_button
+  elif [ "$1" = "VolumeUp" ] ; then
+    # HACK! We are restoring volume after STT
+    #/bin/volume +10
+    SAVED_VOL=$((SAVED_VOL + 10))
+  elif [ "$1" = "VolumeDown" ] ; then
+    #/bin/volume -15
+    SAVED_VOL=$((SAVED_VOL - 15))
+  fi
+}
+
+which arecord &>/dev/null && {
+  RECORD_COMMAND="arecord -N -D$MIC -d $TIME -f S16_LE -c $RECORDING_CHANNEL -r $RECORDING_RATE -"
+}
+which sox &>/dev/null && {
+  log "using sox"
+  RECORD_COMMAND="timeout ${TIME} rec -q -t alsa $MIC -b ${STT_BITRATE} -c ${RECORDING_CHANNEL} -r ${RECORDING_RATE} -e signed-integer -t wav - silence ${SOX_SILENCE_ARGS}"
+}
+
+# Set lower rate if cannot convert later
+which ffmpeg &>/dev/null || RECORDING_RATE=8000
+
+MODEL=$(uci -c /usr/share/mico get version.version.HARDWARE)
+
+if [ "${MODEL}" = "LX06" ]; then
+  amixer sset 'pdm dclk' 'pdm dclk 3.072m, support 8k/16k/32k/48k' &
+  amixer sset 'HCIC shift gain from coeff' 'shift with -0x4'
+  RECORDING_CHANNEL=8
+fi
+
+log "check date for valid TLS"
+check_date
+log "getting stt settings"
+get_stt_settings
+log "ready"
+echo ready
+cleanup
+
+# clear mute and other LED
+for NUM in 7 1 2 3; do
+  /bin/shut_led ${NUM}
+done
+
+OWW_FIFO=/tmp/oww_events.fifo
+rm -f ${OWW_FIFO}
+mkfifo ${OWW_FIFO}
+
+start_oww_pipe() {
+  killall -9 openwakeword aec3_cmdline 2>/dev/null
+  (
+    arecord -D ${MIC} -c 2 -r 16000 -f S16_LE -t raw 2>/dev/null | \
+    /usr/bin/aec3_cmdline | \
+    sh -c "echo -900 > /proc/self/oom_score_adj; exec /usr/bin/openwakeword \
+      --melspectrogram-model ${OWW_FOLDER}/melspectrogram.onnx \
+      --embedding-model ${OWW_FOLDER}/embedding_model.onnx \
+      --model ${WORD_MODEL} \
+      --threshold ${OWW_THRESHOLD} --trigger-level 1 --refractory ${OWW_REFRACTORY} --step-frames ${OWW_STEP_FRAMES}" > ${OWW_FIFO}
+  ) &
+}
+
+trap "killall -9 openwakeword aec3_cmdline 2>/dev/null; rm -f ${OWW_FIFO}; exit 0" INT TERM EXIT
+
+start_oww_pipe
+
+while true; do
+
+if ! read -r DETECTED_LINE < ${OWW_FIFO}; then
+  sleep 2
+  ERROR_LISTENER=$((ERROR_LISTENER + 1))
+  if [ "$ERROR_LISTENER" -ge 5 ]; then
+    log "too many errors in openwakeword, stopping listener"
+    miplay sound notify -w
+    SILENT=1 MUTE_LED=1 /etc/init.d/listener stop
+    exit 1
+  fi
+  start_oww_pipe
+  continue
+fi
+
+[ -z "$DETECTED_LINE" ] && continue
+
+# Pause detector (SIGSTOP) to free CPU & ALSA during voice command recording
+killall -STOP openwakeword aec3_cmdline 2>/dev/null
+
+# Trigger wakeword activated event
+
+log "activated"
+ubus send wakeword '{"name": "'${WORD}'"}'
+
+ERROR_LISTENER=0
+INTENT=
+INTENT_SUCCESS=
+SAVED_VOL=`current_volume`
+# lower volume EXCEPT for notifications
+if [ "$SAVED_VOL" -gt ${VOLUME_THRESHOLD} ]; then
+  set_volume ${VOLUME_DURING_STT}
+fi
+
+/bin/show_led 1
+miplay sound ${NOTIFY_SOUND}
+sleep 0.15
+
+# Do all at once:
+# Start recording user response - tee to input.wav
+# convert to PCM_S16_LE 1ch/8000 - tee to stt.wav
+# send data chunked without waiting
+
+[ -f "${DATA_STT}" ] && rm -f ${DATA_STT}
+
+#log "curl -H X-Speech-Content: format=${STT_FORMAT}; channel=${STT_CHANNEL}; codec=${STT_CODEC}; sample_rate=${STT_RATE}; bit_rate=${STT_BITRATE}; language=${STT_LANGUAGE}"
+${RECORD_COMMAND} | tee ${WAV_INPUT} | \
+ffmpeg -hide_banner -loglevel error -i - -f ${STT_FORMAT} -ac ${STT_CHANNEL} -ar ${STT_RATE} -y - | tee ${WAV_STT} | \
+curl -H "X-Speech-Content: format=${STT_FORMAT}; channel=${STT_CHANNEL}; codec=${STT_CODEC}; sample_rate=${STT_RATE}; bit_rate=${STT_BITRATE}; language=${STT_LANGUAGE}" \
+     -H "Authorization: Bearer ${HA_TOKEN}" \
+     -H "Transfer-Encoding: chunked" \
+     -o ${DATA_STT} -D ${DATA_STT}.hdr \
+     --max-time ${STT_MAX_TIME} \
+     -XPOST -T - ${HA_URL}/api/stt/${HA_STT_PROVIDER}
+
+# Start loading
+/bin/show_led 2
+
+cat ${DATA_STT}.hdr
+cat ${DATA_STT}
+
+# Show speaking LED
+# /bin/show_led 3
+
+[ "$(jq -r .result ${DATA_STT})" = "success" ] && STT_SUCCESS=1 || STT_SUCCESS=0
+
+# call Conversation.Process to execute action
+if [ "${STT_SUCCESS}" = 1 ]; then
+  # cleanup text before sending
+  STT_TEXT=$(jq -r .text ${DATA_STT} | tr -d '.' | awk '{$1=$1;print}')
+  log "$STT_TEXT"
+  echo ""
+  echo "> ${STT_TEXT}"
+  if [ -z "${STT_TEXT}" ]; then
+    log "empty text"
+    # NOTE: if empty text received, there may be some error with recording or other.
+    miplay sound notice
+  else
+    if [ "${API_AVAILABLE}" = "1" ]; then
+      # Attempt to check for local intents before asking HA
+      INTENT=$(curl -fs -XPOST -F "text=${STT_TEXT}" localhost/intent)
+      INTENT_SUCCESS=$?
+      if [ "$INTENT_SUCCESS" -eq 0 ] && [ -n "$INTENT" ]; then
+        echo "intent found: $INTENT"
+        log "intent: ${INTENT}"
+        intent_run $INTENT
+      fi
+    fi
+    if [ "${INTENT_SUCCESS}" != 0 ]; then
+      JSON_PAYLOAD="{\"language\": \"${STT_LANGUAGE}\", \"text\": \"${STT_TEXT}\"}"
+      if [ -n "${HA_AGENT_ID}" ]; then
+        JSON_PAYLOAD="{\"language\": \"${STT_LANGUAGE}\", \"text\": \"${STT_TEXT}\", \"agent_id\": \"${HA_AGENT_ID}\"}"
+      fi
+
+      CONVERSATION_RESPONSE=$(curl -s \
+        -H "Authorization: Bearer ${HA_TOKEN}" \
+        -H "Content-Type: application/json" \
+        -d "${JSON_PAYLOAD}" \
+        -XPOST "${HA_URL}/api/conversation/process")
+
+      if [ "$STT_REPEAT_MESSAGE" = 1 ]; then
+        # repeat what the speaker heard (transcribed)
+        ${SPEAK} "${STT_TEXT}"
+        sleep 0.5
+      fi
+    TTS_TEXT=$(echo "${CONVERSATION_RESPONSE}" | jq -r .response.speech.plain.speech)
+
+    # if enabled, don't say "I don't understand"
+    if [ "$TTS_NO_MATCH" != 1 ] ; then
+      RESPONSE_CODE=$(echo "${CONVERSATION_RESPONSE}" | jq -r .response.data.code)
+      if [ "$RESPONSE_CODE" = "no_intent_match" ] || [ "$RESPONSE_CODE" = "no_valid_targets" ]; then
+        TTS_TEXT=""
+        miplay sound notice
+      fi
+    fi
+
+    ${SPEAK} "${TTS_TEXT}"
+    fi # INTENT_SUCCESS
+  fi
+else
+  log "error"
+  ${SPEAK} error
+fi
+
+# last animation fadeout and shut LEDs
+/bin/show_led 11
+for NUM in 1 2 3; do
+  /bin/shut_led ${NUM}
+done
+
+# restore volume
+set_volume $SAVED_VOL
+
+# Resume detector (SIGCONT)
+killall -CONT aec3_cmdline openwakeword 2>/dev/null
+
+done
+# end while
